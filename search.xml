@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>wweiyi-first-blog</title>
+    <url>/2025/07/08/wweiyi-first-blog/</url>
+    <content><![CDATA[今天我重新创建了我的hexo驱动的blog，希望以后这个blog能够时常更新吧
+]]></content>
+  </entry>
+  <entry>
     <title>Dijkstra（迪杰斯特拉）算法</title>
     <url>/2019/07/31/Dijkstra%EF%BC%88%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89%EF%BC%89%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[Dijkstra（迪杰斯特拉）算法
@@ -68,10 +74,24 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>wweiyi-first-blog</title>
-    <url>/2025/07/08/wweiyi-first-blog/</url>
-    <content><![CDATA[今天我重新创建了我的hexo驱动的blog，希望以后这个blog能够时常更新吧
+    <title>【解题报告】[HNOI2003]激光炸弹</title>
+    <url>/2019/08/05/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-HNOI2003-%E6%BF%80%E5%85%89%E7%82%B8%E5%BC%B9/</url>
+    <content><![CDATA[【解题报告】 [HNOI2003]激光炸弹
+题目：luogu P2280
+在这样可爱的夜晚，调试题目恐怕是最爽的选择了
+附：https://www.luogu.org/record/list?user=136889
+在这么多次失败下我终于成功了
+解题思路：
+前缀和与拆分
+这是一道简单题，但是我却调试了那么多次没调出来，竟然是循环的问题
+rp–。。
+建立一个二维数组，储存某个区域的目标的数量，然后就使用一个二维前缀和，就可以弄出来了，注意因为时间的原因，在输入的时候也就直接输入了，我那么多次就是因为超时
+AC代码
+#include &lt;iostream&gt;using namespace std;const int maxn=5005;int r,n;int s[maxn][maxn];int ans;int x,y,w;int max(int a,int b)&#123;	return a&gt;b? a:b;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;r;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y&gt;&gt;w; 		s[x+1][y+1]=w;	&#125;	for(int i=1;i&lt;=5001;i++)	&#123;		for(int j=1;j&lt;=5001;j++)		s[i][j]+=s[i-1][j]+s[i][j-1]-s[i-1][j-1];	&#125;	for(int i=0;i&lt;=5001-r;i++)	&#123;		for(int j=0;j&lt;=5001-r;j++)		ans=max(ans,s[i][j]-s[i+r][j]-s[i][j+r]+s[i+r][j+r]); 	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
 ]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
   </entry>
   <entry>
     <title>【解题报告】 CH0501 货仓选址</title>
@@ -105,26 +125,6 @@ AC代码
 AC代码
 #include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;int f[30005];int d[30005];int size[30005];int t;int jdz(int x)&#123;	return x&gt;0? x:(-x);&#125;void init()&#123;	for(int i=1;i&lt;=30000;i++)	&#123;		f[i]=i;		size[i]=1;	&#125;&#125;int get(int x)&#123;	if(x==f[x])	return x;	int root=get(f[x]);	d[x]+=d[f[x]];	return f[x]=root;&#125;void merge(int x,int y)&#123;	x=get(x),y=get(y);	f[x]=y;d[x]=size[y];	size[y]+=size[x];&#125;int main()&#123;	cin&gt;&gt;t;	init();	for(int i=1;i&lt;=t;i++)	&#123;		char s[2];		int x,y;		scanf(&quot;%s&quot;,s);		cin&gt;&gt;x&gt;&gt;y;		if(s[0]==&#x27;M&#x27;)		merge(x,y);		if(s[0]==&#x27;C&#x27;)		&#123;			if(get(x)==get(y))			cout&lt;&lt;jdz(d[x]-d[y])-1&lt;&lt;endl;			else			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;		&#125;	&#125;	return 0;&#125;
 数据情况https://www.luogu.org/record/22153408
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】[HNOI2003]激光炸弹</title>
-    <url>/2019/08/05/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-HNOI2003-%E6%BF%80%E5%85%89%E7%82%B8%E5%BC%B9/</url>
-    <content><![CDATA[【解题报告】 [HNOI2003]激光炸弹
-题目：luogu P2280
-在这样可爱的夜晚，调试题目恐怕是最爽的选择了
-附：https://www.luogu.org/record/list?user=136889
-在这么多次失败下我终于成功了
-解题思路：
-前缀和与拆分
-这是一道简单题，但是我却调试了那么多次没调出来，竟然是循环的问题
-rp–。。
-建立一个二维数组，储存某个区域的目标的数量，然后就使用一个二维前缀和，就可以弄出来了，注意因为时间的原因，在输入的时候也就直接输入了，我那么多次就是因为超时
-AC代码
-#include &lt;iostream&gt;using namespace std;const int maxn=5005;int r,n;int s[maxn][maxn];int ans;int x,y,w;int max(int a,int b)&#123;	return a&gt;b? a:b;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;r;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y&gt;&gt;w; 		s[x+1][y+1]=w;	&#125;	for(int i=1;i&lt;=5001;i++)	&#123;		for(int j=1;j&lt;=5001;j++)		s[i][j]+=s[i-1][j]+s[i][j-1]-s[i-1][j-1];	&#125;	for(int i=0;i&lt;=5001-r;i++)	&#123;		for(int j=0;j&lt;=5001-r;j++)		ans=max(ans,s[i][j]-s[i+r][j]-s[i][j+r]+s[i+r][j+r]); 	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -206,22 +206,6 @@ fn​=min(fn​,2fi​+dn−i​)
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 POJ2054 给树染色</title>
-    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2054-%E7%BB%99%E6%A0%91%E6%9F%93%E8%89%B2/</url>
-    <content><![CDATA[【解题报告】 POJ2054 给树染色
-题目：Color a tree(已翻译)
-解题思路：
-贪心
-我们很容易想到从第一层开始，每次染权值最大的一个节点，但是我们可以构造出一个数，让一个权值很小的点下面有权值很大的节点，所以我们考虑的贪心思路是树中除了根节点外的权值最大的节点，它的父节点染色之后一定会被马上染色，所以我们可以将权值最大的点和它的父节点进行合并，合并得到的新点的权值是这两个点之和的平均值，这样就一直合并，直至合并到一个点的时候，我们就按照这个点合并的顺序染色就是正确的答案了。
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;long long r,n;long long i,j,now,ans,a,b,father;struct node&#123;	long long f,c,t;	double w;&#125;num[1010];long long find()&#123;	long long ans=0;	double maxn=0;	for(int i=1;i&lt;=n;i++)	&#123;		if(i!=r&amp;&amp;num[i].w&gt;maxn)		&#123;			maxn=num[i].w;			ans=i;		&#125;	 &#125; 	 return ans;&#125;int main()&#123;	while(cin&gt;&gt;n&gt;&gt;r&amp;&amp;(n||r))	&#123;		ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			cin&gt;&gt;num[i].c;			num[i].w=num[i].c;			num[i].t=1;			ans+=num[i].c;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			cin&gt;&gt;a&gt;&gt;b;			num[b].f=a;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			now=find();			num[now].w=0;			father=num[now].f;			ans+=num[now].c*num[father].t;			for(int j=1;j&lt;=n;j++)			&#123;				if(num[j].f==now)				num[j].f=father;			&#125;			num[father].c+=num[now].c;			num[father].t+=num[now].t;			num[father].w=(double)(num[father].c)/num[father].t;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;	&#125;	return 0;&#125;
-PS:LYD的代码有毒，在洛谷上过得了，但是在AcWing上过不了，所以我进行了摸爬滚打，终于找到了正确的答案，哈哈哈，我太开心了
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
     <title>【解题报告】 POJ2299 超快速排序</title>
     <url>/2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2299-%E8%B6%85%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[【解题报告】POJ2299 超快速排序
@@ -236,6 +220,22 @@ AC代码
 #include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int n;long long cnt;const int maxn=500005;long long a[maxn];long long b[maxn];void merge_sort(int l,int r)&#123;    if(r&gt;l)    &#123;        int mid=(l+r)/2;        int i=l;         int p=l,q=mid+1;        merge_sort(l,mid);        merge_sort(mid+1,r);        while(p&lt;=mid||q&lt;=r)        &#123;            if(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))            b[i++] = a[p++];            else            &#123;                b[i++]=a[q++];                cnt+=mid-p+1;            &#125;        &#125;        for(i=l;i&lt;=r;i++)        a[i]=b[i];    &#125;&#125;int main()&#123;	while(cin&gt;&gt;n&amp;&amp;n)	&#123;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;a[i];		cnt=0;		merge_sort(1,n);		cout&lt;&lt;cnt&lt;&lt;endl;	&#125;	return 0;&#125;
 顺便附上归并排序的代码
 #include &lt;iostream&gt;using namespace std;int n,cnt;const int maxn=100005;long long a[maxn];long long b[maxn];void merge_sort(int l,int r)&#123;    if(r&gt;l)    &#123;        int mid=(l+r)/2;        int i=l;         int p=l,q=mid+1;        merge_sort(l,mid);        merge_sort(mid+1,r);        while(p&lt;=mid||q&lt;=r)        &#123;            if(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))            b[i++] = a[p++];            else            &#123;                b[i++]=a[q++];                cnt+=mid-p+1;            &#125;        &#125;        for(i=l;i&lt;=r;i++)        a[i]=b[i];    &#125;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i];	merge_sort(1,n);	for(int i=1;i&lt;=n;i++)	&#123;		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;	&#125;	cout&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ2054 给树染色</title>
+    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2054-%E7%BB%99%E6%A0%91%E6%9F%93%E8%89%B2/</url>
+    <content><![CDATA[【解题报告】 POJ2054 给树染色
+题目：Color a tree(已翻译)
+解题思路：
+贪心
+我们很容易想到从第一层开始，每次染权值最大的一个节点，但是我们可以构造出一个数，让一个权值很小的点下面有权值很大的节点，所以我们考虑的贪心思路是树中除了根节点外的权值最大的节点，它的父节点染色之后一定会被马上染色，所以我们可以将权值最大的点和它的父节点进行合并，合并得到的新点的权值是这两个点之和的平均值，这样就一直合并，直至合并到一个点的时候，我们就按照这个点合并的顺序染色就是正确的答案了。
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;long long r,n;long long i,j,now,ans,a,b,father;struct node&#123;	long long f,c,t;	double w;&#125;num[1010];long long find()&#123;	long long ans=0;	double maxn=0;	for(int i=1;i&lt;=n;i++)	&#123;		if(i!=r&amp;&amp;num[i].w&gt;maxn)		&#123;			maxn=num[i].w;			ans=i;		&#125;	 &#125; 	 return ans;&#125;int main()&#123;	while(cin&gt;&gt;n&gt;&gt;r&amp;&amp;(n||r))	&#123;		ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			cin&gt;&gt;num[i].c;			num[i].w=num[i].c;			num[i].t=1;			ans+=num[i].c;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			cin&gt;&gt;a&gt;&gt;b;			num[b].f=a;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			now=find();			num[now].w=0;			father=num[now].f;			ans+=num[now].c*num[father].t;			for(int j=1;j&lt;=n;j++)			&#123;				if(num[j].f==now)				num[j].f=father;			&#125;			num[father].c+=num[now].c;			num[father].t+=num[now].t;			num[father].w=(double)(num[father].c)/num[father].t;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;	&#125;	return 0;&#125;
+PS:LYD的代码有毒，在洛谷上过得了，但是在AcWing上过不了，所以我进行了摸爬滚打，终于找到了正确的答案，哈哈哈，我太开心了
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -273,16 +273,28 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 Task</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Task/</url>
-    <content><![CDATA[【解题报告】 Task
-题目：任务
+    <title>【解题报告】 占卜DIY</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%8D%A0%E5%8D%9CDIY/</url>
+    <content><![CDATA[【解题报告】 占卜DIY
+题目：占卜DIY
 解题思路：
-贪心
-我们可以贪心每个任务的等级，再贪心每个任务的时间，我们这样排一下序，再循环一下，就可以得到正确的答案了
+简简单单的模拟加上dfs（简单的dfs）
+但是这个游戏还是挺有意思的，可以看一下
+
+一副去掉大小王的扑克共52张，打乱后均分为13堆，编号1~13，每堆4张，其中第13堆称作“生命牌”，也就是说你有4条命。
+这里边，4张K被称作死神。
+初始状态下，所有的牌背面朝上扣下。
+流程如下：
+1.抽取生命牌中的最上面一张(第一张)。
+2.把这张牌翻开，正面朝上，放到牌上的数字所对应编号的堆的最上边。(例如抽到2，正面朝上放到第2堆牌最上面，又比如抽到J，放到第11堆牌最上边，注意是正面朝上放)
+3.从刚放了牌的那一堆最底下(最后一张)抽取一张牌，重复第2步。（例如你上次抽了2，放到了第二堆顶部，现在抽第二堆最后一张发现是8，又放到第8堆顶部…）
+4.在抽牌过程中如果抽到K，则称死了一条命，就扔掉K再从第1步开始。
+5.当发现四条命都死了以后，统计现在每堆牌上边正面朝上的牌的数目，只要同一数字的牌出现4张正面朝上的牌(比如4个A)，则称“开了一对”，当然4个K是不算的。
+6.统计一共开了多少对，开了0对称作”极凶”，1~2对为“大凶”，3对为“凶”，4~5对为“小凶”，6对为“中庸”，7~8对“小吉”，9对为“吉”，10~11为“大吉”，12为“满堂开花，极吉”。
+
+这个游戏还是比较高级的
 AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const long long maxn=100010;long long n,m;struct task&#123;	long long x;	long long y;&#125;; task f[maxn];task e[maxn];long long cnt[105],ans,num;long long cmp(task a,task b)&#123;	if(a.x==b.x)	return a.y&gt;b.y;	return a.x&gt;b.x;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	for(long long i=1;i&lt;=n;i++)	cin&gt;&gt;e[i].x&gt;&gt;e[i].y;	for(long long i=1;i&lt;=m;i++)	cin&gt;&gt;f[i].x&gt;&gt;f[i].y;	sort(e+1,e+1+n,cmp);	sort(f+1,f+1+m,cmp);	long long j=1;	for(long long i=1;i&lt;=m;i++)	&#123;		while(j&lt;=n&amp;&amp;e[j].x&gt;=f[i].x)		&#123;			cnt[e[j].y]++;			j++;		&#125;		for(long long k=f[i].y;k&lt;=100;k++)		&#123;			if(cnt[k])			&#123;				num++;				cnt[k]--;				ans+=500*f[i].x+2*f[i].y;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;num&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;	return 0; &#125;
-PS：实在不懂为什么别人的代码要用pair
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;using namespace std;int po[60][60];int d[60][60];int s[60];void init()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			char p=getchar();			if(p&gt;=&#x27;2&#x27;&amp;&amp;p&lt;=&#x27;9&#x27;)			po[i][j]=p-&#x27;0&#x27;;			if(p==&#x27;0&#x27;)			po[i][j]=10;			if(p==&#x27;J&#x27;)			po[i][j]=11;			if(p==&#x27;Q&#x27;)			po[i][j]=12;			if(p==&#x27;K&#x27;)			po[i][j]=13;			if(p==&#x27;A&#x27;)			po[i][j]=1;			getchar();		&#125;		d[i][5]=5;	&#125;&#125;void dfs(int x)&#123;	if(x==13)	return ;	d[x][++d[x][0]]=x;	int cx=po[x][--d[x][5]];	dfs(cx);&#125;void sum()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			if(d[i][j])			s[d[i][j]]++;		&#125;	&#125;	int ans=0;	for(int i=1;i&lt;=13;i++)	&#123;		if(s[i]==4)		ans++;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	init();	for(int i=1;i&lt;=4;i++)	dfs(po[13][i]);	sum();	return 0;&#125;
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -307,28 +319,16 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 占卜DIY</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%8D%A0%E5%8D%9CDIY/</url>
-    <content><![CDATA[【解题报告】 占卜DIY
-题目：占卜DIY
+    <title>【解题报告】 Task</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Task/</url>
+    <content><![CDATA[【解题报告】 Task
+题目：任务
 解题思路：
-简简单单的模拟加上dfs（简单的dfs）
-但是这个游戏还是挺有意思的，可以看一下
-
-一副去掉大小王的扑克共52张，打乱后均分为13堆，编号1~13，每堆4张，其中第13堆称作“生命牌”，也就是说你有4条命。
-这里边，4张K被称作死神。
-初始状态下，所有的牌背面朝上扣下。
-流程如下：
-1.抽取生命牌中的最上面一张(第一张)。
-2.把这张牌翻开，正面朝上，放到牌上的数字所对应编号的堆的最上边。(例如抽到2，正面朝上放到第2堆牌最上面，又比如抽到J，放到第11堆牌最上边，注意是正面朝上放)
-3.从刚放了牌的那一堆最底下(最后一张)抽取一张牌，重复第2步。（例如你上次抽了2，放到了第二堆顶部，现在抽第二堆最后一张发现是8，又放到第8堆顶部…）
-4.在抽牌过程中如果抽到K，则称死了一条命，就扔掉K再从第1步开始。
-5.当发现四条命都死了以后，统计现在每堆牌上边正面朝上的牌的数目，只要同一数字的牌出现4张正面朝上的牌(比如4个A)，则称“开了一对”，当然4个K是不算的。
-6.统计一共开了多少对，开了0对称作”极凶”，1~2对为“大凶”，3对为“凶”，4~5对为“小凶”，6对为“中庸”，7~8对“小吉”，9对为“吉”，10~11为“大吉”，12为“满堂开花，极吉”。
-
-这个游戏还是比较高级的
+贪心
+我们可以贪心每个任务的等级，再贪心每个任务的时间，我们这样排一下序，再循环一下，就可以得到正确的答案了
 AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;using namespace std;int po[60][60];int d[60][60];int s[60];void init()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			char p=getchar();			if(p&gt;=&#x27;2&#x27;&amp;&amp;p&lt;=&#x27;9&#x27;)			po[i][j]=p-&#x27;0&#x27;;			if(p==&#x27;0&#x27;)			po[i][j]=10;			if(p==&#x27;J&#x27;)			po[i][j]=11;			if(p==&#x27;Q&#x27;)			po[i][j]=12;			if(p==&#x27;K&#x27;)			po[i][j]=13;			if(p==&#x27;A&#x27;)			po[i][j]=1;			getchar();		&#125;		d[i][5]=5;	&#125;&#125;void dfs(int x)&#123;	if(x==13)	return ;	d[x][++d[x][0]]=x;	int cx=po[x][--d[x][5]];	dfs(cx);&#125;void sum()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			if(d[i][j])			s[d[i][j]]++;		&#125;	&#125;	int ans=0;	for(int i=1;i&lt;=13;i++)	&#123;		if(s[i]==4)		ans++;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	init();	for(int i=1;i&lt;=4;i++)	dfs(po[13][i]);	sum();	return 0;&#125;
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const long long maxn=100010;long long n,m;struct task&#123;	long long x;	long long y;&#125;; task f[maxn];task e[maxn];long long cnt[105],ans,num;long long cmp(task a,task b)&#123;	if(a.x==b.x)	return a.y&gt;b.y;	return a.x&gt;b.x;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	for(long long i=1;i&lt;=n;i++)	cin&gt;&gt;e[i].x&gt;&gt;e[i].y;	for(long long i=1;i&lt;=m;i++)	cin&gt;&gt;f[i].x&gt;&gt;f[i].y;	sort(e+1,e+1+n,cmp);	sort(f+1,f+1+m,cmp);	long long j=1;	for(long long i=1;i&lt;=m;i++)	&#123;		while(j&lt;=n&amp;&amp;e[j].x&gt;=f[i].x)		&#123;			cnt[e[j].y]++;			j++;		&#125;		for(long long k=f[i].y;k&lt;=100;k++)		&#123;			if(cnt[k])			&#123;				num++;				cnt[k]--;				ans+=500*f[i].x+2*f[i].y;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;num&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;	return 0; &#125;
+PS：实在不懂为什么别人的代码要用pair
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -368,15 +368,15 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】luogu P2078朋友</title>
-    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2078%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[【解题报告】luogu P2078 朋友
-题目：luogu P2078
-题目思路：
-并查集，C++ STL
-有了C++stl容器，我们就high了，map可以处理数组下标为负的情况，然后男女朋友的关系的话，就分别统计每个公司有多少人有关系，取一个最小值就好了
+    <title>【解题报告】 耍杂技的牛</title>
+    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E8%80%8D%E6%9D%82%E6%8A%80%E7%9A%84%E7%89%9B/</url>
+    <content><![CDATA[【解题报告】 耍杂技的牛
+题目：耍杂技的牛
+解题思路：
+排序+贪心
+这个牛啊实际上就是大臣，约翰那就是国王，你有没有想到一道题目，没错，那就是《国王游戏》，但是没错，那道题需要高精度，这道题目不需要高精度，所以这道题目就简单多了，这道题就是按（w+s）把牛牛们从小到大排序一下，然后计算出它们的风险值，找出最大的就可以了，还是比较简单的
 AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;map&gt; using namespace std;map&lt;int,int&gt;f;int n,m,p,q;int fm,fh;int max(int a,int b)&#123;	return a&lt;b? a:b;&#125; int get(int x)&#123;	return f[x]=(x==f[x]? x:get(f[x]));&#125;void merge(int x,int y)&#123;	f[get(x)]=get(y);&#125;int main()&#123;	int x,y;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p&gt;&gt;q;	for(int i=(-1*m);i&lt;=n;i++)	f[i]=i;	for(int i=1;i&lt;=p+q;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		merge(x,y);	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		if(get(f[i])==get(1))		fm++;	&#125;	for(int i=(-1*m);i&lt;=-1;i++)	&#123;		if(get(f[i])==get(-1))		fh++; 	&#125;	cout&lt;&lt;max(fm,fh)&lt;&lt;endl;	return 0;&#125;
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=50010;long long n;long long d[maxn];long long res=-0x3f3f3f3f,sum=0;struct cow&#123;	long long w;	long long s;&#125;a[maxn];bool cmp(cow a,cow b)&#123;	return a.s+a.w&lt;b.s+b.w;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i].w&gt;&gt;a[i].s;	sort(a+1,a+n+1,cmp);    for(int i=1;i&lt;=n;i++)	&#123;        res=max(res,sum-a[i].s);        sum+=a[i].w;    &#125;    cout&lt;&lt;res&lt;&lt;endl;    return 0;&#125;
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -406,6 +406,21 @@ AC代码
 ]]></content>
       <categories>
         <category>漫评</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】luogu P2078朋友</title>
+    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2078%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[【解题报告】luogu P2078 朋友
+题目：luogu P2078
+题目思路：
+并查集，C++ STL
+有了C++stl容器，我们就high了，map可以处理数组下标为负的情况，然后男女朋友的关系的话，就分别统计每个公司有多少人有关系，取一个最小值就好了
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;map&gt; using namespace std;map&lt;int,int&gt;f;int n,m,p,q;int fm,fh;int max(int a,int b)&#123;	return a&lt;b? a:b;&#125; int get(int x)&#123;	return f[x]=(x==f[x]? x:get(f[x]));&#125;void merge(int x,int y)&#123;	f[get(x)]=get(y);&#125;int main()&#123;	int x,y;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p&gt;&gt;q;	for(int i=(-1*m);i&lt;=n;i++)	f[i]=i;	for(int i=1;i&lt;=p+q;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		merge(x,y);	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		if(get(f[i])==get(1))		fm++;	&#125;	for(int i=(-1*m);i&lt;=-1;i++)	&#123;		if(get(f[i])==get(-1))		fh++; 	&#125;	cout&lt;&lt;max(fm,fh)&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
       </categories>
   </entry>
   <entry>
@@ -442,18 +457,24 @@ int add(int a,int b)&#123;    if(b==0)        return a;    return add(++a,--b);&
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 耍杂技的牛</title>
-    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E8%80%8D%E6%9D%82%E6%8A%80%E7%9A%84%E7%89%9B/</url>
-    <content><![CDATA[【解题报告】 耍杂技的牛
-题目：耍杂技的牛
-解题思路：
-排序+贪心
-这个牛啊实际上就是大臣，约翰那就是国王，你有没有想到一道题目，没错，那就是《国王游戏》，但是没错，那道题需要高精度，这道题目不需要高精度，所以这道题目就简单多了，这道题就是按（w+s）把牛牛们从小到大排序一下，然后计算出它们的风险值，找出最大的就可以了，还是比较简单的
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=50010;long long n;long long d[maxn];long long res=-0x3f3f3f3f,sum=0;struct cow&#123;	long long w;	long long s;&#125;a[maxn];bool cmp(cow a,cow b)&#123;	return a.s+a.w&lt;b.s+b.w;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i].w&gt;&gt;a[i].s;	sort(a+1,a+n+1,cmp);    for(int i=1;i&lt;=n;i++)	&#123;        res=max(res,sum-a[i].s);        sum+=a[i].w;    &#125;    cout&lt;&lt;res&lt;&lt;endl;    return 0;&#125;
+    <title>【回忆录】到信息学一游</title>
+    <url>/2025/07/09/%E5%88%B0%E4%BF%A1%E6%81%AF%E5%AD%A6%E4%B8%80%E6%B8%B8/</url>
+    <content><![CDATA[【回忆录】到信息学一游
+序章 夜来幽梦忽还乡
+现在是2025年7月份的一个晚上，是大二的暑假，大学生活已然过半，我终于通过一个自己参照教程的方式配置好了属于自己的博客，兴致满满。在添加友情链接的时候，我想起了我在初三的时候就已经了解到的学长 DewDewDew 和 wjyyywjyyywjyyy ，于是找到他们的博客。在他们的博客中，其中置顶的就是他们的回忆录，也就是参加信息学竞赛的整个高中的心路历程，让我不由自主想起了自己的信息学竞赛的生活，有感而发，于是我也准备写一个自己的回忆录。如果说沙子写字，风轻轻一吹就能吹散，纸上面写字，稍微的烈火焚烧就能让踪迹悄然而逝，也许，写在网上，这份记忆才不会消失，成为一种永生的纪念（大概是有区块链？）。
+那时的生活，说累也累，说苦也苦，但是不知为什么，我总是不由自主回忆起高中、初中的生活，回忆起那段信息学竞赛的日子，这大概是我人生中最特殊的经历之一。我不知道它对我的生活产生了多少的影响，然而它的确是不可缺少的。
+第一章 自前而后的延续
+我并不类似于 DewDewDew 和 wjyyywjyyywjyyy 学长一样，是从高中开始学的信息学竞赛，我开始学信息学竞赛是在初一的时候。那个时候的我刚从小学升上来，小学执行的是素质教育，因此每周都会有社团活动时间，我对计算机有兴趣，便参加了计算机相关社团，学习了许多计算机的基础知识，比如word、ppt、Excel、VB以及Scratch的使用，算是对编程有了初步的了解。其实我一开始并不打算学习信息学竞赛，而是想学VB，做着自己喜欢的程序，做出一些好玩的东西，用来取悦自己。然而，当时的电脑并不支持我去这么做。想要安装VB完整版本的我在10年代的电脑上根本没有什么操作空间，只有一步一卡的漫长等待。而六年级的暑假我又是在没有网络的老家度过，感受这淳朴的乡土情怀，只能玩着MC度日。比较有意思的是，在没有网络的日子里，我靠着局域网联机，竟然在游戏中搭建出一个不小的天地，后来我又通过命令方块建造了一个可以自由传送的城镇，也许编程的思想来自于那里。后来升上了初中，开始了第一次摸底测试，在全校学生中拿到了前五十名，于是乎不知道为何发了6000元作为奖励，至此，我的信息学奥赛之路似乎被开启了。
+当时的电脑不行，我的家长于是就用这6000元给我买了一台台式机，这台台式机在现在看来配置不可谓不低，而且现在已经用起来很卡顿，但是对于当时的我来说，已经是一台非常流畅的机器了。拿到电脑了之后，我安装了VB完整版本，准备左手参考书，右手鼠标，两只手一起打键盘的时候，家长拿着两本厚厚的书出现了。
+这两本书就是至今也脍炙人口的《信息学奥赛一本通》和《信息学奥赛一本通习题》，相信大多数自己入门，或者弱校起步的同学，竞赛启航的第一站便是这里。两本书放在了我的桌面上，家长跟我说，编程不仅仅可以使用VB编程，也可以使用C++对程序进行编写，相对于VB，C++在应用面上更广。而且，现在有信息学奥赛，省一就能获得不小的高考优惠，因此学这个竞赛也许是有好处的。小小的我有着大大的梦，像所有小朋友一样，年少时候的梦想很多都是当科学家，而当上首屈一指的科学家，就必须要考上清华大学、北京大学这两所中国的TOP2，小学时候成绩还算优异的我理所当然也有着这样的梦想。
+因为初中是一所寄宿学校，在学校并没有机会接触电脑，所以追求的只有那文化课的好成绩，每到周末的时候，我一回家就会快速写完作业，然后开始那信息学竞赛的进程。因为是自主学习，而且每周都会有遗忘的时候，在初一上学期我便重复在那顺序分支循环等逻辑结构中循环。我当然也知道每周过去都会忘记一些东西，所以我每周也反复练习，渴求达到熟练。
+然而初一上的期末，因为考试题目过于简单，自己马虎过多，考出了一个自己在高中时候也不怎么见过的排名。那是我第一次考出这么差的名次，然而当时的班主任倒是非常友善，”偶尔考不好无所谓的，找清楚原因”。在初中的第一个学期，我含着泪离开了学校，这时候信息学也一再耽搁，仅仅止步于顺序分支循环了。
+在寒假的时候，也许是临近过年了，气氛逐渐喜庆起来，我也将期末考试的悲伤抛之脑后，在电脑上开始了新一轮的信息学竞赛练习。父母非常看好我，我从小便喜欢计算机，在小学获得了大大小小的有关计算机的各种奖项。特别有印象的是全国中小学生计算机表演赛，如果没记错的话，小学课文里那篇启发我计算机重要性的文章的事件也是同一个事件。邓主席说过：“计算机的普及要从娃娃抓起”。在这寒假中，我便去认真学习循环，一维数组，二维数组等，直到达到熟练为止。
+时间恍然而过，白驹过隙一般寒假已经过去，这个时候意想不到的事情发生了：我们进行了重新分班！从素质教育的小学升上初中的我并不明白这样的含义，也觉得这样非常残酷。为什么我们这些学生就不能和一开始认识的同学安安稳稳共同陪伴三年呢，为什么非要把各个成绩好的学生集中在一起，而不是分开各领风骚呢。我第一次经历分班，我并不理解。但是我所做的，我能做的只有接受，那天晚上，原先的班主任跟我的父母电话打了好久，我却处在一种不自觉的震撼之中，没有情绪波动，内心仍然认为下个学期的周边还是那群同学，而我会在熟悉的环境中启程我的新的一个学期。
+终于开学了，我来到了新的班级，尽管非常想念原来的同学和老师，但这也是我无可奈何的事情。我来到了初中最好的班级，这里高手如云，每个人似乎都跟自己一样厉害，甚至还有不少人比自己厉害的多。在原先的班级中待惯了，现在就会感受到不小的落差。幸亏在班级中又认识了不少新朋友，让我怀古的心情好了许多。
 ]]></content>
       <categories>
-        <category>OI时期解题报告</category>
+        <category>游记</category>
       </categories>
   </entry>
   <entry>
@@ -527,27 +548,6 @@ PS:在自己电脑上可能输出不了，但是在洛谷IDE上能正常运行�
 ]]></content>
       <categories>
         <category>学习笔记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【回忆录】到信息学一游</title>
-    <url>/2025/07/09/%E5%88%B0%E4%BF%A1%E6%81%AF%E5%AD%A6%E4%B8%80%E6%B8%B8/</url>
-    <content><![CDATA[【回忆录】到信息学一游
-序章 夜来幽梦忽还乡
-现在是2025年7月份的一个晚上，是大二的暑假，大学生活已然过半，我终于通过一个自己参照教程的方式配置好了属于自己的博客，兴致满满。在添加友情链接的时候，我想起了我在初三的时候就已经了解到的学长 DewDewDew 和 wjyyywjyyywjyyy ，于是找到他们的博客。在他们的博客中，其中置顶的就是他们的回忆录，也就是参加信息学竞赛的整个高中的心路历程，让我不由自主想起了自己的信息学竞赛的生活，有感而发，于是我也准备写一个自己的回忆录。如果说沙子写字，风轻轻一吹就能吹散，纸上面写字，稍微的烈火焚烧就能让踪迹悄然而逝，也许，写在网上，这份记忆才不会消失，成为一种永生的纪念（大概是有区块链？）。
-那时的生活，说累也累，说苦也苦，但是不知为什么，我总是不由自主回忆起高中、初中的生活，回忆起那段信息学竞赛的日子，这大概是我人生中最特殊的经历之一。我不知道它对我的生活产生了多少的影响，然而它的确是不可缺少的。
-第一章 自前而后的延续
-我并不类似于 DewDewDew 和 wjyyywjyyywjyyy 学长一样，是从高中开始学的信息学竞赛，我开始学信息学竞赛是在初一的时候。那个时候的我刚从小学升上来，小学执行的是素质教育，因此每周都会有社团活动时间，我对计算机有兴趣，便参加了计算机相关社团，学习了许多计算机的基础知识，比如word、ppt、Excel、VB以及Scratch的使用，算是对编程有了初步的了解。其实我一开始并不打算学习信息学竞赛，而是想学VB，做着自己喜欢的程序，做出一些好玩的东西，用来取悦自己。然而，当时的电脑并不支持我去这么做。想要安装VB完整版本的我在10年代的电脑上根本没有什么操作空间，只有一步一卡的漫长等待。而六年级的暑假我又是在没有网络的老家度过，感受这淳朴的乡土情怀，只能玩着MC度日。比较有意思的是，在没有网络的日子里，我靠着局域网联机，竟然在游戏中搭建出一个不小的天地，后来我又通过命令方块建造了一个可以自由传送的城镇，也许编程的思想来自于那里。后来升上了初中，开始了第一次摸底测试，在全校学生中拿到了前五十名，于是乎不知道为何发了6000元作为奖励，至此，我的信息学奥赛之路似乎被开启了。
-当时的电脑不行，我的家长于是就用这6000元给我买了一台台式机，这台台式机在现在看来配置不可谓不低，而且现在已经用起来很卡顿，但是对于当时的我来说，已经是一台非常流畅的机器了。拿到电脑了之后，我安装了VB完整版本，准备左手参考书，右手鼠标，两只手一起打键盘的时候，家长拿着两本厚厚的书出现了。
-这两本书就是至今也脍炙人口的《信息学奥赛一本通》和《信息学奥赛一本通习题》，相信大多数自己入门，或者弱校起步的同学，竞赛启航的第一站便是这里。两本书放在了我的桌面上，家长跟我说，编程不仅仅可以使用VB编程，也可以使用C++对程序进行编写，相对于VB，C++在应用面上更广。而且，现在有信息学奥赛，省一就能获得不小的高考优惠，因此学这个竞赛也许是有好处的。小小的我有着大大的梦，像所有小朋友一样，年少时候的梦想很多都是当科学家，而当上首屈一指的科学家，就必须要考上清华大学、北京大学这两所中国的TOP2，小学时候成绩还算优异的我理所当然也有着这样的梦想。
-因为初中是一所寄宿学校，在学校并没有机会接触电脑，所以追求的只有那文化课的好成绩，每到周末的时候，我一回家就会快速写完作业，然后开始那信息学竞赛的进程。因为是自主学习，而且每周都会有遗忘的时候，在初一上学期我便重复在那顺序分支循环等逻辑结构中循环。我当然也知道每周过去都会忘记一些东西，所以我每周也反复练习，渴求达到熟练。
-然而初一上的期末，因为考试题目过于简单，自己马虎过多，考出了一个自己在高中时候也不怎么见过的排名。那是我第一次考出这么差的名次，然而当时的班主任倒是非常友善，”偶尔考不好无所谓的，找清楚原因”。在初中的第一个学期，我含着泪离开了学校，这时候信息学也一再耽搁，仅仅止步于顺序分支循环了。
-在寒假的时候，也许是临近过年了，气氛逐渐喜庆起来，我也将期末考试的悲伤抛之脑后，在电脑上开始了新一轮的信息学竞赛练习。父母非常看好我，我从小便喜欢计算机，在小学获得了大大小小的有关计算机的各种奖项。特别有印象的是全国中小学生计算机表演赛，如果没记错的话，小学课文里那篇启发我计算机重要性的文章的事件也是同一个事件。邓主席说过：“计算机的普及要从娃娃抓起”。在这寒假中，我便去认真学习循环，一维数组，二维数组等，直到达到熟练为止。
-时间恍然而过，白驹过隙一般寒假已经过去，这个时候意想不到的事情发生了：我们进行了重新分班！从素质教育的小学升上初中的我并不明白这样的含义，也觉得这样非常残酷。为什么我们这些学生就不能和一开始认识的同学安安稳稳共同陪伴三年呢，为什么非要把各个成绩好的学生集中在一起，而不是分开各领风骚呢。我第一次经历分班，我并不理解。但是我所做的，我能做的只有接受，那天晚上，原先的班主任跟我的父母电话打了好久，我却处在一种不自觉的震撼之中，没有情绪波动，内心仍然认为下个学期的周边还是那群同学，而我会在熟悉的环境中启程我的新的一个学期。
-终于开学了，我来到了新的班级，尽管非常想念原来的同学和老师，但这也是我无可奈何的事情。我来到了初中最好的班级，这里高手如云，每个人似乎都跟自己一样厉害，甚至还有不少人比自己厉害的多。在原先的班级中待惯了，现在就会感受到不小的落差。幸亏在班级中又认识了不少新朋友，让我怀古的心情好了许多。
-]]></content>
-      <categories>
-        <category>游记</category>
       </categories>
   </entry>
   <entry>
@@ -668,53 +668,6 @@ ax≡1(mod n)
       </categories>
   </entry>
   <entry>
-    <title>简单素数筛</title>
-    <url>/2019/07/29/%E7%AE%80%E5%8D%95%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
-    <content><![CDATA[简单素数筛
-今天，我看了一些数学知识，而数论是比较主要的，而素数筛是其中重要的一个，现在来介绍一下简单素数筛
-首先来，普及一下素数的概念
-
-若一个正整数无法被除了1和它本身之外的任何自然数整除，则称该数为素数，也称质数（或素数），否则称该正整数为合数。
-
-通过介绍质数（下文统称质数）的概念，我们知道了一种判断质数的方法
-通过枚举：这种方法的速度太慢了，因此我们需要更快的方法
-ps：即使从1枚举到根号n也是很慢的
-所以我们要引进一种好方法
-就是大于二的所有数的倍数都是合数，那就好办了，我们可以从2开始（先初始化一个v[]数组的所有元素为零）2的倍数都是合数，标记v[i*j]为一,3的倍数都是合数，标记为1……
-以此类推，我们就可以得出答案了
-下面有一道例题
-
-题目描述
-给定一个范围N，你需要处理M个某数字是否为质数的询问（每个数字均在范围1-N内）
-输入格式
-第一行包含两个正整数N、M，分别表示查询的范围和查询的个数。
-接下来M行每行包含一个不小于1且不大于N的整数，即询问该数是否为质数。
-输出格式
-输出包含M行，每行为Yes或No，即依次为每一个询问的结果。
-输入输出样例
-输入 #1
-100 52349197
-输出 #1
-YesYesNoNoYes
-说明/提示
-时空限制：500ms 128M
-数据规模：
-对于100%的数据：N&lt;=10000，M&lt;=10000
-样例说明：
-N=100，说明接下来的询问数均不大于100且不小于1。
-所以2、3、97为质数，4、91非质数。
-故依次输出Yes、Yes、No、No、Yes。
-
-这道题就是一道标准的筛素数的题，因为它要访问多个数啊，不做素数筛不可以啊，所以经过努力，我写出了代码
-#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int v[10000005];//记录用int n,m;int p;void primes(int n)//简单素数筛函数&#123;	memset(v,0,sizeof(v));	for(int i=2;i&lt;=n;i++)	&#123;		if(v[i])		continue;		for(int j=i;j&lt;=n/i;j++)		v[i*j]=1; 	&#125;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	primes(n);//调用函数	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;p;		if(v[p])		cout&lt;&lt;&quot;No&quot;&lt;&lt;endl;		else 		cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
-这就是简单素数筛，你get到了吗？
-下集预告：高级素数筛（或其他的）
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-  </entry>
-  <entry>
     <title>汉诺塔问题</title>
     <url>/2019/07/26/%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[汉诺塔问题（Hanoi Tower Problem）
@@ -762,6 +715,53 @@ F(k+1)F(k+1)F(k+1)
 所以这才是这种汉诺塔问题的最优解！
 最终代码如下：时间复杂度O(⁡log2nlog_2nlog2​n )
 #include &lt;iostream&gt;using namespace std;int qp(int a,int b)&#123;	if(b==0)	return 1;	int t=qp(a,b/2);	if(b%2==0)	return t*t;	else	return t*t*a;&#125;int main()&#123;	int n;	cin&gt;&gt;n;	cout&lt;&lt;qp(2,n)-1&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>简单素数筛</title>
+    <url>/2019/07/29/%E7%AE%80%E5%8D%95%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
+    <content><![CDATA[简单素数筛
+今天，我看了一些数学知识，而数论是比较主要的，而素数筛是其中重要的一个，现在来介绍一下简单素数筛
+首先来，普及一下素数的概念
+
+若一个正整数无法被除了1和它本身之外的任何自然数整除，则称该数为素数，也称质数（或素数），否则称该正整数为合数。
+
+通过介绍质数（下文统称质数）的概念，我们知道了一种判断质数的方法
+通过枚举：这种方法的速度太慢了，因此我们需要更快的方法
+ps：即使从1枚举到根号n也是很慢的
+所以我们要引进一种好方法
+就是大于二的所有数的倍数都是合数，那就好办了，我们可以从2开始（先初始化一个v[]数组的所有元素为零）2的倍数都是合数，标记v[i*j]为一,3的倍数都是合数，标记为1……
+以此类推，我们就可以得出答案了
+下面有一道例题
+
+题目描述
+给定一个范围N，你需要处理M个某数字是否为质数的询问（每个数字均在范围1-N内）
+输入格式
+第一行包含两个正整数N、M，分别表示查询的范围和查询的个数。
+接下来M行每行包含一个不小于1且不大于N的整数，即询问该数是否为质数。
+输出格式
+输出包含M行，每行为Yes或No，即依次为每一个询问的结果。
+输入输出样例
+输入 #1
+100 52349197
+输出 #1
+YesYesNoNoYes
+说明/提示
+时空限制：500ms 128M
+数据规模：
+对于100%的数据：N&lt;=10000，M&lt;=10000
+样例说明：
+N=100，说明接下来的询问数均不大于100且不小于1。
+所以2、3、97为质数，4、91非质数。
+故依次输出Yes、Yes、No、No、Yes。
+
+这道题就是一道标准的筛素数的题，因为它要访问多个数啊，不做素数筛不可以啊，所以经过努力，我写出了代码
+#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int v[10000005];//记录用int n,m;int p;void primes(int n)//简单素数筛函数&#123;	memset(v,0,sizeof(v));	for(int i=2;i&lt;=n;i++)	&#123;		if(v[i])		continue;		for(int j=i;j&lt;=n/i;j++)		v[i*j]=1; 	&#125;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	primes(n);//调用函数	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;p;		if(v[p])		cout&lt;&lt;&quot;No&quot;&lt;&lt;endl;		else 		cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
+这就是简单素数筛，你get到了吗？
+下集预告：高级素数筛（或其他的）
 ]]></content>
       <categories>
         <category>学习笔记</category>
