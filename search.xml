@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>wweiyi-first-blog</title>
-    <url>/2025/07/08/wweiyi-first-blog/</url>
-    <content><![CDATA[今天我重新创建了我的hexo驱动的blog，希望以后这个blog能够时常更新吧
-]]></content>
-  </entry>
-  <entry>
     <title>Dijkstra（迪杰斯特拉）算法</title>
     <url>/2019/07/31/Dijkstra%EF%BC%88%E8%BF%AA%E6%9D%B0%E6%96%AF%E7%89%B9%E6%8B%89%EF%BC%89%E7%AE%97%E6%B3%95/</url>
     <content><![CDATA[Dijkstra（迪杰斯特拉）算法
@@ -38,21 +32,6 @@ O(n2)
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 CF67C Cinema</title>
-    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CF67C-Cinema/</url>
-    <content><![CDATA[【解题报告】 CF67C Cinema
-题目：https://www.acwing.com/problem/content/105/
-解题思路：
-排序+离散化
-m部电影和n个人涉及2×m+n种语言。建立一个数组排序再离散化一下，用1到2×m+1之间的数来算。然后就暴力统计一下，就可以得出答案
-AC代码
-#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstdio&gt;#include &lt;cstring&gt;#include &lt;set&gt;using namespace std;const int maxn=5*10e5;int n,m;int a[maxn];int p[maxn];int w[maxn];int s[maxn];int q[maxn];int k[maxn];int ans1,ans2;int ans=1;void disc(int x)//离散化&#123;	int c;	sort(p+1,p+x+1);	for(int i=1;i&lt;=x;i++)	&#123;		if(i==1||p[i]!=p[i-1])		q[++c]=p[i];	&#125;	q[0]=c;&#125;int query(int x)//离散化的二分查询&#123;	int l=1,r=q[0],mid;	while(l&lt;r)	&#123;		mid=(l+r)&gt;&gt;1;		if(q[mid]&gt;=x)		r=mid;		else		l=mid+1;	&#125;	return l;&#125;int main()&#123;	int c=0;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;a[i];		p[++c]=a[i];	&#125;	cin&gt;&gt;m;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;w[i];		p[++c]=w[i];	&#125;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;s[i];		p[++c]=s[i];	&#125;	disc(c);	for(int i=1;i&lt;=n;i++)	k[query(a[i])]++;//暴力统计	for(int i=1;i&lt;=m;i++)	&#123;		int x=k[query(w[i])];		int y=k[query(s[i])];		if(x&gt;ans1||(x==ans1&amp;&amp;y&gt;ans2))		&#123;			ans=i;			ans1=x;			ans2=y;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
     <title>【解题报告】 BZOJ3032 七夕祭</title>
     <url>/2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-BZOJ3032-%E4%B8%83%E5%A4%95%E7%A5%AD/</url>
     <content><![CDATA[【解题报告】 BZOJ3032 七夕祭
@@ -68,6 +47,64 @@ S[i]=j=1∑i​A[j]
 所以经过简单地编码，答案就出来了
 AC代码
 #include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=100005;long long a[maxn],b[maxn];long long f[maxn];long long n,m,t;long long x,y;long long calc(long long a[],long long n)&#123;	for(int i=1;i&lt;=n;i++)	&#123;		a[i]-=(a[0]/n);		f[i]=f[i-1]+a[i];	&#125;	sort(f+1,f+n+1);	long long mid=(n+1)&gt;&gt;1,ans=0;	for(int i=1;i&lt;=n;i++)	ans+=abs(f[mid]-f[i]);	return ans;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;t;	for(int i=1;i&lt;=t;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		a[x]++;		b[y]++;	&#125;	for(int i=1;i&lt;=n;i++)	a[0]+=a[i];	for(int i=1;i&lt;=m;i++)	b[0]+=b[i];	long long c=a[0]%n,d=b[0]%m;	if(!c&amp;&amp;!d)	cout&lt;&lt;&quot;both &quot;&lt;&lt;calc(a,n)+calc(b,m);	else if(!c)	cout&lt;&lt;&quot;row &quot;&lt;&lt;calc(a,n);	else if(!d)	cout&lt;&lt;&quot;column &quot;&lt;&lt;calc(b,m);	else	cout&lt;&lt;&quot;impossible&quot;;	cout&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 CF67C Cinema</title>
+    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CF67C-Cinema/</url>
+    <content><![CDATA[【解题报告】 CF67C Cinema
+题目：https://www.acwing.com/problem/content/105/
+解题思路：
+排序+离散化
+m部电影和n个人涉及2×m+n种语言。建立一个数组排序再离散化一下，用1到2×m+1之间的数来算。然后就暴力统计一下，就可以得出答案
+AC代码
+#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstdio&gt;#include &lt;cstring&gt;#include &lt;set&gt;using namespace std;const int maxn=5*10e5;int n,m;int a[maxn];int p[maxn];int w[maxn];int s[maxn];int q[maxn];int k[maxn];int ans1,ans2;int ans=1;void disc(int x)//离散化&#123;	int c;	sort(p+1,p+x+1);	for(int i=1;i&lt;=x;i++)	&#123;		if(i==1||p[i]!=p[i-1])		q[++c]=p[i];	&#125;	q[0]=c;&#125;int query(int x)//离散化的二分查询&#123;	int l=1,r=q[0],mid;	while(l&lt;r)	&#123;		mid=(l+r)&gt;&gt;1;		if(q[mid]&gt;=x)		r=mid;		else		l=mid+1;	&#125;	return l;&#125;int main()&#123;	int c=0;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;a[i];		p[++c]=a[i];	&#125;	cin&gt;&gt;m;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;w[i];		p[++c]=w[i];	&#125;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;s[i];		p[++c]=s[i];	&#125;	disc(c);	for(int i=1;i&lt;=n;i++)	k[query(a[i])]++;//暴力统计	for(int i=1;i&lt;=m;i++)	&#123;		int x=k[query(w[i])];		int y=k[query(s[i])];		if(x&gt;ans1||(x==ans1&amp;&amp;y&gt;ans2))		&#123;			ans=i;			ans1=x;			ans2=y;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>wweiyi-first-blog</title>
+    <url>/2025/07/08/wweiyi-first-blog/</url>
+    <content><![CDATA[今天我重新创建了我的hexo驱动的blog，希望以后这个blog能够时常更新吧
+]]></content>
+  </entry>
+  <entry>
+    <title>【解题报告】 CH0501 货仓选址</title>
+    <url>/2019/08/07/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CH0501-%E8%B4%A7%E4%BB%93%E9%80%89%E5%9D%80/</url>
+    <content><![CDATA[【解题报告】 CH0501 货仓选址
+题目：货仓选址
+解题思路：
+中位数
+中位数是一种美好的数，在数学中经常使用，这道题建立一个数组，读入数据，然后排序一下，假设货仓建在x处，x左边有p个商家，x右边有q个商家，如果p&lt;q,那么把货仓向右移一个位置，距离之和就变小，类似地，p&gt;q，就把货仓向左移一个位置，所以建在中间的时候距离之和最小
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;cmath&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=100005;int a[maxn],n,ans,pos;int main()&#123;    cin&gt;&gt;n;    for(int i=1;i&lt;=n;i++)    cin&gt;&gt;a[i];    sort(a+1,a+1+n);    int pos=a[n/2+1];    for(int i=1;i&lt;=n;i++)    ans+=abs(a[i]-pos);    cout&lt;&lt;ans&lt;&lt;endl;    return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】[NOI2002]银河英雄传说</title>
+    <url>/2019/08/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOI2002-%E9%93%B6%E6%B2%B3%E8%8B%B1%E9%9B%84%E4%BC%A0%E8%AF%B4/</url>
+    <content><![CDATA[【解题报告】[NOI2002]银河英雄传说
+题目：luogu P1196
+
+题意简述
+处理M个指令，都为两种如下形式的指令之一
+1.M i j 表示让第i好战舰所在列的全部战舰保持原有顺序，接在第j好战舰所在列的尾部。
+2.C i j，表示询问第i号战舰与第j号战舰当前是否处于同一列中，如果在同一列中，它们之间间隔了多少艘战舰。如果不在同一列中，输出-1；
+解题思路
+并查集
+第二个指令我们要知道i，j两号战舰差多少，维护一个数列d即可，d[x]代表x前面的战舰数量,要查询的时候，我们只要知道i，j两号前面各有多少战舰，然后i前面的减去j前面的绝对值减一就可以了。
+而第一个指令就是简单地处理一下size，记录集合大小，也很简单
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;int f[30005];int d[30005];int size[30005];int t;int jdz(int x)&#123;	return x&gt;0? x:(-x);&#125;void init()&#123;	for(int i=1;i&lt;=30000;i++)	&#123;		f[i]=i;		size[i]=1;	&#125;&#125;int get(int x)&#123;	if(x==f[x])	return x;	int root=get(f[x]);	d[x]+=d[f[x]];	return f[x]=root;&#125;void merge(int x,int y)&#123;	x=get(x),y=get(y);	f[x]=y;d[x]=size[y];	size[y]+=size[x];&#125;int main()&#123;	cin&gt;&gt;t;	init();	for(int i=1;i&lt;=t;i++)	&#123;		char s[2];		int x,y;		scanf(&quot;%s&quot;,s);		cin&gt;&gt;x&gt;&gt;y;		if(s[0]==&#x27;M&#x27;)		merge(x,y);		if(s[0]==&#x27;C&#x27;)		&#123;			if(get(x)==get(y))			cout&lt;&lt;jdz(d[x]-d[y])-1&lt;&lt;endl;			else			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;		&#125;	&#125;	return 0;&#125;
+数据情况https://www.luogu.org/record/22153408
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -94,21 +131,6 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 CH0501 货仓选址</title>
-    <url>/2019/08/07/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CH0501-%E8%B4%A7%E4%BB%93%E9%80%89%E5%9D%80/</url>
-    <content><![CDATA[【解题报告】 CH0501 货仓选址
-题目：货仓选址
-解题思路：
-中位数
-中位数是一种美好的数，在数学中经常使用，这道题建立一个数组，读入数据，然后排序一下，假设货仓建在x处，x左边有p个商家，x右边有q个商家，如果p&lt;q,那么把货仓向右移一个位置，距离之和就变小，类似地，p&gt;q，就把货仓向左移一个位置，所以建在中间的时候距离之和最小
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;cmath&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=100005;int a[maxn],n,ans,pos;int main()&#123;    cin&gt;&gt;n;    for(int i=1;i&lt;=n;i++)    cin&gt;&gt;a[i];    sort(a+1,a+1+n);    int pos=a[n/2+1];    for(int i=1;i&lt;=n;i++)    ans+=abs(a[i]-pos);    cout&lt;&lt;ans&lt;&lt;endl;    return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
     <title>【解题报告】 [NOIP2012] 国王游戏</title>
     <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOIP2012-%E5%9B%BD%E7%8E%8B%E6%B8%B8%E6%88%8F/</url>
     <content><![CDATA[【解题报告】 [NOIP2012]国王游戏
@@ -118,28 +140,6 @@ AC代码
 我们只需要将所有大臣左右手上的数的乘积从小到大进行排序，我们就得到了最优答案，但是这个代码要写高精度就是一个麻烦的东西，要好好写，话说近几年不出高精度的题目了，就怕今年要出。
 AC代码
 #include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#include &lt;cstdio&gt;using namespace std;const int maxn=10005;int n;struct mini&#123;	int a;	int b;&#125;m[maxn];bool cmp(mini x,mini y)&#123;	return x.a*x.b&lt;y.a*y.b;&#125;int s[4005],len;int ans[4005],ans_l(0); void mul(int x)&#123;	int t(len);	for(int i=1;i&lt;=len;++i)	s[i]*=x;	for(int i=1;i&lt;=len+5;++i)	&#123;		if(s[i])		t=i;		s[i+1]+=s[i]/10;		s[i]%=10;	&#125;	len=t;&#125;void cpy(int c[],int c_l)&#123;	for(int i=1;i&lt;=c_l;++i)	ans[i]=c[i];	ans_l=c_l;&#125;void out(int s[],int l)&#123;	for(int i=l;i&gt;=1;--i)	cout&lt;&lt;s[i];	cout&lt;&lt;endl; &#125;void div(int x)&#123;	int c[4005],l(-1);	for(int i=1;i&lt;=len;++i)	c[i]=s[i];	for(int i=len;i&gt;=1;--i)	&#123;		c[i-1]+=(c[i]%x)*10;		c[i]/=x;		if(c[i]&amp;&amp;l==-1)		l=i;	&#125;	if(ans_l==l)	&#123;		bool flg(0);		for(int i=l;i&gt;=1;--i)		&#123;			if(ans[i]&lt;c[i])			&#123;				flg=1;				break;			&#125;			else break;		&#125;		if(flg)		cpy(c,l);	&#125;	if(ans_l&lt;l)	cpy(c,l);&#125;int main()&#123;	cin&gt;&gt;n;	cin&gt;&gt;m[0].a&gt;&gt;m[0].b;	for(int i=1;i&lt;=n;++i)	cin&gt;&gt;m[i].a&gt;&gt;m[i].b;	sort(m+1,m+1+n,cmp);	s[1]=1;len=1;	mul(m[0].a);	for(int i=1;i&lt;=n;++i)	div(m[i].b),mul(m[i].a);	out(ans,ans_l);	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】[NOI2002]银河英雄传说</title>
-    <url>/2019/08/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOI2002-%E9%93%B6%E6%B2%B3%E8%8B%B1%E9%9B%84%E4%BC%A0%E8%AF%B4/</url>
-    <content><![CDATA[【解题报告】[NOI2002]银河英雄传说
-题目：luogu P1196
-
-题意简述
-处理M个指令，都为两种如下形式的指令之一
-1.M i j 表示让第i好战舰所在列的全部战舰保持原有顺序，接在第j好战舰所在列的尾部。
-2.C i j，表示询问第i号战舰与第j号战舰当前是否处于同一列中，如果在同一列中，它们之间间隔了多少艘战舰。如果不在同一列中，输出-1；
-解题思路
-并查集
-第二个指令我们要知道i，j两号战舰差多少，维护一个数列d即可，d[x]代表x前面的战舰数量,要查询的时候，我们只要知道i，j两号前面各有多少战舰，然后i前面的减去j前面的绝对值减一就可以了。
-而第一个指令就是简单地处理一下size，记录集合大小，也很简单
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;int f[30005];int d[30005];int size[30005];int t;int jdz(int x)&#123;	return x&gt;0? x:(-x);&#125;void init()&#123;	for(int i=1;i&lt;=30000;i++)	&#123;		f[i]=i;		size[i]=1;	&#125;&#125;int get(int x)&#123;	if(x==f[x])	return x;	int root=get(f[x]);	d[x]+=d[f[x]];	return f[x]=root;&#125;void merge(int x,int y)&#123;	x=get(x),y=get(y);	f[x]=y;d[x]=size[y];	size[y]+=size[x];&#125;int main()&#123;	cin&gt;&gt;t;	init();	for(int i=1;i&lt;=t;i++)	&#123;		char s[2];		int x,y;		scanf(&quot;%s&quot;,s);		cin&gt;&gt;x&gt;&gt;y;		if(s[0]==&#x27;M&#x27;)		merge(x,y);		if(s[0]==&#x27;C&#x27;)		&#123;			if(get(x)==get(y))			cout&lt;&lt;jdz(d[x]-d[y])-1&lt;&lt;endl;			else			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;		&#125;	&#125;	return 0;&#125;
-数据情况https://www.luogu.org/record/22153408
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -273,6 +273,40 @@ AC代码
       </categories>
   </entry>
   <entry>
+    <title>【解题报告】 Task</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Task/</url>
+    <content><![CDATA[【解题报告】 Task
+题目：任务
+解题思路：
+贪心
+我们可以贪心每个任务的等级，再贪心每个任务的时间，我们这样排一下序，再循环一下，就可以得到正确的答案了
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const long long maxn=100010;long long n,m;struct task&#123;	long long x;	long long y;&#125;; task f[maxn];task e[maxn];long long cnt[105],ans,num;long long cmp(task a,task b)&#123;	if(a.x==b.x)	return a.y&gt;b.y;	return a.x&gt;b.x;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	for(long long i=1;i&lt;=n;i++)	cin&gt;&gt;e[i].x&gt;&gt;e[i].y;	for(long long i=1;i&lt;=m;i++)	cin&gt;&gt;f[i].x&gt;&gt;f[i].y;	sort(e+1,e+1+n,cmp);	sort(f+1,f+1+m,cmp);	long long j=1;	for(long long i=1;i&lt;=m;i++)	&#123;		while(j&lt;=n&amp;&amp;e[j].x&gt;=f[i].x)		&#123;			cnt[e[j].y]++;			j++;		&#125;		for(long long k=f[i].y;k&lt;=100;k++)		&#123;			if(cnt[k])			&#123;				num++;				cnt[k]--;				ans+=500*f[i].x+2*f[i].y;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;num&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;	return 0; &#125;
+PS：实在不懂为什么别人的代码要用pair
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 天才ACM</title>
+    <url>/2019/08/09/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A4%A9%E6%89%8DACM/</url>
+    <content><![CDATA[【解题报告】 天才ACM
+题目：天才ACM
+解题思路：
+倍增算法
+设p=1，r=l
+求出r—r+p这一区间的校验值，如果校验值小于等于t，则r+=p，p*=2；
+否则p/=2;
+一直重复，直到p等于0的时候，r就是最终答案
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=500005;long long t,tot;long long n,m,k;long long p[maxn];long long f[maxn];int l,r,mid,j;long long min(long long a,long long b)&#123;	return a&lt;b? a:b;&#125;bool check(int l,int r) &#123;    tot=0;    long long sum=0;    for(int i=l;i&lt;=r;i++) 	f[++tot]=p[i];    sort(f+1,f+1+tot);    for(int i=1;i&lt;=m;i++) 	&#123;        if (i&gt;=(tot-i+1)) 		break;        sum+=(long long)(f[tot-i+1]-f[i])*(f[tot-i+1]-f[i]);        if(sum&gt;k)		break;    &#125;    if(sum&gt;k)	return false;    return true;&#125;bool cmp(int x,int y)&#123;	return p[x]&lt;p[y];&#125;bool calc()&#123;	long long sum=0;	int ll=1,rr=tot;	for(int i=1;i&lt;=m;i++)	&#123;		while(ll&lt;rr&amp;&amp;f[ll]&gt;mid)		ll++;		while(ll&lt;rr&amp;&amp;f[rr]&gt;mid)		rr--;		if(ll&gt;=rr)		break;		sum+=(long long)(p[f[rr]]-p[f[ll]])*(p[f[rr]]-p[f[ll]]);		if(sum&gt;k)		break;		ll++;		rr--;	&#125;	return sum&lt;=k;&#125;void work()&#123;		cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;p[i];		int ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			for(j=1;i+(1&lt;&lt;j)-1&lt;=n;j++)			&#123;				if(!check(i,i+(1&lt;&lt;j)-1))				break;			&#125;			l=i+(1&lt;&lt;(j-1))-1;			r=min(i+(1&lt;&lt;j)-1,n);			tot=0;			for(int k=i;k&lt;=r;k++)			f[++tot]=k;			sort(f+1,f+tot+1,cmp);			while(l&lt;=r)			&#123;				mid=(l+r)/2;				if(calc())				&#123;					i=mid;					l=mid+1;				&#125;				else r=mid-1;			&#125;			ans++;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	cin&gt;&gt;t;	while(t--)	&#123;		work();	&#125;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
     <title>【解题报告】 占卜DIY</title>
     <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%8D%A0%E5%8D%9CDIY/</url>
     <content><![CDATA[【解题报告】 占卜DIY
@@ -301,16 +335,15 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 Task</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Task/</url>
-    <content><![CDATA[【解题报告】 Task
-题目：任务
+    <title>【解题报告】 士兵</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A3%AB%E5%85%B5/</url>
+    <content><![CDATA[【解题报告】 士兵
+题目：士兵
 解题思路：
-贪心
-我们可以贪心每个任务的等级，再贪心每个任务的时间，我们这样排一下序，再循环一下，就可以得到正确的答案了
+排序+离散化
+我们可以对每个士兵的纵坐标和横坐标进行排序，然后算它们的中位数，就可以得到他们最短的路线，然后就可以对每个士兵和中位数做差，用一个变量记录它们的和，即为答案
 AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const long long maxn=100010;long long n,m;struct task&#123;	long long x;	long long y;&#125;; task f[maxn];task e[maxn];long long cnt[105],ans,num;long long cmp(task a,task b)&#123;	if(a.x==b.x)	return a.y&gt;b.y;	return a.x&gt;b.x;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	for(long long i=1;i&lt;=n;i++)	cin&gt;&gt;e[i].x&gt;&gt;e[i].y;	for(long long i=1;i&lt;=m;i++)	cin&gt;&gt;f[i].x&gt;&gt;f[i].y;	sort(e+1,e+1+n,cmp);	sort(f+1,f+1+m,cmp);	long long j=1;	for(long long i=1;i&lt;=m;i++)	&#123;		while(j&lt;=n&amp;&amp;e[j].x&gt;=f[i].x)		&#123;			cnt[e[j].y]++;			j++;		&#125;		for(long long k=f[i].y;k&lt;=100;k++)		&#123;			if(cnt[k])			&#123;				num++;				cnt[k]--;				ans+=500*f[i].x+2*f[i].y;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;num&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;	return 0; &#125;
-PS：实在不懂为什么别人的代码要用pair
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=10005;int n;long long x[maxn],y[maxn],mx,my,ans;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;x[i]&gt;&gt;y[i];	sort(x+1,x+1+n);	sort(y+1,y+1+n);	for(int i=1;i&lt;=n;i++)	x[i]-=i;	sort(x+1,x+1+n);	mx=x[(n+1)&gt;&gt;1];	my=y[(n+1)&gt;&gt;1];	for(int i=1;i&lt;=n;i++)	&#123;		ans+=abs(x[i]-mx);		ans+=abs(y[i]-my);	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -335,48 +368,15 @@ AC代码
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 耍杂技的牛</title>
-    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E8%80%8D%E6%9D%82%E6%8A%80%E7%9A%84%E7%89%9B/</url>
-    <content><![CDATA[【解题报告】 耍杂技的牛
-题目：耍杂技的牛
-解题思路：
-排序+贪心
-这个牛啊实际上就是大臣，约翰那就是国王，你有没有想到一道题目，没错，那就是《国王游戏》，但是没错，那道题需要高精度，这道题目不需要高精度，所以这道题目就简单多了，这道题就是按（w+s）把牛牛们从小到大排序一下，然后计算出它们的风险值，找出最大的就可以了，还是比较简单的
+    <title>【解题报告】luogu P2078朋友</title>
+    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2078%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[【解题报告】luogu P2078 朋友
+题目：luogu P2078
+题目思路：
+并查集，C++ STL
+有了C++stl容器，我们就high了，map可以处理数组下标为负的情况，然后男女朋友的关系的话，就分别统计每个公司有多少人有关系，取一个最小值就好了
 AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=50010;long long n;long long d[maxn];long long res=-0x3f3f3f3f,sum=0;struct cow&#123;	long long w;	long long s;&#125;a[maxn];bool cmp(cow a,cow b)&#123;	return a.s+a.w&lt;b.s+b.w;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i].w&gt;&gt;a[i].s;	sort(a+1,a+n+1,cmp);    for(int i=1;i&lt;=n;i++)	&#123;        res=max(res,sum-a[i].s);        sum+=a[i].w;    &#125;    cout&lt;&lt;res&lt;&lt;endl;    return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 天才ACM</title>
-    <url>/2019/08/09/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A4%A9%E6%89%8DACM/</url>
-    <content><![CDATA[【解题报告】 天才ACM
-题目：天才ACM
-解题思路：
-倍增算法
-设p=1，r=l
-求出r—r+p这一区间的校验值，如果校验值小于等于t，则r+=p，p*=2；
-否则p/=2;
-一直重复，直到p等于0的时候，r就是最终答案
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=500005;long long t,tot;long long n,m,k;long long p[maxn];long long f[maxn];int l,r,mid,j;long long min(long long a,long long b)&#123;	return a&lt;b? a:b;&#125;bool check(int l,int r) &#123;    tot=0;    long long sum=0;    for(int i=l;i&lt;=r;i++) 	f[++tot]=p[i];    sort(f+1,f+1+tot);    for(int i=1;i&lt;=m;i++) 	&#123;        if (i&gt;=(tot-i+1)) 		break;        sum+=(long long)(f[tot-i+1]-f[i])*(f[tot-i+1]-f[i]);        if(sum&gt;k)		break;    &#125;    if(sum&gt;k)	return false;    return true;&#125;bool cmp(int x,int y)&#123;	return p[x]&lt;p[y];&#125;bool calc()&#123;	long long sum=0;	int ll=1,rr=tot;	for(int i=1;i&lt;=m;i++)	&#123;		while(ll&lt;rr&amp;&amp;f[ll]&gt;mid)		ll++;		while(ll&lt;rr&amp;&amp;f[rr]&gt;mid)		rr--;		if(ll&gt;=rr)		break;		sum+=(long long)(p[f[rr]]-p[f[ll]])*(p[f[rr]]-p[f[ll]]);		if(sum&gt;k)		break;		ll++;		rr--;	&#125;	return sum&lt;=k;&#125;void work()&#123;		cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;p[i];		int ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			for(j=1;i+(1&lt;&lt;j)-1&lt;=n;j++)			&#123;				if(!check(i,i+(1&lt;&lt;j)-1))				break;			&#125;			l=i+(1&lt;&lt;(j-1))-1;			r=min(i+(1&lt;&lt;j)-1,n);			tot=0;			for(int k=i;k&lt;=r;k++)			f[++tot]=k;			sort(f+1,f+tot+1,cmp);			while(l&lt;=r)			&#123;				mid=(l+r)/2;				if(calc())				&#123;					i=mid;					l=mid+1;				&#125;				else r=mid-1;			&#125;			ans++;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	cin&gt;&gt;t;	while(t--)	&#123;		work();	&#125;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 士兵</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A3%AB%E5%85%B5/</url>
-    <content><![CDATA[【解题报告】 士兵
-题目：士兵
-解题思路：
-排序+离散化
-我们可以对每个士兵的纵坐标和横坐标进行排序，然后算它们的中位数，就可以得到他们最短的路线，然后就可以对每个士兵和中位数做差，用一个变量记录它们的和，即为答案
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=10005;int n;long long x[maxn],y[maxn],mx,my,ans;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;x[i]&gt;&gt;y[i];	sort(x+1,x+1+n);	sort(y+1,y+1+n);	for(int i=1;i&lt;=n;i++)	x[i]-=i;	sort(x+1,x+1+n);	mx=x[(n+1)&gt;&gt;1];	my=y[(n+1)&gt;&gt;1];	for(int i=1;i&lt;=n;i++)	&#123;		ans+=abs(x[i]-mx);		ans+=abs(y[i]-my);	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;map&gt; using namespace std;map&lt;int,int&gt;f;int n,m,p,q;int fm,fh;int max(int a,int b)&#123;	return a&lt;b? a:b;&#125; int get(int x)&#123;	return f[x]=(x==f[x]? x:get(f[x]));&#125;void merge(int x,int y)&#123;	f[get(x)]=get(y);&#125;int main()&#123;	int x,y;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p&gt;&gt;q;	for(int i=(-1*m);i&lt;=n;i++)	f[i]=i;	for(int i=1;i&lt;=p+q;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		merge(x,y);	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		if(get(f[i])==get(1))		fm++;	&#125;	for(int i=(-1*m);i&lt;=-1;i++)	&#123;		if(get(f[i])==get(-1))		fh++; 	&#125;	cout&lt;&lt;max(fm,fh)&lt;&lt;endl;	return 0;&#125;
 ]]></content>
       <categories>
         <category>OI时期解题报告</category>
@@ -406,42 +406,6 @@ AC代码
 ]]></content>
       <categories>
         <category>漫评</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【回忆录】到信息学一游</title>
-    <url>/2025/07/09/%E5%88%B0%E4%BF%A1%E6%81%AF%E5%AD%A6%E4%B8%80%E6%B8%B8/</url>
-    <content><![CDATA[【回忆录】到信息学一游
-序章 夜来幽梦忽还乡
-现在是2025年7月份的一个晚上，是大二的暑假，大学生活已然过半，我终于通过一个自己参照教程的方式配置好了属于自己的博客，兴致满满。在添加友情链接的时候，我想起了我在初三的时候就已经了解到的学长 DewDewDew 和 wjyyywjyyywjyyy ，于是找到他们的博客。在他们的博客中，其中置顶的就是他们的回忆录，也就是参加信息学竞赛的整个高中的心路历程，让我不由自主想起了自己的信息学竞赛的生活，有感而发，于是我也准备写一个自己的回忆录。如果说沙子写字，风轻轻一吹就能吹散，纸上面写字，稍微的烈火焚烧就能让踪迹悄然而逝，也许，写在网上，这份记忆才不会消失，成为一种永生的纪念（大概是有区块链？）。
-那时的生活，说累也累，说苦也苦，但是不知为什么，我总是不由自主回忆起高中、初中的生活，回忆起那段信息学竞赛的日子，这大概是我人生中最特殊的经历之一。我不知道它对我的生活产生了多少的影响，然而它的确是不可缺少的。
-第一章 自前而后的延续
-我并不类似于 DewDewDew 和 wjyyywjyyywjyyy 学长一样，是从高中开始学的信息学竞赛，我开始学信息学竞赛是在初一的时候。那个时候的我刚从小学升上来，小学执行的是素质教育，因此每周都会有社团活动时间，我对计算机有兴趣，便参加了计算机相关社团，学习了许多计算机的基础知识，比如word、ppt、Excel、VB以及Scratch的使用，算是对编程有了初步的了解。其实我一开始并不打算学习信息学竞赛，而是想学VB，做着自己喜欢的程序，做出一些好玩的东西，用来取悦自己。然而，当时的电脑并不支持我去这么做。想要安装VB完整版本的我在10年代的电脑上根本没有什么操作空间，只有一步一卡的漫长等待。而六年级的暑假我又是在没有网络的老家度过，感受这淳朴的乡土情怀，只能玩着MC度日。比较有意思的是，在没有网络的日子里，我靠着局域网联机，竟然在游戏中搭建出一个不小的天地，后来我又通过命令方块建造了一个可以自由传送的城镇，也许编程的思想来自于那里。后来升上了初中，开始了第一次摸底测试，在全校学生中拿到了前五十名，于是乎不知道为何发了6000元作为奖励，至此，我的信息学奥赛之路似乎被开启了。
-当时的电脑不行，我的家长于是就用这6000元给我买了一台台式机，这台台式机在现在看来配置不可谓不低，而且现在已经用起来很卡顿，但是对于当时的我来说，已经是一台非常流畅的机器了。拿到电脑了之后，我安装了VB完整版本，准备左手参考书，右手鼠标，两只手一起打键盘的时候，家长拿着两本厚厚的书出现了。
-这两本书就是至今也脍炙人口的《信息学奥赛一本通》和《信息学奥赛一本通习题》，相信大多数自己入门，或者弱校起步的同学，竞赛启航的第一站便是这里。两本书放在了我的桌面上，家长跟我说，编程不仅仅可以使用VB编程，也可以使用C++对程序进行编写，相对于VB，C++在应用面上更广。而且，现在有信息学奥赛，省一就能获得不小的高考优惠，因此学这个竞赛也许是有好处的。小小的我有着大大的梦，像所有小朋友一样，年少时候的梦想很多都是当科学家，而当上首屈一指的科学家，就必须要考上清华大学、北京大学这两所中国的TOP2，小学时候成绩还算优异的我理所当然也有着这样的梦想。
-因为初中是一所寄宿学校，在学校并没有机会接触电脑，所以追求的只有那文化课的好成绩，每到周末的时候，我一回家就会快速写完作业，然后开始那信息学竞赛的进程。因为是自主学习，而且每周都会有遗忘的时候，在初一上学期我便重复在那顺序分支循环等逻辑结构中循环。我当然也知道每周过去都会忘记一些东西，所以我每周也反复练习，渴求达到熟练。
-然而初一上的期末，因为考试题目过于简单，自己马虎过多，考出了一个自己在高中时候也不怎么见过的排名。那是我第一次考出这么差的名次，然而当时的班主任倒是非常友善，”偶尔考不好无所谓的，找清楚原因”。在初中的第一个学期，我含着泪离开了学校，这时候信息学也一再耽搁，仅仅止步于顺序分支循环了。
-在寒假的时候，也许是临近过年了，气氛逐渐喜庆起来，我也将期末考试的悲伤抛之脑后，在电脑上开始了新一轮的信息学竞赛练习。父母非常看好我，我从小便喜欢计算机，在小学获得了大大小小的有关计算机的各种奖项。特别有印象的是全国中小学生计算机表演赛，如果没记错的话，小学课文里那篇启发我计算机重要性的文章的事件也是同一个事件。邓主席说过：“计算机的普及要从娃娃抓起”。在这寒假中，我便去认真学习循环，一维数组，二维数组等，直到达到熟练为止。
-时间恍然而过，白驹过隙一般寒假已经过去，这个时候意想不到的事情发生了：我们进行了重新分班！从素质教育的小学升上初中的我并不明白这样的含义，也觉得这样非常残酷。为什么我们这些学生就不能和一开始认识的同学安安稳稳共同陪伴三年呢，为什么非要把各个成绩好的学生集中在一起，而不是分开各领风骚呢。我第一次经历分班，我并不理解。但是我所做的，我能做的只有接受，那天晚上，原先的班主任跟我的父母电话打了好久，我却处在一种不自觉的震撼之中，没有情绪波动，内心仍然认为下个学期的周边还是那群同学，而我会在熟悉的环境中启程我的新的一个学期。
-终于开学了，我来到了新的班级，尽管非常想念原来的同学和老师，但这也是我无可奈何的事情。我来到了初中最好的班级，这里高手如云，每个人似乎都跟自己一样厉害，甚至还有不少人比自己厉害的多。在原先的班级中待惯了，现在就会感受到不小的落差。幸亏在班级中又认识了不少新朋友，让我怀古的心情好了许多。
-]]></content>
-      <categories>
-        <category>游记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】luogu P2078朋友</title>
-    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2078%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[【解题报告】luogu P2078 朋友
-题目：luogu P2078
-题目思路：
-并查集，C++ STL
-有了C++stl容器，我们就high了，map可以处理数组下标为负的情况，然后男女朋友的关系的话，就分别统计每个公司有多少人有关系，取一个最小值就好了
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;map&gt; using namespace std;map&lt;int,int&gt;f;int n,m,p,q;int fm,fh;int max(int a,int b)&#123;	return a&lt;b? a:b;&#125; int get(int x)&#123;	return f[x]=(x==f[x]? x:get(f[x]));&#125;void merge(int x,int y)&#123;	f[get(x)]=get(y);&#125;int main()&#123;	int x,y;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p&gt;&gt;q;	for(int i=(-1*m);i&lt;=n;i++)	f[i]=i;	for(int i=1;i&lt;=p+q;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		merge(x,y);	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		if(get(f[i])==get(1))		fm++;	&#125;	for(int i=(-1*m);i&lt;=-1;i++)	&#123;		if(get(f[i])==get(-1))		fh++; 	&#125;	cout&lt;&lt;max(fm,fh)&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
       </categories>
   </entry>
   <entry>
@@ -475,6 +439,21 @@ int add(int a,int b)&#123;    if(b==0)        return a;    return add(++a,--b);&
 ]]></content>
       <categories>
         <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 耍杂技的牛</title>
+    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E8%80%8D%E6%9D%82%E6%8A%80%E7%9A%84%E7%89%9B/</url>
+    <content><![CDATA[【解题报告】 耍杂技的牛
+题目：耍杂技的牛
+解题思路：
+排序+贪心
+这个牛啊实际上就是大臣，约翰那就是国王，你有没有想到一道题目，没错，那就是《国王游戏》，但是没错，那道题需要高精度，这道题目不需要高精度，所以这道题目就简单多了，这道题就是按（w+s）把牛牛们从小到大排序一下，然后计算出它们的风险值，找出最大的就可以了，还是比较简单的
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=50010;long long n;long long d[maxn];long long res=-0x3f3f3f3f,sum=0;struct cow&#123;	long long w;	long long s;&#125;a[maxn];bool cmp(cow a,cow b)&#123;	return a.s+a.w&lt;b.s+b.w;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i].w&gt;&gt;a[i].s;	sort(a+1,a+n+1,cmp);    for(int i=1;i&lt;=n;i++)	&#123;        res=max(res,sum-a[i].s);        sum+=a[i].w;    &#125;    cout&lt;&lt;res&lt;&lt;endl;    return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
       </categories>
   </entry>
   <entry>
@@ -551,56 +530,24 @@ PS:在自己电脑上可能输出不了，但是在洛谷IDE上能正常运行�
       </categories>
   </entry>
   <entry>
-    <title>汉诺塔问题</title>
-    <url>/2019/07/26/%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[汉诺塔问题（Hanoi Tower Problem）
-汉诺塔问题家喻户晓，它源于一个印度的神话，内容如下：
-在世界中心贝拿勒斯（在印度北部）的圣庙里，一块黄铜板上插着三根宝石针。印度教的主神梵天在创造世界的时候，在其中一根针上从下到上地穿好了由大到小的64片金片，这就是所谓的汉诺塔。不论白天黑夜，总有一个僧侣在按照下面的法则移动这些金片：一次只移动一片，不管在哪根针上，小片必须在大片上面。僧侣们预言，当所有的金片都从梵天穿好的那根针上移到另外一根针上时，世界就将在一声霹雳中消灭，而梵塔、庙宇和众生也都将同归于尽。
-这个问题看起来十分可怕，实际上很简单。接下来就解决一个问题来体会这个小小问题中的大大的递归思想！
-
-有三根柱子，第一根柱子上有n个从下向上越来越小的圆盘。
-
-
-目标：使第一根柱子上的n个圆盘按原样摆放在另一个柱子上。
-
-
-注：一次移动一个圆盘，不可以出现大的盘子在小的盘子上面的情况。
-
-解：
-首先我们先玩一下这个游戏。
-接着我们找出一个规律，要彻底地把这个塔移开，我们必须要移开上方的n-1个盘子，使最下面的盘子可以移动到另一个柱子上，然后在把上方的n-1个盘子移动到最下
-面的盘子（也就是最大的盘子）上就可以解决了。而n-1个盘子的移动方法也一样，因为最下面的大盘子对上面的n-1个盘子的移动毫无影响。
-因此，我们可以得出一个递推式：
-Fn=2Fn−1+1F_n=2F_{n-1}+1
-Fn​=2Fn−1​+1
-FnF_nFn​代表第一个柱子上有n个盘子的情况，所以这个问题得到了解决
-代码如下：时间复杂度O(2n)O(2^n )O(2n)
-#include &lt;iostream&gt;using namespace std;int main()&#123;	int n;	int f[20];	cin&gt;&gt;n;	f[1]=1;	for(int i=2;i&lt;=n;i++)	f[i]=2*f[i-1]+1;	cout&lt;&lt;f[n]&lt;&lt;endl;	return 0; &#125;
-这个问题就简单地这么解决了。（瞎说，还有更简单的方法）
-让我们来看一看输出结果：从n=1开始:1 3 7 15 31 63 127 255 511 1023 2047 4095 8191……
-我们发现一个规律，所有的FnF_nFn​满足：
-Fn=2n−1F_n=2^n-1
-Fn​=2n−1
-这才是最简单的方法！
-有些人会说，这个方法是瞎猜的，只是凭运气而已，没事儿，我可以证明一下。
-证：
-数学归纳法。
-当 n=1n=1n=1 时，F(n)=1,2n−1=1F(n)=1,2n-1=1F(n)=1,2n−1=1 ;命题显然成立
-假设 n=kn=kn=k 时命题成立，即F(k)=2k−1F(k)=2k-1F(k)=2k−1；
-当 n=k+1n=k+1n=k+1 时，F(k+1)=F(k)∗2+1F(k+1)=F(k)*2+1F(k+1)=F(k)∗2+1 ;
-因为F(k)=2k−1F(k)=2^k-1F(k)=2k−1
-所以
-F(k+1)F(k+1)F(k+1)
-=2F(k)+1=2F(k)+1=2F(k)+1
-=(2k−1)∗2+1=(2^k-1)*2+1=(2k−1)∗2+1
-=2k+1−1=2^{k+1}-1=2k+1−1
-证毕。
-所以这才是这种汉诺塔问题的最优解！
-最终代码如下：时间复杂度O(⁡log2nlog_2nlog2​n )
-#include &lt;iostream&gt;using namespace std;int qp(int a,int b)&#123;	if(b==0)	return 1;	int t=qp(a,b/2);	if(b%2==0)	return t*t;	else	return t*t*a;&#125;int main()&#123;	int n;	cin&gt;&gt;n;	cout&lt;&lt;qp(2,n)-1&lt;&lt;endl;	return 0;&#125;
+    <title>【回忆录】到信息学一游</title>
+    <url>/2025/07/09/%E5%88%B0%E4%BF%A1%E6%81%AF%E5%AD%A6%E4%B8%80%E6%B8%B8/</url>
+    <content><![CDATA[【回忆录】到信息学一游
+序章 夜来幽梦忽还乡
+现在是2025年7月份的一个晚上，是大二的暑假，大学生活已然过半，我终于通过一个自己参照教程的方式配置好了属于自己的博客，兴致满满。在添加友情链接的时候，我想起了我在初三的时候就已经了解到的学长 DewDewDew 和 wjyyywjyyywjyyy ，于是找到他们的博客。在他们的博客中，其中置顶的就是他们的回忆录，也就是参加信息学竞赛的整个高中的心路历程，让我不由自主想起了自己的信息学竞赛的生活，有感而发，于是我也准备写一个自己的回忆录。如果说沙子写字，风轻轻一吹就能吹散，纸上面写字，稍微的烈火焚烧就能让踪迹悄然而逝，也许，写在网上，这份记忆才不会消失，成为一种永生的纪念（大概是有区块链？）。
+那时的生活，说累也累，说苦也苦，但是不知为什么，我总是不由自主回忆起高中、初中的生活，回忆起那段信息学竞赛的日子，这大概是我人生中最特殊的经历之一。我不知道它对我的生活产生了多少的影响，然而它的确是不可缺少的。
+第一章 自前而后的延续
+我并不类似于 DewDewDew 和 wjyyywjyyywjyyy 学长一样，是从高中开始学的信息学竞赛，我开始学信息学竞赛是在初一的时候。那个时候的我刚从小学升上来，小学执行的是素质教育，因此每周都会有社团活动时间，我对计算机有兴趣，便参加了计算机相关社团，学习了许多计算机的基础知识，比如word、ppt、Excel、VB以及Scratch的使用，算是对编程有了初步的了解。其实我一开始并不打算学习信息学竞赛，而是想学VB，做着自己喜欢的程序，做出一些好玩的东西，用来取悦自己。然而，当时的电脑并不支持我去这么做。想要安装VB完整版本的我在10年代的电脑上根本没有什么操作空间，只有一步一卡的漫长等待。而六年级的暑假我又是在没有网络的老家度过，感受这淳朴的乡土情怀，只能玩着MC度日。比较有意思的是，在没有网络的日子里，我靠着局域网联机，竟然在游戏中搭建出一个不小的天地，后来我又通过命令方块建造了一个可以自由传送的城镇，也许编程的思想来自于那里。后来升上了初中，开始了第一次摸底测试，在全校学生中拿到了前五十名，于是乎不知道为何发了6000元作为奖励，至此，我的信息学奥赛之路似乎被开启了。
+当时的电脑不行，我的家长于是就用这6000元给我买了一台台式机，这台台式机在现在看来配置不可谓不低，而且现在已经用起来很卡顿，但是对于当时的我来说，已经是一台非常流畅的机器了。拿到电脑了之后，我安装了VB完整版本，准备左手参考书，右手鼠标，两只手一起打键盘的时候，家长拿着两本厚厚的书出现了。
+这两本书就是至今也脍炙人口的《信息学奥赛一本通》和《信息学奥赛一本通习题》，相信大多数自己入门，或者弱校起步的同学，竞赛启航的第一站便是这里。两本书放在了我的桌面上，家长跟我说，编程不仅仅可以使用VB编程，也可以使用C++对程序进行编写，相对于VB，C++在应用面上更广。而且，现在有信息学奥赛，省一就能获得不小的高考优惠，因此学这个竞赛也许是有好处的。小小的我有着大大的梦，像所有小朋友一样，年少时候的梦想很多都是当科学家，而当上首屈一指的科学家，就必须要考上清华大学、北京大学这两所中国的TOP2，小学时候成绩还算优异的我理所当然也有着这样的梦想。
+因为初中是一所寄宿学校，在学校并没有机会接触电脑，所以追求的只有那文化课的好成绩，每到周末的时候，我一回家就会快速写完作业，然后开始那信息学竞赛的进程。因为是自主学习，而且每周都会有遗忘的时候，在初一上学期我便重复在那顺序分支循环等逻辑结构中循环。我当然也知道每周过去都会忘记一些东西，所以我每周也反复练习，渴求达到熟练。
+然而初一上的期末，因为考试题目过于简单，自己马虎过多，考出了一个自己在高中时候也不怎么见过的排名。那是我第一次考出这么差的名次，然而当时的班主任倒是非常友善，”偶尔考不好无所谓的，找清楚原因”。在初中的第一个学期，我含着泪离开了学校，这时候信息学也一再耽搁，仅仅止步于顺序分支循环了。
+在寒假的时候，也许是临近过年了，气氛逐渐喜庆起来，我也将期末考试的悲伤抛之脑后，在电脑上开始了新一轮的信息学竞赛练习。父母非常看好我，我从小便喜欢计算机，在小学获得了大大小小的有关计算机的各种奖项。特别有印象的是全国中小学生计算机表演赛，如果没记错的话，小学课文里那篇启发我计算机重要性的文章的事件也是同一个事件。邓主席说过：“计算机的普及要从娃娃抓起”。在这寒假中，我便去认真学习循环，一维数组，二维数组等，直到达到熟练为止。
+时间恍然而过，白驹过隙一般寒假已经过去，这个时候意想不到的事情发生了：我们进行了重新分班！从素质教育的小学升上初中的我并不明白这样的含义，也觉得这样非常残酷。为什么我们这些学生就不能和一开始认识的同学安安稳稳共同陪伴三年呢，为什么非要把各个成绩好的学生集中在一起，而不是分开各领风骚呢。我第一次经历分班，我并不理解。但是我所做的，我能做的只有接受，那天晚上，原先的班主任跟我的父母电话打了好久，我却处在一种不自觉的震撼之中，没有情绪波动，内心仍然认为下个学期的周边还是那群同学，而我会在熟悉的环境中启程我的新的一个学期。
+终于开学了，我来到了新的班级，尽管非常想念原来的同学和老师，但这也是我无可奈何的事情。我来到了初中最好的班级，这里高手如云，每个人似乎都跟自己一样厉害，甚至还有不少人比自己厉害的多。在原先的班级中待惯了，现在就会感受到不小的落差。幸亏在班级中又认识了不少新朋友，让我怀古的心情好了许多。
 ]]></content>
       <categories>
-        <category>学习笔记</category>
+        <category>游记</category>
       </categories>
   </entry>
   <entry>
@@ -762,6 +709,59 @@ N=100，说明接下来的询问数均不大于100且不小于1。
 #include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int v[10000005];//记录用int n,m;int p;void primes(int n)//简单素数筛函数&#123;	memset(v,0,sizeof(v));	for(int i=2;i&lt;=n;i++)	&#123;		if(v[i])		continue;		for(int j=i;j&lt;=n/i;j++)		v[i*j]=1; 	&#125;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	primes(n);//调用函数	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;p;		if(v[p])		cout&lt;&lt;&quot;No&quot;&lt;&lt;endl;		else 		cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
 这就是简单素数筛，你get到了吗？
 下集预告：高级素数筛（或其他的）
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>汉诺塔问题</title>
+    <url>/2019/07/26/%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[汉诺塔问题（Hanoi Tower Problem）
+汉诺塔问题家喻户晓，它源于一个印度的神话，内容如下：
+在世界中心贝拿勒斯（在印度北部）的圣庙里，一块黄铜板上插着三根宝石针。印度教的主神梵天在创造世界的时候，在其中一根针上从下到上地穿好了由大到小的64片金片，这就是所谓的汉诺塔。不论白天黑夜，总有一个僧侣在按照下面的法则移动这些金片：一次只移动一片，不管在哪根针上，小片必须在大片上面。僧侣们预言，当所有的金片都从梵天穿好的那根针上移到另外一根针上时，世界就将在一声霹雳中消灭，而梵塔、庙宇和众生也都将同归于尽。
+这个问题看起来十分可怕，实际上很简单。接下来就解决一个问题来体会这个小小问题中的大大的递归思想！
+
+有三根柱子，第一根柱子上有n个从下向上越来越小的圆盘。
+
+
+目标：使第一根柱子上的n个圆盘按原样摆放在另一个柱子上。
+
+
+注：一次移动一个圆盘，不可以出现大的盘子在小的盘子上面的情况。
+
+解：
+首先我们先玩一下这个游戏。
+接着我们找出一个规律，要彻底地把这个塔移开，我们必须要移开上方的n-1个盘子，使最下面的盘子可以移动到另一个柱子上，然后在把上方的n-1个盘子移动到最下
+面的盘子（也就是最大的盘子）上就可以解决了。而n-1个盘子的移动方法也一样，因为最下面的大盘子对上面的n-1个盘子的移动毫无影响。
+因此，我们可以得出一个递推式：
+Fn=2Fn−1+1F_n=2F_{n-1}+1
+Fn​=2Fn−1​+1
+FnF_nFn​代表第一个柱子上有n个盘子的情况，所以这个问题得到了解决
+代码如下：时间复杂度O(2n)O(2^n )O(2n)
+#include &lt;iostream&gt;using namespace std;int main()&#123;	int n;	int f[20];	cin&gt;&gt;n;	f[1]=1;	for(int i=2;i&lt;=n;i++)	f[i]=2*f[i-1]+1;	cout&lt;&lt;f[n]&lt;&lt;endl;	return 0; &#125;
+这个问题就简单地这么解决了。（瞎说，还有更简单的方法）
+让我们来看一看输出结果：从n=1开始:1 3 7 15 31 63 127 255 511 1023 2047 4095 8191……
+我们发现一个规律，所有的FnF_nFn​满足：
+Fn=2n−1F_n=2^n-1
+Fn​=2n−1
+这才是最简单的方法！
+有些人会说，这个方法是瞎猜的，只是凭运气而已，没事儿，我可以证明一下。
+证：
+数学归纳法。
+当 n=1n=1n=1 时，F(n)=1,2n−1=1F(n)=1,2n-1=1F(n)=1,2n−1=1 ;命题显然成立
+假设 n=kn=kn=k 时命题成立，即F(k)=2k−1F(k)=2k-1F(k)=2k−1；
+当 n=k+1n=k+1n=k+1 时，F(k+1)=F(k)∗2+1F(k+1)=F(k)*2+1F(k+1)=F(k)∗2+1 ;
+因为F(k)=2k−1F(k)=2^k-1F(k)=2k−1
+所以
+F(k+1)F(k+1)F(k+1)
+=2F(k)+1=2F(k)+1=2F(k)+1
+=(2k−1)∗2+1=(2^k-1)*2+1=(2k−1)∗2+1
+=2k+1−1=2^{k+1}-1=2k+1−1
+证毕。
+所以这才是这种汉诺塔问题的最优解！
+最终代码如下：时间复杂度O(⁡log2nlog_2nlog2​n )
+#include &lt;iostream&gt;using namespace std;int qp(int a,int b)&#123;	if(b==0)	return 1;	int t=qp(a,b/2);	if(b%2==0)	return t*t;	else	return t*t*a;&#125;int main()&#123;	int n;	cin&gt;&gt;n;	cout&lt;&lt;qp(2,n)-1&lt;&lt;endl;	return 0;&#125;
 ]]></content>
       <categories>
         <category>学习笔记</category>
