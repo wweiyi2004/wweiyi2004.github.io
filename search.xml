@@ -38,67 +38,6 @@ O(n2)
 ]]></content>
   </entry>
   <entry>
-    <title>【解题报告】 BZOJ3032 七夕祭</title>
-    <url>/2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-BZOJ3032-%E4%B8%83%E5%A4%95%E7%A5%AD/</url>
-    <content><![CDATA[【解题报告】 BZOJ3032 七夕祭
-题目：七夕祭（翻译过的）
-ps：话说今天是七夕节，我就正好做到七夕祭
-解题思路：
-看到这道题的题目，可以想到《均分纸牌》和我之前做的《货仓选址》两题，这样经过思考，演算和推理，我们可以得出，需要的最少步数是
-∑i=1M∣S[i]−s[k]∣\sum\limits_{i=1}^M\left|S[i]-s[k]\right|
-i=1∑M​∣S[i]−s[k]∣
-其中S是A的前缀和，即
-S[i]=∑j=1iA[j]S[i]=\sum\limits_{j=1}^iA[j]
-S[i]=j=1∑i​A[j]
-所以经过简单地编码，答案就出来了
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=100005;long long a[maxn],b[maxn];long long f[maxn];long long n,m,t;long long x,y;long long calc(long long a[],long long n)&#123;	for(int i=1;i&lt;=n;i++)	&#123;		a[i]-=(a[0]/n);		f[i]=f[i-1]+a[i];	&#125;	sort(f+1,f+n+1);	long long mid=(n+1)&gt;&gt;1,ans=0;	for(int i=1;i&lt;=n;i++)	ans+=abs(f[mid]-f[i]);	return ans;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;t;	for(int i=1;i&lt;=t;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		a[x]++;		b[y]++;	&#125;	for(int i=1;i&lt;=n;i++)	a[0]+=a[i];	for(int i=1;i&lt;=m;i++)	b[0]+=b[i];	long long c=a[0]%n,d=b[0]%m;	if(!c&amp;&amp;!d)	cout&lt;&lt;&quot;both &quot;&lt;&lt;calc(a,n)+calc(b,m);	else if(!c)	cout&lt;&lt;&quot;row &quot;&lt;&lt;calc(a,n);	else if(!d)	cout&lt;&lt;&quot;column &quot;&lt;&lt;calc(b,m);	else	cout&lt;&lt;&quot;impossible&quot;;	cout&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 CF67C Cinema</title>
-    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CF67C-Cinema/</url>
-    <content><![CDATA[【解题报告】 CF67C Cinema
-题目：https://www.acwing.com/problem/content/105/
-解题思路：
-排序+离散化
-m部电影和n个人涉及2×m+n种语言。建立一个数组排序再离散化一下，用1到2×m+1之间的数来算。然后就暴力统计一下，就可以得出答案
-AC代码
-#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstdio&gt;#include &lt;cstring&gt;#include &lt;set&gt;using namespace std;const int maxn=5*10e5;int n,m;int a[maxn];int p[maxn];int w[maxn];int s[maxn];int q[maxn];int k[maxn];int ans1,ans2;int ans=1;void disc(int x)//离散化&#123;	int c;	sort(p+1,p+x+1);	for(int i=1;i&lt;=x;i++)	&#123;		if(i==1||p[i]!=p[i-1])		q[++c]=p[i];	&#125;	q[0]=c;&#125;int query(int x)//离散化的二分查询&#123;	int l=1,r=q[0],mid;	while(l&lt;r)	&#123;		mid=(l+r)&gt;&gt;1;		if(q[mid]&gt;=x)		r=mid;		else		l=mid+1;	&#125;	return l;&#125;int main()&#123;	int c=0;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;a[i];		p[++c]=a[i];	&#125;	cin&gt;&gt;m;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;w[i];		p[++c]=w[i];	&#125;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;s[i];		p[++c]=s[i];	&#125;	disc(c);	for(int i=1;i&lt;=n;i++)	k[query(a[i])]++;//暴力统计	for(int i=1;i&lt;=m;i++)	&#123;		int x=k[query(w[i])];		int y=k[query(s[i])];		if(x&gt;ans1||(x==ans1&amp;&amp;y&gt;ans2))		&#123;			ans=i;			ans1=x;			ans2=y;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【游记】2025年电子设计竞赛国赛</title>
-    <url>/2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/</url>
-    <content><![CDATA[【游记】2025年电子设计竞赛国赛
-Day0 7.29
-是电子设计竞赛的国赛前一天，经过了一年多的准备终于等到了这一天。不管是什么样的题目都已经做过了，面对电子设计竞赛的国赛也是没有了心理负担，准备进行下去了。早上先是补了补觉，为国赛的熬夜做准备，然后到实验室准备明天的比赛。
-早上先是调了调自己的M0，把之前调过的工程都改了改看了看，确保没有问题之后就和队友一起收拾自己的东西，方便为自己之后的移位置做准备。收拾东西大多是硬件汤进行，软件没有多少收拾的，我就和软件李开始玩文明6。文明6是刚下载没有多久的，因此很多情况下都是我发展缓慢而软件李科技和文化值发展得非常快，让我目不暇接。很快，我们把东西收拾完之后就回寝室了，准备早睡，迎接第二天早上六点的起床，七点半的题目发布。
-Day1 7.30
-起了一个大早，早上很快就拿到了题目，仪器组一共三道题目，分别是以太网线的检测仪、接收机还有电路模型探究装置。那两道题目我们是没有选的。因为以太网线的检测仪是测量题，需要标定等一系列麻烦的事情，对于我们来说并不友好。那么接收机呢？这个涉及射频，我们还没有学会把非常小的信号放大，因此也不选。那么留在我们眼前的只剩下了一道题目，电路模型探究装置。
-这道题目看起来非常简单，于是我们也就选了这道题目。基础部分非常简单，直接用AD9833进行波形的输出，但是因为电压要求，对于输出级还需要一些处理，所以基础部分留给了硬件手去搭建，开始思考软件的问题。对于发挥部分，第一问判断滤波器类型，也是比较简单的，我们使用正弦波进行扫频，然后通过ADC读取通过滤波网络和AD637有效值检波器的电压大小，就可以算出在特定频率下该滤波器对于信号的增益。然后对于低频与高频分别扫频，在题目要求的范围内，我们可以根据两点法判断滤波器的类型，这样发挥部分第一问也解决了。
-现在于我们而言，比较困难的是发挥部分的第二问，我们如何学习模型电路，并且复刻出模型电路呢？我们先是想到了一种方法，因为我们可以对未知电路进行扫频学习，那么我们就可以知道位置电路在各个频点下的幅频响应和相频响应。然后在输出的时候，我们对于输入的信号，就进行FFT操作，分析出其含有的各个频率的分量，根据之前的幅频响应和相频响应进行累加，继而使用DMA+DAC输出波形。这个时候，我们看到了发挥部分后面的输出波形要求。步进为200Hz，这让我们意识到无法使用DMA+DAC进行求解，另外，后面要求输出的波形和未知电路的波形要求同频显示，这让我们更加确信了频率控制字没有那么精准的时候不能选择这个方法。
-那么我们该怎么办呢？我们该使用什么方法才能做到同频显示呢？这个时候我们想而到了使用FPGA的方法，使用FPGA写一个二阶IIR真实滤波器，使用单片机传入参数。
-目标已然确定，开始行动了。李开始写滤波器，汤搭硬件，我去寻找拟合曲线的方法。然而拟合曲线并非很容易，最先想到的是最小二乘法，先去尝试，然而最小二乘法在单片机中运行不动，只能放弃，但是又没有别的方法，我想到了python。但是python并不能在单片机中使用，怎么办，只有天知道。这个时候已经接近第二天的凌晨，我听说了别的组使用树莓派的做法，于是我也去找周老师拿了一块树莓派，进行开始写树莓派。但是我不太会用树莓派，于是我就开始从0开始安装驱动等之类的，然后，也是成功安装好了系统。回去睡觉了。
-Day2 7.31
-第二天也是早早过来，寻找如何解决曲线拟合的问题，我搞了第一天的树莓派，一直搞到晚上七点多才解决所有的驱动，然后开始尝试。然而这个时候李发现了一种可以在单片机中计算出来系数的方法，于是他就开始写，我们将树莓派解决作为备选方案。
-直到凌晨，我们也没有弄出些什么，只知道单片机拟合出来的数据始终不是那么准确，我们不知道为什么，我们陷入了长时间的疑惑，这个时候已经到达了第三天的凌晨。
-Day3 8.1
-小睡了一会儿，我们还是没有解决，我们开始寻找方法，但是没有成功。真的要放弃了吗？后来发现有一部分原因是DE10的时钟虽然设置的是1MHz，但是实际上是1.17Mhz，当我们改过来之后就好了一点，我们感觉非常兴奋。
-Day4 8.2
-何意味，但是没有异味
-]]></content>
-      <categories>
-        <category>游记</category>
-      </categories>
-  </entry>
-  <entry>
     <title>NOI Online2021游记</title>
     <url>/2021/03/30/NOI-Online2021%E6%B8%B8%E8%AE%B0/</url>
     <content><![CDATA[NOI Online2021第一场游记
@@ -201,332 +140,6 @@ T3 重力球
 ]]></content>
       <categories>
         <category>游记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】[HNOI2003]激光炸弹</title>
-    <url>/2019/08/05/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-HNOI2003-%E6%BF%80%E5%85%89%E7%82%B8%E5%BC%B9/</url>
-    <content><![CDATA[【解题报告】 [HNOI2003]激光炸弹
-题目：luogu P2280
-在这样可爱的夜晚，调试题目恐怕是最爽的选择了
-附：https://www.luogu.org/record/list?user=136889
-在这么多次失败下我终于成功了
-解题思路：
-前缀和与拆分
-这是一道简单题，但是我却调试了那么多次没调出来，竟然是循环的问题
-rp–。。
-建立一个二维数组，储存某个区域的目标的数量，然后就使用一个二维前缀和，就可以弄出来了，注意因为时间的原因，在输入的时候也就直接输入了，我那么多次就是因为超时
-AC代码
-#include &lt;iostream&gt;using namespace std;const int maxn=5005;int r,n;int s[maxn][maxn];int ans;int x,y,w;int max(int a,int b)&#123;	return a&gt;b? a:b;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;r;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y&gt;&gt;w; 		s[x+1][y+1]=w;	&#125;	for(int i=1;i&lt;=5001;i++)	&#123;		for(int j=1;j&lt;=5001;j++)		s[i][j]+=s[i-1][j]+s[i][j-1]-s[i-1][j-1];	&#125;	for(int i=0;i&lt;=5001-r;i++)	&#123;		for(int j=0;j&lt;=5001-r;j++)		ans=max(ans,s[i][j]-s[i+r][j]-s[i][j+r]+s[i+r][j+r]); 	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 CH0501 货仓选址</title>
-    <url>/2019/08/07/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CH0501-%E8%B4%A7%E4%BB%93%E9%80%89%E5%9D%80/</url>
-    <content><![CDATA[【解题报告】 CH0501 货仓选址
-题目：货仓选址
-解题思路：
-中位数
-中位数是一种美好的数，在数学中经常使用，这道题建立一个数组，读入数据，然后排序一下，假设货仓建在x处，x左边有p个商家，x右边有q个商家，如果p&lt;q,那么把货仓向右移一个位置，距离之和就变小，类似地，p&gt;q，就把货仓向左移一个位置，所以建在中间的时候距离之和最小
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;cmath&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=100005;int a[maxn],n,ans,pos;int main()&#123;    cin&gt;&gt;n;    for(int i=1;i&lt;=n;i++)    cin&gt;&gt;a[i];    sort(a+1,a+1+n);    int pos=a[n/2+1];    for(int i=1;i&lt;=n;i++)    ans+=abs(a[i]-pos);    cout&lt;&lt;ans&lt;&lt;endl;    return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】[NOI2002]银河英雄传说</title>
-    <url>/2019/08/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOI2002-%E9%93%B6%E6%B2%B3%E8%8B%B1%E9%9B%84%E4%BC%A0%E8%AF%B4/</url>
-    <content><![CDATA[【解题报告】[NOI2002]银河英雄传说
-题目：luogu P1196
-
-题意简述
-处理M个指令，都为两种如下形式的指令之一
-1.M i j 表示让第i好战舰所在列的全部战舰保持原有顺序，接在第j好战舰所在列的尾部。
-2.C i j，表示询问第i号战舰与第j号战舰当前是否处于同一列中，如果在同一列中，它们之间间隔了多少艘战舰。如果不在同一列中，输出-1；
-解题思路
-并查集
-第二个指令我们要知道i，j两号战舰差多少，维护一个数列d即可，d[x]代表x前面的战舰数量,要查询的时候，我们只要知道i，j两号前面各有多少战舰，然后i前面的减去j前面的绝对值减一就可以了。
-而第一个指令就是简单地处理一下size，记录集合大小，也很简单
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;int f[30005];int d[30005];int size[30005];int t;int jdz(int x)&#123;	return x&gt;0? x:(-x);&#125;void init()&#123;	for(int i=1;i&lt;=30000;i++)	&#123;		f[i]=i;		size[i]=1;	&#125;&#125;int get(int x)&#123;	if(x==f[x])	return x;	int root=get(f[x]);	d[x]+=d[f[x]];	return f[x]=root;&#125;void merge(int x,int y)&#123;	x=get(x),y=get(y);	f[x]=y;d[x]=size[y];	size[y]+=size[x];&#125;int main()&#123;	cin&gt;&gt;t;	init();	for(int i=1;i&lt;=t;i++)	&#123;		char s[2];		int x,y;		scanf(&quot;%s&quot;,s);		cin&gt;&gt;x&gt;&gt;y;		if(s[0]==&#x27;M&#x27;)		merge(x,y);		if(s[0]==&#x27;C&#x27;)		&#123;			if(get(x)==get(y))			cout&lt;&lt;jdz(d[x]-d[y])-1&lt;&lt;endl;			else			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;		&#125;	&#125;	return 0;&#125;
-数据情况https://www.luogu.org/record/22153408
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 [NOIP2012] 国王游戏</title>
-    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOIP2012-%E5%9B%BD%E7%8E%8B%E6%B8%B8%E6%88%8F/</url>
-    <content><![CDATA[【解题报告】 [NOIP2012]国王游戏
-题目：国王游戏
-解题思路：
-贪心
-我们只需要将所有大臣左右手上的数的乘积从小到大进行排序，我们就得到了最优答案，但是这个代码要写高精度就是一个麻烦的东西，要好好写，话说近几年不出高精度的题目了，就怕今年要出。
-AC代码
-#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#include &lt;cstdio&gt;using namespace std;const int maxn=10005;int n;struct mini&#123;	int a;	int b;&#125;m[maxn];bool cmp(mini x,mini y)&#123;	return x.a*x.b&lt;y.a*y.b;&#125;int s[4005],len;int ans[4005],ans_l(0); void mul(int x)&#123;	int t(len);	for(int i=1;i&lt;=len;++i)	s[i]*=x;	for(int i=1;i&lt;=len+5;++i)	&#123;		if(s[i])		t=i;		s[i+1]+=s[i]/10;		s[i]%=10;	&#125;	len=t;&#125;void cpy(int c[],int c_l)&#123;	for(int i=1;i&lt;=c_l;++i)	ans[i]=c[i];	ans_l=c_l;&#125;void out(int s[],int l)&#123;	for(int i=l;i&gt;=1;--i)	cout&lt;&lt;s[i];	cout&lt;&lt;endl; &#125;void div(int x)&#123;	int c[4005],l(-1);	for(int i=1;i&lt;=len;++i)	c[i]=s[i];	for(int i=len;i&gt;=1;--i)	&#123;		c[i-1]+=(c[i]%x)*10;		c[i]/=x;		if(c[i]&amp;&amp;l==-1)		l=i;	&#125;	if(ans_l==l)	&#123;		bool flg(0);		for(int i=l;i&gt;=1;--i)		&#123;			if(ans[i]&lt;c[i])			&#123;				flg=1;				break;			&#125;			else break;		&#125;		if(flg)		cpy(c,l);	&#125;	if(ans_l&lt;l)	cpy(c,l);&#125;int main()&#123;	cin&gt;&gt;n;	cin&gt;&gt;m[0].a&gt;&gt;m[0].b;	for(int i=1;i&lt;=n;++i)	cin&gt;&gt;m[i].a&gt;&gt;m[i].b;	sort(m+1,m+1+n,cmp);	s[1]=1;len=1;	mul(m[0].a);	for(int i=1;i&lt;=n;++i)	div(m[i].b),mul(m[i].a);	out(ans,ans_l);	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 POJ1050 To the Max</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ1050-To-the-Max/</url>
-    <content><![CDATA[【解题报告】 POJ1050 To the Max
-题目：最大的和（已翻译）
-题意简述：
-就是一个矩阵中找一个和最大的子矩阵
-解题思路：
-贪心，我们可以首先在输入的时候贪一遍心，然后我们可以一行一行地贪心，最终得到最后的正确结果
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=105;int n;int a[maxn][maxn],s[maxn][maxn];int ans=-0x3f,nans;bool check=false;int max(int a,int b)&#123;	return a&gt;b? a:b;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	&#123;		for(int j=1;j&lt;=n;j++)		&#123;			cin&gt;&gt;a[i][j];			if(a[i][j]&gt;=0)			check=true;			ans=max(ans,a[i][j]);		&#125;	&#125;	if(!check)	&#123;		cout&lt;&lt;ans&lt;&lt;endl;		return 0;	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		for(int j=1;j&lt;=n;j++)		s[i][j]=s[i-1][j]+a[i][j];	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		for(int j=i;j&lt;=n;j++)		&#123;			nans=0;			for(int k=1;k&lt;=n;k++)			&#123;				nans+=s[j][k]-s[i-1][k];				if(nans&lt;0)				nans=0;				if(nans&gt;ans)				ans=nans;			&#125;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 POJ2054 给树染色</title>
-    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2054-%E7%BB%99%E6%A0%91%E6%9F%93%E8%89%B2/</url>
-    <content><![CDATA[【解题报告】 POJ2054 给树染色
-题目：Color a tree(已翻译)
-解题思路：
-贪心
-我们很容易想到从第一层开始，每次染权值最大的一个节点，但是我们可以构造出一个数，让一个权值很小的点下面有权值很大的节点，所以我们考虑的贪心思路是树中除了根节点外的权值最大的节点，它的父节点染色之后一定会被马上染色，所以我们可以将权值最大的点和它的父节点进行合并，合并得到的新点的权值是这两个点之和的平均值，这样就一直合并，直至合并到一个点的时候，我们就按照这个点合并的顺序染色就是正确的答案了。
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;long long r,n;long long i,j,now,ans,a,b,father;struct node&#123;	long long f,c,t;	double w;&#125;num[1010];long long find()&#123;	long long ans=0;	double maxn=0;	for(int i=1;i&lt;=n;i++)	&#123;		if(i!=r&amp;&amp;num[i].w&gt;maxn)		&#123;			maxn=num[i].w;			ans=i;		&#125;	 &#125; 	 return ans;&#125;int main()&#123;	while(cin&gt;&gt;n&gt;&gt;r&amp;&amp;(n||r))	&#123;		ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			cin&gt;&gt;num[i].c;			num[i].w=num[i].c;			num[i].t=1;			ans+=num[i].c;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			cin&gt;&gt;a&gt;&gt;b;			num[b].f=a;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			now=find();			num[now].w=0;			father=num[now].f;			ans+=num[now].c*num[father].t;			for(int j=1;j&lt;=n;j++)			&#123;				if(num[j].f==now)				num[j].f=father;			&#125;			num[father].c+=num[now].c;			num[father].t+=num[now].t;			num[father].w=(double)(num[father].c)/num[father].t;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;	&#125;	return 0;&#125;
-PS:LYD的代码有毒，在洛谷上过得了，但是在AcWing上过不了，所以我进行了摸爬滚打，终于找到了正确的答案，哈哈哈，我太开心了
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 POJ3614 防晒</title>
-    <url>/2019/08/09/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ3614-%E9%98%B2%E6%99%92/</url>
-    <content><![CDATA[【解题报告】 POJ3614 防晒
-题目：防晒（已翻译）
-解题思路：
-模拟+贪心；
-我们这道题是一道好的贪心的例题，我们只要对于每一头奶牛按照它们的minspf进行递减排序，然后在对于每一种防晒霜进行一次扫描，找出符合条件的spf值最大的防晒霜
-但是会想到一点，我们需要将每一头奶牛的minspf和maxspf进行一一对应，所以我们可以使用结构体，然后自己在写一个比较函数，就可以让这两个数值一一对应，这样就方便多了
-AC代码
-#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=2505;int c,l,ans;struct cow&#123;	int minspf;	int maxspf;&#125;a[maxn];struct sc&#123;	int spf;	int cover;&#125;b[maxn];int cmp(sc a,sc b)&#123;    if(a.spf==b.spf)    return a.cover&gt;b.cover;    return a.spf&gt;b.spf;&#125;int cmp2(cow a,cow b)&#123;    if(a.minspf==b.minspf)    return a.maxspf&gt;b.maxspf;    return a.minspf&gt;b.minspf;&#125;int main()&#123;	cin&gt;&gt;c&gt;&gt;l;	for(int i=1;i&lt;=c;i++)	cin&gt;&gt;a[i].minspf&gt;&gt;a[i].maxspf;	sort(a+1,a+1+c,cmp2);	for(int i=1;i&lt;=l;i++)	cin&gt;&gt;b[i].spf&gt;&gt;b[i].cover;	sort(b+1,b+1+l,cmp);	for(int i=1;i&lt;=c;i++)	&#123;		for(int j=1;j&lt;=l;j++)		&#123;			if(b[j].spf&gt;=a[i].minspf&amp;&amp;b[j].spf&lt;=a[i].maxspf&amp;&amp;b[j].cover)			&#123;				ans++;				b[j].cover--;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 Stick</title>
-    <url>/2019/08/25/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Stick/</url>
-    <content><![CDATA[【解题报告】 Stick
-题目：木棍
-解题思路：
-深度优先搜索
-我们可以用深度优先搜索简单地做出来，没错，是很简单
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;using namespace std;int a[100],v[100],n,len,cnt;bool cmp(int a,int b)&#123;	return a&gt;b;&#125;bool dfs(int stick,int cab,int last)&#123;	if(stick&gt;cnt)	return true;	if(cab==len)	return dfs(stick+1,0,1);	int fail=0;	for(int i=last;i&lt;=n;i++)	&#123;		if(!v[i]&amp;&amp;cab+a[i]&lt;=len&amp;&amp;fail!=a[i])		&#123;			v[i]=1;			if(dfs(stick,cab+a[i],i+1))			return true;			fail=a[i];			v[i]=0; 			if(cab==0||cab+a[i]==len)			return false;		&#125;	&#125;	return false;&#125;int main()&#123;	while(cin&gt;&gt;n&amp;&amp;n)	&#123;		int sum=0,val=0,m=0;		for(int i=1;i&lt;=n;i++)		&#123;			int x;			cin&gt;&gt;x;			if(x&lt;=50)			&#123;				a[++m]=x;				sum+=a[m];				val=max(val,a[m]);			&#125;		&#125;		n=m;		sort(a+1,a+1+n,cmp);		for(len=val;len&lt;=sum;len++)		&#123;			if(sum%len)			continue;			cnt=sum/len;			memset(v,0,sizeof(v));			if(dfs(1,0,1))			break;		&#125;		cout&lt;&lt;len&lt;&lt;endl;	&#125;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 POJ1958 奇怪的汉诺塔</title>
-    <url>/2019/07/28/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ1958-%E5%A5%87%E6%80%AA%E7%9A%84%E6%B1%89%E8%AF%BA%E5%A1%94/</url>
-    <content><![CDATA[【解题报告】 POJ1958 奇怪的汉诺塔
-
-在这样热浪滚滚的暑假，外面晴空高照，在家里刷刷题不妨是最好的选择
-——来自wweiyi语录
-
-题目链接（翻译过的）：
-https://www.acwing.com/problem/content/98/
-题意简述：输出四个塔的汉诺塔分别从1个盘子到12个盘子的最少步数
-
-我们看了题之后，可以知道这道题跟三个塔的汉诺塔一样，用递归，但是我们设先移走i个盘子到第二个塔或第三个塔，然后就转化成三个塔的问题了。
-但是问题在于不知道i等于多少，而且直接输出12个值要用递归也会有些慢，所以我们做一下优化，记忆化一下，我们就可以很快的输出了
-设三个塔n个盘子的步数为d[n],设四个塔n个盘子的步数为f[n]
-动态转移方程如下
-fn=min(fn,2fi+dn−i)f_n=min(f_n,2f_i+d_{n-i})
-fn​=min(fn​,2fi​+dn−i​)
-其中
-1≤n,i≤121\leq n,i \leq 12
-1≤n,i≤12
-所以我们就解决了这道题目
-代码如下
-#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int d[15];int f[15];int min(int a,int b)//最小值函数&#123;	return a&lt;b? a:b;&#125;int main()&#123;	d[1]=1;//汉诺三塔边界	for(int i=2;i&lt;=12;i++)//计算汉诺三塔的数值	d[i]=2*d[i-1]+1;	memset(f,0x3f,sizeof f);//因为要求最小值，所以初始一个极大值	f[1]=1;//汉诺四塔边界	for(int i=2;i&lt;=12;i++)//动态规划	&#123;		for(int j=1;j&lt;i;j++)		&#123;			f[i]=min(f[i],2*f[j]+d[i-j]);//状态转移方程		&#125;	&#125;	for(int i=1;i&lt;=12;i++)	cout&lt;&lt;f[i]&lt;&lt;endl;//输出	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 POJ2299 超快速排序</title>
-    <url>/2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2299-%E8%B6%85%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
-    <content><![CDATA[【解题报告】POJ2299 超快速排序
-题目：超快速排序（已翻译）
-解题思路：
-归并排序求逆序对
-归并排序使我们众所周知的，我们只要在归并排序中计算每一个子序列中的逆序对数，我们就可以计算出总的逆序对数了，也就是
-cnt+=mid−i+1cnt+=mid-i+1
-cnt+=mid−i+1
-然后就完成了这道题
-AC代码
-#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int n;long long cnt;const int maxn=500005;long long a[maxn];long long b[maxn];void merge_sort(int l,int r)&#123;    if(r&gt;l)    &#123;        int mid=(l+r)/2;        int i=l;         int p=l,q=mid+1;        merge_sort(l,mid);        merge_sort(mid+1,r);        while(p&lt;=mid||q&lt;=r)        &#123;            if(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))            b[i++] = a[p++];            else            &#123;                b[i++]=a[q++];                cnt+=mid-p+1;            &#125;        &#125;        for(i=l;i&lt;=r;i++)        a[i]=b[i];    &#125;&#125;int main()&#123;	while(cin&gt;&gt;n&amp;&amp;n)	&#123;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;a[i];		cnt=0;		merge_sort(1,n);		cout&lt;&lt;cnt&lt;&lt;endl;	&#125;	return 0;&#125;
-顺便附上归并排序的代码
-#include &lt;iostream&gt;using namespace std;int n,cnt;const int maxn=100005;long long a[maxn];long long b[maxn];void merge_sort(int l,int r)&#123;    if(r&gt;l)    &#123;        int mid=(l+r)/2;        int i=l;         int p=l,q=mid+1;        merge_sort(l,mid);        merge_sort(mid+1,r);        while(p&lt;=mid||q&lt;=r)        &#123;            if(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))            b[i++] = a[p++];            else            &#123;                b[i++]=a[q++];                cnt+=mid-p+1;            &#125;        &#125;        for(i=l;i&lt;=r;i++)        a[i]=b[i];    &#125;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i];	merge_sort(1,n);	for(int i=1;i&lt;=n;i++)	&#123;		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;	&#125;	cout&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 占卜DIY</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%8D%A0%E5%8D%9CDIY/</url>
-    <content><![CDATA[【解题报告】 占卜DIY
-题目：占卜DIY
-解题思路：
-简简单单的模拟加上dfs（简单的dfs）
-但是这个游戏还是挺有意思的，可以看一下
-
-一副去掉大小王的扑克共52张，打乱后均分为13堆，编号1~13，每堆4张，其中第13堆称作“生命牌”，也就是说你有4条命。
-这里边，4张K被称作死神。
-初始状态下，所有的牌背面朝上扣下。
-流程如下：
-1.抽取生命牌中的最上面一张(第一张)。
-2.把这张牌翻开，正面朝上，放到牌上的数字所对应编号的堆的最上边。(例如抽到2，正面朝上放到第2堆牌最上面，又比如抽到J，放到第11堆牌最上边，注意是正面朝上放)
-3.从刚放了牌的那一堆最底下(最后一张)抽取一张牌，重复第2步。（例如你上次抽了2，放到了第二堆顶部，现在抽第二堆最后一张发现是8，又放到第8堆顶部…）
-4.在抽牌过程中如果抽到K，则称死了一条命，就扔掉K再从第1步开始。
-5.当发现四条命都死了以后，统计现在每堆牌上边正面朝上的牌的数目，只要同一数字的牌出现4张正面朝上的牌(比如4个A)，则称“开了一对”，当然4个K是不算的。
-6.统计一共开了多少对，开了0对称作”极凶”，1~2对为“大凶”，3对为“凶”，4~5对为“小凶”，6对为“中庸”，7~8对“小吉”，9对为“吉”，10~11为“大吉”，12为“满堂开花，极吉”。
-
-这个游戏还是比较高级的
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;using namespace std;int po[60][60];int d[60][60];int s[60];void init()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			char p=getchar();			if(p&gt;=&#x27;2&#x27;&amp;&amp;p&lt;=&#x27;9&#x27;)			po[i][j]=p-&#x27;0&#x27;;			if(p==&#x27;0&#x27;)			po[i][j]=10;			if(p==&#x27;J&#x27;)			po[i][j]=11;			if(p==&#x27;Q&#x27;)			po[i][j]=12;			if(p==&#x27;K&#x27;)			po[i][j]=13;			if(p==&#x27;A&#x27;)			po[i][j]=1;			getchar();		&#125;		d[i][5]=5;	&#125;&#125;void dfs(int x)&#123;	if(x==13)	return ;	d[x][++d[x][0]]=x;	int cx=po[x][--d[x][5]];	dfs(cx);&#125;void sum()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			if(d[i][j])			s[d[i][j]]++;		&#125;	&#125;	int ans=0;	for(int i=1;i&lt;=13;i++)	&#123;		if(s[i]==4)		ans++;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	init();	for(int i=1;i&lt;=4;i++)	dfs(po[13][i]);	sum();	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 Task</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Task/</url>
-    <content><![CDATA[【解题报告】 Task
-题目：任务
-解题思路：
-贪心
-我们可以贪心每个任务的等级，再贪心每个任务的时间，我们这样排一下序，再循环一下，就可以得到正确的答案了
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const long long maxn=100010;long long n,m;struct task&#123;	long long x;	long long y;&#125;; task f[maxn];task e[maxn];long long cnt[105],ans,num;long long cmp(task a,task b)&#123;	if(a.x==b.x)	return a.y&gt;b.y;	return a.x&gt;b.x;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	for(long long i=1;i&lt;=n;i++)	cin&gt;&gt;e[i].x&gt;&gt;e[i].y;	for(long long i=1;i&lt;=m;i++)	cin&gt;&gt;f[i].x&gt;&gt;f[i].y;	sort(e+1,e+1+n,cmp);	sort(f+1,f+1+m,cmp);	long long j=1;	for(long long i=1;i&lt;=m;i++)	&#123;		while(j&lt;=n&amp;&amp;e[j].x&gt;=f[i].x)		&#123;			cnt[e[j].y]++;			j++;		&#125;		for(long long k=f[i].y;k&lt;=100;k++)		&#123;			if(cnt[k])			&#123;				num++;				cnt[k]--;				ans+=500*f[i].x+2*f[i].y;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;num&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;	return 0; &#125;
-PS：实在不懂为什么别人的代码要用pair
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 士兵</title>
-    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A3%AB%E5%85%B5/</url>
-    <content><![CDATA[【解题报告】 士兵
-题目：士兵
-解题思路：
-排序+离散化
-我们可以对每个士兵的纵坐标和横坐标进行排序，然后算它们的中位数，就可以得到他们最短的路线，然后就可以对每个士兵和中位数做差，用一个变量记录它们的和，即为答案
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=10005;int n;long long x[maxn],y[maxn],mx,my,ans;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;x[i]&gt;&gt;y[i];	sort(x+1,x+1+n);	sort(y+1,y+1+n);	for(int i=1;i&lt;=n;i++)	x[i]-=i;	sort(x+1,x+1+n);	mx=x[(n+1)&gt;&gt;1];	my=y[(n+1)&gt;&gt;1];	for(int i=1;i&lt;=n;i++)	&#123;		ans+=abs(x[i]-mx);		ans+=abs(y[i]-my);	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 天才ACM</title>
-    <url>/2019/08/09/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A4%A9%E6%89%8DACM/</url>
-    <content><![CDATA[【解题报告】 天才ACM
-题目：天才ACM
-解题思路：
-倍增算法
-设p=1，r=l
-求出r—r+p这一区间的校验值，如果校验值小于等于t，则r+=p，p*=2；
-否则p/=2;
-一直重复，直到p等于0的时候，r就是最终答案
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=500005;long long t,tot;long long n,m,k;long long p[maxn];long long f[maxn];int l,r,mid,j;long long min(long long a,long long b)&#123;	return a&lt;b? a:b;&#125;bool check(int l,int r) &#123;    tot=0;    long long sum=0;    for(int i=l;i&lt;=r;i++) 	f[++tot]=p[i];    sort(f+1,f+1+tot);    for(int i=1;i&lt;=m;i++) 	&#123;        if (i&gt;=(tot-i+1)) 		break;        sum+=(long long)(f[tot-i+1]-f[i])*(f[tot-i+1]-f[i]);        if(sum&gt;k)		break;    &#125;    if(sum&gt;k)	return false;    return true;&#125;bool cmp(int x,int y)&#123;	return p[x]&lt;p[y];&#125;bool calc()&#123;	long long sum=0;	int ll=1,rr=tot;	for(int i=1;i&lt;=m;i++)	&#123;		while(ll&lt;rr&amp;&amp;f[ll]&gt;mid)		ll++;		while(ll&lt;rr&amp;&amp;f[rr]&gt;mid)		rr--;		if(ll&gt;=rr)		break;		sum+=(long long)(p[f[rr]]-p[f[ll]])*(p[f[rr]]-p[f[ll]]);		if(sum&gt;k)		break;		ll++;		rr--;	&#125;	return sum&lt;=k;&#125;void work()&#123;		cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;p[i];		int ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			for(j=1;i+(1&lt;&lt;j)-1&lt;=n;j++)			&#123;				if(!check(i,i+(1&lt;&lt;j)-1))				break;			&#125;			l=i+(1&lt;&lt;(j-1))-1;			r=min(i+(1&lt;&lt;j)-1,n);			tot=0;			for(int k=i;k&lt;=r;k++)			f[++tot]=k;			sort(f+1,f+tot+1,cmp);			while(l&lt;=r)			&#123;				mid=(l+r)/2;				if(calc())				&#123;					i=mid;					l=mid+1;				&#125;				else r=mid-1;			&#125;			ans++;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	cin&gt;&gt;t;	while(t--)	&#123;		work();	&#125;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 小猫爬山</title>
-    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%B0%8F%E7%8C%AB%E7%88%AC%E5%B1%B1/</url>
-    <content><![CDATA[【解题报告】 小猫爬山
-题目：小猫爬山
-解题思路：
-哪家会养这么重又这么多猫，只能说他们两个比较闲的无聊
-当然这道题就像猫一样，特别狡猾
-开始的时候我看到这个，想到了一个贪心做法，但是不管怎么改，答案就是改不对，经过前思后想，左顾右盼，我知道了真正的算法：搜索+剪枝
-恰好就是我不最擅长的算法！
-我就按照思路和书中所给的部分代码打出来了，当我提交上去的时候，一个大大的A字亮在我的眼前，没错
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;int c[20],cab[20],n,w,ans;void dfs(int now,int cnt)&#123;	if(cnt&gt;=ans)	return ;	if(now==n+1)	&#123;		ans=min(ans,cnt);		return ;	&#125;	for(int i=1;i&lt;=cnt;i++)	&#123;		if(cab[i]+c[now]&lt;=w)		&#123;			cab[i]+=c[now];			dfs(now+1,cnt);			cab[i]-=c[now];		&#125;	&#125;	cab[cnt+1]=c[now];	dfs(now+1,cnt+1);	cab[cnt+1]=0;&#125;bool cmp(int a,int b)&#123;	return a&gt;b;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;w;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;c[i];	sort(c+1,c+1+n,cmp);	ans=n;	dfs(1,0);	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 耍杂技的牛</title>
-    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E8%80%8D%E6%9D%82%E6%8A%80%E7%9A%84%E7%89%9B/</url>
-    <content><![CDATA[【解题报告】 耍杂技的牛
-题目：耍杂技的牛
-解题思路：
-排序+贪心
-这个牛啊实际上就是大臣，约翰那就是国王，你有没有想到一道题目，没错，那就是《国王游戏》，但是没错，那道题需要高精度，这道题目不需要高精度，所以这道题目就简单多了，这道题就是按（w+s）把牛牛们从小到大排序一下，然后计算出它们的风险值，找出最大的就可以了，还是比较简单的
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=50010;long long n;long long d[maxn];long long res=-0x3f3f3f3f,sum=0;struct cow&#123;	long long w;	long long s;&#125;a[maxn];bool cmp(cow a,cow b)&#123;	return a.s+a.w&lt;b.s+b.w;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i].w&gt;&gt;a[i].s;	sort(a+1,a+n+1,cmp);    for(int i=1;i&lt;=n;i++)	&#123;        res=max(res,sum-a[i].s);        sum+=a[i].w;    &#125;    cout&lt;&lt;res&lt;&lt;endl;    return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】 防线</title>
-    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E9%98%B2%E7%BA%BF/</url>
-    <content><![CDATA[【解题报告】 防线
-题目：防线
-解题思路：
-虽然说是解题报告，但是也是有一部分曲折在其中的，因为这道题开始的时候实在想不到思路，知道看到了某大佬的题解之后才豁然开朗，明白了这道题目的做法，和神奇的思想
-这道题的思想很简单，就是用前缀和
-你要想，奇数加奇数等于偶数，但是题目中只有一个是奇数的，所以这种情况不成立，那么就只有偶数加奇数或偶数加偶数两种情况
-因此我们就做一个前缀和加上一个神奇而又简单的二分，就可以得出正确而又完美有缺的答案了（有缺我也不知道那里缺）
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=200005;int n,t;struct ar&#123;	long long s;	long long e;	long long d;&#125;a[maxn];long long judge(long long x)&#123;	long long ans=0;	for(int i=1;i&lt;=n;i++)	&#123;		if(a[i].s&lt;=x)		ans+=(min(x,a[i].e)-a[i].s)/a[i].d+1;	&#125;	return ans;&#125;int main()&#123;	cin&gt;&gt;t;	while(t--)	&#123;		cin&gt;&gt;n;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;a[i].s&gt;&gt;a[i].e&gt;&gt;a[i].d;		long long l=0,r=((long long)1&lt;&lt;31)-1;		while(l&lt;r)		&#123;			long long mid=(l+r)/2;			if(!(judge(mid)&amp;1))//如果这个min之前的是偶数 			l=mid+1;			else			r=mid;		&#125;		int ans=judge(r)-judge(r-1);		if(ans)		cout&lt;&lt;l&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;		else		cout&lt;&lt;&quot;There&#x27;s no weakness.&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>【解题报告】luogu P2078朋友</title>
-    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2078%E6%9C%8B%E5%8F%8B/</url>
-    <content><![CDATA[【解题报告】luogu P2078 朋友
-题目：luogu P2078
-题目思路：
-并查集，C++ STL
-有了C++stl容器，我们就high了，map可以处理数组下标为负的情况，然后男女朋友的关系的话，就分别统计每个公司有多少人有关系，取一个最小值就好了
-AC代码
-#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;map&gt; using namespace std;map&lt;int,int&gt;f;int n,m,p,q;int fm,fh;int max(int a,int b)&#123;	return a&lt;b? a:b;&#125; int get(int x)&#123;	return f[x]=(x==f[x]? x:get(f[x]));&#125;void merge(int x,int y)&#123;	f[get(x)]=get(y);&#125;int main()&#123;	int x,y;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p&gt;&gt;q;	for(int i=(-1*m);i&lt;=n;i++)	f[i]=i;	for(int i=1;i&lt;=p+q;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		merge(x,y);	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		if(get(f[i])==get(1))		fm++;	&#125;	for(int i=(-1*m);i&lt;=-1;i++)	&#123;		if(get(f[i])==get(-1))		fh++; 	&#125;	cout&lt;&lt;max(fm,fh)&lt;&lt;endl;	return 0;&#125;
-]]></content>
-      <categories>
-        <category>OI时期解题报告</category>
       </categories>
   </entry>
   <entry>
@@ -1633,6 +1246,391 @@ import numpy as np# 一般约束问题的乘子法def general_multiplier_method(
       </tags>
   </entry>
   <entry>
+    <title>【游记】2025年电子设计竞赛国赛</title>
+    <url>/2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/</url>
+    <content><![CDATA[【游记】2025年电子设计竞赛国赛
+Day0 7.29
+是电子设计竞赛的国赛前一天，经过了一年多的准备终于等到了这一天。不管是什么样的题目都已经做过了，面对电子设计竞赛的国赛也是没有了心理负担，准备进行下去了。早上先是补了补觉，为国赛的熬夜做准备，然后到实验室准备明天的比赛。
+早上先是调了调自己的M0，把之前调过的工程都改了改看了看，确保没有问题之后就和队友一起收拾自己的东西，方便为自己之后的移位置做准备。收拾东西大多是硬件汤进行，软件没有多少收拾的，我就和软件李开始玩文明6。文明6是刚下载没有多久的，因此很多情况下都是我发展缓慢而软件李科技和文化值发展得非常快，让我目不暇接。很快，我们把东西收拾完之后就回寝室了，准备早睡，迎接第二天早上六点的起床，七点半的题目发布。
+Day1 7.30
+起了一个大早，早上很快就拿到了题目，仪器组一共三道题目，分别是以太网线的检测仪、接收机还有电路模型探究装置。那两道题目我们是没有选的。因为以太网线的检测仪是测量题，需要标定等一系列麻烦的事情，对于我们来说并不友好。那么接收机呢？这个涉及射频，我们还没有学会把非常小的信号放大，因此也不选。那么留在我们眼前的只剩下了一道题目，电路模型探究装置。
+这道题目看起来非常简单，于是我们也就选了这道题目。基础部分非常简单，直接用AD9833进行波形的输出，但是因为电压要求，对于输出级还需要一些处理，所以基础部分留给了硬件手去搭建，开始思考软件的问题。对于发挥部分，第一问判断滤波器类型，也是比较简单的，我们使用正弦波进行扫频，然后通过ADC读取通过滤波网络和AD637有效值检波器的电压大小，就可以算出在特定频率下该滤波器对于信号的增益。然后对于低频与高频分别扫频，在题目要求的范围内，我们可以根据两点法判断滤波器的类型，这样发挥部分第一问也解决了。
+现在于我们而言，比较困难的是发挥部分的第二问，我们如何学习模型电路，并且复刻出模型电路呢？我们先是想到了一种方法，因为我们可以对未知电路进行扫频学习，那么我们就可以知道位置电路在各个频点下的幅频响应和相频响应。然后在输出的时候，我们对于输入的信号，就进行FFT操作，分析出其含有的各个频率的分量，根据之前的幅频响应和相频响应进行累加，继而使用DMA+DAC输出波形。这个时候，我们看到了发挥部分后面的输出波形要求。步进为200Hz，这让我们意识到无法使用DMA+DAC进行求解，另外，后面要求输出的波形和未知电路的波形要求同频显示，这让我们更加确信了频率控制字没有那么精准的时候不能选择这个方法。
+那么我们该怎么办呢？我们该使用什么方法才能做到同频显示呢？这个时候我们想而到了使用FPGA的方法，使用FPGA写一个二阶IIR真实滤波器，使用单片机传入参数。
+目标已然确定，开始行动了。李开始写滤波器，汤搭硬件，我去寻找拟合曲线的方法。然而拟合曲线并非很容易，最先想到的是最小二乘法，先去尝试，然而最小二乘法在单片机中运行不动，只能放弃，但是又没有别的方法，我想到了python。但是python并不能在单片机中使用，怎么办，只有天知道。这个时候已经接近第二天的凌晨，我听说了别的组使用树莓派的做法，于是我也去找周老师拿了一块树莓派，进行开始写树莓派。但是我不太会用树莓派，于是我就开始从0开始安装驱动等之类的，然后，也是成功安装好了系统。回去睡觉了。
+Day2 7.31
+第二天也是早早过来，寻找如何解决曲线拟合的问题，我搞了第一天的树莓派，一直搞到晚上七点多才解决所有的驱动，然后开始尝试。然而这个时候李发现了一种可以在单片机中计算出来系数的方法，于是他就开始写，我们将树莓派解决作为备选方案。
+直到凌晨，我们也没有弄出些什么，只知道单片机拟合出来的数据始终不是那么准确，我们不知道为什么，我们陷入了长时间的疑惑，这个时候已经到达了第三天的凌晨。
+Day3 8.1
+小睡了一会儿，我们还是没有解决，我们开始寻找方法，但是没有成功。真的要放弃了吗？后来发现有一部分原因是DE10的时钟虽然设置的是1MHz，但是实际上是1.17Mhz，当我们改过来之后就好了一点，我们感觉非常兴奋。
+Day4 8.2
+何意味，但是没有异味
+]]></content>
+      <categories>
+        <category>游记</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 BZOJ3032 七夕祭</title>
+    <url>/2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-BZOJ3032-%E4%B8%83%E5%A4%95%E7%A5%AD/</url>
+    <content><![CDATA[【解题报告】 BZOJ3032 七夕祭
+题目：七夕祭（翻译过的）
+ps：话说今天是七夕节，我就正好做到七夕祭
+解题思路：
+看到这道题的题目，可以想到《均分纸牌》和我之前做的《货仓选址》两题，这样经过思考，演算和推理，我们可以得出，需要的最少步数是
+∑i=1M∣S[i]−s[k]∣\sum\limits_{i=1}^M\left|S[i]-s[k]\right|
+i=1∑M​∣S[i]−s[k]∣
+其中S是A的前缀和，即
+S[i]=∑j=1iA[j]S[i]=\sum\limits_{j=1}^iA[j]
+S[i]=j=1∑i​A[j]
+所以经过简单地编码，答案就出来了
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=100005;long long a[maxn],b[maxn];long long f[maxn];long long n,m,t;long long x,y;long long calc(long long a[],long long n)&#123;	for(int i=1;i&lt;=n;i++)	&#123;		a[i]-=(a[0]/n);		f[i]=f[i-1]+a[i];	&#125;	sort(f+1,f+n+1);	long long mid=(n+1)&gt;&gt;1,ans=0;	for(int i=1;i&lt;=n;i++)	ans+=abs(f[mid]-f[i]);	return ans;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;t;	for(int i=1;i&lt;=t;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		a[x]++;		b[y]++;	&#125;	for(int i=1;i&lt;=n;i++)	a[0]+=a[i];	for(int i=1;i&lt;=m;i++)	b[0]+=b[i];	long long c=a[0]%n,d=b[0]%m;	if(!c&amp;&amp;!d)	cout&lt;&lt;&quot;both &quot;&lt;&lt;calc(a,n)+calc(b,m);	else if(!c)	cout&lt;&lt;&quot;row &quot;&lt;&lt;calc(a,n);	else if(!d)	cout&lt;&lt;&quot;column &quot;&lt;&lt;calc(b,m);	else	cout&lt;&lt;&quot;impossible&quot;;	cout&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 CF67C Cinema</title>
+    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CF67C-Cinema/</url>
+    <content><![CDATA[【解题报告】 CF67C Cinema
+题目：https://www.acwing.com/problem/content/105/
+解题思路：
+排序+离散化
+m部电影和n个人涉及2×m+n种语言。建立一个数组排序再离散化一下，用1到2×m+1之间的数来算。然后就暴力统计一下，就可以得出答案
+AC代码
+#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstdio&gt;#include &lt;cstring&gt;#include &lt;set&gt;using namespace std;const int maxn=5*10e5;int n,m;int a[maxn];int p[maxn];int w[maxn];int s[maxn];int q[maxn];int k[maxn];int ans1,ans2;int ans=1;void disc(int x)//离散化&#123;	int c;	sort(p+1,p+x+1);	for(int i=1;i&lt;=x;i++)	&#123;		if(i==1||p[i]!=p[i-1])		q[++c]=p[i];	&#125;	q[0]=c;&#125;int query(int x)//离散化的二分查询&#123;	int l=1,r=q[0],mid;	while(l&lt;r)	&#123;		mid=(l+r)&gt;&gt;1;		if(q[mid]&gt;=x)		r=mid;		else		l=mid+1;	&#125;	return l;&#125;int main()&#123;	int c=0;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;a[i];		p[++c]=a[i];	&#125;	cin&gt;&gt;m;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;w[i];		p[++c]=w[i];	&#125;	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;s[i];		p[++c]=s[i];	&#125;	disc(c);	for(int i=1;i&lt;=n;i++)	k[query(a[i])]++;//暴力统计	for(int i=1;i&lt;=m;i++)	&#123;		int x=k[query(w[i])];		int y=k[query(s[i])];		if(x&gt;ans1||(x==ans1&amp;&amp;y&gt;ans2))		&#123;			ans=i;			ans1=x;			ans2=y;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 CH0501 货仓选址</title>
+    <url>/2019/08/07/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CH0501-%E8%B4%A7%E4%BB%93%E9%80%89%E5%9D%80/</url>
+    <content><![CDATA[【解题报告】 CH0501 货仓选址
+题目：货仓选址
+解题思路：
+中位数
+中位数是一种美好的数，在数学中经常使用，这道题建立一个数组，读入数据，然后排序一下，假设货仓建在x处，x左边有p个商家，x右边有q个商家，如果p&lt;q,那么把货仓向右移一个位置，距离之和就变小，类似地，p&gt;q，就把货仓向左移一个位置，所以建在中间的时候距离之和最小
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;cmath&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=100005;int a[maxn],n,ans,pos;int main()&#123;    cin&gt;&gt;n;    for(int i=1;i&lt;=n;i++)    cin&gt;&gt;a[i];    sort(a+1,a+1+n);    int pos=a[n/2+1];    for(int i=1;i&lt;=n;i++)    ans+=abs(a[i]-pos);    cout&lt;&lt;ans&lt;&lt;endl;    return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】[NOI2002]银河英雄传说</title>
+    <url>/2019/08/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOI2002-%E9%93%B6%E6%B2%B3%E8%8B%B1%E9%9B%84%E4%BC%A0%E8%AF%B4/</url>
+    <content><![CDATA[【解题报告】[NOI2002]银河英雄传说
+题目：luogu P1196
+
+题意简述
+处理M个指令，都为两种如下形式的指令之一
+1.M i j 表示让第i好战舰所在列的全部战舰保持原有顺序，接在第j好战舰所在列的尾部。
+2.C i j，表示询问第i号战舰与第j号战舰当前是否处于同一列中，如果在同一列中，它们之间间隔了多少艘战舰。如果不在同一列中，输出-1；
+解题思路
+并查集
+第二个指令我们要知道i，j两号战舰差多少，维护一个数列d即可，d[x]代表x前面的战舰数量,要查询的时候，我们只要知道i，j两号前面各有多少战舰，然后i前面的减去j前面的绝对值减一就可以了。
+而第一个指令就是简单地处理一下size，记录集合大小，也很简单
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;int f[30005];int d[30005];int size[30005];int t;int jdz(int x)&#123;	return x&gt;0? x:(-x);&#125;void init()&#123;	for(int i=1;i&lt;=30000;i++)	&#123;		f[i]=i;		size[i]=1;	&#125;&#125;int get(int x)&#123;	if(x==f[x])	return x;	int root=get(f[x]);	d[x]+=d[f[x]];	return f[x]=root;&#125;void merge(int x,int y)&#123;	x=get(x),y=get(y);	f[x]=y;d[x]=size[y];	size[y]+=size[x];&#125;int main()&#123;	cin&gt;&gt;t;	init();	for(int i=1;i&lt;=t;i++)	&#123;		char s[2];		int x,y;		scanf(&quot;%s&quot;,s);		cin&gt;&gt;x&gt;&gt;y;		if(s[0]==&#x27;M&#x27;)		merge(x,y);		if(s[0]==&#x27;C&#x27;)		&#123;			if(get(x)==get(y))			cout&lt;&lt;jdz(d[x]-d[y])-1&lt;&lt;endl;			else			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;		&#125;	&#125;	return 0;&#125;
+数据情况https://www.luogu.org/record/22153408
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】[HNOI2003]激光炸弹</title>
+    <url>/2019/08/05/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-HNOI2003-%E6%BF%80%E5%85%89%E7%82%B8%E5%BC%B9/</url>
+    <content><![CDATA[【解题报告】 [HNOI2003]激光炸弹
+题目：luogu P2280
+在这样可爱的夜晚，调试题目恐怕是最爽的选择了
+附：https://www.luogu.org/record/list?user=136889
+在这么多次失败下我终于成功了
+解题思路：
+前缀和与拆分
+这是一道简单题，但是我却调试了那么多次没调出来，竟然是循环的问题
+rp–。。
+建立一个二维数组，储存某个区域的目标的数量，然后就使用一个二维前缀和，就可以弄出来了，注意因为时间的原因，在输入的时候也就直接输入了，我那么多次就是因为超时
+AC代码
+#include &lt;iostream&gt;using namespace std;const int maxn=5005;int r,n;int s[maxn][maxn];int ans;int x,y,w;int max(int a,int b)&#123;	return a&gt;b? a:b;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;r;	for(int i=1;i&lt;=n;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y&gt;&gt;w; 		s[x+1][y+1]=w;	&#125;	for(int i=1;i&lt;=5001;i++)	&#123;		for(int j=1;j&lt;=5001;j++)		s[i][j]+=s[i-1][j]+s[i][j-1]-s[i-1][j-1];	&#125;	for(int i=0;i&lt;=5001-r;i++)	&#123;		for(int j=0;j&lt;=5001-r;j++)		ans=max(ans,s[i][j]-s[i+r][j]-s[i][j+r]+s[i+r][j+r]); 	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 [NOIP2012] 国王游戏</title>
+    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-NOIP2012-%E5%9B%BD%E7%8E%8B%E6%B8%B8%E6%88%8F/</url>
+    <content><![CDATA[【解题报告】 [NOIP2012]国王游戏
+题目：国王游戏
+解题思路：
+贪心
+我们只需要将所有大臣左右手上的数的乘积从小到大进行排序，我们就得到了最优答案，但是这个代码要写高精度就是一个麻烦的东西，要好好写，话说近几年不出高精度的题目了，就怕今年要出。
+AC代码
+#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#include &lt;cstdio&gt;using namespace std;const int maxn=10005;int n;struct mini&#123;	int a;	int b;&#125;m[maxn];bool cmp(mini x,mini y)&#123;	return x.a*x.b&lt;y.a*y.b;&#125;int s[4005],len;int ans[4005],ans_l(0); void mul(int x)&#123;	int t(len);	for(int i=1;i&lt;=len;++i)	s[i]*=x;	for(int i=1;i&lt;=len+5;++i)	&#123;		if(s[i])		t=i;		s[i+1]+=s[i]/10;		s[i]%=10;	&#125;	len=t;&#125;void cpy(int c[],int c_l)&#123;	for(int i=1;i&lt;=c_l;++i)	ans[i]=c[i];	ans_l=c_l;&#125;void out(int s[],int l)&#123;	for(int i=l;i&gt;=1;--i)	cout&lt;&lt;s[i];	cout&lt;&lt;endl; &#125;void div(int x)&#123;	int c[4005],l(-1);	for(int i=1;i&lt;=len;++i)	c[i]=s[i];	for(int i=len;i&gt;=1;--i)	&#123;		c[i-1]+=(c[i]%x)*10;		c[i]/=x;		if(c[i]&amp;&amp;l==-1)		l=i;	&#125;	if(ans_l==l)	&#123;		bool flg(0);		for(int i=l;i&gt;=1;--i)		&#123;			if(ans[i]&lt;c[i])			&#123;				flg=1;				break;			&#125;			else break;		&#125;		if(flg)		cpy(c,l);	&#125;	if(ans_l&lt;l)	cpy(c,l);&#125;int main()&#123;	cin&gt;&gt;n;	cin&gt;&gt;m[0].a&gt;&gt;m[0].b;	for(int i=1;i&lt;=n;++i)	cin&gt;&gt;m[i].a&gt;&gt;m[i].b;	sort(m+1,m+1+n,cmp);	s[1]=1;len=1;	mul(m[0].a);	for(int i=1;i&lt;=n;++i)	div(m[i].b),mul(m[i].a);	out(ans,ans_l);	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ1050 To the Max</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ1050-To-the-Max/</url>
+    <content><![CDATA[【解题报告】 POJ1050 To the Max
+题目：最大的和（已翻译）
+题意简述：
+就是一个矩阵中找一个和最大的子矩阵
+解题思路：
+贪心，我们可以首先在输入的时候贪一遍心，然后我们可以一行一行地贪心，最终得到最后的正确结果
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=105;int n;int a[maxn][maxn],s[maxn][maxn];int ans=-0x3f,nans;bool check=false;int max(int a,int b)&#123;	return a&gt;b? a:b;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	&#123;		for(int j=1;j&lt;=n;j++)		&#123;			cin&gt;&gt;a[i][j];			if(a[i][j]&gt;=0)			check=true;			ans=max(ans,a[i][j]);		&#125;	&#125;	if(!check)	&#123;		cout&lt;&lt;ans&lt;&lt;endl;		return 0;	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		for(int j=1;j&lt;=n;j++)		s[i][j]=s[i-1][j]+a[i][j];	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		for(int j=i;j&lt;=n;j++)		&#123;			nans=0;			for(int k=1;k&lt;=n;k++)			&#123;				nans+=s[j][k]-s[i-1][k];				if(nans&lt;0)				nans=0;				if(nans&gt;ans)				ans=nans;			&#125;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ1328 雷达设备</title>
+    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ1328-%E9%9B%B7%E8%BE%BE%E8%AE%BE%E5%A4%87/</url>
+    <content><![CDATA[【解题报告】 POJ1328 雷达设备
+题目：雷达设备（已翻译）
+解题思路：
+贪心。
+这道题只需要将x轴上方的一些建筑物，利用勾股定理算出x轴上一段能管辖它的区间，所以问题就变成了给定n个区间，在x轴上放置最少的点，使每个区间至少包含一个点，但是，特别地，如果建筑物的纵坐标超出了每个雷达管辖的半径，就直接不会继续下去了，因为不管怎么样，那个建筑物都无法被管辖，所以我们只需要每个建筑物算出来的区间的右端点进行排序，然后设置一个数组vis，来记录每个建筑物是否被管辖到，然后就ok了
+AC代码
+#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=1005;int n,d;int ans;bool vis[maxn];struct sec&#123;	double l;	double r;&#125;b[maxn];bool cmp(sec p,sec q)&#123;	return p.r&lt;q.r;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;d;	for(int i=1;i&lt;=n;i++)	&#123;		int x,y;		cin&gt;&gt;x&gt;&gt;y;		y=abs(y);		if(y&gt;d)		&#123;			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;			return 0;		&#125;		b[i].l=x-sqrt(d*d-y*y);		b[i].r=x+sqrt(d*d-y*y);		vis[i]=false;	&#125;	sort(b+1,b+1+n,cmp);	for(int i=1;i&lt;=n;i++)	&#123;		if(!vis[i])		&#123;			ans++;			vis[i]=true;			for(int j=i+1;j&lt;=n;j++)			&#123;				if(b[j].l&lt;b[i].r)				vis[j]=true;			&#125;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ1958 奇怪的汉诺塔</title>
+    <url>/2019/07/28/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ1958-%E5%A5%87%E6%80%AA%E7%9A%84%E6%B1%89%E8%AF%BA%E5%A1%94/</url>
+    <content><![CDATA[【解题报告】 POJ1958 奇怪的汉诺塔
+
+在这样热浪滚滚的暑假，外面晴空高照，在家里刷刷题不妨是最好的选择
+——来自wweiyi语录
+
+题目链接（翻译过的）：
+https://www.acwing.com/problem/content/98/
+题意简述：输出四个塔的汉诺塔分别从1个盘子到12个盘子的最少步数
+
+我们看了题之后，可以知道这道题跟三个塔的汉诺塔一样，用递归，但是我们设先移走i个盘子到第二个塔或第三个塔，然后就转化成三个塔的问题了。
+但是问题在于不知道i等于多少，而且直接输出12个值要用递归也会有些慢，所以我们做一下优化，记忆化一下，我们就可以很快的输出了
+设三个塔n个盘子的步数为d[n],设四个塔n个盘子的步数为f[n]
+动态转移方程如下
+fn=min(fn,2fi+dn−i)f_n=min(f_n,2f_i+d_{n-i})
+fn​=min(fn​,2fi​+dn−i​)
+其中
+1≤n,i≤121\leq n,i \leq 12
+1≤n,i≤12
+所以我们就解决了这道题目
+代码如下
+#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int d[15];int f[15];int min(int a,int b)//最小值函数&#123;	return a&lt;b? a:b;&#125;int main()&#123;	d[1]=1;//汉诺三塔边界	for(int i=2;i&lt;=12;i++)//计算汉诺三塔的数值	d[i]=2*d[i-1]+1;	memset(f,0x3f,sizeof f);//因为要求最小值，所以初始一个极大值	f[1]=1;//汉诺四塔边界	for(int i=2;i&lt;=12;i++)//动态规划	&#123;		for(int j=1;j&lt;i;j++)		&#123;			f[i]=min(f[i],2*f[j]+d[i-j]);//状态转移方程		&#125;	&#125;	for(int i=1;i&lt;=12;i++)	cout&lt;&lt;f[i]&lt;&lt;endl;//输出	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ2299 超快速排序</title>
+    <url>/2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2299-%E8%B6%85%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[【解题报告】POJ2299 超快速排序
+题目：超快速排序（已翻译）
+解题思路：
+归并排序求逆序对
+归并排序使我们众所周知的，我们只要在归并排序中计算每一个子序列中的逆序对数，我们就可以计算出总的逆序对数了，也就是
+cnt+=mid−i+1cnt+=mid-i+1
+cnt+=mid−i+1
+然后就完成了这道题
+AC代码
+#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int n;long long cnt;const int maxn=500005;long long a[maxn];long long b[maxn];void merge_sort(int l,int r)&#123;    if(r&gt;l)    &#123;        int mid=(l+r)/2;        int i=l;         int p=l,q=mid+1;        merge_sort(l,mid);        merge_sort(mid+1,r);        while(p&lt;=mid||q&lt;=r)        &#123;            if(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))            b[i++] = a[p++];            else            &#123;                b[i++]=a[q++];                cnt+=mid-p+1;            &#125;        &#125;        for(i=l;i&lt;=r;i++)        a[i]=b[i];    &#125;&#125;int main()&#123;	while(cin&gt;&gt;n&amp;&amp;n)	&#123;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;a[i];		cnt=0;		merge_sort(1,n);		cout&lt;&lt;cnt&lt;&lt;endl;	&#125;	return 0;&#125;
+顺便附上归并排序的代码
+#include &lt;iostream&gt;using namespace std;int n,cnt;const int maxn=100005;long long a[maxn];long long b[maxn];void merge_sort(int l,int r)&#123;    if(r&gt;l)    &#123;        int mid=(l+r)/2;        int i=l;         int p=l,q=mid+1;        merge_sort(l,mid);        merge_sort(mid+1,r);        while(p&lt;=mid||q&lt;=r)        &#123;            if(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))            b[i++] = a[p++];            else            &#123;                b[i++]=a[q++];                cnt+=mid-p+1;            &#125;        &#125;        for(i=l;i&lt;=r;i++)        a[i]=b[i];    &#125;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i];	merge_sort(1,n);	for(int i=1;i&lt;=n;i++)	&#123;		cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;	&#125;	cout&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ3614 防晒</title>
+    <url>/2019/08/09/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ3614-%E9%98%B2%E6%99%92/</url>
+    <content><![CDATA[【解题报告】 POJ3614 防晒
+题目：防晒（已翻译）
+解题思路：
+模拟+贪心；
+我们这道题是一道好的贪心的例题，我们只要对于每一头奶牛按照它们的minspf进行递减排序，然后在对于每一种防晒霜进行一次扫描，找出符合条件的spf值最大的防晒霜
+但是会想到一点，我们需要将每一头奶牛的minspf和maxspf进行一一对应，所以我们可以使用结构体，然后自己在写一个比较函数，就可以让这两个数值一一对应，这样就方便多了
+AC代码
+#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=2505;int c,l,ans;struct cow&#123;	int minspf;	int maxspf;&#125;a[maxn];struct sc&#123;	int spf;	int cover;&#125;b[maxn];int cmp(sc a,sc b)&#123;    if(a.spf==b.spf)    return a.cover&gt;b.cover;    return a.spf&gt;b.spf;&#125;int cmp2(cow a,cow b)&#123;    if(a.minspf==b.minspf)    return a.maxspf&gt;b.maxspf;    return a.minspf&gt;b.minspf;&#125;int main()&#123;	cin&gt;&gt;c&gt;&gt;l;	for(int i=1;i&lt;=c;i++)	cin&gt;&gt;a[i].minspf&gt;&gt;a[i].maxspf;	sort(a+1,a+1+c,cmp2);	for(int i=1;i&lt;=l;i++)	cin&gt;&gt;b[i].spf&gt;&gt;b[i].cover;	sort(b+1,b+1+l,cmp);	for(int i=1;i&lt;=c;i++)	&#123;		for(int j=1;j&lt;=l;j++)		&#123;			if(b[j].spf&gt;=a[i].minspf&amp;&amp;b[j].spf&lt;=a[i].maxspf&amp;&amp;b[j].cover)			&#123;				ans++;				b[j].cover--;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 POJ2054 给树染色</title>
+    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ2054-%E7%BB%99%E6%A0%91%E6%9F%93%E8%89%B2/</url>
+    <content><![CDATA[【解题报告】 POJ2054 给树染色
+题目：Color a tree(已翻译)
+解题思路：
+贪心
+我们很容易想到从第一层开始，每次染权值最大的一个节点，但是我们可以构造出一个数，让一个权值很小的点下面有权值很大的节点，所以我们考虑的贪心思路是树中除了根节点外的权值最大的节点，它的父节点染色之后一定会被马上染色，所以我们可以将权值最大的点和它的父节点进行合并，合并得到的新点的权值是这两个点之和的平均值，这样就一直合并，直至合并到一个点的时候，我们就按照这个点合并的顺序染色就是正确的答案了。
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;using namespace std;long long r,n;long long i,j,now,ans,a,b,father;struct node&#123;	long long f,c,t;	double w;&#125;num[1010];long long find()&#123;	long long ans=0;	double maxn=0;	for(int i=1;i&lt;=n;i++)	&#123;		if(i!=r&amp;&amp;num[i].w&gt;maxn)		&#123;			maxn=num[i].w;			ans=i;		&#125;	 &#125; 	 return ans;&#125;int main()&#123;	while(cin&gt;&gt;n&gt;&gt;r&amp;&amp;(n||r))	&#123;		ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			cin&gt;&gt;num[i].c;			num[i].w=num[i].c;			num[i].t=1;			ans+=num[i].c;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			cin&gt;&gt;a&gt;&gt;b;			num[b].f=a;		&#125;		for(int i=1;i&lt;=n-1;i++)		&#123;			now=find();			num[now].w=0;			father=num[now].f;			ans+=num[now].c*num[father].t;			for(int j=1;j&lt;=n;j++)			&#123;				if(num[j].f==now)				num[j].f=father;			&#125;			num[father].c+=num[now].c;			num[father].t+=num[now].t;			num[father].w=(double)(num[father].c)/num[father].t;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;	&#125;	return 0;&#125;
+PS:LYD的代码有毒，在洛谷上过得了，但是在AcWing上过不了，所以我进行了摸爬滚打，终于找到了正确的答案，哈哈哈，我太开心了
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 Stick</title>
+    <url>/2019/08/25/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Stick/</url>
+    <content><![CDATA[【解题报告】 Stick
+题目：木棍
+解题思路：
+深度优先搜索
+我们可以用深度优先搜索简单地做出来，没错，是很简单
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;using namespace std;int a[100],v[100],n,len,cnt;bool cmp(int a,int b)&#123;	return a&gt;b;&#125;bool dfs(int stick,int cab,int last)&#123;	if(stick&gt;cnt)	return true;	if(cab==len)	return dfs(stick+1,0,1);	int fail=0;	for(int i=last;i&lt;=n;i++)	&#123;		if(!v[i]&amp;&amp;cab+a[i]&lt;=len&amp;&amp;fail!=a[i])		&#123;			v[i]=1;			if(dfs(stick,cab+a[i],i+1))			return true;			fail=a[i];			v[i]=0; 			if(cab==0||cab+a[i]==len)			return false;		&#125;	&#125;	return false;&#125;int main()&#123;	while(cin&gt;&gt;n&amp;&amp;n)	&#123;		int sum=0,val=0,m=0;		for(int i=1;i&lt;=n;i++)		&#123;			int x;			cin&gt;&gt;x;			if(x&lt;=50)			&#123;				a[++m]=x;				sum+=a[m];				val=max(val,a[m]);			&#125;		&#125;		n=m;		sort(a+1,a+1+n,cmp);		for(len=val;len&lt;=sum;len++)		&#123;			if(sum%len)			continue;			cnt=sum/len;			memset(v,0,sizeof(v));			if(dfs(1,0,1))			break;		&#125;		cout&lt;&lt;len&lt;&lt;endl;	&#125;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 占卜DIY</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%8D%A0%E5%8D%9CDIY/</url>
+    <content><![CDATA[【解题报告】 占卜DIY
+题目：占卜DIY
+解题思路：
+简简单单的模拟加上dfs（简单的dfs）
+但是这个游戏还是挺有意思的，可以看一下
+
+一副去掉大小王的扑克共52张，打乱后均分为13堆，编号1~13，每堆4张，其中第13堆称作“生命牌”，也就是说你有4条命。
+这里边，4张K被称作死神。
+初始状态下，所有的牌背面朝上扣下。
+流程如下：
+1.抽取生命牌中的最上面一张(第一张)。
+2.把这张牌翻开，正面朝上，放到牌上的数字所对应编号的堆的最上边。(例如抽到2，正面朝上放到第2堆牌最上面，又比如抽到J，放到第11堆牌最上边，注意是正面朝上放)
+3.从刚放了牌的那一堆最底下(最后一张)抽取一张牌，重复第2步。（例如你上次抽了2，放到了第二堆顶部，现在抽第二堆最后一张发现是8，又放到第8堆顶部…）
+4.在抽牌过程中如果抽到K，则称死了一条命，就扔掉K再从第1步开始。
+5.当发现四条命都死了以后，统计现在每堆牌上边正面朝上的牌的数目，只要同一数字的牌出现4张正面朝上的牌(比如4个A)，则称“开了一对”，当然4个K是不算的。
+6.统计一共开了多少对，开了0对称作”极凶”，1~2对为“大凶”，3对为“凶”，4~5对为“小凶”，6对为“中庸”，7~8对“小吉”，9对为“吉”，10~11为“大吉”，12为“满堂开花，极吉”。
+
+这个游戏还是比较高级的
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;using namespace std;int po[60][60];int d[60][60];int s[60];void init()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			char p=getchar();			if(p&gt;=&#x27;2&#x27;&amp;&amp;p&lt;=&#x27;9&#x27;)			po[i][j]=p-&#x27;0&#x27;;			if(p==&#x27;0&#x27;)			po[i][j]=10;			if(p==&#x27;J&#x27;)			po[i][j]=11;			if(p==&#x27;Q&#x27;)			po[i][j]=12;			if(p==&#x27;K&#x27;)			po[i][j]=13;			if(p==&#x27;A&#x27;)			po[i][j]=1;			getchar();		&#125;		d[i][5]=5;	&#125;&#125;void dfs(int x)&#123;	if(x==13)	return ;	d[x][++d[x][0]]=x;	int cx=po[x][--d[x][5]];	dfs(cx);&#125;void sum()&#123;	for(int i=1;i&lt;=13;i++)	&#123;		for(int j=1;j&lt;=4;j++)		&#123;			if(d[i][j])			s[d[i][j]]++;		&#125;	&#125;	int ans=0;	for(int i=1;i&lt;=13;i++)	&#123;		if(s[i]==4)		ans++;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	init();	for(int i=1;i&lt;=4;i++)	dfs(po[13][i]);	sum();	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 士兵</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A3%AB%E5%85%B5/</url>
+    <content><![CDATA[【解题报告】 士兵
+题目：士兵
+解题思路：
+排序+离散化
+我们可以对每个士兵的纵坐标和横坐标进行排序，然后算它们的中位数，就可以得到他们最短的路线，然后就可以对每个士兵和中位数做差，用一个变量记录它们的和，即为答案
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=10005;int n;long long x[maxn],y[maxn],mx,my,ans;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;x[i]&gt;&gt;y[i];	sort(x+1,x+1+n);	sort(y+1,y+1+n);	for(int i=1;i&lt;=n;i++)	x[i]-=i;	sort(x+1,x+1+n);	mx=x[(n+1)&gt;&gt;1];	my=y[(n+1)&gt;&gt;1];	for(int i=1;i&lt;=n;i++)	&#123;		ans+=abs(x[i]-mx);		ans+=abs(y[i]-my);	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 小猫爬山</title>
+    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%B0%8F%E7%8C%AB%E7%88%AC%E5%B1%B1/</url>
+    <content><![CDATA[【解题报告】 小猫爬山
+题目：小猫爬山
+解题思路：
+哪家会养这么重又这么多猫，只能说他们两个比较闲的无聊
+当然这道题就像猫一样，特别狡猾
+开始的时候我看到这个，想到了一个贪心做法，但是不管怎么改，答案就是改不对，经过前思后想，左顾右盼，我知道了真正的算法：搜索+剪枝
+恰好就是我不最擅长的算法！
+我就按照思路和书中所给的部分代码打出来了，当我提交上去的时候，一个大大的A字亮在我的眼前，没错
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;int c[20],cab[20],n,w,ans;void dfs(int now,int cnt)&#123;	if(cnt&gt;=ans)	return ;	if(now==n+1)	&#123;		ans=min(ans,cnt);		return ;	&#125;	for(int i=1;i&lt;=cnt;i++)	&#123;		if(cab[i]+c[now]&lt;=w)		&#123;			cab[i]+=c[now];			dfs(now+1,cnt);			cab[i]-=c[now];		&#125;	&#125;	cab[cnt+1]=c[now];	dfs(now+1,cnt+1);	cab[cnt+1]=0;&#125;bool cmp(int a,int b)&#123;	return a&gt;b;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;w;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;c[i];	sort(c+1,c+1+n,cmp);	ans=n;	dfs(1,0);	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 天才ACM</title>
+    <url>/2019/08/09/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%A4%A9%E6%89%8DACM/</url>
+    <content><![CDATA[【解题报告】 天才ACM
+题目：天才ACM
+解题思路：
+倍增算法
+设p=1，r=l
+求出r—r+p这一区间的校验值，如果校验值小于等于t，则r+=p，p*=2；
+否则p/=2;
+一直重复，直到p等于0的时候，r就是最终答案
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=500005;long long t,tot;long long n,m,k;long long p[maxn];long long f[maxn];int l,r,mid,j;long long min(long long a,long long b)&#123;	return a&lt;b? a:b;&#125;bool check(int l,int r) &#123;    tot=0;    long long sum=0;    for(int i=l;i&lt;=r;i++) 	f[++tot]=p[i];    sort(f+1,f+1+tot);    for(int i=1;i&lt;=m;i++) 	&#123;        if (i&gt;=(tot-i+1)) 		break;        sum+=(long long)(f[tot-i+1]-f[i])*(f[tot-i+1]-f[i]);        if(sum&gt;k)		break;    &#125;    if(sum&gt;k)	return false;    return true;&#125;bool cmp(int x,int y)&#123;	return p[x]&lt;p[y];&#125;bool calc()&#123;	long long sum=0;	int ll=1,rr=tot;	for(int i=1;i&lt;=m;i++)	&#123;		while(ll&lt;rr&amp;&amp;f[ll]&gt;mid)		ll++;		while(ll&lt;rr&amp;&amp;f[rr]&gt;mid)		rr--;		if(ll&gt;=rr)		break;		sum+=(long long)(p[f[rr]]-p[f[ll]])*(p[f[rr]]-p[f[ll]]);		if(sum&gt;k)		break;		ll++;		rr--;	&#125;	return sum&lt;=k;&#125;void work()&#123;		cin&gt;&gt;n&gt;&gt;m&gt;&gt;k;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;p[i];		int ans=0;		for(int i=1;i&lt;=n;i++)		&#123;			for(j=1;i+(1&lt;&lt;j)-1&lt;=n;j++)			&#123;				if(!check(i,i+(1&lt;&lt;j)-1))				break;			&#125;			l=i+(1&lt;&lt;(j-1))-1;			r=min(i+(1&lt;&lt;j)-1,n);			tot=0;			for(int k=i;k&lt;=r;k++)			f[++tot]=k;			sort(f+1,f+tot+1,cmp);			while(l&lt;=r)			&#123;				mid=(l+r)/2;				if(calc())				&#123;					i=mid;					l=mid+1;				&#125;				else r=mid-1;			&#125;			ans++;		&#125;		cout&lt;&lt;ans&lt;&lt;endl;&#125;int main()&#123;	cin&gt;&gt;t;	while(t--)	&#123;		work();	&#125;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 耍杂技的牛</title>
+    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E8%80%8D%E6%9D%82%E6%8A%80%E7%9A%84%E7%89%9B/</url>
+    <content><![CDATA[【解题报告】 耍杂技的牛
+题目：耍杂技的牛
+解题思路：
+排序+贪心
+这个牛啊实际上就是大臣，约翰那就是国王，你有没有想到一道题目，没错，那就是《国王游戏》，但是没错，那道题需要高精度，这道题目不需要高精度，所以这道题目就简单多了，这道题就是按（w+s）把牛牛们从小到大排序一下，然后计算出它们的风险值，找出最大的就可以了，还是比较简单的
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=50010;long long n;long long d[maxn];long long res=-0x3f3f3f3f,sum=0;struct cow&#123;	long long w;	long long s;&#125;a[maxn];bool cmp(cow a,cow b)&#123;	return a.s+a.w&lt;b.s+b.w;&#125;int main()&#123;	cin&gt;&gt;n;	for(int i=1;i&lt;=n;i++)	cin&gt;&gt;a[i].w&gt;&gt;a[i].s;	sort(a+1,a+n+1,cmp);    for(int i=1;i&lt;=n;i++)	&#123;        res=max(res,sum-a[i].s);        sum+=a[i].w;    &#125;    cout&lt;&lt;res&lt;&lt;endl;    return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】 Task</title>
+    <url>/2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-Task/</url>
+    <content><![CDATA[【解题报告】 Task
+题目：任务
+解题思路：
+贪心
+我们可以贪心每个任务的等级，再贪心每个任务的时间，我们这样排一下序，再循环一下，就可以得到正确的答案了
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const long long maxn=100010;long long n,m;struct task&#123;	long long x;	long long y;&#125;; task f[maxn];task e[maxn];long long cnt[105],ans,num;long long cmp(task a,task b)&#123;	if(a.x==b.x)	return a.y&gt;b.y;	return a.x&gt;b.x;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	for(long long i=1;i&lt;=n;i++)	cin&gt;&gt;e[i].x&gt;&gt;e[i].y;	for(long long i=1;i&lt;=m;i++)	cin&gt;&gt;f[i].x&gt;&gt;f[i].y;	sort(e+1,e+1+n,cmp);	sort(f+1,f+1+m,cmp);	long long j=1;	for(long long i=1;i&lt;=m;i++)	&#123;		while(j&lt;=n&amp;&amp;e[j].x&gt;=f[i].x)		&#123;			cnt[e[j].y]++;			j++;		&#125;		for(long long k=f[i].y;k&lt;=100;k++)		&#123;			if(cnt[k])			&#123;				num++;				cnt[k]--;				ans+=500*f[i].x+2*f[i].y;				break;			&#125;		&#125;	&#125;	cout&lt;&lt;num&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;	return 0; &#125;
+PS：实在不懂为什么别人的代码要用pair
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【解题报告】luogu P2078朋友</title>
+    <url>/2019/08/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2078%E6%9C%8B%E5%8F%8B/</url>
+    <content><![CDATA[【解题报告】luogu P2078 朋友
+题目：luogu P2078
+题目思路：
+并查集，C++ STL
+有了C++stl容器，我们就high了，map可以处理数组下标为负的情况，然后男女朋友的关系的话，就分别统计每个公司有多少人有关系，取一个最小值就好了
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;map&gt; using namespace std;map&lt;int,int&gt;f;int n,m,p,q;int fm,fh;int max(int a,int b)&#123;	return a&lt;b? a:b;&#125; int get(int x)&#123;	return f[x]=(x==f[x]? x:get(f[x]));&#125;void merge(int x,int y)&#123;	f[get(x)]=get(y);&#125;int main()&#123;	int x,y;	cin&gt;&gt;n&gt;&gt;m&gt;&gt;p&gt;&gt;q;	for(int i=(-1*m);i&lt;=n;i++)	f[i]=i;	for(int i=1;i&lt;=p+q;i++)	&#123;		cin&gt;&gt;x&gt;&gt;y;		merge(x,y);	&#125;	for(int i=1;i&lt;=n;i++)	&#123;		if(get(f[i])==get(1))		fm++;	&#125;	for(int i=(-1*m);i&lt;=-1;i++)	&#123;		if(get(f[i])==get(-1))		fh++; 	&#125;	cout&lt;&lt;max(fm,fh)&lt;&lt;endl;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
     <title>【阅读笔记】败北女主太多了！</title>
     <url>/2026/01/27/%E3%80%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%91%E8%B4%A5%E5%8C%97%E5%A5%B3%E4%B8%BB%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81/</url>
     <content><![CDATA[败北女主太多了！
@@ -1660,12 +1658,137 @@ SSS 短篇集
       </tags>
   </entry>
   <entry>
+    <title>【解题报告】 防线</title>
+    <url>/2019/08/23/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E9%98%B2%E7%BA%BF/</url>
+    <content><![CDATA[【解题报告】 防线
+题目：防线
+解题思路：
+虽然说是解题报告，但是也是有一部分曲折在其中的，因为这道题开始的时候实在想不到思路，知道看到了某大佬的题解之后才豁然开朗，明白了这道题目的做法，和神奇的思想
+这道题的思想很简单，就是用前缀和
+你要想，奇数加奇数等于偶数，但是题目中只有一个是奇数的，所以这种情况不成立，那么就只有偶数加奇数或偶数加偶数两种情况
+因此我们就做一个前缀和加上一个神奇而又简单的二分，就可以得出正确而又完美有缺的答案了（有缺我也不知道那里缺）
+AC代码
+#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;using namespace std;const int maxn=200005;int n,t;struct ar&#123;	long long s;	long long e;	long long d;&#125;a[maxn];long long judge(long long x)&#123;	long long ans=0;	for(int i=1;i&lt;=n;i++)	&#123;		if(a[i].s&lt;=x)		ans+=(min(x,a[i].e)-a[i].s)/a[i].d+1;	&#125;	return ans;&#125;int main()&#123;	cin&gt;&gt;t;	while(t--)	&#123;		cin&gt;&gt;n;		for(int i=1;i&lt;=n;i++)		cin&gt;&gt;a[i].s&gt;&gt;a[i].e&gt;&gt;a[i].d;		long long l=0,r=((long long)1&lt;&lt;31)-1;		while(l&lt;r)		&#123;			long long mid=(l+r)/2;			if(!(judge(mid)&amp;1))//如果这个min之前的是偶数 			l=mid+1;			else			r=mid;		&#125;		int ans=judge(r)-judge(r-1);		if(ans)		cout&lt;&lt;l&lt;&lt;&quot; &quot;&lt;&lt;ans&lt;&lt;endl;		else		cout&lt;&lt;&quot;There&#x27;s no weakness.&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
+]]></content>
+      <categories>
+        <category>OI时期解题报告</category>
+      </categories>
+  </entry>
+  <entry>
     <title>为美好的世界献上祝福</title>
     <url>/2025/07/10/%E4%B8%BA%E7%BE%8E%E5%A5%BD%E7%9A%84%E4%B8%96%E7%95%8C%E7%8C%AE%E4%B8%8A%E7%A5%9D%E7%A6%8F/</url>
     <content><![CDATA[为美好的世界献上祝福
 ]]></content>
       <categories>
         <category>漫评</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>【回忆录】到信息学一游</title>
+    <url>/2025/07/09/%E5%88%B0%E4%BF%A1%E6%81%AF%E5%AD%A6%E4%B8%80%E6%B8%B8/</url>
+    <content><![CDATA[【回忆录】到信息学一游
+序章 夜来幽梦忽还乡
+现在是2025年7月份的一个晚上，是大二的暑假，大学生活已然过半，我终于通过一个自己参照教程的方式配置好了属于自己的博客，兴致满满。在添加友情链接的时候，我想起了我在初三的时候就已经了解到的学长 DewDewDew 和 wjyyywjyyywjyyy ，于是找到他们的博客。在他们的博客中，其中置顶的就是他们的回忆录，也就是参加信息学竞赛的整个高中的心路历程，让我不由自主想起了自己的信息学竞赛的生活，有感而发，于是我也准备写一个自己的回忆录。如果说沙子写字，风轻轻一吹就能吹散，纸上面写字，稍微的烈火焚烧就能让踪迹悄然而逝，也许，写在网上，这份记忆才不会消失，成为一种永生的纪念（大概是有区块链？）。
+那时的生活，说累也累，说苦也苦，但是不知为什么，我总是不由自主回忆起高中、初中的生活，回忆起那段信息学竞赛的日子，这大概是我人生中最特殊的经历之一。我不知道它对我的生活产生了多少的影响，然而它的确是不可缺少的。
+第一章 阿克琉斯的脚跟
+我并不类似于 DewDewDew 和 wjyyywjyyywjyyy 学长一样，是从高中开始学的信息学竞赛，我开始学信息学竞赛是在初一的时候。那个时候的我刚从小学升上来，小学执行的是素质教育，因此每周都会有社团活动时间，我对计算机有兴趣，便参加了计算机相关社团，学习了许多计算机的基础知识，比如word、ppt、Excel、VB以及Scratch的使用，算是对编程有了初步的了解。其实我一开始并不打算学习信息学竞赛，而是想学VB，做着自己喜欢的程序，做出一些好玩的东西，用来取悦自己。然而，当时的电脑并不支持我去这么做。想要安装VB完整版本的我在10年代的电脑上根本没有什么操作空间，只有一步一卡的漫长等待。而六年级的暑假我又是在没有网络的老家度过，感受这淳朴的乡土情怀，只能玩着MC度日。比较有意思的是，在没有网络的日子里，我靠着局域网联机，竟然在游戏中搭建出一个不小的天地，后来我又通过命令方块建造了一个可以自由传送的城镇，也许编程的思想来自于那里。后来升上了初中，开始了第一次摸底测试，在全校学生中拿到了前五十名，于是乎不知道为何发了6000元作为奖励，至此，我的信息学奥赛之路似乎被开启了。
+当时的电脑不行，我的家长于是就用这6000元给我买了一台台式机，这台台式机在现在看来配置不可谓不低，而且现在已经用起来很卡顿，但是对于当时的我来说，已经是一台非常流畅的机器了。拿到电脑了之后，我安装了VB完整版本，准备左手参考书，右手鼠标，两只手一起打键盘的时候，家长拿着两本厚厚的书出现了。
+这两本书就是至今也脍炙人口的《信息学奥赛一本通》和《信息学奥赛一本通习题》，相信大多数自己入门，或者弱校起步的同学，竞赛启航的第一站便是这里。两本书放在了我的桌面上，家长跟我说，编程不仅仅可以使用VB编程，也可以使用C++对程序进行编写，相对于VB，C++在应用面上更广。而且，现在有信息学奥赛，省一就能获得不小的高考优惠，因此学这个竞赛也许是有好处的。小小的我有着大大的梦，像所有小朋友一样，年少时候的梦想很多都是当科学家，而当上首屈一指的科学家，就必须要考上清华大学、北京大学这两所中国的TOP2，小学时候成绩还算优异的我理所当然也有着这样的梦想。
+因为初中是一所寄宿学校，在学校并没有机会接触电脑，所以追求的只有那文化课的好成绩，每到周末的时候，我一回家就会快速写完作业，然后开始那信息学竞赛的进程。因为是自主学习，而且每周都会有遗忘的时候，在初一上学期我便重复在那顺序分支循环等逻辑结构中循环。我当然也知道每周过去都会忘记一些东西，所以我每周也反复练习，渴求达到熟练。
+然而初一上的期末，因为考试题目过于简单，自己马虎过多，考出了一个自己在高中时候也不怎么见过的排名。那是我第一次考出这么差的名次，然而当时的班主任倒是非常友善，”偶尔考不好无所谓的，找清楚原因”。在初中的第一个学期，我含着泪离开了学校，这时候信息学也一再耽搁，仅仅止步于顺序分支循环了。
+在寒假的时候，也许是临近过年了，气氛逐渐喜庆起来，我也将期末考试的悲伤抛之脑后，在电脑上开始了新一轮的信息学竞赛练习。父母非常看好我，我从小便喜欢计算机，在小学获得了大大小小的有关计算机的各种奖项。特别有印象的是全国中小学生计算机表演赛，如果没记错的话，小学课文里那篇启发我计算机重要性的文章的事件也是同一个事件。邓主席说过：“计算机的普及要从娃娃抓起”。在这寒假中，我便去认真学习循环，一维数组，二维数组等，直到达到熟练为止。
+时间恍然而过，白驹过隙一般寒假已经过去，这个时候意想不到的事情发生了：我们进行了重新分班！从素质教育的小学升上初中的我并不明白这样的含义，也觉得这样非常残酷。为什么我们这些学生就不能和一开始认识的同学安安稳稳共同陪伴三年呢，为什么非要把各个成绩好的学生集中在一起，而不是分开各领风骚呢。我第一次经历分班，我并不理解。但是我所做的，我能做的只有接受，那天晚上，原先的班主任跟我的父母电话打了好久，我却处在一种不自觉的震撼之中，没有情绪波动，内心仍然认为下个学期的周边还是那群同学，而我会在熟悉的环境中启程我的新的一个学期。
+终于开学了，我来到了新的班级，尽管非常想念原来的同学和老师，但这也是我无可奈何的事情。我来到了初中最好的班级，这里高手如云，每个人似乎都跟自己一样厉害，甚至还有不少人比自己厉害的多。在原先的班级中待惯了，现在就会感受到不小的落差。幸亏在班级中又认识了不少新朋友，让我怀古的心情好了许多。为了不丢原先班级的脸，我基本上努力学习，本想着能够保持中正的排名，但是意料之外，第一次考了一个非常好的成绩，是我初中的最好成绩，年级14名，和我的好朋友 tjstjstjs 的成绩仅差0.5分，这是我第一次分数接近他，也是最后一次，从此之后我就再也没有考过他，我也非常钦佩他的努力。在这个学期中，对于信息学我是疏于练习的，现在想来原因可能是当时刚分入一个新的班级，心情还没有调整过来，我一心投入到文化课上，也正是因此，这个学期我文化课基本没有掉过队。
+在这个学期除了 tjstjstjs 是我认识的成为好朋友的同学，另外一个一直深刻影响我直到大一的同学也正是跟我同一个班级，为了个人隐私，这里我暂且把她叫做 www 小姐。当时我的身高在班上的身高并不能算高，于是在有排队的情况下，我排到了 www 小姐的旁边，排队走路时，有时她谈论着周末父母做小龙虾吃的快乐，有时她诉说着原来班级班主任的好。我想，原来我们都差不多，都是从一个普通班通过成绩考上来，而最终被分到这个班级，我们都念着原先的班级，不可谓不是身在曹营心在汉。我跟她总是去和自己原先的班主任聊天，一来一去也是多次偶遇，就这样熟悉了起来。
+当然，一个学期又很快的过去了，这个暑假我先是前往了美国游学，参观了各种美国著名的景点，了解了美国的学校然然，然而我觉得其实大城市美国都跟中国差不多，而中小城市更是中国好一些，主要是因为我觉得美国的网络太差了。回来之后，我暑假面临着我即将要参加的第一次正经的联赛即 NOIP2018NOIP2018NOIP2018 。
+然而我已经一个学期没有怎么碰过信息学了，那个时候的我因为要参加这样的可以对考大学有好处的比赛而奋发昂扬，重新拿起了微微落了一层灰的《信息学奥赛一本通》，对着电脑敲打起来。不管是分支，还是顺序，还是循环，我都逐渐重新熟悉起来，甚至到当时还在的一个题目网站刷题打榜单（这个OJ似乎现在已经消失了），我剩下的暑假便花费在这个上面。
+初二上学期以一种及其戏剧的形式来到了我的眼前，又是在放假的最后一天，我们被通知了又一次分班，这次是自招班。众所周知，襄阳四中五中为了防止每年华师一从襄阳的中小学掐走大量的尖子生，便在华师一的招生考试前面举办了自主招生考试，这一批240个同学可以不用中考直接进入四中五中，招生一般是每年的四月份，也就是说，可以比同一届的同学早4-5个月进入高中，省去那繁琐的重复的无所意义的中考备考，而是直接学习高中课程，并有在学习高中知识的基础上学习竞赛的资格。我侥幸进入了自招班，同时来到自招班的当然有 tjstjstjs ，www 小姐也不遑多让，更令我兴奋的是我原先在初一上还在一起的两位室友 ljhljhljh 和 wyxwyxwyx 也是进入了自招班。
+在初一下的时候，曾有一位疑似喜欢我的女生，每次遇见的时候都会给我打招呼，然而我并无感觉，每次她跟我说话的时候到最后都会加一句喜欢我，毕竟是第一次在对话中被女生直言喜欢，我也是非常害羞，再一个我当时是一个书呆子，提纲掣林得来说，我因为道德与法治课本七年级下册的课程，知道了“青春期的心理萌动是正常的现象，并不是真正的喜欢，而是一种错觉”。我一直坚持这个原则到快到中考的时候。
+初二上学期的返校是在一个下午，我们的语文老师没有更换，而其他老师却换了个便，我早早地准备好学习用品和生活用品，从家中出发，来到了新的寝室，整理好床上用品我便前往教室。
+作为初二学生，我们换了一个教学楼，我走下宿舍楼，穿过操场，来到了教学楼的楼下，就在我准备上楼的时候，有人突然从我的后方出现，从后面拍了我一下，我一向对外界不是很关注，所以我一回头，听到一阵清澈的声音，一阵沁人心脾的化妆品香气冲进了我的鼻子，定睛一看，原来是 www 小姐，她化妆化得不够成熟，甚至有些过度，然而我不知道为什么她看起来这么好看，我发愣着，思绪在我的脑中打转，思考着种种，但是找不到正确答案的出口。
+一句话结束了我的思考。
+「这个学期，我们又分到了一个班啊！」
+她笑着说着。
+我也前言不搭后语的回着。
+「是啊，不知道这次的老师怎么样呢」
+那我们一起去教室吧。这句话当然没有说出来。但是我们保持着似近非近的距离，一起走到了四层的教室，那是我们八年级共同的班级，八十二班。
+第二章 埋下种子的因果
+再次的分班让我的不适减少了许多，因为是把各个班成绩好的同学都分到一起组建自招班，我初一下班上的大部分同学自然而然地跟我进入了同一个班级，让我有些欣慰，而又多了两个同学，也就是 ljhljhljh 和 wyxwyxwyx ，让我的初二生活充满了更多期待。
+和 www 小姐，走上楼梯，一进入教室，因为老师还没有正式排座位，于是来得早的我们就坐在了教室的前排，也就是最好听课、最好学习的地方。我坐在进门第一排的中间位置，而 www 小姐就坐在我的左边。
+收拾了一会儿自己的暑假作业等等，把书包里的东西整理到了桌子内部，一切都井然有条了，人也舒坦了起来。这个时候 ljhljhljh 进入了教室，和他半年没有在同一个班级上的我急忙把他招呼到我的右边坐下，和他开始了闲聊时刻，叙叙旧，并展望着未来。wyxwyxwyx 也随之进入了教室，三人小团体便很快形成了。左边的 www 小姐也也没有参与进话题，随后我就抛之脑后了。
+初二的班主任，我暂且称为 WhiteWhiteWhite 老师，她走进了教室，在所有人都到齐了之后，为我们开了一次小小的开学班会，大概是有关暑假的过去，以前的班级和未来的目标云云，同学们也是认真听着，想象着自己在班级里大放异彩的样子，我也摩拳擦掌，想象着自己通过自招之后可以提前学习信息学竞赛，完成每个 OIerOIerOIer 的梦想——夺得 NOINOINOI 金牌，进入集训队，保送清华北大！
+当然，在寄宿制学校，为学习 OIOIOI 所能做的只有平日里好好学习，放假的时候进行短期的培训，从而获得奖项的途径。随着 NOIP2018NOIP2018NOIP2018 的一天天逼近，我在国庆的时候前往了武汉进行集训，是在一个不知名的小机构，名叫深学汇，老师是一个因为获得联赛一等奖而从河北保送到武汉大学计算机学院的人。我们在那里进行了七天的集训，通过这个集训，我看到了很多之前没有学过的东西，对于初二的我是一种莫大的震撼。在这里，我了解到并查集，dfs，bfs，动态规划等等这些我从来都还没有听说过的东西，而在最后一次的模拟测试中，我也完全答对了几道题目，信心立马就上来了。在最后，吃着武汉的火锅，看着华科的光谷体育馆，我坐着家里的车离开了武汉，回到了初中学校继续上课。
+通过这次集训，我对信息学更加感兴趣了，与之而来的是对自己的自信过度，这将会在很久以后得到体现。
+回到了初中，时间照常流动着，我依旧按照学校认真学习文化课，放假努力学习信息学的劲头进行着每日的安排，这个时候突如其来的月考再一次打断了我的思绪。在组成自招班之后的第一次月考，我考出了继初一上期末考试的第二差成绩。我原本以为那是我最后一次会考那么差，然而第二次还是发生了。因为班级只有40多人，这个名次显然会在每个学期的分班中对我的去留产生影响。已经和熟悉的同学待了那么久了，我不想分开！自己安慰着自己，控制着情绪不去消极，然而成绩单发下来张贴在教室前面的时候，我的内心还是咯噔了一下。这个我的名次从熟悉的中上方看不到了，名字跑到了成绩单下面去，几个一百多名次的黑字在白色的纸张下显得更加突兀。
+这个时候一个同学走过我的旁边，似乎是一个认识我但是我不熟悉的同学，看着成绩单。
+「xx，你不是很厉害吗，这次怎么没考好？」
+同学的疑问更是把我的内心压到了地底下。我好想逃离这个地方，我暂时不想出现在这个教室，我不想在上课的时候听老师讲卷子，我不想，我不想，我不想！
+「xx他只是发挥失误了，偶尔没考好罢了，马有失蹄，人有失手罢了。」
+这个时候，www 小姐不知道为什么出现在了成绩单旁边。
+「没事，下次加油吧！」
+她说着这句话对我笑了一下，不知为什么，我似乎不再那么想要逃离这个教室，我的心跳似乎加快了几拍，感觉到有些害羞，转向自己的座位，头也不会地小声说了句谢谢，回到了座位上。内心的天气也从万里乌云变成了万里无云，或许我真的要加油了，为了还跟她一个班级，不对，是为了最终考过自主招生，提前进入四中五中，通过信息学完成自己的梦想，逐梦清北，名震鄂西北！
+此后，神奇般的，在初中，我就没有再考过这么差的成绩。
+第三章 守株待兔第一撞
+不过该来的还是要来的，随着日期的临近，我在襄阳五中大成楼比完了 NOIP2018NOIP2018NOIP2018 普及组的初赛，并顺利进入了复赛。当年的复赛是和 wuxianucwwuxianucwwuxianucw 等一众学长一起进行的，不过那个时候我还不认识他们。我坐上了前往武汉的火车，因为是第一次参加这样的奥林匹克信息学联赛，所以我还是非常兴奋的。在火车上，虽然心理上很紧张，但是第一次参赛还是故作镇定，仿佛自己已经胸有成竹，优势在握。经过一个多小时的高铁和四十多分钟的地铁，我们也许到达了光谷站，但是一下车，看到的不是现在的光谷大转盘等云云，而是一个又一个工程栅栏遮遮掩掩着，似乎在进行着非常宏大的工程。走过一道道沟壑纵横的路，我们终于走到了先前预定的酒店，也是襄阳五中的信息学教练 fff 老师带学生来比赛常来的酒店。不过走出铁栅栏之后，我才看到，墙上写着工工整整的几个大字“奋发向上，迎接2019武汉军运会！”，那时的我，还有没有意识到这个事情将会是我从初中到高中人生的转折点，也是一个百年未有之大变局。
+来到酒店，我和家长住一个房间，由于是比赛的前一天，所以我拿出了笔记本电脑，打开了一些考前注意以及考前必掌握知识点的贴子看了起来，特别注意的是深学汇的老师在集训时候特别强调的要会写文件的输入输出，这样才能在这个 OIOIOI 赛制中成功测评，并拿到自己应有的分数，在复习完这些之后，我拿起了《信息学奥赛一本通》，以求新的突破，从而应对可能会出现的题型。就这样，我翻到了这样一道题目开始做。
+
+给你 k 枚相同的鸡蛋，并可以使用一栋从第 1 层到第 n 层共有 n 层楼的建筑。
+已知存在楼层 f ，满足 0 &lt;= f &lt;= n ，任何从 高于 f 的楼层落下的鸡蛋都会碎，从 f 楼层或比它低的楼层落下的鸡蛋都不会破。
+每次操作，你可以取一枚没有碎的鸡蛋并把它从任一楼层 x 扔下（满足 1 &lt;= x &lt;= n）。如果鸡蛋碎了，你就不能再次使用它。如果某枚鸡蛋扔下后没有摔碎，则可以在之后的操作中 重复使用 这枚鸡蛋。
+请你计算并返回要确定 f 确切的值 的 最小操作次数 是多少？
+
+现在来看，这道题目就是一个典型的使用二分加上动态规划的算法，但是对于当时的我而言怎么也看不明白，只能强行对着代码进行理解，祈求得到一丝慰藉，然而，我没有继续看下去，把这道题目抛之脑后，去吃饭了。
+除了高中的学长学姐，与我一起同行的还有一个跟我同年级的初中生，她也是学习信息学竞赛的，这里暂且叫她 lll 同学。 lll 同学和她家长也随着 fff 老师的带领前来，住进了酒店，现在也是吃饭时间了。论资历来讲，她似乎比我早参加一年比赛，在 NOIP2017NOIP2017NOIP2017 也取得了不错的成绩，不过还是吃饭比较重要。下楼吃饭，是一个吃小碗菜的餐厅，吃的多少全凭你拿了多少，也并不会像那种专门的炒菜一样很贵，我大抵当时吃了一些鸡蛋羹，虽然记忆已经模糊，但是当时第一次吃这种小碗菜的新奇感觉还回荡在我的记忆中，虽然我现在不喜欢吃小碗菜了就是说。吃完饭之后，我便回到了酒店，看了几道题目和注意事项，以及对拍的方法之后我就去睡觉了，长夜虽漫漫，仍然不如第二天早上的闹钟来得快。
+第二天早上，为了准时参加比赛，我早早地起了床，前往了湖北省信息学联赛复赛的指定比赛地点的华中科技大学，走进南大门，迎面而来的是太阳照的雪亮的毛主席像，一只手举起来，面向着前面的一条大道，似乎正在招手迎接着更加美好的未来，明天会更好。
+往前走有一个大条幅，上面写着这次比赛的名称，内心也逐渐激动起来。首先在名单上找到自己的名字和机房，然后背着包走上楼，找到自己坐的位置。其实在前一天， fff 老师已经带我们来看过机房了，这里的环境跟我想象中的大学很相似，一排排的电脑坐着一排排的人，在激烈地打着代码，有一个似乎是保送华科的学长来到了旁边，和老师欢快的聊着，也许到时候我如果能保送的话，我是不是也会像他们那样呢。想着想着，回到现实，我坐在比赛的赛场上，老师走进来，开始公布密码，我有条不紊的按照老师说的密码一个一个输入。
+好！顺利解压！
+打开文件之后，点开pdf，开始读题！
+认真读题，第一题是标题统计，是一个很基础的题目，直接秒了，不过要注意一下输入输出的问题。好的
+第二题是龙虎斗，似乎是一个模拟的题目，只需要考一考模拟，那就模拟一通吧。
+第三题是摆渡车，似乎有点动态规划的感觉，但是我当时又没有把动态规划学会，那就继续模拟一通吧。
+到第四道题目，我才是完全不会了，因为当时集训和我自己学到的内容都还没有到树的时候，那没办法了，只能去找一找特殊性质，看看能不能特判掉算了。
+最后，随着暴力的进行，不会的题目的性质分析中，四个小时结束了，这也意味着 NOIP2018NOIP2018NOIP2018 结束了。出考场的时候，我自认为我所做的题目都做了出来，暴力也都打满了，嗯这样就满意了吧。在一层往外看，武汉的天空下着哗啦啦的大雨，最终坐上了地铁二号线，走进前往汉口的车，最终回到了襄阳，因为第二天还要继续上学，那初中生活。
+细说这次比赛，我大概率是准备不充分的，不仅仅是因为初一下基本什么都没有学，还因为自己对一些有关信息学的问题不求甚解，只是关注于某道题目的解法而没有达到举一反三的效果。更重要的是，我开始意识到，信息学并非像我想象的那么简单，前面到底有多少艰难与困苦呢，我不知道，我也不想知道，我只知道我参加这个比赛似乎就能在高考中取得什么加分优势，或者是一条实现我的梦想的捷径。我向来是那种喜欢耍小聪明的人，除非有必要，否则我不会去费劲心力去搞一个自己或许没有那么感兴趣的东西，到底是因为困难导致了我的困扰呢，还是困扰造就了我的困难，一切都不太明朗，赛后等待成绩的一个多月总算是过去了，到了揭榜的时候。
+奇迹般的，我的暴力能打满的都打满了，不会写的也稍微混了点分数。最终我获得了一个不高也不低的分数，也是成功拿到了普及组的一等奖。这是必然呢，还是偶然呢，不管怎么样，这一次获奖给当时的我了一针强心剂，也许我是有天赋的，也许我能成功拿到那个万众瞩目的金牌。也就是这第一次获奖，让后面的我继续学习信息学竞赛，也正是这一次获奖，让我学信息学竞赛学到了最后的时刻。
+第四章 无才扶我凌云志
+获得了普及组一等奖，按理来说并非非常困难，但是我却有些小小的自得酝酿在心中。然而，回到第一次月考的打击仍然在后续呈现缓慢恢复的状态，当然，没有再考过那么差了，考得越来越好了，但是仍然不足以留在这个班级。 WhiteWhiteWhite 老师的特点是考试之后换座位，然后换座位的原则是按照每次月考排名分数的先后顺序选座位，然后再按照一个月为周期的轮换制来让所有的组都有坐在前面和坐在后面的机会。第三次月考结束后，一扫第一次月考的不景气，我，终于也要往前一点选座位了。选座位靠前的总是那些成绩比较好的同学，他们稳稳地排在前面，丝毫不动摇，当然也包括 www 小姐，时常出现在年级前十的位置。位置一个个被选走，就像是用于缓冲的泡沫的泡泡一个一个被捏破，剩下的座位就像是不好捏的了，我考得中间，这个时候前面的座位就已经所剩无几了，于是我看到了 www 小姐后方还有两个位置。这两个位置，我到底选不选！我想选，这样的话或许能和她的座位近一点，但我不知道为什么想跟她的座位近一点，等到我反应过来的时候我已经把我自己的名字写在她名字的右下方了，为什么是右下方呢，我想可能是害羞吧。当座位开始调动的时候，我左边的同学应该是 bcbcbc 同学，如果是这样的话，我不知道当时用什么说服了他跟我换位置，但最终的结果是我换到了 www 小姐座位的后方，倒数第一排的位置。这样的日子也许给我每日的生活带来了一点新奇，我初中的时候英语很好，时常背诵前列背完，因为她成绩好，她是组长，组长需要听组员背书，因此我每次都迅速背完，然后在她面前兴奋得背书，或许我背的书是她听我当面说的最多的话。不过她每次都要听背书的时候似乎总有些不耐烦，也许是她自己也需要在有限的时间内背下来，为了节省时间的目的吧。时间过得很快，凛冽的冬日随着太阳直射点的南移更加寒冷，我们校内举办了元旦联欢晚会，这也意味着，新的一年到来了。我们班级的节目是一段暗光舞，人身上贴着的亮条可以控制亮灭，然后把环境的灯全部关掉的话，就可以通过控制亮灭的方式实现类似于人形瞬移的效果。我们班级另外一个节目是有关校园的小品，我的好朋友 ljhljhljh 和 wyxwyxwyx 也参与了小品的表演，让现场的观众们难以忘怀，初中的校长也点名表扬这个节目。在节目表演期间，常有排练的时候，这个时候同学们一般有自习，我突发奇想，想到自己的校园卡里面还有一些买零食的钱，而我想请 www 小姐吃零食，我就把校园卡给她说，你要不要一些零食呢？我可以请你哦！然而最后她并没有要，把卡还给了我，不知为何，我突发的奇想不禁让我感到失落。
+在元旦晚会之后，很快就面临着期末考试了，对于这次期末考试，我很认真的复习，但是因为题目有些简单，大家的分数都差不多，区区几分就可以相差很多名次。而我与众不同的是，我在这次考试的英语中拿到了樊城区那套卷子唯二的满分，不知道是不是因为题目太难了，其他人的分数都考得不是很高，然而一向都考得很好的 www 小姐似乎考得不太好，于是我想着，想用她安慰我的方式安慰她，但是当我想说话的时候，不知道什么噎住了我的喉咙，让我说不出一个字，她和我之间，只有令人窒息的沉默。期末考试结束，紧紧张张担心着分班被分走，此时此刻，我们的年级主任 hhh 老师为我们下了一颗定心丸，这个学期不分班，也就意味着下个学期会分班。但是我管不了那么多了，期末考试的结束意味着寒假的到来，意味着我即将开始下一段信息学奥赛的集训。
+2019年的北京没有雪，有的只是那瑟瑟的寒风，太阳如医院的冷光灯一样照在头上，令人做涕。这个寒假，来到的集训地点是清北学堂，而培训地点是位于北京的华北电力大学计算机房间。我因为是普及组1等奖，因此家长为我选择的是普及升提高的训练营，当时刚入营的我还想着自己一定可以全部学会，大杀四方，然而我错了。在当时的培训中，老师讲知识点的速度非常快，让我来不及听，只有初中数学基础的我根本听不明白。往上是最近公共祖先LCA的倍增做法和Tarjan做法，往下是中国剩余定理赖以生存的基础最小公约数，虽然有少数听得懂，但是大部分听不懂已然似乎是定局了，第四天和最后一天的模拟比赛便说明了这一点。也许最后，我获得的知识只是我不会和我要学以及那里的饭很难吃等云云了。
+至今记忆深刻的只剩下当时休息时候玩国际象棋，看西游记续篇以及当时模拟赛的时候做的一道题目了。
+题目如下：
+
+排队的小鸟
+题目背景
+有 n 位小鸟曾在排队，可是她们走散了。
+每个小鸟有一个编号，她们想要恢复原先的队列，可是她们几乎忘了她们之前站在哪里了，甚至忘了自己的编号！
+小鸟们并不聪明，但是她们还记得前面的小鸟和后面的小鸟的编号，如果前面或后面没有小鸟了，她们会记录一个 0。
+请你帮助小鸟们重新把队伍排起来吧！
+输入格式
+第一行一个正整数 N。
+接下来 N 行，每行 2 个整数,表示某一位小鸟前面的小鸟和后面的小鸟的编号。
+输出格式
+一行 N 个数，是小鸟的编号，表示小鸟的排列。
+说明/提示
+对于 30%的数据， 1 ≤n≤ 10。
+对于 50%的数据， 1 ≤n≤ 100。
+对于 100%的数据， 1 ≤n≤ 2 × 10e5。
+小鸟的编号保证不重复，在 int 范围之内。
+
+当时的我还不太会打 MarkdownMarkdownMarkdown 的语法，但是这道题目我当时着实是没有做不出来，现在来看，只要使用链表的方式就可以把所有小鸟的排序排出来，从而获得满分的成绩了。而我旁边的一个同学倒是实打实做出来了。从这里，我看到了差距，旁边的同学我似乎已经记不住他的名字了，但是我知道他是一个东北的同学，因为他的初中是四年制。后面的几道题目看了看回顾，也总归是动态规划的做法和线段树的做法，然而虽然现在看起来简单，当时的我确做不出来。
+这次培训给我带来的最大收获是什么呢，我不太知道，但是我看到了很多我没有见过的算法，我看到了很多厉害的人，我也见识到了我的知识是多么的浅薄。虽然侥幸得了普及组一等奖，但也只是因为在湖北这个弱省的结果，如果是在浙江之类的强省呢？或许不知道结果，但是这个成绩确确实实给了我一种自己有机会的假象，让我不断努力下去，但是这个东西也确实看天赋，仅仅是努力是没有作用的，也许一直干下去并非一种好的结果。那么，抱着这样的信念，我该继续下去吗？
+拿着手上的笔记本电脑，是父母因为我获得了普及组一等奖给我买的，也许我应该坚持下去，但是就我的实力而言，我是否能够追寻到那个所有 OIerOIerOIer 的梦想呢？时间容不得我继续想，我能做的只有前进，无论前面到底是一片黑暗还是一片光明，我或许都该燃烧着内心的火焰英勇向前吧。过完了寒假，父母联系到了一位老师，是北京的老师，他比较熟悉北京的信息学竞赛，而且北京的教育资源当然比襄阳更好一些，于是我就每个周末和一个浙江的同学开始和他一起学习信息学了。
+对方听说了我获得过普及组的一等奖，因此先入为主认为我有一定的水准，其实湖北省的一等奖是有点水的，仅仅是做对了一道题目的多一点就拿到了一等奖。周末开始学习信息学，老师一开始就开始讲DP的专题，DP即动态规划，无后效性，对于当时的我来说，我不怎么听得明白，但是我也是看着题目一点点做，对于0/1背包、多重背包等简单问题当然是能够信手拈来，熟能生巧，但是越到后面越是困难。比如，为什么0/1背包可以把二维的状态压缩成一维的啊，因为数组更新的先后可以不需要一些数据，让空间利用率更高，但是如此简单的理论对于当时的我来说就是想不出来为什么。再比如环形DP等等，到底是把环直接拆成双倍长度的链呢，还是直接取余呢，两种做法也迟迟没有弄清楚，只弄了个模棱两可，把例题做对了，再往后我就知其然而不知其所以然了。
+初二下当然是一个比较好的学期，没有发生什么比较重大的事情，成绩也比较稳定，破除了初二上的定律，物理数学之类的学科也学得越来越好。然而正是因为寄宿制学校，信息学学的东西倒是常常遗忘，又因为每个月一次要进行的月考，信息学便常常耽搁。我也不知道几月几日，在今天的一次函数和明天的不等式中徘徊，我也不知道为什么要这样，只知道学着学着也许就会有美好的将来。在大众的赛道上越走越远，在小众的独木桥上踽踽独行，到底哪个才能更快的到罗马？我不知道，但我也放弃了思考，自认为着自己是对的。在一个学期的忙碌之后，我匆匆参与完期末考试就前往北京进行培训了。这次培训长达14天，一开始是一位来自于北京大学的学生给我们讲课，她的名字我至今还记得，她叫yyx，是一位女生OIer，在信息学竞赛中是少见的。然而，刚开始讲课就给我来了一个开幕雷击，虽然我接触过相关的概念，但是对其内核感觉是没有一点明白，依然是囫囵吞枣，百思不得其解，另外，每天需要前往某个地方进行学习，再加上在家里比较晚的睡眠让我每天困意连天，最后的结果就变成了老师在上面讲，我在下面喘瞌睡，没学到什么东西，最终的结果也是一团糟，但我仍然深刻的记得我当时学的是什么东西，讲的是 dfsdfsdfs 求强连通分量和边双联通分量，一个是用来缩点，其作用是把所有可以相互连通的图上的点缩成一个点，放到一起处理，这样就可以解决成环的问题了。除此之外我就忘记了很多东西，第一周也结束了。第二周，老师看我们基础很差，于是就来给我们补基础课和逻辑课。后面基础课和逻辑课倒是很好，学的很快，然而到最终的测试还是错了很多题目，老师很生气，恨铁不成钢，老师说，我们不适合学信息学竞赛，这样的学生甚至考985也有困难，当时我当然是义愤填膺，觉得自己并非说的那么不堪，但是一切都在之后埋下了伏笔。
+时间悄悄流逝，2019年的夏天也过去了，回想起2019年夏天的剩余日子，也不过是去了故宫等地方玩一玩，在最后看完《哪吒之魔童降世》之后便收到了老师们的急急如律令，坐上了返回襄阳的航班。理所当然，我升入了初三，也进行了例行每年一次的分班，我和 www 小姐以及 ljhljhljh 也分到了不同的班级，我被分到了12班，而另外两位分到了11班，当然，与我同班的还有 wyxwyxwyx 。这个学期开学非常早，紧锣密鼓的开始了学习，然而，自这个暑假之后，我学习信息学的时间越来越少了，主要是成为了初三生，进入了毕业年级，学校也对我们更加严格了。
+本来就少的可怜的周末假期也变少了，我需要学习信息学竞赛，也需要兼顾课内的课程，这相当困难。值得一提的是十一假期恰逢新中国成立70周年，我也同时学习校内课程，然而，语文一向不好的我错了一些背诵的题目，被老师进行了一个罚抄，我抄的非常痛苦，于是在抄完后的最后，多加了一句“怎么这么多啊”，于是我被语文老师赶到了教室最后站着上课，在我的印象中大概是站了两个月。（大概是因为每周的周考我都有各种各样不同的语文错误)
+时间不等人，因为是取消NOIP的第一年，比赛改成了CSP，我转而报名了CSP2019-S，也就是对应原先的提高组。然而，这一年对于当时的我特别难，第一题我记得很清楚，是格雷码，然而我最后没有考虑到unsigned long long 的问题，后面的题目更是基本不会做，喜提一个没有奖。我不由得想起在暑假说起我以后无法通过信息学竞赛出人头地的老师，或许他说的是对的，但是我并不相信所谓我不如别人的看法，别人能做到的，我也一定有机会能做到。我，还沉迷在信息学竞赛中。
+因为是初三，信息学竞赛也结束了，我在一个晚上回归了班级，开始了初三的复习。在襄阳这个落后的三线城市，信息学竞赛培训是没有的，教育是应试的，通行卷是文化课成绩的。我也随着大流回到了文化课的学习。然而，接下来这个春天，可不好过。
+第五章 花开花落花无言
+2019年结束的悄无声息，我所记得的只有年末的一场大流感，感觉身边不少人都得了感冒，我也有幸中招，被带回家打了几天吊针。看着手机上快点的”噩梦时代“，时间一步步前进，越来越要趋近中考了，考完九年级第一个学期的期末考试，我在1月1号这一天回到家里过元旦，偶然间，我在手机上刷到了有关”武汉不明原因肺炎“的新闻，以为是谣言，然后就如往常一样度过了后面的日子就开始放寒假了。寒假回到老家，因为马上要中考了，给自己制定了满满当当的计划表，期待着年后的好成绩能够降临在自己头上。然而，好景不长，随着院士钟南山的发号：有人传人，武汉以及湖北周边迅速被列为了疫情源地，对武汉进行了封城操作，其他地方也进行了静默管理，整个荆楚大地上霎时间安静了下来，年味淡了许多。我正好在农村，户与户之间的距离很远，所以我相对来说比较自由，但不同的是我要开始上网课了，使用的是学校的一些神奇的小软件，比如“空中课堂”，跟别的学校使用叮叮不太一样。我在上面和同学一起上课，同时在桌面上使用qq和同学一起聊天，度过了愉快的三个月（然而没学到什么东西），也是那个时候开始大规模观看小说的。武汉封城，武汉加油，疫情还是扩散到了世界各地，随之而来，国内的疫情也慢慢稳定下来。我们挑了一个没有那么麻烦的日子从老家返回襄阳，最后又在襄阳待了一个多月，终于在5月18日开学了。这个时候开学，我们的中考和高考一样，也推迟了一个月，而我们的体育中考也取消了。回到学校，开启了紧急的50多天的冲刺（百日誓师大会是在家里进行的），五十多天，在家里玩了很久的我自然必须加把劲儿冲刺，把没有背的书全部背过，把不会的数学题全都写对，总算在决战之时一击制胜，中考也考了一个相当不错的分数，进入了襄阳五中的a1班。
+所谓襄阳五中的a1班，就是一个特色班级，选择的是中考考得A和分数相对很高的学生。当时 www 小姐考得不是特别好，但是也通过襄阳四中国际部的形式进入了襄阳四中，好朋友 ljhljhljh  则是跟我进入了同一个班级，wyxwyxwyx 进入了襄阳四中。由于中考延后了一个月，暑假也相对少了一个月，我学信息竞赛的时间略显不足了。我
+]]></content>
+      <categories>
+        <category>游记</category>
       </categories>
   </entry>
   <entry>
@@ -1769,106 +1892,6 @@ AC代码
 PS:在自己电脑上可能输出不了，但是在洛谷IDE上能正常运行啊
 这就奇怪了，请问一下各位为什么
 下集预告：单源最短路径的优化或矩阵的简单介绍
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>简单素数筛</title>
-    <url>/2019/07/29/%E7%AE%80%E5%8D%95%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
-    <content><![CDATA[简单素数筛
-今天，我看了一些数学知识，而数论是比较主要的，而素数筛是其中重要的一个，现在来介绍一下简单素数筛
-首先来，普及一下素数的概念
-
-若一个正整数无法被除了1和它本身之外的任何自然数整除，则称该数为素数，也称质数（或素数），否则称该正整数为合数。
-
-通过介绍质数（下文统称质数）的概念，我们知道了一种判断质数的方法
-通过枚举：这种方法的速度太慢了，因此我们需要更快的方法
-ps：即使从1枚举到根号n也是很慢的
-所以我们要引进一种好方法
-就是大于二的所有数的倍数都是合数，那就好办了，我们可以从2开始（先初始化一个v[]数组的所有元素为零）2的倍数都是合数，标记v[i*j]为一,3的倍数都是合数，标记为1……
-以此类推，我们就可以得出答案了
-下面有一道例题
-
-题目描述
-给定一个范围N，你需要处理M个某数字是否为质数的询问（每个数字均在范围1-N内）
-输入格式
-第一行包含两个正整数N、M，分别表示查询的范围和查询的个数。
-接下来M行每行包含一个不小于1且不大于N的整数，即询问该数是否为质数。
-输出格式
-输出包含M行，每行为Yes或No，即依次为每一个询问的结果。
-输入输出样例
-输入 #1
-100 52349197
-输出 #1
-YesYesNoNoYes
-说明/提示
-时空限制：500ms 128M
-数据规模：
-对于100%的数据：N&lt;=10000，M&lt;=10000
-样例说明：
-N=100，说明接下来的询问数均不大于100且不小于1。
-所以2、3、97为质数，4、91非质数。
-故依次输出Yes、Yes、No、No、Yes。
-
-这道题就是一道标准的筛素数的题，因为它要访问多个数啊，不做素数筛不可以啊，所以经过努力，我写出了代码
-#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int v[10000005];//记录用int n,m;int p;void primes(int n)//简单素数筛函数&#123;	memset(v,0,sizeof(v));	for(int i=2;i&lt;=n;i++)	&#123;		if(v[i])		continue;		for(int j=i;j&lt;=n/i;j++)		v[i*j]=1; 	&#125;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	primes(n);//调用函数	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;p;		if(v[p])		cout&lt;&lt;&quot;No&quot;&lt;&lt;endl;		else 		cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
-这就是简单素数筛，你get到了吗？
-下集预告：高级素数筛（或其他的）
-]]></content>
-      <categories>
-        <category>学习笔记</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>汉诺塔问题</title>
-    <url>/2019/07/26/%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[汉诺塔问题（Hanoi Tower Problem）
-汉诺塔问题家喻户晓，它源于一个印度的神话，内容如下：
-在世界中心贝拿勒斯（在印度北部）的圣庙里，一块黄铜板上插着三根宝石针。印度教的主神梵天在创造世界的时候，在其中一根针上从下到上地穿好了由大到小的64片金片，这就是所谓的汉诺塔。不论白天黑夜，总有一个僧侣在按照下面的法则移动这些金片：一次只移动一片，不管在哪根针上，小片必须在大片上面。僧侣们预言，当所有的金片都从梵天穿好的那根针上移到另外一根针上时，世界就将在一声霹雳中消灭，而梵塔、庙宇和众生也都将同归于尽。
-这个问题看起来十分可怕，实际上很简单。接下来就解决一个问题来体会这个小小问题中的大大的递归思想！
-
-有三根柱子，第一根柱子上有n个从下向上越来越小的圆盘。
-
-
-目标：使第一根柱子上的n个圆盘按原样摆放在另一个柱子上。
-
-
-注：一次移动一个圆盘，不可以出现大的盘子在小的盘子上面的情况。
-
-解：
-首先我们先玩一下这个游戏。
-接着我们找出一个规律，要彻底地把这个塔移开，我们必须要移开上方的n-1个盘子，使最下面的盘子可以移动到另一个柱子上，然后在把上方的n-1个盘子移动到最下
-面的盘子（也就是最大的盘子）上就可以解决了。而n-1个盘子的移动方法也一样，因为最下面的大盘子对上面的n-1个盘子的移动毫无影响。
-因此，我们可以得出一个递推式：
-Fn=2Fn−1+1F_n=2F_{n-1}+1
-Fn​=2Fn−1​+1
-FnF_nFn​代表第一个柱子上有n个盘子的情况，所以这个问题得到了解决
-代码如下：时间复杂度O(2n)O(2^n )O(2n)
-#include &lt;iostream&gt;using namespace std;int main()&#123;	int n;	int f[20];	cin&gt;&gt;n;	f[1]=1;	for(int i=2;i&lt;=n;i++)	f[i]=2*f[i-1]+1;	cout&lt;&lt;f[n]&lt;&lt;endl;	return 0; &#125;
-这个问题就简单地这么解决了。（瞎说，还有更简单的方法）
-让我们来看一看输出结果：从n=1开始:1 3 7 15 31 63 127 255 511 1023 2047 4095 8191……
-我们发现一个规律，所有的FnF_nFn​满足：
-Fn=2n−1F_n=2^n-1
-Fn​=2n−1
-这才是最简单的方法！
-有些人会说，这个方法是瞎猜的，只是凭运气而已，没事儿，我可以证明一下。
-证：
-数学归纳法。
-当 n=1n=1n=1 时，F(n)=1,2n−1=1F(n)=1,2n-1=1F(n)=1,2n−1=1 ;命题显然成立
-假设 n=kn=kn=k 时命题成立，即F(k)=2k−1F(k)=2k-1F(k)=2k−1；
-当 n=k+1n=k+1n=k+1 时，F(k+1)=F(k)∗2+1F(k+1)=F(k)*2+1F(k+1)=F(k)∗2+1 ;
-因为F(k)=2k−1F(k)=2^k-1F(k)=2k−1
-所以
-F(k+1)F(k+1)F(k+1)
-=2F(k)+1=2F(k)+1=2F(k)+1
-=(2k−1)∗2+1=(2^k-1)*2+1=(2k−1)∗2+1
-=2k+1−1=2^{k+1}-1=2k+1−1
-证毕。
-所以这才是这种汉诺塔问题的最优解！
-最终代码如下：时间复杂度O(⁡log2nlog_2nlog2​n )
-#include &lt;iostream&gt;using namespace std;int qp(int a,int b)&#123;	if(b==0)	return 1;	int t=qp(a,b/2);	if(b%2==0)	return t*t;	else	return t*t*a;&#125;int main()&#123;	int n;	cin&gt;&gt;n;	cout&lt;&lt;qp(2,n)-1&lt;&lt;endl;	return 0;&#125;
 ]]></content>
       <categories>
         <category>学习笔记</category>
@@ -1992,111 +2015,56 @@ ax≡1(mod n)
       </categories>
   </entry>
   <entry>
-    <title>【回忆录】到信息学一游</title>
-    <url>/2025/07/09/%E5%88%B0%E4%BF%A1%E6%81%AF%E5%AD%A6%E4%B8%80%E6%B8%B8/</url>
-    <content><![CDATA[【回忆录】到信息学一游
-序章 夜来幽梦忽还乡
-现在是2025年7月份的一个晚上，是大二的暑假，大学生活已然过半，我终于通过一个自己参照教程的方式配置好了属于自己的博客，兴致满满。在添加友情链接的时候，我想起了我在初三的时候就已经了解到的学长 DewDewDew 和 wjyyywjyyywjyyy ，于是找到他们的博客。在他们的博客中，其中置顶的就是他们的回忆录，也就是参加信息学竞赛的整个高中的心路历程，让我不由自主想起了自己的信息学竞赛的生活，有感而发，于是我也准备写一个自己的回忆录。如果说沙子写字，风轻轻一吹就能吹散，纸上面写字，稍微的烈火焚烧就能让踪迹悄然而逝，也许，写在网上，这份记忆才不会消失，成为一种永生的纪念（大概是有区块链？）。
-那时的生活，说累也累，说苦也苦，但是不知为什么，我总是不由自主回忆起高中、初中的生活，回忆起那段信息学竞赛的日子，这大概是我人生中最特殊的经历之一。我不知道它对我的生活产生了多少的影响，然而它的确是不可缺少的。
-第一章 阿克琉斯的脚跟
-我并不类似于 DewDewDew 和 wjyyywjyyywjyyy 学长一样，是从高中开始学的信息学竞赛，我开始学信息学竞赛是在初一的时候。那个时候的我刚从小学升上来，小学执行的是素质教育，因此每周都会有社团活动时间，我对计算机有兴趣，便参加了计算机相关社团，学习了许多计算机的基础知识，比如word、ppt、Excel、VB以及Scratch的使用，算是对编程有了初步的了解。其实我一开始并不打算学习信息学竞赛，而是想学VB，做着自己喜欢的程序，做出一些好玩的东西，用来取悦自己。然而，当时的电脑并不支持我去这么做。想要安装VB完整版本的我在10年代的电脑上根本没有什么操作空间，只有一步一卡的漫长等待。而六年级的暑假我又是在没有网络的老家度过，感受这淳朴的乡土情怀，只能玩着MC度日。比较有意思的是，在没有网络的日子里，我靠着局域网联机，竟然在游戏中搭建出一个不小的天地，后来我又通过命令方块建造了一个可以自由传送的城镇，也许编程的思想来自于那里。后来升上了初中，开始了第一次摸底测试，在全校学生中拿到了前五十名，于是乎不知道为何发了6000元作为奖励，至此，我的信息学奥赛之路似乎被开启了。
-当时的电脑不行，我的家长于是就用这6000元给我买了一台台式机，这台台式机在现在看来配置不可谓不低，而且现在已经用起来很卡顿，但是对于当时的我来说，已经是一台非常流畅的机器了。拿到电脑了之后，我安装了VB完整版本，准备左手参考书，右手鼠标，两只手一起打键盘的时候，家长拿着两本厚厚的书出现了。
-这两本书就是至今也脍炙人口的《信息学奥赛一本通》和《信息学奥赛一本通习题》，相信大多数自己入门，或者弱校起步的同学，竞赛启航的第一站便是这里。两本书放在了我的桌面上，家长跟我说，编程不仅仅可以使用VB编程，也可以使用C++对程序进行编写，相对于VB，C++在应用面上更广。而且，现在有信息学奥赛，省一就能获得不小的高考优惠，因此学这个竞赛也许是有好处的。小小的我有着大大的梦，像所有小朋友一样，年少时候的梦想很多都是当科学家，而当上首屈一指的科学家，就必须要考上清华大学、北京大学这两所中国的TOP2，小学时候成绩还算优异的我理所当然也有着这样的梦想。
-因为初中是一所寄宿学校，在学校并没有机会接触电脑，所以追求的只有那文化课的好成绩，每到周末的时候，我一回家就会快速写完作业，然后开始那信息学竞赛的进程。因为是自主学习，而且每周都会有遗忘的时候，在初一上学期我便重复在那顺序分支循环等逻辑结构中循环。我当然也知道每周过去都会忘记一些东西，所以我每周也反复练习，渴求达到熟练。
-然而初一上的期末，因为考试题目过于简单，自己马虎过多，考出了一个自己在高中时候也不怎么见过的排名。那是我第一次考出这么差的名次，然而当时的班主任倒是非常友善，”偶尔考不好无所谓的，找清楚原因”。在初中的第一个学期，我含着泪离开了学校，这时候信息学也一再耽搁，仅仅止步于顺序分支循环了。
-在寒假的时候，也许是临近过年了，气氛逐渐喜庆起来，我也将期末考试的悲伤抛之脑后，在电脑上开始了新一轮的信息学竞赛练习。父母非常看好我，我从小便喜欢计算机，在小学获得了大大小小的有关计算机的各种奖项。特别有印象的是全国中小学生计算机表演赛，如果没记错的话，小学课文里那篇启发我计算机重要性的文章的事件也是同一个事件。邓主席说过：“计算机的普及要从娃娃抓起”。在这寒假中，我便去认真学习循环，一维数组，二维数组等，直到达到熟练为止。
-时间恍然而过，白驹过隙一般寒假已经过去，这个时候意想不到的事情发生了：我们进行了重新分班！从素质教育的小学升上初中的我并不明白这样的含义，也觉得这样非常残酷。为什么我们这些学生就不能和一开始认识的同学安安稳稳共同陪伴三年呢，为什么非要把各个成绩好的学生集中在一起，而不是分开各领风骚呢。我第一次经历分班，我并不理解。但是我所做的，我能做的只有接受，那天晚上，原先的班主任跟我的父母电话打了好久，我却处在一种不自觉的震撼之中，没有情绪波动，内心仍然认为下个学期的周边还是那群同学，而我会在熟悉的环境中启程我的新的一个学期。
-终于开学了，我来到了新的班级，尽管非常想念原来的同学和老师，但这也是我无可奈何的事情。我来到了初中最好的班级，这里高手如云，每个人似乎都跟自己一样厉害，甚至还有不少人比自己厉害的多。在原先的班级中待惯了，现在就会感受到不小的落差。幸亏在班级中又认识了不少新朋友，让我怀古的心情好了许多。为了不丢原先班级的脸，我基本上努力学习，本想着能够保持中正的排名，但是意料之外，第一次考了一个非常好的成绩，是我初中的最好成绩，年级14名，和我的好朋友 tjstjstjs 的成绩仅差0.5分，这是我第一次分数接近他，也是最后一次，从此之后我就再也没有考过他，我也非常钦佩他的努力。在这个学期中，对于信息学我是疏于练习的，现在想来原因可能是当时刚分入一个新的班级，心情还没有调整过来，我一心投入到文化课上，也正是因此，这个学期我文化课基本没有掉过队。
-在这个学期除了 tjstjstjs 是我认识的成为好朋友的同学，另外一个一直深刻影响我直到大一的同学也正是跟我同一个班级，为了个人隐私，这里我暂且把她叫做 www 小姐。当时我的身高在班上的身高并不能算高，于是在有排队的情况下，我排到了 www 小姐的旁边，排队走路时，有时她谈论着周末父母做小龙虾吃的快乐，有时她诉说着原来班级班主任的好。我想，原来我们都差不多，都是从一个普通班通过成绩考上来，而最终被分到这个班级，我们都念着原先的班级，不可谓不是身在曹营心在汉。我跟她总是去和自己原先的班主任聊天，一来一去也是多次偶遇，就这样熟悉了起来。
-当然，一个学期又很快的过去了，这个暑假我先是前往了美国游学，参观了各种美国著名的景点，了解了美国的学校然然，然而我觉得其实大城市美国都跟中国差不多，而中小城市更是中国好一些，主要是因为我觉得美国的网络太差了。回来之后，我暑假面临着我即将要参加的第一次正经的联赛即 NOIP2018NOIP2018NOIP2018 。
-然而我已经一个学期没有怎么碰过信息学了，那个时候的我因为要参加这样的可以对考大学有好处的比赛而奋发昂扬，重新拿起了微微落了一层灰的《信息学奥赛一本通》，对着电脑敲打起来。不管是分支，还是顺序，还是循环，我都逐渐重新熟悉起来，甚至到当时还在的一个题目网站刷题打榜单（这个OJ似乎现在已经消失了），我剩下的暑假便花费在这个上面。
-初二上学期以一种及其戏剧的形式来到了我的眼前，又是在放假的最后一天，我们被通知了又一次分班，这次是自招班。众所周知，襄阳四中五中为了防止每年华师一从襄阳的中小学掐走大量的尖子生，便在华师一的招生考试前面举办了自主招生考试，这一批240个同学可以不用中考直接进入四中五中，招生一般是每年的四月份，也就是说，可以比同一届的同学早4-5个月进入高中，省去那繁琐的重复的无所意义的中考备考，而是直接学习高中课程，并有在学习高中知识的基础上学习竞赛的资格。我侥幸进入了自招班，同时来到自招班的当然有 tjstjstjs ，www 小姐也不遑多让，更令我兴奋的是我原先在初一上还在一起的两位室友 ljhljhljh 和 wyxwyxwyx 也是进入了自招班。
-在初一下的时候，曾有一位疑似喜欢我的女生，每次遇见的时候都会给我打招呼，然而我并无感觉，每次她跟我说话的时候到最后都会加一句喜欢我，毕竟是第一次在对话中被女生直言喜欢，我也是非常害羞，再一个我当时是一个书呆子，提纲掣林得来说，我因为道德与法治课本七年级下册的课程，知道了“青春期的心理萌动是正常的现象，并不是真正的喜欢，而是一种错觉”。我一直坚持这个原则到快到中考的时候。
-初二上学期的返校是在一个下午，我们的语文老师没有更换，而其他老师却换了个便，我早早地准备好学习用品和生活用品，从家中出发，来到了新的寝室，整理好床上用品我便前往教室。
-作为初二学生，我们换了一个教学楼，我走下宿舍楼，穿过操场，来到了教学楼的楼下，就在我准备上楼的时候，有人突然从我的后方出现，从后面拍了我一下，我一向对外界不是很关注，所以我一回头，听到一阵清澈的声音，一阵沁人心脾的化妆品香气冲进了我的鼻子，定睛一看，原来是 www 小姐，她化妆化得不够成熟，甚至有些过度，然而我不知道为什么她看起来这么好看，我发愣着，思绪在我的脑中打转，思考着种种，但是找不到正确答案的出口。
-一句话结束了我的思考。
-「这个学期，我们又分到了一个班啊！」
-她笑着说着。
-我也前言不搭后语的回着。
-「是啊，不知道这次的老师怎么样呢」
-那我们一起去教室吧。这句话当然没有说出来。但是我们保持着似近非近的距离，一起走到了四层的教室，那是我们八年级共同的班级，八十二班。
-第二章 埋下种子的因果
-再次的分班让我的不适减少了许多，因为是把各个班成绩好的同学都分到一起组建自招班，我初一下班上的大部分同学自然而然地跟我进入了同一个班级，让我有些欣慰，而又多了两个同学，也就是 ljhljhljh 和 wyxwyxwyx ，让我的初二生活充满了更多期待。
-和 www 小姐，走上楼梯，一进入教室，因为老师还没有正式排座位，于是来得早的我们就坐在了教室的前排，也就是最好听课、最好学习的地方。我坐在进门第一排的中间位置，而 www 小姐就坐在我的左边。
-收拾了一会儿自己的暑假作业等等，把书包里的东西整理到了桌子内部，一切都井然有条了，人也舒坦了起来。这个时候 ljhljhljh 进入了教室，和他半年没有在同一个班级上的我急忙把他招呼到我的右边坐下，和他开始了闲聊时刻，叙叙旧，并展望着未来。wyxwyxwyx 也随之进入了教室，三人小团体便很快形成了。左边的 www 小姐也也没有参与进话题，随后我就抛之脑后了。
-初二的班主任，我暂且称为 WhiteWhiteWhite 老师，她走进了教室，在所有人都到齐了之后，为我们开了一次小小的开学班会，大概是有关暑假的过去，以前的班级和未来的目标云云，同学们也是认真听着，想象着自己在班级里大放异彩的样子，我也摩拳擦掌，想象着自己通过自招之后可以提前学习信息学竞赛，完成每个 OIerOIerOIer 的梦想——夺得 NOINOINOI 金牌，进入集训队，保送清华北大！
-当然，在寄宿制学校，为学习 OIOIOI 所能做的只有平日里好好学习，放假的时候进行短期的培训，从而获得奖项的途径。随着 NOIP2018NOIP2018NOIP2018 的一天天逼近，我在国庆的时候前往了武汉进行集训，是在一个不知名的小机构，名叫深学汇，老师是一个因为获得联赛一等奖而从河北保送到武汉大学计算机学院的人。我们在那里进行了七天的集训，通过这个集训，我看到了很多之前没有学过的东西，对于初二的我是一种莫大的震撼。在这里，我了解到并查集，dfs，bfs，动态规划等等这些我从来都还没有听说过的东西，而在最后一次的模拟测试中，我也完全答对了几道题目，信心立马就上来了。在最后，吃着武汉的火锅，看着华科的光谷体育馆，我坐着家里的车离开了武汉，回到了初中学校继续上课。
-通过这次集训，我对信息学更加感兴趣了，与之而来的是对自己的自信过度，这将会在很久以后得到体现。
-回到了初中，时间照常流动着，我依旧按照学校认真学习文化课，放假努力学习信息学的劲头进行着每日的安排，这个时候突如其来的月考再一次打断了我的思绪。在组成自招班之后的第一次月考，我考出了继初一上期末考试的第二差成绩。我原本以为那是我最后一次会考那么差，然而第二次还是发生了。因为班级只有40多人，这个名次显然会在每个学期的分班中对我的去留产生影响。已经和熟悉的同学待了那么久了，我不想分开！自己安慰着自己，控制着情绪不去消极，然而成绩单发下来张贴在教室前面的时候，我的内心还是咯噔了一下。这个我的名次从熟悉的中上方看不到了，名字跑到了成绩单下面去，几个一百多名次的黑字在白色的纸张下显得更加突兀。
-这个时候一个同学走过我的旁边，似乎是一个认识我但是我不熟悉的同学，看着成绩单。
-「xx，你不是很厉害吗，这次怎么没考好？」
-同学的疑问更是把我的内心压到了地底下。我好想逃离这个地方，我暂时不想出现在这个教室，我不想在上课的时候听老师讲卷子，我不想，我不想，我不想！
-「xx他只是发挥失误了，偶尔没考好罢了，马有失蹄，人有失手罢了。」
-这个时候，www 小姐不知道为什么出现在了成绩单旁边。
-「没事，下次加油吧！」
-她说着这句话对我笑了一下，不知为什么，我似乎不再那么想要逃离这个教室，我的心跳似乎加快了几拍，感觉到有些害羞，转向自己的座位，头也不会地小声说了句谢谢，回到了座位上。内心的天气也从万里乌云变成了万里无云，或许我真的要加油了，为了还跟她一个班级，不对，是为了最终考过自主招生，提前进入四中五中，通过信息学完成自己的梦想，逐梦清北，名震鄂西北！
-此后，神奇般的，在初中，我就没有再考过这么差的成绩。
-第三章 守株待兔第一撞
-不过该来的还是要来的，随着日期的临近，我在襄阳五中大成楼比完了 NOIP2018NOIP2018NOIP2018 普及组的初赛，并顺利进入了复赛。当年的复赛是和 wuxianucwwuxianucwwuxianucw 等一众学长一起进行的，不过那个时候我还不认识他们。我坐上了前往武汉的火车，因为是第一次参加这样的奥林匹克信息学联赛，所以我还是非常兴奋的。在火车上，虽然心理上很紧张，但是第一次参赛还是故作镇定，仿佛自己已经胸有成竹，优势在握。经过一个多小时的高铁和四十多分钟的地铁，我们也许到达了光谷站，但是一下车，看到的不是现在的光谷大转盘等云云，而是一个又一个工程栅栏遮遮掩掩着，似乎在进行着非常宏大的工程。走过一道道沟壑纵横的路，我们终于走到了先前预定的酒店，也是襄阳五中的信息学教练 fff 老师带学生来比赛常来的酒店。不过走出铁栅栏之后，我才看到，墙上写着工工整整的几个大字“奋发向上，迎接2019武汉军运会！”，那时的我，还有没有意识到这个事情将会是我从初中到高中人生的转折点，也是一个百年未有之大变局。
-来到酒店，我和家长住一个房间，由于是比赛的前一天，所以我拿出了笔记本电脑，打开了一些考前注意以及考前必掌握知识点的贴子看了起来，特别注意的是深学汇的老师在集训时候特别强调的要会写文件的输入输出，这样才能在这个 OIOIOI 赛制中成功测评，并拿到自己应有的分数，在复习完这些之后，我拿起了《信息学奥赛一本通》，以求新的突破，从而应对可能会出现的题型。就这样，我翻到了这样一道题目开始做。
+    <title>汉诺塔问题</title>
+    <url>/2019/07/26/%E6%B1%89%E8%AF%BA%E5%A1%94%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[汉诺塔问题（Hanoi Tower Problem）
+汉诺塔问题家喻户晓，它源于一个印度的神话，内容如下：
+在世界中心贝拿勒斯（在印度北部）的圣庙里，一块黄铜板上插着三根宝石针。印度教的主神梵天在创造世界的时候，在其中一根针上从下到上地穿好了由大到小的64片金片，这就是所谓的汉诺塔。不论白天黑夜，总有一个僧侣在按照下面的法则移动这些金片：一次只移动一片，不管在哪根针上，小片必须在大片上面。僧侣们预言，当所有的金片都从梵天穿好的那根针上移到另外一根针上时，世界就将在一声霹雳中消灭，而梵塔、庙宇和众生也都将同归于尽。
+这个问题看起来十分可怕，实际上很简单。接下来就解决一个问题来体会这个小小问题中的大大的递归思想！
 
-给你 k 枚相同的鸡蛋，并可以使用一栋从第 1 层到第 n 层共有 n 层楼的建筑。
-已知存在楼层 f ，满足 0 &lt;= f &lt;= n ，任何从 高于 f 的楼层落下的鸡蛋都会碎，从 f 楼层或比它低的楼层落下的鸡蛋都不会破。
-每次操作，你可以取一枚没有碎的鸡蛋并把它从任一楼层 x 扔下（满足 1 &lt;= x &lt;= n）。如果鸡蛋碎了，你就不能再次使用它。如果某枚鸡蛋扔下后没有摔碎，则可以在之后的操作中 重复使用 这枚鸡蛋。
-请你计算并返回要确定 f 确切的值 的 最小操作次数 是多少？
+有三根柱子，第一根柱子上有n个从下向上越来越小的圆盘。
 
-现在来看，这道题目就是一个典型的使用二分加上动态规划的算法，但是对于当时的我而言怎么也看不明白，只能强行对着代码进行理解，祈求得到一丝慰藉，然而，我没有继续看下去，把这道题目抛之脑后，去吃饭了。
-除了高中的学长学姐，与我一起同行的还有一个跟我同年级的初中生，她也是学习信息学竞赛的，这里暂且叫她 lll 同学。 lll 同学和她家长也随着 fff 老师的带领前来，住进了酒店，现在也是吃饭时间了。论资历来讲，她似乎比我早参加一年比赛，在 NOIP2017NOIP2017NOIP2017 也取得了不错的成绩，不过还是吃饭比较重要。下楼吃饭，是一个吃小碗菜的餐厅，吃的多少全凭你拿了多少，也并不会像那种专门的炒菜一样很贵，我大抵当时吃了一些鸡蛋羹，虽然记忆已经模糊，但是当时第一次吃这种小碗菜的新奇感觉还回荡在我的记忆中，虽然我现在不喜欢吃小碗菜了就是说。吃完饭之后，我便回到了酒店，看了几道题目和注意事项，以及对拍的方法之后我就去睡觉了，长夜虽漫漫，仍然不如第二天早上的闹钟来得快。
-第二天早上，为了准时参加比赛，我早早地起了床，前往了湖北省信息学联赛复赛的指定比赛地点的华中科技大学，走进南大门，迎面而来的是太阳照的雪亮的毛主席像，一只手举起来，面向着前面的一条大道，似乎正在招手迎接着更加美好的未来，明天会更好。
-往前走有一个大条幅，上面写着这次比赛的名称，内心也逐渐激动起来。首先在名单上找到自己的名字和机房，然后背着包走上楼，找到自己坐的位置。其实在前一天， fff 老师已经带我们来看过机房了，这里的环境跟我想象中的大学很相似，一排排的电脑坐着一排排的人，在激烈地打着代码，有一个似乎是保送华科的学长来到了旁边，和老师欢快的聊着，也许到时候我如果能保送的话，我是不是也会像他们那样呢。想着想着，回到现实，我坐在比赛的赛场上，老师走进来，开始公布密码，我有条不紊的按照老师说的密码一个一个输入。
-好！顺利解压！
-打开文件之后，点开pdf，开始读题！
-认真读题，第一题是标题统计，是一个很基础的题目，直接秒了，不过要注意一下输入输出的问题。好的
-第二题是龙虎斗，似乎是一个模拟的题目，只需要考一考模拟，那就模拟一通吧。
-第三题是摆渡车，似乎有点动态规划的感觉，但是我当时又没有把动态规划学会，那就继续模拟一通吧。
-到第四道题目，我才是完全不会了，因为当时集训和我自己学到的内容都还没有到树的时候，那没办法了，只能去找一找特殊性质，看看能不能特判掉算了。
-最后，随着暴力的进行，不会的题目的性质分析中，四个小时结束了，这也意味着 NOIP2018NOIP2018NOIP2018 结束了。出考场的时候，我自认为我所做的题目都做了出来，暴力也都打满了，嗯这样就满意了吧。在一层往外看，武汉的天空下着哗啦啦的大雨，最终坐上了地铁二号线，走进前往汉口的车，最终回到了襄阳，因为第二天还要继续上学，那初中生活。
-细说这次比赛，我大概率是准备不充分的，不仅仅是因为初一下基本什么都没有学，还因为自己对一些有关信息学的问题不求甚解，只是关注于某道题目的解法而没有达到举一反三的效果。更重要的是，我开始意识到，信息学并非像我想象的那么简单，前面到底有多少艰难与困苦呢，我不知道，我也不想知道，我只知道我参加这个比赛似乎就能在高考中取得什么加分优势，或者是一条实现我的梦想的捷径。我向来是那种喜欢耍小聪明的人，除非有必要，否则我不会去费劲心力去搞一个自己或许没有那么感兴趣的东西，到底是因为困难导致了我的困扰呢，还是困扰造就了我的困难，一切都不太明朗，赛后等待成绩的一个多月总算是过去了，到了揭榜的时候。
-奇迹般的，我的暴力能打满的都打满了，不会写的也稍微混了点分数。最终我获得了一个不高也不低的分数，也是成功拿到了普及组的一等奖。这是必然呢，还是偶然呢，不管怎么样，这一次获奖给当时的我了一针强心剂，也许我是有天赋的，也许我能成功拿到那个万众瞩目的金牌。也就是这第一次获奖，让后面的我继续学习信息学竞赛，也正是这一次获奖，让我学信息学竞赛学到了最后的时刻。
-第四章 无才扶我凌云志
-获得了普及组一等奖，按理来说并非非常困难，但是我却有些小小的自得酝酿在心中。然而，回到第一次月考的打击仍然在后续呈现缓慢恢复的状态，当然，没有再考过那么差了，考得越来越好了，但是仍然不足以留在这个班级。 WhiteWhiteWhite 老师的特点是考试之后换座位，然后换座位的原则是按照每次月考排名分数的先后顺序选座位，然后再按照一个月为周期的轮换制来让所有的组都有坐在前面和坐在后面的机会。第三次月考结束后，一扫第一次月考的不景气，我，终于也要往前一点选座位了。选座位靠前的总是那些成绩比较好的同学，他们稳稳地排在前面，丝毫不动摇，当然也包括 www 小姐，时常出现在年级前十的位置。位置一个个被选走，就像是用于缓冲的泡沫的泡泡一个一个被捏破，剩下的座位就像是不好捏的了，我考得中间，这个时候前面的座位就已经所剩无几了，于是我看到了 www 小姐后方还有两个位置。这两个位置，我到底选不选！我想选，这样的话或许能和她的座位近一点，但我不知道为什么想跟她的座位近一点，等到我反应过来的时候我已经把我自己的名字写在她名字的右下方了，为什么是右下方呢，我想可能是害羞吧。当座位开始调动的时候，我左边的同学应该是 bcbcbc 同学，如果是这样的话，我不知道当时用什么说服了他跟我换位置，但最终的结果是我换到了 www 小姐座位的后方，倒数第一排的位置。这样的日子也许给我每日的生活带来了一点新奇，我初中的时候英语很好，时常背诵前列背完，因为她成绩好，她是组长，组长需要听组员背书，因此我每次都迅速背完，然后在她面前兴奋得背书，或许我背的书是她听我当面说的最多的话。不过她每次都要听背书的时候似乎总有些不耐烦，也许是她自己也需要在有限的时间内背下来，为了节省时间的目的吧。时间过得很快，凛冽的冬日随着太阳直射点的南移更加寒冷，我们校内举办了元旦联欢晚会，这也意味着，新的一年到来了。我们班级的节目是一段暗光舞，人身上贴着的亮条可以控制亮灭，然后把环境的灯全部关掉的话，就可以通过控制亮灭的方式实现类似于人形瞬移的效果。我们班级另外一个节目是有关校园的小品，我的好朋友 ljhljhljh 和 wyxwyxwyx 也参与了小品的表演，让现场的观众们难以忘怀，初中的校长也点名表扬这个节目。在节目表演期间，常有排练的时候，这个时候同学们一般有自习，我突发奇想，想到自己的校园卡里面还有一些买零食的钱，而我想请 www 小姐吃零食，我就把校园卡给她说，你要不要一些零食呢？我可以请你哦！然而最后她并没有要，把卡还给了我，不知为何，我突发的奇想不禁让我感到失落。
-在元旦晚会之后，很快就面临着期末考试了，对于这次期末考试，我很认真的复习，但是因为题目有些简单，大家的分数都差不多，区区几分就可以相差很多名次。而我与众不同的是，我在这次考试的英语中拿到了樊城区那套卷子唯二的满分，不知道是不是因为题目太难了，其他人的分数都考得不是很高，然而一向都考得很好的 www 小姐似乎考得不太好，于是我想着，想用她安慰我的方式安慰她，但是当我想说话的时候，不知道什么噎住了我的喉咙，让我说不出一个字，她和我之间，只有令人窒息的沉默。期末考试结束，紧紧张张担心着分班被分走，此时此刻，我们的年级主任 hhh 老师为我们下了一颗定心丸，这个学期不分班，也就意味着下个学期会分班。但是我管不了那么多了，期末考试的结束意味着寒假的到来，意味着我即将开始下一段信息学奥赛的集训。
-2019年的北京没有雪，有的只是那瑟瑟的寒风，太阳如医院的冷光灯一样照在头上，令人做涕。这个寒假，来到的集训地点是清北学堂，而培训地点是位于北京的华北电力大学计算机房间。我因为是普及组1等奖，因此家长为我选择的是普及升提高的训练营，当时刚入营的我还想着自己一定可以全部学会，大杀四方，然而我错了。在当时的培训中，老师讲知识点的速度非常快，让我来不及听，只有初中数学基础的我根本听不明白。往上是最近公共祖先LCA的倍增做法和Tarjan做法，往下是中国剩余定理赖以生存的基础最小公约数，虽然有少数听得懂，但是大部分听不懂已然似乎是定局了，第四天和最后一天的模拟比赛便说明了这一点。也许最后，我获得的知识只是我不会和我要学以及那里的饭很难吃等云云了。
-至今记忆深刻的只剩下当时休息时候玩国际象棋，看西游记续篇以及当时模拟赛的时候做的一道题目了。
-题目如下：
 
-排队的小鸟
-题目背景
-有 n 位小鸟曾在排队，可是她们走散了。
-每个小鸟有一个编号，她们想要恢复原先的队列，可是她们几乎忘了她们之前站在哪里了，甚至忘了自己的编号！
-小鸟们并不聪明，但是她们还记得前面的小鸟和后面的小鸟的编号，如果前面或后面没有小鸟了，她们会记录一个 0。
-请你帮助小鸟们重新把队伍排起来吧！
-输入格式
-第一行一个正整数 N。
-接下来 N 行，每行 2 个整数,表示某一位小鸟前面的小鸟和后面的小鸟的编号。
-输出格式
-一行 N 个数，是小鸟的编号，表示小鸟的排列。
-说明/提示
-对于 30%的数据， 1 ≤n≤ 10。
-对于 50%的数据， 1 ≤n≤ 100。
-对于 100%的数据， 1 ≤n≤ 2 × 10e5。
-小鸟的编号保证不重复，在 int 范围之内。
+目标：使第一根柱子上的n个圆盘按原样摆放在另一个柱子上。
 
-当时的我还不太会打 MarkdownMarkdownMarkdown 的语法，但是这道题目我当时着实是没有做不出来，现在来看，只要使用链表的方式就可以把所有小鸟的排序排出来，从而获得满分的成绩了。而我旁边的一个同学倒是实打实做出来了。从这里，我看到了差距，旁边的同学我似乎已经记不住他的名字了，但是我知道他是一个东北的同学，因为他的初中是四年制。后面的几道题目看了看回顾，也总归是动态规划的做法和线段树的做法，然而虽然现在看起来简单，当时的我确做不出来。
-这次培训给我带来的最大收获是什么呢，我不太知道，但是我看到了很多我没有见过的算法，我看到了很多厉害的人，我也见识到了我的知识是多么的浅薄。虽然侥幸得了普及组一等奖，但也只是因为在湖北这个弱省的结果，如果是在浙江之类的强省呢？或许不知道结果，但是这个成绩确确实实给了我一种自己有机会的假象，让我不断努力下去，但是这个东西也确实看天赋，仅仅是努力是没有作用的，也许一直干下去并非一种好的结果。那么，抱着这样的信念，我该继续下去吗？
-拿着手上的笔记本电脑，是父母因为我获得了普及组一等奖给我买的，也许我应该坚持下去，但是就我的实力而言，我是否能够追寻到那个所有 OIerOIerOIer 的梦想呢？时间容不得我继续想，我能做的只有前进，无论前面到底是一片黑暗还是一片光明，我或许都该燃烧着内心的火焰英勇向前吧。过完了寒假，父母联系到了一位老师，是北京的老师，他比较熟悉北京的信息学竞赛，而且北京的教育资源当然比襄阳更好一些，于是我就每个周末和一个浙江的同学开始和他一起学习信息学了。
-对方听说了我获得过普及组的一等奖，因此先入为主认为我有一定的水准，其实湖北省的一等奖是有点水的，仅仅是做对了一道题目的多一点就拿到了一等奖。周末开始学习信息学，老师一开始就开始讲DP的专题，DP即动态规划，无后效性，对于当时的我来说，我不怎么听得明白，但是我也是看着题目一点点做，对于0/1背包、多重背包等简单问题当然是能够信手拈来，熟能生巧，但是越到后面越是困难。比如，为什么0/1背包可以把二维的状态压缩成一维的啊，因为数组更新的先后可以不需要一些数据，让空间利用率更高，但是如此简单的理论对于当时的我来说就是想不出来为什么。再比如环形DP等等，到底是把环直接拆成双倍长度的链呢，还是直接取余呢，两种做法也迟迟没有弄清楚，只弄了个模棱两可，把例题做对了，再往后我就知其然而不知其所以然了。
-初二下当然是一个比较好的学期，没有发生什么比较重大的事情，成绩也比较稳定，破除了初二上的定律，物理数学之类的学科也学得越来越好。然而正是因为寄宿制学校，信息学学的东西倒是常常遗忘，又因为每个月一次要进行的月考，信息学便常常耽搁。我也不知道几月几日，在今天的一次函数和明天的不等式中徘徊，我也不知道为什么要这样，只知道学着学着也许就会有美好的将来。在大众的赛道上越走越远，在小众的独木桥上踽踽独行，到底哪个才能更快的到罗马？我不知道，但我也放弃了思考，自认为着自己是对的。在一个学期的忙碌之后，我匆匆参与完期末考试就前往北京进行培训了。这次培训长达14天，一开始是一位来自于北京大学的学生给我们讲课，她的名字我至今还记得，她叫yyx，是一位女生OIer，在信息学竞赛中是少见的。然而，刚开始讲课就给我来了一个开幕雷击，虽然我接触过相关的概念，但是对其内核感觉是没有一点明白，依然是囫囵吞枣，百思不得其解，另外，每天需要前往某个地方进行学习，再加上在家里比较晚的睡眠让我每天困意连天，最后的结果就变成了老师在上面讲，我在下面喘瞌睡，没学到什么东西，最终的结果也是一团糟，但我仍然深刻的记得我当时学的是什么东西，讲的是 dfsdfsdfs 求强连通分量和边双联通分量，一个是用来缩点，其作用是把所有可以相互连通的图上的点缩成一个点，放到一起处理，这样就可以解决成环的问题了。除此之外我就忘记了很多东西，第一周也结束了。第二周，老师看我们基础很差，于是就来给我们补基础课和逻辑课。后面基础课和逻辑课倒是很好，学的很快，然而到最终的测试还是错了很多题目，老师很生气，恨铁不成钢，老师说，我们不适合学信息学竞赛，这样的学生甚至考985也有困难，当时我当然是义愤填膺，觉得自己并非说的那么不堪，但是一切都在之后埋下了伏笔。
-时间悄悄流逝，2019年的夏天也过去了，回想起2019年夏天的剩余日子，也不过是去了故宫等地方玩一玩，在最后看完《哪吒之魔童降世》之后便收到了老师们的急急如律令，坐上了返回襄阳的航班。理所当然，我升入了初三，也进行了例行每年一次的分班，我和 www 小姐以及 ljhljhljh 也分到了不同的班级，我被分到了12班，而另外两位分到了11班，当然，与我同班的还有 wyxwyxwyx 。这个学期开学非常早，紧锣密鼓的开始了学习，然而，自这个暑假之后，我学习信息学的时间越来越少了，主要是成为了初三生，进入了毕业年级，学校也对我们更加严格了。
-本来就少的可怜的周末假期也变少了，我需要学习信息学竞赛，也需要兼顾课内的课程，这相当困难。值得一提的是十一假期恰逢新中国成立70周年，我也同时学习校内课程，然而，语文一向不好的我错了一些背诵的题目，被老师进行了一个罚抄，我抄的非常痛苦，于是在抄完后的最后，多加了一句“怎么这么多啊”，于是我被语文老师赶到了教室最后站着上课，在我的印象中大概是站了两个月。（大概是因为每周的周考我都有各种各样不同的语文错误)
-时间不等人，因为是取消NOIP的第一年，比赛改成了CSP，我转而报名了CSP2019-S，也就是对应原先的提高组。然而，这一年对于当时的我特别难，第一题我记得很清楚，是格雷码，然而我最后没有考虑到unsigned long long 的问题，后面的题目更是基本不会做，喜提一个没有奖。我不由得想起在暑假说起我以后无法通过信息学竞赛出人头地的老师，或许他说的是对的，但是我并不相信所谓我不如别人的看法，别人能做到的，我也一定有机会能做到。我，还沉迷在信息学竞赛中。
-因为是初三，信息学竞赛也结束了，我在一个晚上回归了班级，开始了初三的复习。在襄阳这个落后的三线城市，信息学竞赛培训是没有的，教育是应试的，通行卷是文化课成绩的。我也随着大流回到了文化课的学习。然而，接下来这个春天，可不好过。
-第五章 花开花落花无言
-2019年结束的悄无声息，我所记得的只有年末的一场大流感，感觉身边不少人都得了感冒，我也有幸中招，被带回家打了几天吊针。看着手机上快点的”噩梦时代“，时间一步步前进，越来越要趋近中考了，考完九年级第一个学期的期末考试，我在1月1号这一天回到家里过元旦，偶然间，我在手机上刷到了有关”武汉不明原因肺炎“的新闻，以为是谣言，然后就如往常一样度过了后面的日子就开始放寒假了。寒假回到老家，因为马上要中考了，给自己制定了满满当当的计划表，期待着年后的好成绩能够降临在自己头上。然而，好景不长，随着院士钟南山的发号：有人传人，武汉以及湖北周边迅速被列为了疫情源地，对武汉进行了封城操作，其他地方也进行了静默管理，整个荆楚大地上霎时间安静了下来，年味淡了许多。我正好在农村，户与户之间的距离很远，所以我相对来说比较自由，但不同的是我要开始上网课了，使用的是学校的一些神奇的小软件，比如“空中课堂”，跟别的学校使用叮叮不太一样。我在上面和同学一起上课，同时在桌面上使用qq和同学一起聊天，度过了愉快的三个月（然而没学到什么东西），也是那个时候开始大规模观看小说的。武汉封城，武汉加油，疫情还是扩散到了世界各地，随之而来，国内的疫情也慢慢稳定下来。我们挑了一个没有那么麻烦的日子从老家返回襄阳，最后又在襄阳待了一个多月，终于在5月18日开学了。这个时候开学，我们的中考和高考一样，也推迟了一个月，而我们的体育中考也取消了。回到学校，开启了紧急的50多天的冲刺（百日誓师大会是在家里进行的），五十多天，在家里玩了很久的我自然必须加把劲儿冲刺，把没有背的书全部背过，把不会的数学题全都写对，总算在决战之时一击制胜，中考也考了一个相当不错的分数，进入了襄阳五中的a1班。
-所谓襄阳五中的a1班，就是一个特色班级，选择的是中考考得A和分数相对很高的学生。当时 www 小姐考得不是特别好，但是也通过襄阳四中国际部的形式进入了襄阳四中，好朋友 ljhljhljh  则是跟我进入了同一个班级，wyxwyxwyx 进入了襄阳四中。由于中考延后了一个月，暑假也相对少了一个月，我学信息竞赛的时间略显不足了。我
+
+注：一次移动一个圆盘，不可以出现大的盘子在小的盘子上面的情况。
+
+解：
+首先我们先玩一下这个游戏。
+接着我们找出一个规律，要彻底地把这个塔移开，我们必须要移开上方的n-1个盘子，使最下面的盘子可以移动到另一个柱子上，然后在把上方的n-1个盘子移动到最下
+面的盘子（也就是最大的盘子）上就可以解决了。而n-1个盘子的移动方法也一样，因为最下面的大盘子对上面的n-1个盘子的移动毫无影响。
+因此，我们可以得出一个递推式：
+Fn=2Fn−1+1F_n=2F_{n-1}+1
+Fn​=2Fn−1​+1
+FnF_nFn​代表第一个柱子上有n个盘子的情况，所以这个问题得到了解决
+代码如下：时间复杂度O(2n)O(2^n )O(2n)
+#include &lt;iostream&gt;using namespace std;int main()&#123;	int n;	int f[20];	cin&gt;&gt;n;	f[1]=1;	for(int i=2;i&lt;=n;i++)	f[i]=2*f[i-1]+1;	cout&lt;&lt;f[n]&lt;&lt;endl;	return 0; &#125;
+这个问题就简单地这么解决了。（瞎说，还有更简单的方法）
+让我们来看一看输出结果：从n=1开始:1 3 7 15 31 63 127 255 511 1023 2047 4095 8191……
+我们发现一个规律，所有的FnF_nFn​满足：
+Fn=2n−1F_n=2^n-1
+Fn​=2n−1
+这才是最简单的方法！
+有些人会说，这个方法是瞎猜的，只是凭运气而已，没事儿，我可以证明一下。
+证：
+数学归纳法。
+当 n=1n=1n=1 时，F(n)=1,2n−1=1F(n)=1,2n-1=1F(n)=1,2n−1=1 ;命题显然成立
+假设 n=kn=kn=k 时命题成立，即F(k)=2k−1F(k)=2k-1F(k)=2k−1；
+当 n=k+1n=k+1n=k+1 时，F(k+1)=F(k)∗2+1F(k+1)=F(k)*2+1F(k+1)=F(k)∗2+1 ;
+因为F(k)=2k−1F(k)=2^k-1F(k)=2k−1
+所以
+F(k+1)F(k+1)F(k+1)
+=2F(k)+1=2F(k)+1=2F(k)+1
+=(2k−1)∗2+1=(2^k-1)*2+1=(2k−1)∗2+1
+=2k+1−1=2^{k+1}-1=2k+1−1
+证毕。
+所以这才是这种汉诺塔问题的最优解！
+最终代码如下：时间复杂度O(⁡log2nlog_2nlog2​n )
+#include &lt;iostream&gt;using namespace std;int qp(int a,int b)&#123;	if(b==0)	return 1;	int t=qp(a,b/2);	if(b%2==0)	return t*t;	else	return t*t*a;&#125;int main()&#123;	int n;	cin&gt;&gt;n;	cout&lt;&lt;qp(2,n)-1&lt;&lt;endl;	return 0;&#125;
 ]]></content>
       <categories>
-        <category>游记</category>
+        <category>学习笔记</category>
       </categories>
   </entry>
   <entry>
@@ -2195,18 +2163,50 @@ N=100，说明接下来的询问数均不大于100且不小于1。
       </categories>
   </entry>
   <entry>
-    <title>【解题报告】 POJ1328 雷达设备</title>
-    <url>/2019/08/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-POJ1328-%E9%9B%B7%E8%BE%BE%E8%AE%BE%E5%A4%87/</url>
-    <content><![CDATA[【解题报告】 POJ1328 雷达设备
-题目：雷达设备（已翻译）
-解题思路：
-贪心。
-这道题只需要将x轴上方的一些建筑物，利用勾股定理算出x轴上一段能管辖它的区间，所以问题就变成了给定n个区间，在x轴上放置最少的点，使每个区间至少包含一个点，但是，特别地，如果建筑物的纵坐标超出了每个雷达管辖的半径，就直接不会继续下去了，因为不管怎么样，那个建筑物都无法被管辖，所以我们只需要每个建筑物算出来的区间的右端点进行排序，然后设置一个数组vis，来记录每个建筑物是否被管辖到，然后就ok了
-AC代码
-#include &lt;iostream&gt;#include &lt;algorithm&gt;#include &lt;cmath&gt;using namespace std;const int maxn=1005;int n,d;int ans;bool vis[maxn];struct sec&#123;	double l;	double r;&#125;b[maxn];bool cmp(sec p,sec q)&#123;	return p.r&lt;q.r;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;d;	for(int i=1;i&lt;=n;i++)	&#123;		int x,y;		cin&gt;&gt;x&gt;&gt;y;		y=abs(y);		if(y&gt;d)		&#123;			cout&lt;&lt;&quot;-1&quot;&lt;&lt;endl;			return 0;		&#125;		b[i].l=x-sqrt(d*d-y*y);		b[i].r=x+sqrt(d*d-y*y);		vis[i]=false;	&#125;	sort(b+1,b+1+n,cmp);	for(int i=1;i&lt;=n;i++)	&#123;		if(!vis[i])		&#123;			ans++;			vis[i]=true;			for(int j=i+1;j&lt;=n;j++)			&#123;				if(b[j].l&lt;b[i].r)				vis[j]=true;			&#125;		&#125;	&#125;	cout&lt;&lt;ans&lt;&lt;endl;	return 0;&#125;
+    <title>简单素数筛</title>
+    <url>/2019/07/29/%E7%AE%80%E5%8D%95%E7%B4%A0%E6%95%B0%E7%AD%9B/</url>
+    <content><![CDATA[简单素数筛
+今天，我看了一些数学知识，而数论是比较主要的，而素数筛是其中重要的一个，现在来介绍一下简单素数筛
+首先来，普及一下素数的概念
+
+若一个正整数无法被除了1和它本身之外的任何自然数整除，则称该数为素数，也称质数（或素数），否则称该正整数为合数。
+
+通过介绍质数（下文统称质数）的概念，我们知道了一种判断质数的方法
+通过枚举：这种方法的速度太慢了，因此我们需要更快的方法
+ps：即使从1枚举到根号n也是很慢的
+所以我们要引进一种好方法
+就是大于二的所有数的倍数都是合数，那就好办了，我们可以从2开始（先初始化一个v[]数组的所有元素为零）2的倍数都是合数，标记v[i*j]为一,3的倍数都是合数，标记为1……
+以此类推，我们就可以得出答案了
+下面有一道例题
+
+题目描述
+给定一个范围N，你需要处理M个某数字是否为质数的询问（每个数字均在范围1-N内）
+输入格式
+第一行包含两个正整数N、M，分别表示查询的范围和查询的个数。
+接下来M行每行包含一个不小于1且不大于N的整数，即询问该数是否为质数。
+输出格式
+输出包含M行，每行为Yes或No，即依次为每一个询问的结果。
+输入输出样例
+输入 #1
+100 52349197
+输出 #1
+YesYesNoNoYes
+说明/提示
+时空限制：500ms 128M
+数据规模：
+对于100%的数据：N&lt;=10000，M&lt;=10000
+样例说明：
+N=100，说明接下来的询问数均不大于100且不小于1。
+所以2、3、97为质数，4、91非质数。
+故依次输出Yes、Yes、No、No、Yes。
+
+这道题就是一道标准的筛素数的题，因为它要访问多个数啊，不做素数筛不可以啊，所以经过努力，我写出了代码
+#include &lt;iostream&gt;#include &lt;cstring&gt;using namespace std;int v[10000005];//记录用int n,m;int p;void primes(int n)//简单素数筛函数&#123;	memset(v,0,sizeof(v));	for(int i=2;i&lt;=n;i++)	&#123;		if(v[i])		continue;		for(int j=i;j&lt;=n/i;j++)		v[i*j]=1; 	&#125;&#125;int main()&#123;	cin&gt;&gt;n&gt;&gt;m;	primes(n);//调用函数	for(int i=1;i&lt;=m;i++)	&#123;		cin&gt;&gt;p;		if(v[p])		cout&lt;&lt;&quot;No&quot;&lt;&lt;endl;		else 		cout&lt;&lt;&quot;Yes&quot;&lt;&lt;endl;	&#125;	return 0;&#125;
+这就是简单素数筛，你get到了吗？
+下集预告：高级素数筛（或其他的）
 ]]></content>
       <categories>
-        <category>OI时期解题报告</category>
+        <category>学习笔记</category>
       </categories>
   </entry>
 </search>
