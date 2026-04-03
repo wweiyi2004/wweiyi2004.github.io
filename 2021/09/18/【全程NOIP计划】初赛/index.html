@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【全程NOIP计划】初赛 | wweiyiのblog</title><meta name="author" content="wweiyi"><meta name="copyright" content="wweiyi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="【全程NOIP计划】初赛 计算机基础 IT发展历史 第一台计算机：埃尼阿克 ，1946 应用：计算，数据储存处理，通信，辅助工作等 第一个程序员：Ada（女），为了纪念她，命名了一个编程语言是她的名字 计算机：图灵奖 数学：菲尔兹奖 物理化学生物经济文学和平：诺贝尔奖 ACM（美国计算机协会），IEEE（美国工程院学会），臭名远扬CCF 【NOIP2018】下列关于图灵奖的说法中，正确的有（ ）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【全程NOIP计划】初赛">
+<meta property="og:url" content="http://wweiyi2004.github.io/2021/09/18/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B/index.html">
+<meta property="og:site_name" content="wweiyiのblog">
+<meta property="og:description" content="【全程NOIP计划】初赛 计算机基础 IT发展历史 第一台计算机：埃尼阿克 ，1946 应用：计算，数据储存处理，通信，辅助工作等 第一个程序员：Ada（女），为了纪念她，命名了一个编程语言是她的名字 计算机：图灵奖 数学：菲尔兹奖 物理化学生物经济文学和平：诺贝尔奖 ACM（美国计算机协会），IEEE（美国工程院学会），臭名远扬CCF 【NOIP2018】下列关于图灵奖的说法中，正确的有（ ）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png">
+<meta property="article:published_time" content="2021-09-18T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-03T04:52:46.351Z">
+<meta property="article:author" content="wweiyi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【全程NOIP计划】初赛",
+  "url": "http://wweiyi2004.github.io/2021/09/18/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B/",
+  "image": "https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png",
+  "datePublished": "2021-09-18T04:00:00.000Z",
+  "dateModified": "2026-04-03T04:52:46.351Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "wweiyi",
+      "url": "http://wweiyi2004.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://wweiyi2004.github.io/2021/09/18/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【全程NOIP计划】初赛',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="web_bg" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/vrus21fo.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" alt="Logo"><span class="site-name">wweiyiのblog</span></a><a class="nav-page-title" href="/"><span class="site-name">【全程NOIP计划】初赛</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【全程NOIP计划】初赛</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-18T04:00:00.000Z" title="发表于 2021-09-18 12:00:00">2021-09-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-03T04:52:46.351Z" title="更新于 2026-04-03 12:52:46">2026-04-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92/">全程NOIP计划</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-04-03 12:52:46&quot;}" hidden></div><h1 id="全程noip计划-初赛">【全程NOIP计划】初赛</h1>
+<h2 id="计算机基础">计算机基础</h2>
+<h3 id="it发展历史">IT发展历史</h3>
+<p>第一台计算机：埃尼阿克 ，1946</p>
+<p>应用：计算，数据储存处理，通信，辅助工作等</p>
+<p>第一个程序员：Ada（女），为了纪念她，命名了一个编程语言是她的名字</p>
+<p>计算机：图灵奖</p>
+<p>数学：菲尔兹奖</p>
+<p>物理化学生物经济文学和平：诺贝尔奖</p>
+<p>ACM（美国计算机协会），IEEE（美国工程院学会），<s>臭名远扬</s>CCF</p>
+<p>【NOIP2018】下列关于图灵奖的说法中，正确的有（ ）。</p>
+<p>A. 图灵奖是由电气和电子工程师协会（IEEE）设立的。</p>
+<p>B.    目前获得该奖项的华人学者只有姚期智教授一人。</p>
+<p>C. 其名称取自计算机科学的先驱、英国科学家艾伦·麦席森·图灵。</p>
+<p>D.  它是计算机界最负盛名、最崇高的一个奖项，有“计算机界的诺贝尔奖”之称。</p>
+<p>【解析】答案选择BCD，图灵奖是又ACM设立的，其它的没得一点问题</p>
+<h3 id="计算机组成">计算机组成</h3>
+<p>冯诺依曼结构（储存程序原理）——计算机的基础模型</p>
+<p>字长：32位和64位；意思指的是每次指令可以处理32位的数据或者64位的数据</p>
+<p>主频：2.4GHz，指的是计算机处理的速度</p>
+<p>内存：8GB，临时存放东西，也叫RAM，随机存储设备，断电丢失</p>
+<p>位Bit：一个0，或者一个1,</p>
+<p>字节Byte：8个0或1</p>
+<p>1KB=1024B,1MB=1024KB,1GB=1024MB,1TB=1024GB;</p>
+<p>摩尔定律：18个月翻倍（快要失效了，主要是要突破物理极限了）</p>
+<h3 id="软件系统">软件系统</h3>
+<p>操作系统：Windows,DOS,UNIX,Linux,MacOS,Android,iOS,鸿蒙</p>
+<p>应用软件：浏览器，办公软件，游戏，机器语言，汇编语言，高级语言</p>
+<h3 id="编码">编码</h3>
+<p>文字、图片、声音-&gt;01串</p>
+<p>ASCLL编码，GBK编码（2字节），utf-8（3字节）</p>
+<p>图片：黑白（01），24位彩色(RGB)</p>
+<p>文件系统拓展名：</p>
+<p>图片:jpg,gif,png,tiff,jpeg</p>
+<p>文档：txt,docx,pdf</p>
+<p>声音：mp3/视频：avi,rm,mp4</p>
+<p>可执行文件：exe(Windows),无（Linux）</p>
+<h3 id="noi系列">NOI系列</h3>
+<p>NOI:1984,中国计算机学会(CCF)</p>
+<p>NOIP:1995-2019,2020-?</p>
+<p>可以带：文具（不能带草稿纸），衣服，水，证件</p>
+<p>2022年之后只能使用C++（明年就不能用了）</p>
+<h3 id="程序设计">程序设计</h3>
+<p>编译：代码-&gt;可执行文件（机器码） C/C++,Pascal</p>
+<p>解释：一样一行运行Python,JavaScript,PHP,BASIC</p>
+<p>时间复杂度：数据规模增长和运行时间增长的趋势</p>
+<p><a target="_blank" rel="noopener" href="http://www.zhihu.com/answer/830343420">www.zhihu.com/answer/830343420</a></p>
+<h2 id="基础算法串讲">基础算法串讲</h2>
+<h3 id="排序">排序</h3>
+<h5 id="计数排序">计数排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>a</mi><mo>+</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(a+n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>是一种基于统计而不是基于比较的排序</p>
+<h5 id="选择排序">选择排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>不稳定</p>
+<h5 id="冒泡排序">冒泡排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>稳定</p>
+<h5 id="插入排序">插入排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>稳定</p>
+<h5 id="归并排序">归并排序</h5>
+<p>时间复杂度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>稳定，需要额外辅助空间</p>
+<h5 id="快速排序">快速排序</h5>
+<p>时间复杂度平均 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>最坏为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>不稳定</p>
+<h5 id="堆排序">堆排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>不稳定</p>
+<h3 id="贪心">贪心</h3>
+<p>需要证明，有时候不正确</p>
+<p>比较奇技淫巧</p>
+<h3 id="二分">二分</h3>
+<p>顺序查找效率低，要找N次</p>
+<p>二分查找，需要找logn次，但是要求有序</p>
+<h3 id="递推递归分治">递推递归分治</h3>
+<p>递推：从小到大递推</p>
+<p>斐波那契数列 1 1 2 3 5 8 13 21</p>
+<p>递推要有初始值和递推条件</p>
+<p>分治：大问题拆成小问题，递归解决</p>
+<p>例如归并排序和快速排序</p>
+<h3 id="栈">栈</h3>
+<p>应用：</p>
+<p>卡特兰数：1 2 5 14 52；</p>
+<p>后缀表达式计算</p>
+<p>括号匹配</p>
+<h3 id="队列">队列</h3>
+<p>先进先出</p>
+<h3 id="链表">链表</h3>
+<p>有的时候比数组方便</p>
+<h3 id="树">树</h3>
+<p>有n个节点，n-1条边，可能有一个根节点，所有节点之间都联通，没有环</p>
+<p>森林是树的集合</p>
+<h3 id="二叉树">二叉树</h3>
+<p>高度，节点数量，叶子节点数量，下一层数量是上一层两倍</p>
+<p>每层的数量，一共的数量</p>
+<p>完全二叉树，满二叉树</p>
+<p>完全二叉树：有n层，前n-1层都是满的，最后一层的全部靠左</p>
+<h4 id="遍历">遍历</h4>
+<p>前序遍历：根左右</p>
+<p>中序遍历：左根右</p>
+<p>后序遍历：左右根</p>
+<h3 id="表达式树">表达式树</h3>
+<p>中序表达式就是最普通的表达式</p>
+<p>后缀表达式这个表达式的后序遍历</p>
+<p>前序表达式这个表达式的前序遍历</p>
+<p>可以对一个表达式树遍历，然后反表达来求什么奇怪的波兰啊，逆波兰表达式之类的</p>
+<h3 id="图">图</h3>
+<p>无向图，无向图（带权），有向图（带权）</p>
+<p>顶点V；边E，完全图的边数量：假设n为顶点数量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac {n \times (n-1)} 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord">2</span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>度数：顶点连着边的条数，有向图分入度和出度</p>
+<p>重边：两个相同定点中间有很多边</p>
+<p>自环：自己连着自己</p>
+<p>简单图：没有重边和自环</p>
+<p>存储方式：</p>
+<p>邻接矩阵，邻接表</p>
+<h3 id="图论算法">图论算法</h3>
+<p>单元最短路径：Dijkstra nlogn SPFA死了</p>
+<p>Floyd <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">n^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>PS：循环的顺序比较重要，实际上不记得的话，任何一种方式的循环只要循环三次就一定能得到正确结果</p>
+<p>最小生成树： Prim $ n^2$ ，kruskal  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">elog e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span></span></span></span></p>
+<p>Prim是针对点的，可以用堆优化，类似于Dijkstra，所以也是贪心</p>
+<p>Kruskal 是针对边的贪心，用并查集，一般来说用这个比较方便</p>
+<p>欧拉回路：一笔画问题，只能最多两个奇数度的定点</p>
+<h2 id="进制转换与位运算">进制转换与位运算</h2>
+<h3 id="进制转换">进制转换</h3>
+<p>n进制转10进制比较简单</p>
+<p>10进制转n进制，短除法</p>
+<p>注意一下十进制可以这么写 比如：10写成  10 B</p>
+<p>同样地，十六进制也有这么写的 10 H ，这个就表示<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>10</mn><msub><mo stretchy="false">)</mo><mn>16</mn></msub></mrow><annotation encoding="application/x-tex">(10)_{16}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">0</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">6</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<h3 id="计算机编码">计算机编码</h3>
+<p>原码：数字的二进制表示</p>
+<p>反码：除了符号位各位取反</p>
+<p>补码：正数不变，负数反码加一</p>
+<h3 id="主定理">主定理</h3>
+<p>秋令营中讲过</p>
+<p>话说难的主要是组合数学和读程序吧，awa，听天由命吧awa</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io">wweiyi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io/2021/09/18/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B/">http://wweiyi2004.github.io/2021/09/18/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://wweiyi2004.github.io" target="_blank">wweiyiのblog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2021/09/19/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%91CSP-S2021-%E9%80%80%E5%BD%B9%E8%AE%B0/" title="【游记】CSP-S2021 退役记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【游记】CSP-S2021 退役记</div></div><div class="info-2"><div class="info-item-1">【游记】CSP-S2021 退役记 Day -1 今天早上一起床，外面便是阴森森的（PS：似乎暗示了今天的考试题目），朝阳似乎没有漏出脸来，但是还是给积雨云染上了一层淡淡的红妆。雨慢慢地下着，布满水洼的地上在脚的作用下溅起了一朵朵水花，我走向了教室明德楼 拿起了笔袋，拿起了《信息学奥赛一本通&lt;初赛篇&gt;》，我向大成楼赶去，等我再打着伞走到楼下的时候，天似乎变得不是那么羞涩，平静起来了，成熟起来了。 走过林荫小道，同学们来来往往，陆陆续续地赶向明德楼教室，准备开始早自习，准备一天的周考，而我恰恰相反，与他们相向而行，走向了机房 机房还是那个味道，但是比原来淡了许多，灰尘似乎在雨水之下收起了他的猖狂，安静地待在地上，无论机房内，还是机房外 打开灯，打开电脑，一阵阵熟悉感扑面而来，恩，这才是机房啊，我的生活方式 先打开了洛谷有题，做一做历年的真题，然后发现了一个规律，2013年和2020年初赛的题目有一些重复，于是我想，那是不是我应该看一下2014年的题目，我想着，确实，我也这么做了。 慢慢地，时间到了7：20，我去食堂吃了一个早饭，一碗相对于这鬼天气热腾腾的西红柿鸡蛋面，内...</div></div></div></a><a class="pagination-related" href="/2021/09/17/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2158-%E4%BB%AA%E4%BB%97%E9%98%9F/" title="【解题报告】luoguP2158 仪仗队"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">【解题报告】luoguP2158 仪仗队</div></div><div class="info-2"><div class="info-item-1">【解题报告】luoguP2158 仪仗队 原题链接：https://www.luogu.com.cn/problem/P2158 思路 这道题目经过分析，我们可以发现一个结论 即对于每一个点(x,y)(x,y)(x,y)，如果能被看到，则一定不存在一个点(xm,ym),m,xm,ym∈Z，(\dfrac x m,\dfrac y m),m, \dfrac x m,\dfrac y m\in Z，(mx​,my​),m,mx​,my​∈Z， 因为他们属于同一斜率k=yxk= \dfrac y xk=xy​ 观察可以得到，因为他们没有一个 mmm 可以使上面的上面的式子成立，即gcd(x,y)=1gcd(x,y)= 1gcd(x,y)=1 然后直接求gcd的话肯定是不行的，然后我们继续看 实际上对于一个固定的 xxx ，我们要统计的是一个数字 y∈[1,n]y\in [1,n]y∈[1,n] 让他们互质，所以我们要求的是x的欧拉函数 代码 123456789101112131415161718192021222324252627282930313233343536#include &...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">wweiyi</div><div class="author-info-description">一个wweiyi多次鸽掉的blog复活了</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wweiyi2004"><i class="fab fa-github"></i><span>推我！</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本博客于2025年7月8日重置<br>
+前OIer<br>
+现为武汉大学电子信息学院的学生<br>
+高中毕业于襄阳五中<br>
+欢迎观看我的博客！
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%A8%E7%A8%8Bnoip%E8%AE%A1%E5%88%92-%E5%88%9D%E8%B5%9B"><span class="toc-number">1.</span> <span class="toc-text">【全程NOIP计划】初赛</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80"><span class="toc-number">1.1.</span> <span class="toc-text">计算机基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#it%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="toc-number">1.1.1.</span> <span class="toc-text">IT发展历史</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90"><span class="toc-number">1.1.2.</span> <span class="toc-text">计算机组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.3.</span> <span class="toc-text">软件系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.4.</span> <span class="toc-text">编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#noi%E7%B3%BB%E5%88%97"><span class="toc-number">1.1.5.</span> <span class="toc-text">NOI系列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.1.6.</span> <span class="toc-text">程序设计</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95%E4%B8%B2%E8%AE%B2"><span class="toc-number">1.2.</span> <span class="toc-text">基础算法串讲</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">计数排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.2.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.3.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.4.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.5.</span> <span class="toc-text">归并排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.6.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">1.2.1.0.7.</span> <span class="toc-text">堆排序</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83"><span class="toc-number">1.2.2.</span> <span class="toc-text">贪心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86"><span class="toc-number">1.2.3.</span> <span class="toc-text">二分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%92%E6%8E%A8%E9%80%92%E5%BD%92%E5%88%86%E6%B2%BB"><span class="toc-number">1.2.4.</span> <span class="toc-text">递推递归分治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88"><span class="toc-number">1.2.5.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%9F%E5%88%97"><span class="toc-number">1.2.6.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-number">1.2.7.</span> <span class="toc-text">链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%91"><span class="toc-number">1.2.8.</span> <span class="toc-text">树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.2.9.</span> <span class="toc-text">二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86"><span class="toc-number">1.2.9.1.</span> <span class="toc-text">遍历</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%A0%91"><span class="toc-number">1.2.10.</span> <span class="toc-text">表达式树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE"><span class="toc-number">1.2.11.</span> <span class="toc-text">图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E8%AE%BA%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.12.</span> <span class="toc-text">图论算法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E4%B8%8E%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">1.3.</span> <span class="toc-text">进制转换与位运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.3.1.</span> <span class="toc-text">进制转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A0%81"><span class="toc-number">1.3.2.</span> <span class="toc-text">计算机编码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%AE%9A%E7%90%86"><span class="toc-number">1.3.3.</span> <span class="toc-text">主定理</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南">Claude Code 命令行安装与使用指南</a><time datetime="2026-04-03T13:00:00.000Z" title="发表于 2026-04-03 21:00:00">2026-04-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/31/meguminn-join-blog/" title="欢迎 Meguminn 正式入驻 wweiyi の blog">欢迎 Meguminn 正式入驻 wweiyi の blog</a><time datetime="2026-03-31T11:32:00.000Z" title="发表于 2026-03-31 19:32:00">2026-03-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/27/%E3%80%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%91%E8%B4%A5%E5%8C%97%E5%A5%B3%E4%B8%BB%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81/" title="【阅读笔记】败北女主太多了！">【阅读笔记】败北女主太多了！</a><time datetime="2026-01-27T07:16:37.000Z" title="发表于 2026-01-27 15:16:37">2026-01-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/15/%E3%80%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%9C%80%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="【学习笔记】最优化方法">【学习笔记】最优化方法</a><time datetime="2025-08-15T08:03:48.000Z" title="发表于 2025-08-15 16:03:48">2025-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/" title="【游记】2025年电子设计竞赛国赛">【游记】2025年电子设计竞赛国赛</a><time datetime="2025-08-06T15:29:46.000Z" title="发表于 2025-08-06 23:29:46">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2019 - 2026 By wweiyi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.1</a></span></div><div class="footer_custom_text">Hi, welcome to wweiyi's <a href="wweiyi2004.github.io">blog</a>!<br><a href="https://icp.gov.moe/?keyword=20259954" target="_blank">萌ICP备20259954号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wweiyi2004/BlogComment',
+      'data-repo-id': 'R_kgDOPK11pw',
+      'data-category-id': 'DIC_kwDOPK11p84Cs0hp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="向那比黑更黑比暗更暗的深渊中,祈求吾之深红闪光,觉醒之时已然降至,堕入无谬境界的真理啊,化作无穷的扭曲现界吧,起舞吧 起舞吧 起舞吧！,吾之魔力奔流所求之物即崩坏,无人能及之崩坏,森罗万象皆归尘土,从深渊前来吧！,Explosion！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="快来看看有什么好东西~" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

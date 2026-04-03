@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【全程NOIP计划】树上问题 | wweiyiのblog</title><meta name="author" content="wweiyi"><meta name="copyright" content="wweiyi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="【全程NOIP计划】树上问题 最近公共祖先 问题 给定一棵树，每次给两个点，求他们的祖先，且该祖先为深度最小 思路 一般来说，我们想到一个暴力做法 查询x,y的话，直接把x的祖先全部标记一遍，然后把y向上遍历，直到遍历到一个点，使得这个点被标记过，这个点就是x和y的最近公共祖先 或者，使得深度更大的第一个点一直向上跳，让x和y的深度一样，让他们一起一步一步向上跳，直到他们遇到同一个点，这样的方法正">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【全程NOIP计划】树上问题">
+<meta property="og:url" content="http://wweiyi2004.github.io/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="wweiyiのblog">
+<meta property="og:description" content="【全程NOIP计划】树上问题 最近公共祖先 问题 给定一棵树，每次给两个点，求他们的祖先，且该祖先为深度最小 思路 一般来说，我们想到一个暴力做法 查询x,y的话，直接把x的祖先全部标记一遍，然后把y向上遍历，直到遍历到一个点，使得这个点被标记过，这个点就是x和y的最近公共祖先 或者，使得深度更大的第一个点一直向上跳，让x和y的深度一样，让他们一起一步一步向上跳，直到他们遇到同一个点，这样的方法正">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png">
+<meta property="article:published_time" content="2021-11-18T23:19:00.000Z">
+<meta property="article:modified_time" content="2026-04-03T04:52:46.367Z">
+<meta property="article:author" content="wweiyi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【全程NOIP计划】树上问题",
+  "url": "http://wweiyi2004.github.io/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98/",
+  "image": "https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png",
+  "datePublished": "2021-11-18T23:19:00.000Z",
+  "dateModified": "2026-04-03T04:52:46.367Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "wweiyi",
+      "url": "http://wweiyi2004.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://wweiyi2004.github.io/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【全程NOIP计划】树上问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="web_bg" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/vrus21fo.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" alt="Logo"><span class="site-name">wweiyiのblog</span></a><a class="nav-page-title" href="/"><span class="site-name">【全程NOIP计划】树上问题</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【全程NOIP计划】树上问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-18T23:19:00.000Z" title="发表于 2021-11-19 07:19:00">2021-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-03T04:52:46.367Z" title="更新于 2026-04-03 12:52:46">2026-04-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92/">全程NOIP计划</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-04-03 12:52:46&quot;}" hidden></div><h1 id="全程noip计划-树上问题">【全程NOIP计划】树上问题</h1>
+<h2 id="最近公共祖先">最近公共祖先</h2>
+<h5 id="问题">问题</h5>
+<p>给定一棵树，每次给两个点，求他们的祖先，且该祖先为深度最小</p>
+<h5 id="思路">思路</h5>
+<p>一般来说，我们想到一个暴力做法</p>
+<p>查询x,y的话，直接把x的祖先全部标记一遍，然后把y向上遍历，直到遍历到一个点，使得这个点被标记过，这个点就是x和y的最近公共祖先</p>
+<p>或者，使得深度更大的第一个点一直向上跳，让x和y的深度一样，让他们一起一步一步向上跳，直到他们遇到同一个点，这样的方法正确性没有问题，它的复杂度和这棵树的深度是有关的</p>
+<p>考虑倍增，对于刚才的做法进行优化</p>
+<p>原来的方法：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">fa[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">a</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span></span></span></span>表示i的父亲</p>
+<p>倍增的方法：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">fa[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">a</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>表示i向上跳<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>j</mi></msup></mrow><annotation encoding="application/x-tex">2^j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.824664em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.824664em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span></span></span></span></span></span></span>到哪个点</p>
+<p>怎么预处理呢?</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f[i][<span class="number">0</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;=logn;j++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        f[i][j]=f[f[i][j<span class="number">-1</span>]][j<span class="number">-1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们就维护出来了</p>
+<p>所以倍增lca的步骤就是：</p>
+<p>1.先让y的深度比x大，然后将y和x调到深度相同的位置</p>
+<p>2.然后把log从小到大枚举，如果跳完了到的是同一个点，他们就不跳，如果不是同一个点，那么他们就向上跳，这样重复的话一定可以跳到同一个点</p>
+<p>3.我们可以唯一确定该这个拆分（不考虑顺序</p>
+<h3 id="基础问题">基础问题</h3>
+<h5 id="题目">题目</h5>
+<p>给一个n个点的树，有m次查询，每次查x到y路上的点权和</p>
+<h5 id="思路">思路</h5>
+<p>可以利用树上前缀和和最近公共祖先</p>
+<p>发现答案就是x的深度加上y的深度，减去lca的深度，再减去lca父亲的深度就可以了</p>
+<h3 id="又一个基础问题">又一个基础问题</h3>
+<h5 id="题目">题目</h5>
+<p>给一个n个节点的树，有m次查询，每次给定两个点x，y，求x是不是y的祖先</p>
+<h5 id="思路">思路</h5>
+<p>直接判断x和y的最近公共祖先是不是他们其中一个不就得了</p>
+<p>不不不，下面有一个神奇的玩意儿</p>
+<h2 id="dfs序">DFS序</h2>
+<p>实际上就是维护一下一个点是什么时候dfs到的，或者什么时候走入它的子树，走出它的子树的</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> cnt;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    l[x]=++cnt;</span><br><span class="line">    <span class="keyword">for</span>(x的每个儿子)</span><br><span class="line">        <span class="built_in">dfs</span>(对应的儿子)；</span><br><span class="line">    r[x]=cnt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于x子树内的每个y，都有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>l</mi><mo stretchy="false">[</mo><mi>y</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>r</mi><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">l[x]\le l[y]\le r[x]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mclose">]</span></span></span></span>，</p>
+<p>上面的那道题目直接看y的区间是不是在进入x的和走出x的区间之内就好了</p>
+<h3 id="p3128">P3128</h3>
+<h5 id="思路">思路</h5>
+<p>x到根的路径加一，然后<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo><mo>+</mo><mo>+</mo></mrow><annotation encoding="application/x-tex">b[x]++</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">+</span></span></span></span></p>
+<h3 id="p2680-运输计划">P2680 运输计划</h3>
+<h5 id="思路">思路</h5>
+<p>最长的最小，让我们想到了二分答案</p>
+<p>发现，两条路径只能变短，不能变长</p>
+<p>我们可以用一个树上差分做法来做</p>
+<h3 id="经典问题">经典问题</h3>
+<h5 id="题目">题目</h5>
+<p>给一个n个节点的数，有点权，有m次查询，每次给三个数x,y,z，求x,y之间有多少点值=z，假设值域<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<h5 id="思路">思路</h5>
+<p>树上差分的做法</p>
+<p>直接查一个点到根上面的z有多少个，dfs到一个点的时候，我们直接维护一个值域上的数组</p>
+<h3 id="未公开题目">未公开题目</h3>
+<h5 id="题目">题目</h5>
+<p>给一棵n个节点的树，有m次询问</p>
+<p>每次查询：从x点开始走向y点，每秒走一步，假设在第i秒走到了i点，则答案加一，求答案</p>
+<h5 id="思路">思路</h5>
+<h3 id="p1600-天天爱跑步">P1600 天天爱跑步</h3>
+<h5 id="思路">思路</h5>
+<p>每个选手可以被差分掉</p>
+<p>把x到y的路径的选手先分成x到lca，以及lca到y</p>
+<h3 id="loj6276">LOJ6276</h3>
+<h5 id="思路">思路</h5>
+<h3 id="p1967-货车运输">P1967 货车运输</h3>
+<h5 id="思路">思路</h5>
+<h3 id="p1352-没有上司的舞会">P1352 没有上司的舞会</h3>
+<h5 id="思路">思路</h5>
+<p>就一个树形DP，骚简单</p>
+<h3 id="未公开题目">未公开题目</h3>
+<h5 id="题目">题目</h5>
+<p>一个图，保证每个点最多在一个简单环里面，问你这个图上面有多少个眼镜</p>
+<h5 id="思路">思路</h5>
+<h3 id="p2607-骑士">P2607 骑士</h3>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io">wweiyi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98/">http://wweiyi2004.github.io/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://wweiyi2004.github.io" target="_blank">wweiyiのblog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC%E9%80%89%E8%AE%B2/" title="【全程NOIP计划】数学推导选讲"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【全程NOIP计划】数学推导选讲</div></div><div class="info-2"><div class="info-item-1">【全程NOIP计划】数学推导选讲 常见不等式 柯西不等式 对于数列a和b,有以下恒成立 ∑i=1nai2∑i=1nbi2≥(∑i=1naibi)2 \sum_{i=1}^na_i^2 \sum_{i=1}^n b_i^2 \ge (\sum_{i=1}^na_ib_i)^2 ∑i=1n​ai2​∑i=1n​bi2​≥(∑i=1n​ai​bi​)2 令 A=∑ai2,B=∑aibi,C=∑bi2A=\sum a_i^2,B=\sum a_ib_i,C=\sum b_i^2A=∑ai2​,B=∑ai​bi​,C=∑bi2​ 构造以下式子 f(x)=Ax2+2Bx+c=∑(aix+bi)2≥0ai2x2+2aibix+bi2≥0 f(x)=Ax^2+2Bx+c=\sum(a_ix+b_i)^2 \ge 0 \\ a_i^2x^2+2a_ib_ix+b_i^2\ge 0 f(x)=Ax2+2Bx+c=∑(ai​x+bi​)2≥0ai2​x2+2ai​bi​x+bi2​≥0 △≤0\triangle\le 0△≤0，然后就得证了 例子： 有x1,x2,…,x4n≥0x_1,x_2,\dot...</div></div></div></a><a class="pagination-related" href="/2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E7%AE%80%E5%8D%95%E6%95%B0%E8%AE%BA/" title="【全程NOIP计划】简单数论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">【全程NOIP计划】简单数论</div></div><div class="info-2"><div class="info-item-1">【全程NOIP计划】简单数论 基础知识与记号 ∀\forall∀,∃\exist∃ 整除：如果$a=bk ,其中,其中,其中a,b,k都是整数，则都是整数，则都是整数，则b整除整除整除a，记作，记作，记作b|a$ 也称作b是a的约数（因数），a是b的倍数 如何求出n的所有约数？ 如果a是n的约数，则n/a也是n的约数，且a和n/a中必有一个小于等于根号n 所以我们直接枚举1到根号n之间的所有数，判断是不是n的因数就可以了 a和b的最大公因数记为gcd⁡(a,b)\gcd(a,b)gcd(a,b),或者(a,b)(a,b)(a,b) 特殊地 1.(a,a)=(0,a)=a(a,a)=(0,a)=a(a,a)=(0,a)=a 2.如果a∣ba|ba∣b，则(a,b)=a(a,b)=a(a,b)=a 3.(a,b)=(a,a+b)=(a,ka+b),(a,b)=(b,a mod b)(a,b)=(a,a+b)=(a,ka+b),(a,b)=(b,a \space mod \space b)(a,b)=(a,a+b)=(a,ka+b),(a,b)=(b,a mod b) 4.(ka,kb...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">wweiyi</div><div class="author-info-description">一个wweiyi多次鸽掉的blog复活了</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wweiyi2004"><i class="fab fa-github"></i><span>推我！</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本博客于2025年7月8日重置<br>
+前OIer<br>
+现为武汉大学电子信息学院的学生<br>
+高中毕业于襄阳五中<br>
+欢迎观看我的博客！
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%A8%E7%A8%8Bnoip%E8%AE%A1%E5%88%92-%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">【全程NOIP计划】树上问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88"><span class="toc-number">1.1.</span> <span class="toc-text">最近公共祖先</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.0.0.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.0.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.1.</span> <span class="toc-text">基础问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.1.1.0.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.1.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%88%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.2.</span> <span class="toc-text">又一个基础问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.1.2.0.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.2.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dfs%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">DFS序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#p3128"><span class="toc-number">1.2.1.</span> <span class="toc-text">P3128</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.1.0.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p2680-%E8%BF%90%E8%BE%93%E8%AE%A1%E5%88%92"><span class="toc-number">1.2.2.</span> <span class="toc-text">P2680 运输计划</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.2.0.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.3.</span> <span class="toc-text">经典问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.3.0.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.3.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E5%85%AC%E5%BC%80%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.4.</span> <span class="toc-text">未公开题目</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.4.0.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.4.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p1600-%E5%A4%A9%E5%A4%A9%E7%88%B1%E8%B7%91%E6%AD%A5"><span class="toc-number">1.2.5.</span> <span class="toc-text">P1600 天天爱跑步</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.5.0.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loj6276"><span class="toc-number">1.2.6.</span> <span class="toc-text">LOJ6276</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.6.0.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p1967-%E8%B4%A7%E8%BD%A6%E8%BF%90%E8%BE%93"><span class="toc-number">1.2.7.</span> <span class="toc-text">P1967 货车运输</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.7.0.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p1352-%E6%B2%A1%E6%9C%89%E4%B8%8A%E5%8F%B8%E7%9A%84%E8%88%9E%E4%BC%9A"><span class="toc-number">1.2.8.</span> <span class="toc-text">P1352 没有上司的舞会</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.8.0.1.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AA%E5%85%AC%E5%BC%80%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.9.</span> <span class="toc-text">未公开题目</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.9.0.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.9.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p2607-%E9%AA%91%E5%A3%AB"><span class="toc-number">1.2.10.</span> <span class="toc-text">P2607 骑士</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南">Claude Code 命令行安装与使用指南</a><time datetime="2026-04-03T13:00:00.000Z" title="发表于 2026-04-03 21:00:00">2026-04-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/31/meguminn-join-blog/" title="欢迎 Meguminn 正式入驻 wweiyi の blog">欢迎 Meguminn 正式入驻 wweiyi の blog</a><time datetime="2026-03-31T11:32:00.000Z" title="发表于 2026-03-31 19:32:00">2026-03-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/27/%E3%80%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%91%E8%B4%A5%E5%8C%97%E5%A5%B3%E4%B8%BB%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81/" title="【阅读笔记】败北女主太多了！">【阅读笔记】败北女主太多了！</a><time datetime="2026-01-27T07:16:37.000Z" title="发表于 2026-01-27 15:16:37">2026-01-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/15/%E3%80%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%9C%80%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="【学习笔记】最优化方法">【学习笔记】最优化方法</a><time datetime="2025-08-15T08:03:48.000Z" title="发表于 2025-08-15 16:03:48">2025-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/" title="【游记】2025年电子设计竞赛国赛">【游记】2025年电子设计竞赛国赛</a><time datetime="2025-08-06T15:29:46.000Z" title="发表于 2025-08-06 23:29:46">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2019 - 2026 By wweiyi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.1</a></span></div><div class="footer_custom_text">Hi, welcome to wweiyi's <a href="wweiyi2004.github.io">blog</a>!<br><a href="https://icp.gov.moe/?keyword=20259954" target="_blank">萌ICP备20259954号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wweiyi2004/BlogComment',
+      'data-repo-id': 'R_kgDOPK11pw',
+      'data-category-id': 'DIC_kwDOPK11p84Cs0hp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="向那比黑更黑比暗更暗的深渊中,祈求吾之深红闪光,觉醒之时已然降至,堕入无谬境界的真理啊,化作无穷的扭曲现界吧,起舞吧 起舞吧 起舞吧！,吾之魔力奔流所求之物即崩坏,无人能及之崩坏,森罗万象皆归尘土,从深渊前来吧！,Explosion！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="快来看看有什么好东西~" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

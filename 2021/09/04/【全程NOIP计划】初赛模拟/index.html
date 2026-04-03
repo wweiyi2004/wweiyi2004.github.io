@@ -1,0 +1,291 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【全程NOIP计划】初赛模拟 | wweiyiのblog</title><meta name="author" content="wweiyi"><meta name="copyright" content="wweiyi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="【全程NOIP计划】初赛模拟 单项选择 1.补码等于源码加上符号位然后除符号位按位取反加一，看出来选择A 2.32位指的是对于每一个分辨率的小格子的大小为32bit,然后每个bit是8个字节，直接乘起来就好了，然后25%的压缩率指的是原来的大小0.25 3.链接器的功能是“把机器指令组合成完整的可执行程序” 4.首先一个堆中的元素要变小边的大小次，然后查询最小值是对于每个点更新的时候才进行查询，所">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【全程NOIP计划】初赛模拟">
+<meta property="og:url" content="http://wweiyi2004.github.io/2021/09/04/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B%E6%A8%A1%E6%8B%9F/index.html">
+<meta property="og:site_name" content="wweiyiのblog">
+<meta property="og:description" content="【全程NOIP计划】初赛模拟 单项选择 1.补码等于源码加上符号位然后除符号位按位取反加一，看出来选择A 2.32位指的是对于每一个分辨率的小格子的大小为32bit,然后每个bit是8个字节，直接乘起来就好了，然后25%的压缩率指的是原来的大小0.25 3.链接器的功能是“把机器指令组合成完整的可执行程序” 4.首先一个堆中的元素要变小边的大小次，然后查询最小值是对于每个点更新的时候才进行查询，所">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png">
+<meta property="article:published_time" content="2021-09-04T07:05:00.000Z">
+<meta property="article:modified_time" content="2026-04-03T04:52:46.351Z">
+<meta property="article:author" content="wweiyi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【全程NOIP计划】初赛模拟",
+  "url": "http://wweiyi2004.github.io/2021/09/04/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B%E6%A8%A1%E6%8B%9F/",
+  "image": "https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png",
+  "datePublished": "2021-09-04T07:05:00.000Z",
+  "dateModified": "2026-04-03T04:52:46.351Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "wweiyi",
+      "url": "http://wweiyi2004.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://wweiyi2004.github.io/2021/09/04/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B%E6%A8%A1%E6%8B%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【全程NOIP计划】初赛模拟',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="web_bg" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/vrus21fo.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" alt="Logo"><span class="site-name">wweiyiのblog</span></a><a class="nav-page-title" href="/"><span class="site-name">【全程NOIP计划】初赛模拟</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【全程NOIP计划】初赛模拟</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-04T07:05:00.000Z" title="发表于 2021-09-04 15:05:00">2021-09-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-03T04:52:46.351Z" title="更新于 2026-04-03 12:52:46">2026-04-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92/">全程NOIP计划</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-04-03 12:52:46&quot;}" hidden></div><h1 id="全程noip计划-初赛模拟">【全程NOIP计划】初赛模拟</h1>
+<h3 id="单项选择">单项选择</h3>
+<p>1.补码等于源码加上符号位然后除符号位按位取反加一，看出来选择A</p>
+<p>2.32位指的是对于每一个分辨率的小格子的大小为32bit,然后每个bit是8个字节，直接乘起来就好了，然后25%的压缩率指的是原来的大小0.25</p>
+<p>3.链接器的功能是“把机器指令组合成完整的可执行程序”</p>
+<p>4.首先一个堆中的元素要变小边的大小次，然后查询最小值是对于每个点更新的时候才进行查询，所以时间复杂度是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>m</mi><mo>+</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(m+nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<p>5.实际上深度优先遍历，找两个点是否存在边的时间复杂度是n，然后一共有n个点，所以时间复杂度为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>6.快速排序和归并排序实际上都用到了分治的算法，只不过归并排序更加突出，而快速排序实际上用的是递归，也是分治；求二叉树的前序遍历，因为是根左右，根左右，所以我们直接把第一个节点当做根，然后对于接下来的区间直接处理两个子树就好了，也是分治，所以答案是D</p>
+<p>7.前缀表达式涉及到一个表达式树的运用，也就是说，这就是一个树的前序遍历，我们把这个树还原出来，然后对于这个树进行中序遍历就是最终的答案了，注意运算的优先级</p>
+<p>8.容斥原理？似乎，似乎</p>
+<p>9.一个逻辑的运用，实际上那个横杠就是非，然后开口向下的是与，开口向上的是或，可以类比一下集合，然后就直接运算就出来了，就直接是C</p>
+<p>10.考察主定理的运用，直接选B</p>
+<p>11.既然是随机的，那我们就按照左半边和右半边概率相同来说，所以我们就可以认为是在中间找点，也就是每次取中点就可以了</p>
+<p>12.冒泡排序时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>最差，最好可以直接<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>，这种情况是输入是一个有序的序列；然后插入排序时间复杂度也不太稳定；然后众所周知，快速排序也不稳定，所以选A</p>
+<p>13.六个里面选四个，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>C</mi><mn>6</mn><mn>4</mn></msubsup></mrow><annotation encoding="application/x-tex">C_6^4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0622159999999998em;vertical-align:-0.24810799999999997em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-2.4518920000000004em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24810799999999997em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>14.基本概念题，冯诺依曼提出了存储程序原理</p>
+<p>15.最后一个打表为啥不允许啊？选D，当然注意一下ccf超过100kb的源文件是不会编译的，当你好不容易打好了一个表，然后你超过100kb就寄了</p>
+<h3 id="阅读程序">阅读程序</h3>
+<p>1.这道题目的坑人的地方主要是关于小于等于的范围的判断，这的确挺坑的</p>
+<p>2.实际上就是一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>i</mi><mi>j</mi><mi>k</mi><mi>s</mi><mi>t</mi><mi>r</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">Dijkstra</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span></span></span></span>算法</p>
+<p>3.看代码，实际上还是最短路，为啥那么多最短路啊QAQ</p>
+<h3 id="完善程序">完善程序</h3>
+<p>1.不就是二分加贪心吗，这个比较简单来着</p>
+<p>2.首先两个 x/2 可以换成 0+x，所以每个能到达的分数都可以用不超过一个x/2 凑出<br>
+首先特判掉不可能有 x/2 的情况（①）<br>
+称忽略 x+1 的 +1 得到的分数为基本分，忽略的所有 +1 分之和称为额外分<br>
+那么枚举所有可能的基本分，由第一句话可以视为若干个 x 加至多一个x/2<br>
+容易发现此时额外分在一个区间内，设为 [lower,upper]<br>
+为方便，枚举击中个数和是否有 x/2，然后特判掉全部不击中，所以②处填 1<br>
+lower 是额外分的最小值，因 x或x/2 至多 n-m 个故③填 i-(n-m)<br>
+base 就是基本分，根据题目描述显然④填 (2*i-j)<em>M/(2</em>n)<br>
+因 j 倒序枚举保证了 base 单调不降，可以看出 lst 就是上一次的得分区间的右端点，所以⑤填 base+upper</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io">wweiyi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io/2021/09/04/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B%E6%A8%A1%E6%8B%9F/">http://wweiyi2004.github.io/2021/09/04/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B%E6%A8%A1%E6%8B%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://wweiyi2004.github.io" target="_blank">wweiyiのblog</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2021/09/13/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A8%A1%E6%8B%9F%E8%B5%9B#8/" title="【全程NOIP计划】模拟赛#8"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">【全程NOIP计划】模拟赛#8</div></div><div class="info-2"><div class="info-item-1">【全程NOIP计划】模拟赛#8 越来越水 第一题的三十分我不知道怎么拿到的，然后我就干干了四个小时，废了 30+0+0+0=30 rank 23，应该是大佬都没有参加 下周初赛呢，加油 A 题目描述 给定一张 nnn 个点 mmm 条边无向连通图，第 iii 个点颜色为 cic_ici​，共有 kkk 种颜色。 称 u,vu,vu,v 属于同一个同色连通块，当且仅当存在一条从 uuu 到 vvv 的路径，且这条路径上的点（包括 vvv）颜色都与 uuu 相同。 每次操作可以选定一个点 uuu，将与 uuu 在同一同色连通块的所有点的颜色改变为另一种颜色。 你的目标是使所有点处于同一同色连通块，且操作数最少。 原游戏中，k=3k=3k=3。作为一道签到题，规定 k=2k=2k=2。保证没有重边自环。 输入格式 第一行两个正整数 n,mn,mn,m，表示图的点数和边数。 第二行 nnn 个整数 c1,c2,⋯ ,cnc_1,c_2,\cdots,c_nc1​,c2​,⋯,cn​，表示点 iii 的颜色。 接下来 mmm 行，每行两个整数 u,vu,vu,v，表示一条无向边 (u,v)...</div></div></div></a><a class="pagination-related" href="/2021/08/30/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A8%A1%E6%8B%9F%E8%B5%9B#6/" title="【全程NOIP计划】模拟赛#6"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">【全程NOIP计划】模拟赛#6</div></div><div class="info-2"><div class="info-item-1">【全程NOIP计划】模拟赛#6 30+85+0+0=115   rank16 继续努力!!! A典中典之序列逆向构造1 题目描述 给定一个长度为 kkk 的序列 b1,b2,…,bkb_1, b_2, \ldots , b_kb1​,b2​,…,bk​。 给定一个正整数 mmm 表示值域，保证 1≤bi≤m1 \le b_i \le m1≤bi​≤m。 我们称长度为 nnn 的序列 a1,a2,…,ana_1, a_2, \ldots , a_na1​,a2​,…,an​ 是有趣的，当且仅当满足如下条件：  仅有恰好一种选取子序列的方式，使得选取出来的子序列恰好就是序列 bbb。 它也满足 1≤ai≤m1 \le a_i \le m1≤ai​≤m。  请求出字典序最小的有趣的长度为 nnn 的序列 aaa。 如果满足条件的 aaa 不存在，报告之。 输入格式 本题输入文件包含多组数据。 第一行，一个正整数 TTT，表示数据组数。对于每组数据：  第一行，三个正整数 k,n,mk, n, mk,n,m。 第二行，kkk 个正整数 b1,b2,…,bkb_1, b_2, \ldots...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">wweiyi</div><div class="author-info-description">一个wweiyi多次鸽掉的blog复活了</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wweiyi2004"><i class="fab fa-github"></i><span>推我！</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本博客于2025年7月8日重置<br>
+前OIer<br>
+现为武汉大学电子信息学院的学生<br>
+高中毕业于襄阳五中<br>
+欢迎观看我的博客！
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%A8%E7%A8%8Bnoip%E8%AE%A1%E5%88%92-%E5%88%9D%E8%B5%9B%E6%A8%A1%E6%8B%9F"><span class="toc-number">1.</span> <span class="toc-text">【全程NOIP计划】初赛模拟</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E9%80%89%E6%8B%A9"><span class="toc-number">1.0.1.</span> <span class="toc-text">单项选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">阅读程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E5%96%84%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.0.3.</span> <span class="toc-text">完善程序</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南">Claude Code 命令行安装与使用指南</a><time datetime="2026-04-03T13:00:00.000Z" title="发表于 2026-04-03 21:00:00">2026-04-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/31/meguminn-join-blog/" title="欢迎 Meguminn 正式入驻 wweiyi の blog">欢迎 Meguminn 正式入驻 wweiyi の blog</a><time datetime="2026-03-31T11:32:00.000Z" title="发表于 2026-03-31 19:32:00">2026-03-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/27/%E3%80%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%91%E8%B4%A5%E5%8C%97%E5%A5%B3%E4%B8%BB%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81/" title="【阅读笔记】败北女主太多了！">【阅读笔记】败北女主太多了！</a><time datetime="2026-01-27T07:16:37.000Z" title="发表于 2026-01-27 15:16:37">2026-01-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/15/%E3%80%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%9C%80%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="【学习笔记】最优化方法">【学习笔记】最优化方法</a><time datetime="2025-08-15T08:03:48.000Z" title="发表于 2025-08-15 16:03:48">2025-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/" title="【游记】2025年电子设计竞赛国赛">【游记】2025年电子设计竞赛国赛</a><time datetime="2025-08-06T15:29:46.000Z" title="发表于 2025-08-06 23:29:46">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2019 - 2026 By wweiyi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.1</a></span></div><div class="footer_custom_text">Hi, welcome to wweiyi's <a href="wweiyi2004.github.io">blog</a>!<br><a href="https://icp.gov.moe/?keyword=20259954" target="_blank">萌ICP备20259954号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wweiyi2004/BlogComment',
+      'data-repo-id': 'R_kgDOPK11pw',
+      'data-category-id': 'DIC_kwDOPK11p84Cs0hp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="向那比黑更黑比暗更暗的深渊中,祈求吾之深红闪光,觉醒之时已然降至,堕入无谬境界的真理啊,化作无穷的扭曲现界吧,起舞吧 起舞吧 起舞吧！,吾之魔力奔流所求之物即崩坏,无人能及之崩坏,森罗万象皆归尘土,从深渊前来吧！,Explosion！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="快来看看有什么好东西~" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

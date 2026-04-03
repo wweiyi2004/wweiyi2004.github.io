@@ -1,0 +1,293 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【解题报告】 洛谷P1462 通往奥格瑞玛的道路 | wweiyiのblog</title><meta name="author" content="wweiyi"><meta name="copyright" content="wweiyi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="【解题报告】 洛谷P1462 通往奥格瑞玛的道路 题目背景 在艾泽拉斯大陆上有一位名叫歪嘴哦的神奇术士，他是部落的中坚力量 有一天他醒来后发现自己居然到了联盟的主城暴风城 在被众多联盟的士兵攻击后，他决定逃回自己的家乡奥格瑞玛 题目描述 在艾泽拉斯，有n个城市。编号为1,2,3,…,n。 城市之间有m条双向的公路，连接着两个城市，从某个城市到另一个城市，会遭到联盟的攻击，进而损失一定的血量。 每次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【解题报告】 洛谷P1462 通往奥格瑞玛的道路">
+<meta property="og:url" content="http://wweiyi2004.github.io/2020/11/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1462-%E9%80%9A%E5%BE%80%E5%A5%A5%E6%A0%BC%E7%91%9E%E7%8E%9B%E7%9A%84%E9%81%93%E8%B7%AF/index.html">
+<meta property="og:site_name" content="wweiyiのblog">
+<meta property="og:description" content="【解题报告】 洛谷P1462 通往奥格瑞玛的道路 题目背景 在艾泽拉斯大陆上有一位名叫歪嘴哦的神奇术士，他是部落的中坚力量 有一天他醒来后发现自己居然到了联盟的主城暴风城 在被众多联盟的士兵攻击后，他决定逃回自己的家乡奥格瑞玛 题目描述 在艾泽拉斯，有n个城市。编号为1,2,3,…,n。 城市之间有m条双向的公路，连接着两个城市，从某个城市到另一个城市，会遭到联盟的攻击，进而损失一定的血量。 每次">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png">
+<meta property="article:published_time" content="2020-11-04T05:53:00.000Z">
+<meta property="article:modified_time" content="2026-04-03T04:52:46.345Z">
+<meta property="article:author" content="wweiyi">
+<meta property="article:tag" content="题解">
+<meta property="article:tag" content="洛谷">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【解题报告】 洛谷P1462 通往奥格瑞玛的道路",
+  "url": "http://wweiyi2004.github.io/2020/11/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1462-%E9%80%9A%E5%BE%80%E5%A5%A5%E6%A0%BC%E7%91%9E%E7%8E%9B%E7%9A%84%E9%81%93%E8%B7%AF/",
+  "image": "https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png",
+  "datePublished": "2020-11-04T05:53:00.000Z",
+  "dateModified": "2026-04-03T04:52:46.345Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "wweiyi",
+      "url": "http://wweiyi2004.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://wweiyi2004.github.io/2020/11/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1462-%E9%80%9A%E5%BE%80%E5%A5%A5%E6%A0%BC%E7%91%9E%E7%8E%9B%E7%9A%84%E9%81%93%E8%B7%AF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.json","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【解题报告】 洛谷P1462 通往奥格瑞玛的道路',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="web_bg" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/vrus21fo.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" alt="Logo"><span class="site-name">wweiyiのblog</span></a><a class="nav-page-title" href="/"><span class="site-name">【解题报告】 洛谷P1462 通往奥格瑞玛的道路</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【解题报告】 洛谷P1462 通往奥格瑞玛的道路</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-04T05:53:00.000Z" title="发表于 2020-11-04 13:53:00">2020-11-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-03T04:52:46.345Z" title="更新于 2026-04-03 12:52:46">2026-04-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A/">解题报告</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">886</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-04-03 12:52:46&quot;}" hidden></div><h1 id="解题报告-洛谷p1462-通往奥格瑞玛的道路">【解题报告】 洛谷P1462 通往奥格瑞玛的道路</h1>
+<h3 id="题目背景">题目背景</h3>
+<p>在艾泽拉斯大陆上有一位名叫歪嘴哦的神奇术士，他是部落的中坚力量</p>
+<p>有一天他醒来后发现自己居然到了联盟的主城暴风城</p>
+<p>在被众多联盟的士兵攻击后，他决定逃回自己的家乡奥格瑞玛</p>
+<h3 id="题目描述">题目描述</h3>
+<p>在艾泽拉斯，有n个城市。编号为1,2,3,…,n。</p>
+<p>城市之间有m条双向的公路，连接着两个城市，从某个城市到另一个城市，会遭到联盟的攻击，进而损失一定的血量。</p>
+<p>每次经过一个城市，都会被收取一定的过路费（包括起点和终点）。路上并没有收费站。</p>
+<p>假设1为暴风城，n为奥格瑞玛，而他的血量最多为b，出发时他的血量是满的。</p>
+<p>歪嘴哦不希望花很多钱，他想知道，在可以到达奥格瑞玛的情况下，他所经过的所有城市中最多的一次收取的费用的最小值是多少。</p>
+<h3 id="输入格式">输入格式</h3>
+<p>第一行3个正整数，n，m，b。分别表示有n个城市，m条公路，歪嘴哦的血量为b。</p>
+<p>接下来有n行，每行1个正整数，fi。表示经过城市i，需要交费fi元。</p>
+<p>再接下来有m行，每行3个正整数，ai，bi，ci(1&lt;=ai，bi&lt;=n)。表示城市ai和城市bi之间有一条公路，如果从城市ai到城市bi，或者从城市bi到城市ai，会损失ci的血量。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>仅一个整数，表示歪嘴哦交费最多的一次的最小值。</p>
+<p>如果他无法到达奥格瑞玛，输出AFK。</p>
+<h3 id="输入输出样例">输入输出样例</h3>
+<p><strong>输入 #1</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">4 4 8</span><br><span class="line">8</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">10</span><br><span class="line">2 1 2</span><br><span class="line">2 4 1</span><br><span class="line">1 3 4</span><br><span class="line">3 4 3</span><br></pre></td></tr></table></figure>
+<p><strong>输出 #1</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">10</span><br></pre></td></tr></table></figure>
+<h3 id="说明-提示">说明/提示</h3>
+<p>对于60%的数据，满足n≤200，m≤10000，b≤200</p>
+<p>对于100%的数据，满足n≤10000，m≤50000，b≤1000000000</p>
+<p>对于100%的数据，满足ci≤1000000000，fi≤1000000000，可能有两条边连接着相同的城市。</p>
+<h2 id="思路">思路</h2>
+<p>二分答案，单源最短路径</p>
+<p>直接对于花费进行二分答案，套用Dijkstra堆优化的模板，对于花费进行剪枝</p>
+<h2 id="代码">代码</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">10010</span>,M=<span class="number">100010</span>;</span><br><span class="line"><span class="type">int</span> n,m,b,cost;</span><br><span class="line"><span class="type">int</span> f[N];</span><br><span class="line"><span class="type">int</span> head[N],ver[M],edge[M],next[M],d[N],tot;</span><br><span class="line"><span class="type">bool</span> v[N];</span><br><span class="line">priority_queue &lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt; &gt; q;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> x,<span class="type">int</span> y,<span class="type">int</span> z)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	ver[++tot]=y,edge[tot]=z,next[tot]=head[x],head[x]=tot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">dijkstra</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(k&lt;f[<span class="number">1</span>]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	d[i]=<span class="number">1e9</span>;</span><br><span class="line">	<span class="built_in">memset</span>(v,<span class="number">0</span>,<span class="built_in">sizeof</span>(v));</span><br><span class="line">	d[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">	q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(<span class="number">0</span>,<span class="number">1</span>));</span><br><span class="line">	<span class="keyword">while</span>(q.<span class="built_in">size</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> x=q.<span class="built_in">top</span>().second;</span><br><span class="line">		q.<span class="built_in">pop</span>();</span><br><span class="line">		<span class="keyword">if</span>(v[x]) <span class="keyword">continue</span>;</span><br><span class="line">		v[x]=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i=head[x];i;i=next[i])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">int</span> y=ver[i],z=edge[i];</span><br><span class="line">			<span class="keyword">if</span>(f[y]&lt;=k&amp;&amp;v[y]==<span class="number">0</span>&amp;&amp;d[y]&gt;d[x]+z)</span><br><span class="line">			&#123;</span><br><span class="line">				d[y]=d[x]+z;</span><br><span class="line">				q.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(-d[y],y));  </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> d[n]&lt;b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin&gt;&gt;n&gt;&gt;m&gt;&gt;b;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	cin&gt;&gt;f[i];</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=m;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> x,y,z;</span><br><span class="line">		cin&gt;&gt;x&gt;&gt;y&gt;&gt;z;</span><br><span class="line">		<span class="built_in">add</span>(x,y,z); <span class="built_in">add</span>(y,x,z);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(!<span class="built_in">dijkstra</span>(<span class="number">1e9</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		cout&lt;&lt;<span class="string">&quot;AFK&quot;</span>&lt;&lt;endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> l=<span class="number">1</span>,r=<span class="number">1e9</span>;</span><br><span class="line">	<span class="keyword">while</span>(l&lt;=r)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> mid=(l+r)/<span class="number">2</span>;</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">dijkstra</span>(mid)) r=mid<span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">else</span> l=mid<span class="number">+1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	cout&lt;&lt;l&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io">wweiyi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io/2020/11/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1462-%E9%80%9A%E5%BE%80%E5%A5%A5%E6%A0%BC%E7%91%9E%E7%8E%9B%E7%9A%84%E9%81%93%E8%B7%AF/">http://wweiyi2004.github.io/2020/11/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1462-%E9%80%9A%E5%BE%80%E5%A5%A5%E6%A0%BC%E7%91%9E%E7%8E%9B%E7%9A%84%E9%81%93%E8%B7%AF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://wweiyi2004.github.io" target="_blank">wweiyiのblog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a><a class="post-meta__tags" href="/tags/%E6%B4%9B%E8%B0%B7/">洛谷</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2020/11/06/CSP-S2020-%E6%B8%B8%E8%AE%B0/" title="CSP-S2020 游记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">CSP-S2020 游记</div></div><div class="info-2"><div class="info-item-1">CSP-S2020 游记 Day0 今年的csp没有试机，这大概是历年来襄阳参加人数最多的一次吧，可能也是参加的最水的一次吧。然而，我被推到历史的风口浪尖，准备迎接这惊涛骇浪，向着省一勇往直前。有一个高三的学哥也参加了，他因为去年参加csp没有打return 0 而死了200分，所以他只有一百五十分，这也给了我一个前车之鉴，让我更加注意，去年也有一个四中的学哥连续两年没有写对文件输入输出，因此我依据这些学哥的事例，让我更加谨慎。 CSP作为2019年noip的替代品，我们当然参加。可是今年noip复活了，为什么我们还是要参加呢？这真的是不得而知的，我们也没有不要知道，我们应该知道的事情就是要好好比赛，拿出成绩来就是了。 在这阳光明媚的日子里，我们有什么理由不好好学习呢。 今天下午四点要去华科，老师要讲要求。 老师讲完要求了，我也听了。 现在是周五 2020年11月6日 22：09分 我现在在历史的交汇点 明天将会有我无法想象的比赛等着我参加。 在这里分享一下考试技巧 进考场水不要带太多，带个半杯就够了，可以带一点吃的。 进考场之后看电脑是不是好的，最好把每一个按键都试一遍，看看能...</div></div></div></a><a class="pagination-related" href="/2020/11/03/%E3%80%90%E6%B8%85%E5%8C%97%E5%AD%A6%E5%A0%82%E5%9B%BD%E5%BA%86%E5%88%B7%E9%A2%98%E7%8F%AD%E3%80%91-Day5/" title="【清北学堂国庆刷题班】 Day5"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">【清北学堂国庆刷题班】 Day5</div></div><div class="info-2"><div class="info-item-1">【清北学堂国庆刷题班】 Day5 T1 blocks Description 小明是一个积木爱好者，这一天，小明堆了一堆高度连续递减的积木，假设第i个位置的积木高度为d**idi， 热爱思考的小明在想，如果每天在第i堆的积木上多加i个，即每天第i堆的积木高度加i，最短多少天能够出现两堆积木高度相等呢？ 小明试了很久也没有达到出现两堆积木高度相等的那天，于是他想找你帮忙计算一下。 Input 第一行一个数n，n堆积木的原始高度 接下来一行，n个数，第i个数d**idi，表示第i堆积木的高度 Output 一个数，即两堆积木相等至少需要的天数 Sample Input1 12537 29 24 17 9 Sample Output1 15 Sample Input2 1220569 546 511 472 443 419 388 363 324 286 258 230 209 187 154 129 100 74 53 28 Sample Output2 121 Data 40 %, n ≤ 100，di≤10000d_i\le 10000di​≤10000 70 %, n ≤ 50...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2021/10/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1297-%E5%8D%95%E9%80%89%E9%94%99%E4%BD%8D/" title="【解题报告】 洛谷P1297 单选错位"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-10</div><div class="info-item-2">【解题报告】 洛谷P1297 单选错位</div></div><div class="info-2"><div class="info-item-1">【解题报告】 洛谷P1297 单选错位 题目链接 https://www.luogu.com.cn/problem/P1297 思路 这道题目一看是一道期望的题目，但是这个不用 DP ，我们发现，后一个和前一个答案的情况总共有 ai−1×aia_{i-1} \times a_iai−1​×ai​ 种 然后我们为了使得这两种答案重合的概率肯定是 min{ai−1,ai}ai−1×ai\dfrac {min \{ a_{i-1},a_i\}} {a_{i-1} \times a_i}ai−1​×ai​min{ai−1​,ai​}​ 上下约分 1max{ai−1,ai}\dfrac 1 {max \{a_{i-1},a_i \}}max{ai−1​,ai​}1​ 于是我们直接统计一下答案就可以了 123456789101112131415161718192021222324252627#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;algorithm&gt;#include &lt;cstring&gt;#inc...</div></div></div></a><a class="pagination-related" href="/2020/10/29/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1542-%E5%8C%85%E8%A3%B9%E5%BF%AB%E9%80%92/" title="【解题报告】 洛谷P1542 包裹快递"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-29</div><div class="info-item-2">【解题报告】 洛谷P1542 包裹快递</div></div><div class="info-2"><div class="info-item-1">【解题报告】 洛谷P1542 包裹快递 题目描述 小K成功地破解了密文。但是乘车到X国的时候，发现钱包被偷了，于是无奈之下只好作快递员来攒足路费去Orz教主…… 一个快递公司要将n个包裹分别送到n个地方，并分配给邮递员小K一个事先设定好的路线，小K需要开车按照路线给的地点顺序相继送达，且不能遗漏一个地点。小K得到每个地方可以签收的时间段，并且也知道路线中一个地方到下一个地方的距离。若到达某一个地方的时间早于可以签收的时间段，则必须在这个地方停留至可以签收，但不能晚于签收的时间段，可以认为签收的过程是瞬间完成的。 为了节省燃料，小K希望在全部送达的情况下，车的最大速度越小越好，就找到了你给他设计一种方案，并求出车的最大速度最小是多少。 输入格式 第1行为一个正整数n，表示需要运送包裹的地点数。 下面n行，第i+1行有3个正整数xi，yi，si，表示按路线顺序给出第i个地点签收包裹的时间段为[xi, yi]，即最早为距出发时刻xi，最晚为距出发时刻yi，从前一个地点到达第i个地点距离为si，且保证路线中xi递增。 可以认为s1为出发的地方到第1个地点的距离，且出发时刻为0。 输出格式...</div></div></div></a><a class="pagination-related" href="/2021/10/10/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1641-%E7%94%9F%E6%88%90%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="【解题报告】 洛谷P1641 生成字符串"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-10</div><div class="info-item-2">【解题报告】 洛谷P1641 生成字符串</div></div><div class="info-2"><div class="info-item-1">【解题报告】 洛谷P1641 生成字符串 题目链接 https://www.luogu.com.cn/problem/P1641 思路 我们可以想象一个平面直角坐标系，或者一个格子图 我们设左下角为 (0,0)(0,0)(0,0) 然后我们向右走是选一个1，向左走选一个0，于是我们最终要走到 (n,m)(n,m)(n,m) 这个位置 并且我们只能在 (0,0),(n,m)(0,0),(n,m)(0,0),(n,m) 的连线下方走 这样我们就可以用小学就学过的格点标记法来做了 然后我们发现，有一些不合法的方案，然后我们设答案为 f(n,m)f(n,m)f(n,m) ，则有 f(n,m)=n−m+1n+1Cm+nm f(n,m)=\dfrac {n-m+1} {n+1}  C_{m+n}^m f(n,m)=n+1n−m+1​Cm+nm​ 然后这里的 n,mn,mn,m 比较大，所以我们预处理一下，然后利用逆元来求组合数，这是一个小技巧 1234567891011121314151617181920212223242526272829303132333435363738#include...</div></div></div></a><a class="pagination-related" href="/2020/10/29/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P6733-%E9%97%B4%E6%AD%87%E6%B3%89/" title="【解题报告】 洛谷P6733 间歇泉"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-29</div><div class="info-item-2">【解题报告】 洛谷P6733 间歇泉</div></div><div class="info-2"><div class="info-item-1">【解题报告】 洛谷P6733 间歇泉 题目描述 有一个间歇泉，冒出了 n 杯水，由于一些原因，每杯水的温度、体积不同。第 i 杯水的温度为 ci体积为 ai 现在混合任意两杯水，每混合两杯水都会得到一个新的温度值，求可能得到的第 kkk 高的温度值（不计热量损失）。 你的答案建议至少保留小数点后 3 位（与标准答案之差在 10−210^{-2}10−2 以内即视为通过）。 输入格式 第一行一个数 n,k，意义如题述。 接下来 n行，每行两个数 ai,c 输出格式 一行一个实数，表示混合后的水的第 kkk 高温度。 输入输出样例 输入 #1 1234565 11 54 25 32 31 4 输出 #1 14.500 说明/提示 样例 1 说明 第 1 和第 5杯水混合，得到 4.5的温度值。可以发现，这是可能得到的最高水温。 样例 2 见题目附件中 pour2.in 与 pour2.ans。 数据规模与约定 本题采用捆绑测试。  子任务 1（9 pts）：有 1≤n≤101\le n\le 101≤n≤10 子任务 2（40 pts）：保证 k=1k=1k=1 子任务 3（50 p...</div></div></div></a><a class="pagination-related" href="/2020/10/30/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E6%B4%9B%E8%B0%B7P1663-%E5%B1%B1/" title="【解题报告】 洛谷P1663 山"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-30</div><div class="info-item-2">【解题报告】 洛谷P1663 山</div></div><div class="info-2"><div class="info-item-1">【解题报告】 洛谷P1663 山 题目描述 给出一座山，如图。  现在要在山上的某个部位装一盏灯，使得这座山的任何一个部位都能够被看到。 给出最小的y坐标，如图的+号处就是y坐标最小的安装灯的地方。 输入格式 第一行一个数N，表示这座山由N个点构成； 接下来N行从左到右给出了这座山的构造情况，每行两个数Xi、Yi，表示一个折点，保证Xi&gt;Xi-1 输出格式 仅输出一行，为最小的y坐标，当你的答案与标准答案相差不超过0.01时，则被认为是正确的。 输入输出样例 输入 #1 123456760 010 011 115 116 025 0 输出 #1 13.00 说明/提示 数据规模： 30%的数据，1≤N≤501\le N\le 501≤N≤50 100%的数据，1≤N≤5000,0≤Xi,Yi≤1061\le N \le 5000 ,0\le X_i,Y_i\le 10^61≤N≤5000,0≤Xi​,Yi​≤106，保证答案不超过10610^6106 思路 二分答案 读题，要在山上安装一个灯，让整个山都可以找到，说明这一盏灯和任意一个山的折点的连线和其他的山连成的线都不相交...</div></div></div></a><a class="pagination-related" href="/2021/09/17/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91luoguP2158-%E4%BB%AA%E4%BB%97%E9%98%9F/" title="【解题报告】luoguP2158 仪仗队"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-17</div><div class="info-item-2">【解题报告】luoguP2158 仪仗队</div></div><div class="info-2"><div class="info-item-1">【解题报告】luoguP2158 仪仗队 原题链接：https://www.luogu.com.cn/problem/P2158 思路 这道题目经过分析，我们可以发现一个结论 即对于每一个点(x,y)(x,y)(x,y)，如果能被看到，则一定不存在一个点(xm,ym),m,xm,ym∈Z，(\dfrac x m,\dfrac y m),m, \dfrac x m,\dfrac y m\in Z，(mx​,my​),m,mx​,my​∈Z， 因为他们属于同一斜率k=yxk= \dfrac y xk=xy​ 观察可以得到，因为他们没有一个 mmm 可以使上面的上面的式子成立，即gcd(x,y)=1gcd(x,y)= 1gcd(x,y)=1 然后直接求gcd的话肯定是不行的，然后我们继续看 实际上对于一个固定的 xxx ，我们要统计的是一个数字 y∈[1,n]y\in [1,n]y∈[1,n] 让他们互质，所以我们要求的是x的欧拉函数 代码 123456789101112131415161718192021222324252627282930313233343536#include &...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">wweiyi</div><div class="author-info-description">一个wweiyi多次鸽掉的blog复活了</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">167</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wweiyi2004"><i class="fab fa-github"></i><span>推我！</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本博客于2025年7月8日重置<br>
+前OIer<br>
+现为武汉大学电子信息学院的学生<br>
+高中毕业于襄阳五中<br>
+欢迎观看我的博客！
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A-%E6%B4%9B%E8%B0%B7p1462-%E9%80%9A%E5%BE%80%E5%A5%A5%E6%A0%BC%E7%91%9E%E7%8E%9B%E7%9A%84%E9%81%93%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">【解题报告】 洛谷P1462 通往奥格瑞玛的道路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-number">1.0.1.</span> <span class="toc-text">题目背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.0.2.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.3.</span> <span class="toc-text">输入格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.4.</span> <span class="toc-text">输出格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B"><span class="toc-number">1.0.5.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E-%E6%8F%90%E7%A4%BA"><span class="toc-number">1.0.6.</span> <span class="toc-text">说明&#x2F;提示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.</span> <span class="toc-text">代码</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南">Claude Code 命令行安装与使用指南</a><time datetime="2026-04-03T13:00:00.000Z" title="发表于 2026-04-03 21:00:00">2026-04-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/31/meguminn-join-blog/" title="欢迎 Meguminn 正式入驻 wweiyi の blog">欢迎 Meguminn 正式入驻 wweiyi の blog</a><time datetime="2026-03-31T11:32:00.000Z" title="发表于 2026-03-31 19:32:00">2026-03-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/27/%E3%80%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%91%E8%B4%A5%E5%8C%97%E5%A5%B3%E4%B8%BB%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81/" title="【阅读笔记】败北女主太多了！">【阅读笔记】败北女主太多了！</a><time datetime="2026-01-27T07:16:37.000Z" title="发表于 2026-01-27 15:16:37">2026-01-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/15/%E3%80%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%9C%80%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="【学习笔记】最优化方法">【学习笔记】最优化方法</a><time datetime="2025-08-15T08:03:48.000Z" title="发表于 2025-08-15 16:03:48">2025-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/" title="【游记】2025年电子设计竞赛国赛">【游记】2025年电子设计竞赛国赛</a><time datetime="2025-08-06T15:29:46.000Z" title="发表于 2025-08-06 23:29:46">2025-08-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;2019 - 2026 By wweiyi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.1</a></span></div><div class="footer_custom_text">Hi, welcome to wweiyi's <a href="wweiyi2004.github.io">blog</a>!<br><a href="https://icp.gov.moe/?keyword=20259954" target="_blank">萌ICP备20259954号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wweiyi2004/BlogComment',
+      'data-repo-id': 'R_kgDOPK11pw',
+      'data-category-id': 'DIC_kwDOPK11p84Cs0hp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="向那比黑更黑比暗更暗的深渊中,祈求吾之深红闪光,觉醒之时已然降至,堕入无谬境界的真理啊,化作无穷的扭曲现界吧,起舞吧 起舞吧 起舞吧！,吾之魔力奔流所求之物即崩坏,无人能及之崩坏,森罗万象皆归尘土,从深渊前来吧！,Explosion！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="快来看看有什么好东西~" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
