@@ -1,0 +1,769 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【工具】ARIS——让 Claude Code 在你睡觉时做科研 | wweiyiのblog</title><meta name="author" content="wweiyi"><meta name="copyright" content="wweiyi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="详细介绍 ARIS（Auto-claude-code-research-in-sleep）——一个基于 Claude Code 的自主 ML 科研工作流系统，包含完整的安装配置指南、使用技巧，以及两篇顶会接收论文的案例分析。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【工具】ARIS——让 Claude Code 在你睡觉时做科研">
+<meta property="og:url" content="http://wweiyi2004.github.io/2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/index.html">
+<meta property="og:site_name" content="wweiyiのblog">
+<meta property="og:description" content="详细介绍 ARIS（Auto-claude-code-research-in-sleep）——一个基于 Claude Code 的自主 ML 科研工作流系统，包含完整的安装配置指南、使用技巧，以及两篇顶会接收论文的案例分析。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png">
+<meta property="article:published_time" content="2026-04-05T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-05T12:36:55.335Z">
+<meta property="article:author" content="wweiyi">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="科研">
+<meta property="article:tag" content="Claude-Code">
+<meta property="article:tag" content="ARIS">
+<meta property="article:tag" content="论文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "【工具】ARIS——让 Claude Code 在你睡觉时做科研",
+  "url": "http://wweiyi2004.github.io/2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/",
+  "image": "https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png",
+  "datePublished": "2026-04-05T12:00:00.000Z",
+  "dateModified": "2026-04-05T12:36:55.335Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "wweiyi",
+      "url": "http://wweiyi2004.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://wweiyi2004.github.io/2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【工具】ARIS——让 Claude Code 在你睡觉时做科研',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head><body><div id="web_bg" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/vrus21fo.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">168</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" alt="Logo"><span class="site-name">wweiyiのblog</span></a><a class="nav-page-title" href="/"><span class="site-name">【工具】ARIS——让 Claude Code 在你睡觉时做科研</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/heartbeat/"><i class="fa-fw fa fa-heart"></i><span> Heartbeat</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/update/"><i class="fa-fw fa fa-bell"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/myself/"><i class="fa-fw fa fa-id-card"></i><span> Myself</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/bangumi/"><i class="fa-fw fa fa-film'"></i><span> 看过的番剧</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fa fa-sitemap"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">【工具】ARIS——让 Claude Code 在你睡觉时做科研</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-05T12:00:00.000Z" title="发表于 2026-04-05 20:00:00">2026-04-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-05T12:36:55.335Z" title="更新于 2026-04-05 20:36:55">2026-04-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;It has been&quot;,&quot;messageNext&quot;:&quot;days since the last update, the content of the article may be outdated.&quot;,&quot;postUpdate&quot;:&quot;2026-04-05 20:36:55&quot;}" hidden></div><h1 id="aris-让-claude-code-在你睡觉时做科研">ARIS —— 让 Claude Code 在你睡觉时做科研</h1>
+<blockquote>
+<p><strong>作者</strong>：一泽 Eze（<a target="_blank" rel="noopener" href="https://github.com/wanshuiyin">@wanshuiyin</a>）<br>
+<strong>项目地址</strong>：<a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep">https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep</a><br>
+<strong>许可证</strong>：MIT</p>
+</blockquote>
+<hr>
+<h2 id="前言">前言</h2>
+<p>今天要介绍的是一个让我眼前一亮的项目——<strong>ARIS</strong>（Auto-claude-code-research-in-sleep）。</p>
+<p>顾名思义，这是一个让 Claude Code 在<strong>你睡觉时自动做科研</strong>的工具。当你第二天醒来，会发现论文已经被打分、弱点已经被定位、实验已经跑完、叙事已经重写——<strong>全自动</strong>。</p>
+<p>这不是一个简单的 prompt 集合，而是一套完整的<strong>多模型协作科研工作流</strong>系统。核心理念是：</p>
+<blockquote>
+<p><strong>用 Claude Code 执行，用 Codex (GPT-5.4) 评审，两个模型互相制约，打破单模型自评的盲区。</strong></p>
+</blockquote>
+<p>更令人振奋的是，已经有<strong>两篇论文使用 ARIS 完成，最终被顶会接收</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>论文</th>
+<th style="text-align:center">评分</th>
+<th>会议</th>
+<th>作者</th>
+<th>技术栈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CS 论文</td>
+<td style="text-align:center"><strong>8/10</strong> “clear accept”</td>
+<td>CS 会议</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/DefanXue">@DefanXue</a> &amp; <a target="_blank" rel="noopener" href="https://github.com/Monglitay">@Monglitay</a></td>
+<td>Claude Code + GPT-5.4</td>
+</tr>
+<tr>
+<td>AAAI 论文</td>
+<td style="text-align:center"><strong>7/10</strong> “good paper, accept”</td>
+<td>AAAI 2026 Main Technical</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/xinbo820-web">@xinbo820-web</a></td>
+<td>纯 Codex CLI</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="一-为什么需要-aris？">一、为什么需要 ARIS？</h2>
+<h3 id="1-1-单模型自评的致命缺陷">1.1 单模型自评的致命缺陷</h3>
+<p>传统的 AI 辅助科研通常是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">你 → 单个 LLM → 输出</span><br></pre></td></tr></table></figure>
+<p>问题在于：<strong>同一个模型审自己的输出，会陷入局部最优</strong>。就像自己出题自己做，永远发现不了问题。</p>
+<blockquote>
+<p>类比 bandit 问题：单模型自审是 stochastic bandit（噪声可预测），跨模型审稿则是 adversarial bandit（审稿者会主动探测执行者未预料的弱点）。</p>
+</blockquote>
+<h3 id="1-2-双模型协作的威力">1.2 双模型协作的威力</h3>
+<p>ARIS 的核心设计：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>模型</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>执行者 (Executor)</strong></td>
+<td>Claude Code</td>
+<td>快速读论文、写代码、跑实验、操作文件</td>
+</tr>
+<tr>
+<td><strong>审稿者 (Reviewer)</strong></td>
+<td>Codex (GPT-5.4)</td>
+<td>严格评审、找弱点、压力测试、批判性分析</td>
+</tr>
+</tbody>
+</table>
+<p>两个模型<strong>互不评自己的作业</strong>，形成真正的对抗性反馈循环：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">用户 → Claude Code（执行）</span><br><span class="line">         ↓</span><br><span class="line">      写代码 / 跑实验 / 收结果</span><br><span class="line">         ↓</span><br><span class="line">      Codex（评审）</span><br><span class="line">         ↓</span><br><span class="line">      找弱点 → 返回给 Claude Code</span><br><span class="line">         ↓</span><br><span class="line">      Claude Code（修复）</span><br><span class="line">         ↓</span><br><span class="line">      Codex（再审）</span><br><span class="line">         ↓</span><br><span class="line">      ... 循环直到顶会标准 ...</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-为什么是两个模型？">1.3 为什么是两个模型？</h3>
+<blockquote>
+<p>两个是打破自我博弈盲区的<strong>最小配置</strong>，且双人博弈收敛到 Nash 均衡的效率远高于多人博弈。增加更多审稿者只会增加 API 开销和协调成本，边际收益递减。</p>
+</blockquote>
+<p>Claude Code 的优势是<strong>快速丝滑的执行</strong>，Codex (GPT-5.4) 虽然慢但<strong>审稿更严谨深入</strong>。两者<strong>速度 × 严谨</strong>的互补特性，比单模型自我对话效果更好。</p>
+<hr>
+<h2 id="二-aris-核心功能">二、ARIS 核心功能</h2>
+<h3 id="2-1-四大工作流">2.1 四大工作流</h3>
+<h4 id="工作流-1：idea-discovery-想法发现">工作流 1：Idea Discovery（想法发现）</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/idea-discovery &quot;研究方向&quot;</span><br></pre></td></tr></table></figure>
+<p>从研究方向自动发现创新点，完整流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">research-lit → idea-creator → novelty-check → research-review → research-refine-pipeline</span><br><span class="line">  (文献调研)    (头脑风暴)     (验证新颖性)    (批判性反馈)      (方法精炼 + 实验规划)</span><br></pre></td></tr></table></figure>
+<p><strong>输出</strong>：</p>
+<ul>
+<li><code>IDEA_REPORT.md</code> — 排名后的想法报告</li>
+<li><code>refine-logs/FINAL_PROPOSAL.md</code> — 精炼后的提案</li>
+<li><code>refine-logs/EXPERIMENT_PLAN.md</code> — 实验路线图</li>
+</ul>
+<h4 id="工作流-2：auto-review-loop-自动审稿迭代">工作流 2：Auto Review Loop（自动审稿迭代）</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/auto-review-loop &quot;论文主题&quot;</span><br></pre></td></tr></table></figure>
+<p>自动多轮审稿 → 修复 → 再审，全自动完成。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Claude Code 实现修复 → Codex 评审 → 问题 → Claude Code 再修复 → ... → 直到达标</span><br></pre></td></tr></table></figure>
+<h4 id="工作流-3：paper-writing-论文写作">工作流 3：Paper Writing（论文写作）</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/paper-writing &quot;NARRATIVE_REPORT.md&quot;</span><br></pre></td></tr></table></figure>
+<p>研究叙事 → 精修 PDF，完整流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paper-plan → paper-figure → paper-write → paper-compile → auto-improvement-loop</span><br></pre></td></tr></table></figure>
+<p>已内置 9 个会议模板：ICLR、NeurIPS、ICML、CVPR、ACL、AAAI、ACM、IEEE_JOURNAL、IEEE_CONF。</p>
+<h4 id="工作流-4：rebuttal-审稿意见辩护">工作流 4：Rebuttal（审稿意见辩护）</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/rebuttal &quot;paper/ + reviews&quot; — venue: ICML, character limit: 5000</span><br></pre></td></tr></table></figure>
+<p>解析 review → 原子化 → 策略 → 起草 → 安全检查 → GPT-5.4 压力测试 → 定稿。</p>
+<p><strong>三道安全门</strong>：</p>
+<ul>
+<li>🔒 <strong>不编造</strong> — 每句话有出处</li>
+<li>🔒 <strong>不过度承诺</strong> — 没批准的不承诺</li>
+<li>🔒 <strong>全覆盖</strong> — 每个审稿意见都追踪</li>
+</ul>
+<h4 id="一键全流程：research-pipeline">一键全流程：Research Pipeline</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/research-pipeline &quot;研究方向&quot;</span><br></pre></td></tr></table></figure>
+<p>工作流 1 → 1.5 → 2 → 3 端到端全自动。</p>
+<h3 id="2-2-配套工具">2.2 配套工具</h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/paper-slides</code></td>
+<td>论文 → Beamer PDF + PPTX + 演讲稿</td>
+</tr>
+<tr>
+<td><code>/paper-poster</code></td>
+<td>论文 → A0/A1 海报 PDF</td>
+</tr>
+<tr>
+<td><code>/arxiv</code></td>
+<td>搜索下载 arXiv 论文</td>
+</tr>
+<tr>
+<td><code>/semantic-scholar</code></td>
+<td>搜索正式发表的顶会论文</td>
+</tr>
+<tr>
+<td><code>/meta-optimize</code></td>
+<td>ARIS 自优化——分析使用数据改进 <a target="_blank" rel="noopener" href="http://SKILL.md">SKILL.md</a></td>
+</tr>
+<tr>
+<td><code>/run-experiment</code></td>
+<td>部署实验到 GPU</td>
+</tr>
+<tr>
+<td><code>/experiment-bridge</code></td>
+<td>实验结果 → claim 判定</td>
+</tr>
+<tr>
+<td><code>/novelty-check</code></td>
+<td>想法新颖性验证</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3-支持的平台">2.3 支持的平台</h3>
+<p>ARIS <strong>不锁定平台</strong>，全套 Markdown Skill 文件，零依赖：</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>支持情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Code</strong></td>
+<td>✅ 原生支持</td>
+</tr>
+<tr>
+<td><strong>Cursor</strong></td>
+<td>✅ 适配指南见 <a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/CURSOR_ADAPTATION.md">CURSOR_ADAPTATION.md</a></td>
+</tr>
+<tr>
+<td><strong>Trae</strong></td>
+<td>✅ 字节跳动 AI IDE，适配指南见 <a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/TRAE_ARIS_RUNBOOK_CN.md">TRAE_ARIS_RUNBOOK_CN.md</a></td>
+</tr>
+<tr>
+<td><strong>Antigravity</strong></td>
+<td>✅ Google Agent-First IDE</td>
+</tr>
+<tr>
+<td><strong>OpenClaw</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Codex CLI</strong></td>
+<td>✅ 纯执行版本</td>
+</tr>
+<tr>
+<td><strong>Windsurf</strong></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-4-支持的模型组合">2.4 支持的模型组合</h3>
+<p><strong>不需要 OpenAI API！</strong> 支持国产模型：</p>
+<table>
+<thead>
+<tr>
+<th>组合</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MiniMax-M2.7 + GLM-5</strong></td>
+<td>零成本方案</td>
+</tr>
+<tr>
+<td><strong>Kimi + GLM</strong></td>
+<td>阿里百炼 Coding Plan</td>
+</tr>
+<tr>
+<td><strong>ModelScope</strong></td>
+<td>免费额度</td>
+</tr>
+</tbody>
+</table>
+<p>详见文档：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/MiniMax-GLM-Configuration.md">MiniMax-GLM-Configuration.md</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/MODELSCOPE_GUIDE.md">MODELSCOPE_GUIDE.md</a></li>
+</ul>
+<hr>
+<h2 id="三-aris-设计哲学">三、ARIS 设计哲学</h2>
+<blockquote>
+<p><strong>Skill = 哲学 + 技术事实，不是操作手册。讲清 tradeoff 让 AI 自己选，不替它推理。</strong></p>
+</blockquote>
+<p>这是 ARIS 最重要的设计原则。每个 <a target="_blank" rel="noopener" href="http://SKILL.md">SKILL.md</a> 不只是步骤说明，而是包含：</p>
+<ol>
+<li><strong>浏览哲学</strong>：遇到问题时的决策框架</li>
+<li><strong>技术事实</strong>：已知的方法局限和边界</li>
+<li><strong>权衡取舍</strong>：为什么这样设计而不是那样</li>
+</ol>
+<hr>
+<h2 id="四-快速安装">四、快速安装</h2>
+<h3 id="4-1-基础安装">4.1 基础安装</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 克隆仓库</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 复制 skills 到你的 Claude Code</span></span><br><span class="line"><span class="built_in">cp</span> -r Auto-claude-code-research-in-sleep/skills/* ~/.claude/skills/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在 Claude Code 中使用</span></span><br><span class="line">claude</span><br><span class="line">&gt; /idea-discovery <span class="string">&quot;你的研究方向&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-2-配置-codex-mcp-推荐">4.2 配置 Codex MCP（推荐）</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装 Codex CLI</span></span><br><span class="line">npm install -g @openai/codex</span><br><span class="line">codex setup   <span class="comment"># 提示选模型时选 gpt-5.4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加到 Claude Code</span></span><br><span class="line">claude mcp add codex -s user -- codex mcp-server</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-无-api-成本方案">4.3 无 API 成本方案</h3>
+<p>没有 OpenAI API？用国产模型：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 详见文档</span></span><br><span class="line"><span class="built_in">cat</span> docs/MiniMax-GLM-Configuration.md</span><br><span class="line"><span class="built_in">cat</span> docs/MODELSCOPE_GUIDE.md</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="五-使用示例">五、使用示例</h2>
+<h3 id="5-1-基础模式-给方向全自动">5.1 基础模式——给方向全自动</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/research-pipeline &quot;离散扩散语言模型的 factorized gap&quot;</span><br></pre></td></tr></table></figure>
+<p>ARIS 会：</p>
+<ol>
+<li>自动搜索文献</li>
+<li>生成创新想法</li>
+<li>验证新颖性</li>
+<li>获取评审反馈</li>
+<li>精炼方法</li>
+<li>设计实验</li>
+</ol>
+<h3 id="5-2-精准模式-有参考论文">5.2 精准模式——有参考论文</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/research-pipeline &quot;改进方法 X&quot; — ref paper: https://arxiv.org/abs/2406.04329, base repo: https://github.com/org/project</span><br></pre></td></tr></table></figure>
+<p>ARIS 会：</p>
+<ul>
+<li>读论文 → 找弱点 → 克隆代码 → 针对弱点用那套代码生成改进方案 → 跑实验 → 写论文</li>
+</ul>
+<p>就像跟研究助手说：<em>“读这篇论文，用这个 repo，找出哪里不行，然后修好它。”</em></p>
+<h3 id="5-3-rebuttal-模式-审稿意见来了">5.3 Rebuttal 模式——审稿意见来了</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/rebuttal &quot;paper/ + reviews&quot; — venue: ICML, character limit: 5000</span><br></pre></td></tr></table></figure>
+<p>自动生成安全的 rebuttal，有三道安全门确保不编造、不过度承诺、全覆盖。</p>
+<hr>
+<h2 id="六-案例分析：使用-aris-完成的顶会论文">六、案例分析：使用 ARIS 完成的顶会论文</h2>
+<h3 id="6-1-案例-1：cs-论文-8-10-clear-accept">6.1 案例 1：CS 论文（8/10 “clear accept”）</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>评分</strong></td>
+<td>8/10 “clear accept”</td>
+</tr>
+<tr>
+<td><strong>会议</strong></td>
+<td>CS 会议</td>
+</tr>
+<tr>
+<td><strong>作者</strong></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/DefanXue">@DefanXue</a> &amp; <a target="_blank" rel="noopener" href="https://github.com/Monglitay">@Monglitay</a></td>
+</tr>
+<tr>
+<td><strong>技术栈</strong></td>
+<td>Claude Code + GPT-5.4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用流程</strong>：</p>
+<ol>
+<li>用 <code>/idea-discovery</code> 发现创新方向</li>
+<li>用 <code>/auto-review-loop</code> 多轮迭代</li>
+<li>用 <code>/paper-writing</code> 写完整论文</li>
+<li>提交后用 <code>/rebuttal</code> 处理审稿意见</li>
+<li>成功接收！</li>
+</ol>
+<h3 id="6-2-案例-2：aaai-2026-论文-7-10-good-paper-accept">6.2 案例 2：AAAI 2026 论文（7/10 “good paper, accept”）</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>评分</strong></td>
+<td>7/10 “good paper, accept”</td>
+</tr>
+<tr>
+<td><strong>会议</strong></td>
+<td>AAAI 2026 Main Technical</td>
+</tr>
+<tr>
+<td><strong>作者</strong></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/xinbo820-web">@xinbo820-web</a></td>
+</tr>
+<tr>
+<td><strong>技术栈</strong></td>
+<td>纯 Codex CLI（无需 Claude Code）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键启示</strong>：ARIS <strong>不依赖 Claude Code</strong>。纯 Codex CLI 同样可以完成完整流程。</p>
+<h3 id="6-3-从想法到接收的全程记录">6.3 从想法到接收的全程记录</h3>
+<p>两篇论文都是<strong>全程 ARIS 完成——从 idea 到接收</strong>。</p>
+<p>这证明了 ARIS 工作流的可行性：</p>
+<ul>
+<li>✅ 不需要顶会论文写作经验</li>
+<li>✅ 不需要昂贵的 GPU 资源</li>
+<li>✅ 不需要多个 AI 工具拼凑</li>
+</ul>
+<p>一套工作流，从想法到顶会接收。</p>
+<hr>
+<h2 id="七-重要参数说明">七、重要参数说明</h2>
+<p>所有命令都支持内联参数配置：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AUTO_PROCEED</code></td>
+<td><code>true</code></td>
+<td>自动继续最佳选项</td>
+</tr>
+<tr>
+<td><code>human checkpoint</code></td>
+<td><code>false</code></td>
+<td>每轮 review 后暂停</td>
+</tr>
+<tr>
+<td><code>sources</code></td>
+<td><code>all</code></td>
+<td>搜索来源：zotero、local、web、semantic-scholar</td>
+</tr>
+<tr>
+<td><code>venue</code></td>
+<td><code>ICLR</code></td>
+<td>目标会议</td>
+</tr>
+<tr>
+<td><code>difficulty</code></td>
+<td><code>medium</code></td>
+<td>审稿对抗强度：medium / hard / nightmare</td>
+</tr>
+<tr>
+<td><code>compact</code></td>
+<td><code>false</code></td>
+<td>生成精简摘要文件</td>
+</tr>
+<tr>
+<td><code>ref paper</code></td>
+<td><code>false</code></td>
+<td>参考论文 URL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>使用示例</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/research-pipeline <span class="string">&quot;方向&quot;</span> — AUTO_PROCEED: <span class="literal">false</span>          <span class="comment"># 在选 idea 时暂停</span></span><br><span class="line">/research-pipeline <span class="string">&quot;方向&quot;</span> — human checkpoint: <span class="literal">true</span>        <span class="comment"># 每轮 review 后暂停</span></span><br><span class="line">/research-pipeline <span class="string">&quot;方向&quot;</span> — difficulty: nightmare        <span class="comment"># 极限压力测试</span></span><br><span class="line">/research-pipeline <span class="string">&quot;方向&quot;</span> — venue: CVPR                 <span class="comment"># 指定目标会议</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="八-无-gpu？没问题">八、无 GPU？没问题！</h2>
+<p>ARIS 提供两种免费 GPU 方案：</p>
+<h3 id="8-1-modal-serverless-gpu">8.1 Modal Serverless GPU</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CLAUDE.md 中配置</span></span><br><span class="line">gpu: modal</span><br><span class="line"></span><br><span class="line"><span class="comment"># 一条命令跑实验，自动 scale-to-zero</span></span><br><span class="line">modal run launcher.py</span><br></pre></td></tr></table></figure>
+<ul>
+<li>$30/月免费额度</li>
+<li>无需 SSH/Docker</li>
+<li>跑完自动停止</li>
+</ul>
+<h3 id="8-2-vast-ai-gpu-租赁">8.2 <a target="_blank" rel="noopener" href="http://Vast.ai">Vast.ai</a> GPU 租赁</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CLAUDE.md 中配置</span></span><br><span class="line">gpu: vast</span><br></pre></td></tr></table></figure>
+<ul>
+<li>自动租用最便宜的 GPU</li>
+<li>用完即销毁</li>
+<li>按小时计费</li>
+</ul>
+<hr>
+<h2 id="九-自定义与扩展">九、自定义与扩展</h2>
+<h3 id="9-1-元优化：让-aris-自我改进">9.1 元优化：让 ARIS 自我改进</h3>
+<p>ARIS 可以<strong>优化自己</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启用被动日志</span></span><br><span class="line"><span class="built_in">cp</span> templates/claude-hooks/meta_logging.json .claude/settings.json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 累积 5 次运行后分析</span></span><br><span class="line">/meta-optimize</span><br></pre></td></tr></table></figure>
+<p>会分析你的使用数据，提出 <a target="_blank" rel="noopener" href="http://SKILL.md">SKILL.md</a> 改进方案——<strong>reviewer 审核、用户批准</strong>。</p>
+<h3 id="9-2-飞书通知">9.2 飞书通知</h3>
+<p>配置后可在手机接收实验进度通知：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 三种模式</span></span><br><span class="line">feishu: off    <span class="comment"># 关闭</span></span><br><span class="line">feishu: push   <span class="comment"># 推送通知</span></span><br><span class="line">feishu: interactive  <span class="comment"># 交互模式</span></span><br></pre></td></tr></table></figure>
+<h3 id="9-3-zotero-obsidian-集成">9.3 Zotero + Obsidian 集成</h3>
+<p>如果你有 Zotero 文献库或 Obsidian 笔记，ARIS 可以直接读取：</p>
+<ul>
+<li>Zotero 标注和高亮</li>
+<li>Obsidian 研究笔记</li>
+<li>本地 PDF 库</li>
+</ul>
+<hr>
+<h2 id="十-总结">十、总结</h2>
+<h3 id="aris-能为你做什么">ARIS 能为你做什么</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>ARIS 能做到</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>没有研究方向</td>
+<td><code>/idea-discovery</code> 从大方向发现创新点</td>
+</tr>
+<tr>
+<td>有方向但不知道做什么</td>
+<td><code>/idea-creator</code> 生成 8-12 个具体想法</td>
+</tr>
+<tr>
+<td>不知道想法是否新颖</td>
+<td><code>/novelty-check</code> 多源检索验证</td>
+</tr>
+<tr>
+<td>不知道想法够不够顶会</td>
+<td><code>/research-review</code> 顶会级评审</td>
+</tr>
+<tr>
+<td>有结果不知道写不写论文</td>
+<td><code>/paper-writing</code> 自动写完整论文</td>
+</tr>
+<tr>
+<td>审稿意见来了不知道怎么回</td>
+<td><code>/rebuttal</code> 安全生成辩护信</td>
+</tr>
+<tr>
+<td>没有 GPU</td>
+<td>Modal / <a target="_blank" rel="noopener" href="http://Vast.ai">Vast.ai</a> 免费方案</td>
+</tr>
+<tr>
+<td>没有 OpenAI API</td>
+<td>MiniMax + GLM 国产方案</td>
+</tr>
+</tbody>
+</table>
+<h3 id="核心优势">核心优势</h3>
+<ol>
+<li><strong>零依赖</strong>：纯 Markdown 文件，没有框架要学</li>
+<li><strong>跨平台</strong>：Claude Code / Cursor / Trae / Codex CLI 都可用</li>
+<li><strong>国产友好</strong>：支持 MiniMax、GLM、Kimi 等国产模型</li>
+<li><strong>已验证</strong>：两篇顶会接收论文证明有效</li>
+<li><strong>可自优化</strong>：内置 meta-optimize 让系统自我改进</li>
+</ol>
+<h3 id="下一步">下一步</h3>
+<ol>
+<li><strong>克隆项目</strong>：<code>git clone https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep.git</code></li>
+<li><strong>安装 Skills</strong>：<code>cp -r skills/* ~/.claude/skills/</code></li>
+<li><strong>开始使用</strong>：<code>claude</code> 然后 <code>/idea-discovery &quot;你的研究方向&quot;</code></li>
+</ol>
+<hr>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><strong>ARIS 项目地址</strong>：<a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep">https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep</a></li>
+<li><strong>ARIS-Code CLI 下载</strong>：<a target="_blank" rel="noopener" href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/releases">https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/releases</a></li>
+<li><strong>PaperWeekly 收录文章</strong>：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/tDniVryVGjDkkkWl-5sTkQ">https://mp.weixin.qq.com/s/tDniVryVGjDkkkWl-5sTkQ</a></li>
+<li><strong>Featured on awesome-agent-skills</strong>：<a target="_blank" rel="noopener" href="https://github.com/VoltAgent/awesome-agent-skills">https://github.com/VoltAgent/awesome-agent-skills</a></li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>特别致谢</strong>：ARIS 由<a target="_blank" rel="noopener" href="https://github.com/wanshuiyin">一泽 Eze</a> 开发维护，采用 MIT 许可证。这是一个完全开源的项目，欢迎 fork、star 和贡献。</p>
+<p>如果这个工具对你有帮助，欢迎：</p>
+<ul>
+<li>在 GitHub 上点一个 ⭐</li>
+<li>分享给需要做科研的朋友</li>
+<li>提交 Issue 或 PR 帮助改进</li>
+</ul>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io">wweiyi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://wweiyi2004.github.io/2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/">http://wweiyi2004.github.io/2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://wweiyi2004.github.io" target="_blank">wweiyiのblog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AI/">AI</a><a class="post-meta__tags" href="/tags/%E7%A7%91%E7%A0%94/">科研</a><a class="post-meta__tags" href="/tags/Claude-Code/">Claude-Code</a><a class="post-meta__tags" href="/tags/ARIS/">ARIS</a><a class="post-meta__tags" href="/tags/%E8%AE%BA%E6%96%87/">论文</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width no-desc" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Claude Code 命令行安装与使用指南</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related no-desc" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-03</div><div class="info-item-2">Claude Code 命令行安装与使用指南</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.luogu.com.cn/upload/image_hosting/q09pt8us.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">wweiyi</div><div class="author-info-description">一个wweiyi多次鸽掉的blog复活了</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">168</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wweiyi2004"><i class="fab fa-github"></i><span>推我！</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">本博客于2025年7月8日重置<br>
+前OIer<br>
+现为武汉大学电子信息学院的学生<br>
+高中毕业于襄阳五中<br>
+欢迎观看我的博客！
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#aris-%E8%AE%A9-claude-code-%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94"><span class="toc-number">1.</span> <span class="toc-text">ARIS —— 让 Claude Code 在你睡觉时做科研</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-aris%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">一、为什么需要 ARIS？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%8D%95%E6%A8%A1%E5%9E%8B%E8%87%AA%E8%AF%84%E7%9A%84%E8%87%B4%E5%91%BD%E7%BC%BA%E9%99%B7"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.1 单模型自评的致命缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%8F%8C%E6%A8%A1%E5%9E%8B%E5%8D%8F%E4%BD%9C%E7%9A%84%E5%A8%81%E5%8A%9B"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2 双模型协作的威力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%A4%E4%B8%AA%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.3 为什么是两个模型？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-aris-%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">1.3.</span> <span class="toc-text">二、ARIS 核心功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%9B%9B%E5%A4%A7%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.1 四大工作流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81-1%EF%BC%9Aidea-discovery-%E6%83%B3%E6%B3%95%E5%8F%91%E7%8E%B0"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">工作流 1：Idea Discovery（想法发现）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81-2%EF%BC%9Aauto-review-loop-%E8%87%AA%E5%8A%A8%E5%AE%A1%E7%A8%BF%E8%BF%AD%E4%BB%A3"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">工作流 2：Auto Review Loop（自动审稿迭代）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81-3%EF%BC%9Apaper-writing-%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">工作流 3：Paper Writing（论文写作）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81-4%EF%BC%9Arebuttal-%E5%AE%A1%E7%A8%BF%E6%84%8F%E8%A7%81%E8%BE%A9%E6%8A%A4"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">工作流 4：Rebuttal（审稿意见辩护）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E9%94%AE%E5%85%A8%E6%B5%81%E7%A8%8B%EF%BC%9Aresearch-pipeline"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">一键全流程：Research Pipeline</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E9%85%8D%E5%A5%97%E5%B7%A5%E5%85%B7"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.2 配套工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%94%AF%E6%8C%81%E7%9A%84%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.3 支持的平台</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%94%AF%E6%8C%81%E7%9A%84%E6%A8%A1%E5%9E%8B%E7%BB%84%E5%90%88"><span class="toc-number">1.3.4.</span> <span class="toc-text">2.4 支持的模型组合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-aris-%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6"><span class="toc-number">1.4.</span> <span class="toc-text">三、ARIS 设计哲学</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85"><span class="toc-number">1.5.</span> <span class="toc-text">四、快速安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%9F%BA%E7%A1%80%E5%AE%89%E8%A3%85"><span class="toc-number">1.5.1.</span> <span class="toc-text">4.1 基础安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E9%85%8D%E7%BD%AE-codex-mcp-%E6%8E%A8%E8%8D%90"><span class="toc-number">1.5.2.</span> <span class="toc-text">4.2 配置 Codex MCP（推荐）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%97%A0-api-%E6%88%90%E6%9C%AC%E6%96%B9%E6%A1%88"><span class="toc-number">1.5.3.</span> <span class="toc-text">4.3 无 API 成本方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.6.</span> <span class="toc-text">五、使用示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%BC%8F-%E7%BB%99%E6%96%B9%E5%90%91%E5%85%A8%E8%87%AA%E5%8A%A8"><span class="toc-number">1.6.1.</span> <span class="toc-text">5.1 基础模式——给方向全自动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E7%B2%BE%E5%87%86%E6%A8%A1%E5%BC%8F-%E6%9C%89%E5%8F%82%E8%80%83%E8%AE%BA%E6%96%87"><span class="toc-number">1.6.2.</span> <span class="toc-text">5.2 精准模式——有参考论文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-rebuttal-%E6%A8%A1%E5%BC%8F-%E5%AE%A1%E7%A8%BF%E6%84%8F%E8%A7%81%E6%9D%A5%E4%BA%86"><span class="toc-number">1.6.3.</span> <span class="toc-text">5.3 Rebuttal 模式——审稿意见来了</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90%EF%BC%9A%E4%BD%BF%E7%94%A8-aris-%E5%AE%8C%E6%88%90%E7%9A%84%E9%A1%B6%E4%BC%9A%E8%AE%BA%E6%96%87"><span class="toc-number">1.7.</span> <span class="toc-text">六、案例分析：使用 ARIS 完成的顶会论文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%A1%88%E4%BE%8B-1%EF%BC%9Acs-%E8%AE%BA%E6%96%87-8-10-clear-accept"><span class="toc-number">1.7.1.</span> <span class="toc-text">6.1 案例 1：CS 论文（8&#x2F;10 “clear accept”）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%A1%88%E4%BE%8B-2%EF%BC%9Aaaai-2026-%E8%AE%BA%E6%96%87-7-10-good-paper-accept"><span class="toc-number">1.7.2.</span> <span class="toc-text">6.2 案例 2：AAAI 2026 论文（7&#x2F;10 “good paper, accept”）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E4%BB%8E%E6%83%B3%E6%B3%95%E5%88%B0%E6%8E%A5%E6%94%B6%E7%9A%84%E5%85%A8%E7%A8%8B%E8%AE%B0%E5%BD%95"><span class="toc-number">1.7.3.</span> <span class="toc-text">6.3 从想法到接收的全程记录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83-%E9%87%8D%E8%A6%81%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">1.8.</span> <span class="toc-text">七、重要参数说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB-%E6%97%A0-gpu%EF%BC%9F%E6%B2%A1%E9%97%AE%E9%A2%98"><span class="toc-number">1.9.</span> <span class="toc-text">八、无 GPU？没问题！</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-modal-serverless-gpu"><span class="toc-number">1.9.1.</span> <span class="toc-text">8.1 Modal Serverless GPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-vast-ai-gpu-%E7%A7%9F%E8%B5%81"><span class="toc-number">1.9.2.</span> <span class="toc-text">8.2 Vast.ai GPU 租赁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%8E%E6%89%A9%E5%B1%95"><span class="toc-number">1.10.</span> <span class="toc-text">九、自定义与扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E5%85%83%E4%BC%98%E5%8C%96%EF%BC%9A%E8%AE%A9-aris-%E8%87%AA%E6%88%91%E6%94%B9%E8%BF%9B"><span class="toc-number">1.10.1.</span> <span class="toc-text">9.1 元优化：让 ARIS 自我改进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E9%A3%9E%E4%B9%A6%E9%80%9A%E7%9F%A5"><span class="toc-number">1.10.2.</span> <span class="toc-text">9.2 飞书通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-zotero-obsidian-%E9%9B%86%E6%88%90"><span class="toc-number">1.10.3.</span> <span class="toc-text">9.3 Zotero + Obsidian 集成</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81-%E6%80%BB%E7%BB%93"><span class="toc-number">1.11.</span> <span class="toc-text">十、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#aris-%E8%83%BD%E4%B8%BA%E4%BD%A0%E5%81%9A%E4%BB%80%E4%B9%88"><span class="toc-number">1.11.1.</span> <span class="toc-text">ARIS 能为你做什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF"><span class="toc-number">1.11.2.</span> <span class="toc-text">核心优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E6%AD%A5"><span class="toc-number">1.11.3.</span> <span class="toc-text">下一步</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.12.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/" title="【工具】ARIS——让 Claude Code 在你睡觉时做科研">【工具】ARIS——让 Claude Code 在你睡觉时做科研</a><time datetime="2026-04-05T12:00:00.000Z" title="发表于 2026-04-05 20:00:00">2026-04-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/03/Claude-Code-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="Claude Code 命令行安装与使用指南">Claude Code 命令行安装与使用指南</a><time datetime="2026-04-03T13:00:00.000Z" title="发表于 2026-04-03 21:00:00">2026-04-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/03/31/meguminn-join-blog/" title="欢迎 Meguminn 正式入驻 wweiyi の blog">欢迎 Meguminn 正式入驻 wweiyi の blog</a><time datetime="2026-03-31T11:32:00.000Z" title="发表于 2026-03-31 19:32:00">2026-03-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/27/%E3%80%90%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0%E3%80%91%E8%B4%A5%E5%8C%97%E5%A5%B3%E4%B8%BB%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81/" title="【阅读笔记】败北女主太多了！">【阅读笔记】败北女主太多了！</a><time datetime="2026-01-27T07:16:37.000Z" title="发表于 2026-01-27 15:16:37">2026-01-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/08/15/%E3%80%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E6%9C%80%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" title="【学习笔记】最优化方法">【学习笔记】最优化方法</a><time datetime="2025-08-15T08:03:48.000Z" title="发表于 2025-08-15 16:03:48">2025-08-15</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.luogu.com.cn/upload/image_hosting/lqqm7nla.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;Tue Jan 01 2019 08:00:00 GMT+0800 (中国标准时间) - 2026 By wweiyi</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.1</a></span></div><div class="footer_custom_text">Hi, welcome to wweiyi's <a href="wweiyi2004.github.io">blog</a>!<br><a href="https://icp.gov.moe/?keyword=20259954" target="_blank">萌ICP备20259954号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'wweiyi2004/BlogComment',
+      'data-repo-id': 'R_kgDOPK11pw',
+      'data-category-id': 'DIC_kwDOPK11p84Cs0hp',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="向那比黑更黑比暗更暗的深渊中,祈求吾之深红闪光,觉醒之时已然降至,堕入无谬境界的真理啊,化作无穷的扭曲现界吧,起舞吧 起舞吧 起舞吧！,吾之魔力奔流所求之物即崩坏,无人能及之崩坏,森罗万象皆归尘土,从深渊前来吧！,Explosion！" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="快来看看有什么好东西~" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
