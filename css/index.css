@@ -2768,12 +2768,7 @@ figure.highlight pre .javascript .function {
   display: none !important;
 }
 .bangumi-show {
-  display: -webkit-box !important;
-  display: -moz-box !important;
-  display: -webkit-flex !important;
-  display: -ms-flexbox !important;
-  display: box !important;
-  display: flex !important;
+  display: block !important;
 }
 @media screen and (max-width: 768px) {
   .bangumi-header {
