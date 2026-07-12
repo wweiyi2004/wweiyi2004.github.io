@@ -1,0 +1,115 @@
+:root {
+  --course-accent: #4f7f76;
+}
+
+.course-hero {
+  max-width: 760px;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+.course-eyebrow {
+  margin-bottom: 0.45rem;
+  color: var(--course-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.course-hero h2 {
+  margin: 0 0 0.8rem;
+  font-size: clamp(1.75rem, 5vw, 2.65rem);
+  letter-spacing: -0.04em;
+}
+
+.course-hero > p:last-child {
+  color: var(--card-meta);
+  line-height: 1.8;
+}
+
+.course-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 2rem 0 2.75rem;
+}
+
+.course-stats div {
+  padding: 1.25rem;
+  border: 1px solid rgba(79, 127, 118, 0.2);
+  border-radius: 16px;
+  background: rgba(79, 127, 118, 0.06);
+  text-align: center;
+}
+
+.course-stats strong,
+.course-stats span {
+  display: block;
+}
+
+.course-stats strong {
+  color: var(--course-accent);
+  font-size: 1.8rem;
+}
+
+.course-stats span {
+  margin-top: 0.2rem;
+  color: var(--card-meta);
+  font-size: 0.82rem;
+}
+
+.course-featured {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2.5rem;
+}
+
+.course-featured a {
+  display: flex;
+  min-height: 150px;
+  padding: 1.35rem;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(79, 127, 118, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(79, 127, 118, 0.12), rgba(196, 154, 90, 0.08));
+  color: var(--font-color);
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.course-featured a:hover {
+  transform: translateY(-3px);
+  border-color: var(--course-accent);
+}
+
+.course-featured span {
+  color: var(--course-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.course-featured strong {
+  margin: 0.45rem 0;
+  font-size: 1.15rem;
+}
+
+.course-featured small {
+  color: var(--card-meta);
+  line-height: 1.55;
+}
+
+@media (max-width: 768px) {
+  .course-stats,
+  .course-featured {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-featured a {
+    transition: none;
+  }
+}
