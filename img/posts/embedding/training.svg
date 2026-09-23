@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+<title id="title">02 / 数值如何变得有用：训练闭环</title><desc id="desc">以 Skip-gram 为例：让中心词能够预测附近的上下文词</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="660" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">02 / 数值如何变得有用：训练闭环</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">以 Skip-gram 为例：让中心词能够预测附近的上下文词</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<rect x="48" y="175" width="290" height="150" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="215" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">① 从语料造样本</text>
+<text x="70" y="253" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">“猫 喜欢 吃 鱼”</text>
+<text x="70" y="286" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">中心：猫　上下文：喜欢</text>
+<rect x="455" y="175" width="290" height="150" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="477" y="215" fill="#148071" font-size="25" text-anchor="start" font-weight="700">② 查表并计算分数</text>
+<text x="477" y="253" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">中心向量 v，候选向量 u</text>
+<text x="477" y="286" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">score = v · u</text>
+<rect x="862" y="175" width="290" height="150" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="884" y="215" fill="#cb7028" font-size="25" text-anchor="start" font-weight="700">③ 损失函数</text>
+<text x="884" y="253" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">正确上下文得分是否够高？</text>
+<text x="884" y="286" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">与其余候选进行比较</text>
+<path d="M350,249 L440,249" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M757,249 L847,249" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<rect x="455" y="435" width="697" height="125" rx="16" fill="#eaf1ff" stroke="#d5deeb" stroke-width="2"/>
+<text x="477" y="475" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">④ 反向传播 → 优化器更新</text>
+<text x="477" y="513" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">用梯度调整中心词表与上下文词表，继续处理下一批样本。</text>
+<path d="M1007,340 L1007,414" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M440,498 L193,498 L193,340" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<text x="57" y="444" fill="#3264d5" font-size="24" text-anchor="start" font-weight="700">反复迭代</text>
+<text x="455" y="371" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">同一个中心词可能有多个正确上下文，</text>
+<text x="455" y="402" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">因此损失不必降到 0。</text>
+<text x="48" y="636" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">原创示意图 · 用于解释机制，不代表真实模型的测量结果</text>
+</g></svg>

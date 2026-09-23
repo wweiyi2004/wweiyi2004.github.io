@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+<title id="title">07 / 实际运行：三个中文问题与五篇候选文档</title><desc id="desc">BAAI/bge-small-zh-v1.5 · 归一化向量点积（余弦相似度）</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="660" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">07 / 实际运行：三个中文问题与五篇候选文档</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">BAAI/bge-small-zh-v1.5 · 归一化向量点积（余弦相似度）</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<text x="398" y="191" fill="#50647e" font-size="21" text-anchor="middle" font-weight="400">D1 重置密码</text>
+<text x="562" y="191" fill="#50647e" font-size="21" text-anchor="middle" font-weight="400">D2 修改头像</text>
+<text x="726" y="191" fill="#50647e" font-size="21" text-anchor="middle" font-weight="400">D3 向量检索</text>
+<text x="890" y="191" fill="#50647e" font-size="21" text-anchor="middle" font-weight="400">D4 订单物流</text>
+<text x="1054" y="191" fill="#50647e" font-size="21" text-anchor="middle" font-weight="400">D5 梯度更新</text>
+<text x="48" y="281" fill="#172b4d" font-size="25" text-anchor="start" font-weight="700">Q1 忘记密码</text>
+<rect x="324" y="228" width="148" height="82" rx="12" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="398" y="279" fill="white" font-size="26" text-anchor="middle" font-weight="700">0.6640</text>
+<rect x="488" y="228" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="562" y="279" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.4197</text>
+<rect x="652" y="228" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="726" y="279" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.4663</text>
+<rect x="816" y="228" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="890" y="279" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.3845</text>
+<rect x="980" y="228" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="1054" y="279" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.3516</text>
+<text x="48" y="391" fill="#172b4d" font-size="25" text-anchor="start" font-weight="700">Q2 语义搜索</text>
+<rect x="324" y="338" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="398" y="389" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.2299</text>
+<rect x="488" y="338" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="562" y="389" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.3197</text>
+<rect x="652" y="338" width="148" height="82" rx="12" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="726" y="389" fill="white" font-size="26" text-anchor="middle" font-weight="700">0.5182</text>
+<rect x="816" y="338" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="890" y="389" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.3088</text>
+<rect x="980" y="338" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="1054" y="389" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.3508</text>
+<text x="48" y="501" fill="#172b4d" font-size="25" text-anchor="start" font-weight="700">Q3 参数学习</text>
+<rect x="324" y="448" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="398" y="499" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.2244</text>
+<rect x="488" y="448" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="562" y="499" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.2565</text>
+<rect x="652" y="448" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="726" y="499" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.4861</text>
+<rect x="816" y="448" width="148" height="82" rx="12" fill="#e4ecfa" stroke="#d5deeb" stroke-width="2"/>
+<text x="890" y="499" fill="#172b4d" font-size="26" text-anchor="middle" font-weight="700">0.2441</text>
+<rect x="980" y="448" width="148" height="82" rx="12" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="1054" y="499" fill="white" font-size="26" text-anchor="middle" font-weight="700">0.4961</text>
+<text x="48" y="589" fill="#148071" font-size="24" text-anchor="start" font-weight="400">深色标出每行最高分；分数用于排序，不是“答案正确的概率”。</text>
+<text x="48" y="636" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">真实示例输出 · CPU / float32 · 固定模型 revision · 分数可能随库版本有微小差异</text>
+</g></svg>
