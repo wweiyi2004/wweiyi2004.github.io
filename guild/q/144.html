@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】NOIP2018 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="&gt;她开始变了…… Day1 T1 铺设道路 思路 CCF狠起来连自己都抄 就是2013年的积木大赛么 甚至都是春春幼儿园…… T2 货币系统 思路 题意就是你有 个数字，然后你要将这些数字加起来，看有没有不能表示的数字 然后看能不能用 个数">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="144" data-line="4" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.144</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】NOIP2018</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-11-15T20:40:00.000Z">2021.11.16</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">833 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告noip2018">【解题报告】NOIP2018</h1>
+<blockquote>
+<p>她开始变了……</p>
+</blockquote>
+<h2 id="day1">Day1</h2>
+<h3 id="t1-铺设道路">T1 铺设道路</h3>
+<h4 id="思路">思路</h4>
+<p>CCF狠起来连自己都抄</p>
+<p>就是2013年的积木大赛么</p>
+<p>甚至都是春春幼儿园……</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> n,a,last=<span class="hljs-number">0</span>,ans=<span class="hljs-number">0</span>;
+    cin&gt;&gt;n;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+    {
+        cin&gt;&gt;a;
+        <span class="hljs-keyword">if</span>(a&gt;last)ans+=(a-last);
+        last=a;
+    }
+    cout&lt;&lt;ans&lt;&lt;endl;
+}</code></pre></div><h3 id="t2-货币系统">T2 货币系统</h3>
+<h4 id="思路-1">思路</h4>
+<p>题意就是你有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 个数字，然后你要将这些数字加起来，看有没有不能表示的数字</p>
+<p>然后看能不能用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>≤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">m \le n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 个数字使这些数字的不能表示的数字和原来用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 个数字不能表示数字的集合是同一个集合</p>
+<p>我们考虑枚举</p>
+<p>自己肯定是有的</p>
+<p>我们对已有的钱数量进行排序，然后我们对它们进行枚举</p>
+<p>枚举某个钱数是否能搞到，前提是这个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 的这个钱有</p>
+<p>然后我们就依次枚举这个钱和其他钱的组合</p>
+<p>有人说了，那不得枚举到正无穷去？</p>
+<p>不对，如果有不同的话，我们已经在一个最大的钱 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>o</mi><mi>n</mi><mi>e</mi><msub><mi>y</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">money_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal">e</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 的这个范围之内找出来的，而其他的都是和他属于大概是同余的关系了，所以我们只用枚举到最后一个钱那么大行了</p>
+<p>如果两个钱加起来超过最大的钱的话，我们就直接 <code>break</code> 掉就好了</p>
+<p>所以最后的代码就是枚举</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> T;
+<span class="hljs-type">int</span> ex[<span class="hljs-number">50005</span>]={<span class="hljs-number">0</span>},money[<span class="hljs-number">1005</span>]={<span class="hljs-number">0</span>};
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> x=<span class="hljs-number">0</span>,f=<span class="hljs-number">1</span>;<span class="hljs-type">char</span> ch=<span class="hljs-built_in">getchar</span>();
+	<span class="hljs-keyword">while</span> (ch&lt;<span class="hljs-string">&#x27;0&#x27;</span>||ch&gt;<span class="hljs-string">&#x27;9&#x27;</span>){<span class="hljs-keyword">if</span> (ch==<span class="hljs-string">&#x27;-&#x27;</span>) f=<span class="hljs-number">-1</span>;ch=<span class="hljs-built_in">getchar</span>();}
+	<span class="hljs-keyword">while</span> (ch&gt;=<span class="hljs-string">&#x27;0&#x27;</span>&amp;&amp;ch&lt;=<span class="hljs-string">&#x27;9&#x27;</span>){x=(x&lt;&lt;<span class="hljs-number">1</span>)+(x&lt;&lt;<span class="hljs-number">3</span>)+ch<span class="hljs-number">-48</span>;ch=<span class="hljs-built_in">getchar</span>();}
+	<span class="hljs-keyword">return</span> x*f;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	T=<span class="hljs-built_in">read</span>();
+	<span class="hljs-keyword">while</span>(T--)
+	{
+		<span class="hljs-type">int</span> n=<span class="hljs-built_in">read</span>();
+		<span class="hljs-built_in">memset</span>(ex,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(ex));
+		<span class="hljs-built_in">memset</span>(money,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(money));
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+		{
+			money[i]=<span class="hljs-built_in">read</span>();
+			ex[money[i]]=<span class="hljs-number">2</span>;
+		}
+		<span class="hljs-built_in">sort</span>(money<span class="hljs-number">+1</span>,money<span class="hljs-number">+1</span>+n);
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=money[n];i++)
+		{
+			<span class="hljs-keyword">if</span>(ex[i]&gt;<span class="hljs-number">0</span>)
+			{
+				<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=n;j++)
+				{
+					<span class="hljs-keyword">if</span>(i+money[j]&lt;=money[n])
+					ex[i+money[j]]=<span class="hljs-number">1</span>;
+					<span class="hljs-keyword">else</span> 
+					<span class="hljs-keyword">break</span>;
+				}
+			}
+		}
+		<span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=money[n];i++)
+		<span class="hljs-keyword">if</span>(ex[i]==<span class="hljs-number">2</span>)
+		ans++;
+		cout&lt;&lt;ans&lt;&lt;endl;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h3 id="t3-赛道修建">T3 赛道修建</h3>
+<h4 id="思路-2">思路</h4>
+<p>思路沿用自 @first_fan</p>
+<p>简要题意就是</p>
+<p>给定一棵树的信息，求这棵树 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 条互不相交的链中的最小值的最大值可以是多少</p>
+<p>求<strong>最小值最大</strong>，显然的<strong>二分</strong></p>
+<p>我们可以知道，如果一条链，经过了一个结点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 的父节点，同时包含了 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 到子节点的某条边，那么它就只能包含 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 到所有子节点中边的一条</p>
+<p>于是我们推出来，对于任意结点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 和它的子节点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo separator="true">,</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">j,k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 以及其中的一条链 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>→</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i \rightarrow j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> ，我们有三种情况需要讨论</p>
+<ul>
+<li>不要</li>
+<li>我们用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>→</mo><mi>i</mi><mo>→</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">j \rightarrow i \rightarrow k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 的链</li>
+<li>我们用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mi>i</mi></msub><mo>→</mo><mi>i</mi><mo>→</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">f_i \rightarrow i \rightarrow j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>  的链</li>
+</ul>
+<p>所以，我们对于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 尝试连边，然后如果连一个的话，我们就把新的边长向上传递，和父节点并成同一个链</p>
+<p>我们是在二分最小值，所以按照上面的步骤连边之后，如果链长大于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span></span></span></span> 的话，我们就重新开一个新的链，如果链数不够的话，说明我们最小的还要更小</p>
+<p>我们每次传回的父节点一定要足够长</p>
+<p>所以有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><msub><mi>n</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi></mrow></msub><mo>+</mo><mi>l</mi><mi>e</mi><msub><mi>n</mi><mrow><mi>n</mi><mi>o</mi><mi>w</mi></mrow></msub><mo>≥</mo><mi>b</mi><mi>i</mi><mi>n</mi><mi>a</mi><mi>r</mi><msub><mi>y</mi><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">len_{pre}+len_{now} \ge binary_{len}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">re</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">bina</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>然后用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>u</mi><mi>l</mi><mi>t</mi><mi>i</mi><mi>s</mi><mi>e</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">multiset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">u</span><span class="mord mathnormal">lt</span><span class="mord mathnormal">i</span><span class="mord mathnormal">se</span><span class="mord mathnormal">t</span></span></span></span> 维护一下就好了</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;set&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">50005</span>;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">edge</span>{
+	<span class="hljs-type">int</span> e,next,val;
+}ed[maxn&lt;&lt;<span class="hljs-number">1</span>];
+<span class="hljs-type">int</span> en,first[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> e,<span class="hljs-type">int</span> val)</span>
+</span>{
+	en++;
+	ed[en].next=first[s];
+	first[s]=en;
+	ed[en].e=e;
+	ed[en].val=val;
+}
+<span class="hljs-type">int</span> n,m,mid,ans;
+<span class="hljs-type">int</span> f[maxn],g[maxn];
+multiset &lt;<span class="hljs-type">int</span>&gt; s;
+multiset &lt;<span class="hljs-type">int</span>&gt;::iterator it;
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> x=<span class="hljs-number">0</span>,f=<span class="hljs-number">1</span>;<span class="hljs-type">char</span> ch=<span class="hljs-built_in">getchar</span>();
+	<span class="hljs-keyword">while</span> (ch&lt;<span class="hljs-string">&#x27;0&#x27;</span>||ch&gt;<span class="hljs-string">&#x27;9&#x27;</span>){<span class="hljs-keyword">if</span> (ch==<span class="hljs-string">&#x27;-&#x27;</span>) f=<span class="hljs-number">-1</span>;ch=<span class="hljs-built_in">getchar</span>();}
+	<span class="hljs-keyword">while</span> (ch&gt;=<span class="hljs-string">&#x27;0&#x27;</span>&amp;&amp;ch&lt;=<span class="hljs-string">&#x27;9&#x27;</span>){x=x*<span class="hljs-number">10</span>+ch<span class="hljs-number">-48</span>;ch=<span class="hljs-built_in">getchar</span>();}
+	<span class="hljs-keyword">return</span> x*f;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(f,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(f));
+	<span class="hljs-built_in">memset</span>(g,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(g));
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> fa)</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[x];i;i=ed[i].next)
+	{
+		<span class="hljs-type">int</span> e=ed[i].e;
+		<span class="hljs-keyword">if</span>(e==fa) <span class="hljs-keyword">continue</span>;
+		<span class="hljs-built_in">dfs</span>(e,x);
+		f[x]+=f[e];
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[x];i;i=ed[i].next)
+	{
+		<span class="hljs-type">int</span> e=ed[i].e;
+		<span class="hljs-type">int</span> val=ed[i].val;
+		<span class="hljs-keyword">if</span>(e==fa) <span class="hljs-keyword">continue</span>;
+		s.<span class="hljs-built_in">insert</span>(g[e]+val);
+	}
+	<span class="hljs-keyword">while</span>(s.<span class="hljs-built_in">size</span>())
+	{
+		<span class="hljs-type">int</span> now=*s.<span class="hljs-built_in">rbegin</span>();
+		<span class="hljs-keyword">if</span>(now&gt;=mid)
+		{
+			it=s.<span class="hljs-built_in">find</span>(now);
+			f[x]++;
+			s.<span class="hljs-built_in">erase</span>(it);
+		}
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+	}
+	<span class="hljs-keyword">while</span>(s.<span class="hljs-built_in">size</span>())
+	{
+		<span class="hljs-type">int</span> now=*s.<span class="hljs-built_in">begin</span>();
+		s.<span class="hljs-built_in">erase</span>(s.<span class="hljs-built_in">begin</span>());
+		it=s.<span class="hljs-built_in">lower_bound</span>(mid-now);
+		<span class="hljs-keyword">if</span>(it==s.<span class="hljs-built_in">end</span>())
+		g[x]=now;
+		<span class="hljs-keyword">else</span> 
+		{
+			f[x]++;
+			s.<span class="hljs-built_in">erase</span>(it);
+		}
+	}
+}
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> l=<span class="hljs-number">0</span>,r=<span class="hljs-number">1e8</span>;
+	n=<span class="hljs-built_in">read</span>(),m=<span class="hljs-built_in">read</span>();
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n<span class="hljs-number">-1</span>;i++)
+	{
+		<span class="hljs-type">int</span> x=<span class="hljs-built_in">read</span>(),y=<span class="hljs-built_in">read</span>(),z=<span class="hljs-built_in">read</span>();
+		<span class="hljs-built_in">add_edge</span>(x,y,z);
+		<span class="hljs-built_in">add_edge</span>(y,x,z);
+		
+		l=<span class="hljs-built_in">min</span>(l,z);
+		r+=z;
+	}
+	<span class="hljs-keyword">while</span>(l&lt;=r)
+	{
+		<span class="hljs-built_in">init</span>();
+		mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+		<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+		<span class="hljs-keyword">if</span>(f[<span class="hljs-number">1</span>]&gt;=m) ans=<span class="hljs-built_in">max</span>(ans,mid),l=mid<span class="hljs-number">+1</span>;
+		<span class="hljs-keyword">else</span> r=mid<span class="hljs-number">-1</span>;
+	}
+	cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="day2">Day2</h2>
+<h3 id="t1-旅行">T1 旅行</h3>
+<h4 id="思路-3">思路</h4>
+<p>贪心的部分分有40pts，我们可以在10min内拿到</p>
+<p>我们考虑直接dfs，对于每个点找出它编号最小的儿子先遍历，这样就有40pts了</p>
+<p>但是没有考虑可以往回走，然后走到一个更小结点的情况，能有四十分已经很人性了</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">2005</span>;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">edge</span>{
+	<span class="hljs-type">int</span> e,next;
+}ed[maxn&lt;&lt;<span class="hljs-number">1</span>];
+<span class="hljs-type">int</span> en,first[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> e)</span>
+</span>{
+	en++;
+	ed[en].next=first[s];
+	first[s]=en;
+	ed[en].e=e;
+}
+<span class="hljs-type">int</span> n,m;
+<span class="hljs-type">int</span> ans[maxn],now[maxn],tot;
+<span class="hljs-type">bool</span> vis[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> fa)</span>
+</span>{
+	priority_queue &lt;<span class="hljs-type">int</span>&gt; q;
+	<span class="hljs-keyword">if</span>(!vis[x])
+	{
+		ans[++tot]=x;
+		vis[x]=<span class="hljs-literal">true</span>;
+	}
+	
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[x];i;i=ed[i].next)
+	{
+		<span class="hljs-type">int</span> e=ed[i].e;
+		<span class="hljs-keyword">if</span>(e==fa) <span class="hljs-keyword">continue</span>;
+		q.<span class="hljs-built_in">push</span>(-e);
+	}
+	<span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())
+	{
+		<span class="hljs-type">int</span> e=-q.<span class="hljs-built_in">top</span>();
+		q.<span class="hljs-built_in">pop</span>();
+		<span class="hljs-built_in">dfs</span>(e,x);
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		<span class="hljs-type">int</span> u,v;
+		cin&gt;&gt;u&gt;&gt;v;
+		<span class="hljs-built_in">add_edge</span>(u,v);
+		<span class="hljs-built_in">add_edge</span>(v,u);
+	}
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=tot;i++)
+	cout&lt;&lt;ans[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	cout&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre></div><p>用 <code>vector</code> 储存然后提前排好序甚至可以60pts</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">5005</span>;
+<span class="hljs-type">int</span> n,m;
+<span class="hljs-type">int</span> ans[maxn],tot;
+<span class="hljs-type">bool</span> vis[maxn];
+vector &lt;<span class="hljs-type">int</span>&gt; g[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> fa)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(vis[x]) <span class="hljs-keyword">return</span> ;
+	vis[x]=<span class="hljs-literal">true</span>;
+	ans[++tot]=x;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;g[x].<span class="hljs-built_in">size</span>();i++)
+	{
+		<span class="hljs-type">int</span> e=g[x][i];
+		<span class="hljs-keyword">if</span>(e==fa) <span class="hljs-keyword">continue</span>;
+		<span class="hljs-built_in">dfs</span>(e,x);
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		<span class="hljs-type">int</span> u,v;
+		cin&gt;&gt;u&gt;&gt;v;
+		g[u].<span class="hljs-built_in">push_back</span>(v);
+		g[v].<span class="hljs-built_in">push_back</span>(u);`
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	<span class="hljs-built_in">sort</span>(g[i].<span class="hljs-built_in">begin</span>(),g[i].<span class="hljs-built_in">end</span>());
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=tot;i++)
+	cout&lt;&lt;ans[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	cout&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><p>然后暴力枚举删哪一条边，可以 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 通过此题</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">5005</span>;
+<span class="hljs-type">int</span> n,m;
+<span class="hljs-type">int</span> ru,rv;
+<span class="hljs-type">int</span> ans[maxn],tot,res[maxn];
+<span class="hljs-type">bool</span> vis[maxn];
+<span class="hljs-type">bool</span> v[maxn];
+vector &lt;<span class="hljs-type">int</span>&gt; g[maxn];
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">edge</span>{
+	<span class="hljs-type">int</span> p,q;
+}a[maxn&lt;&lt;<span class="hljs-number">1</span>];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> fa)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(vis[x]) <span class="hljs-keyword">return</span> ;
+	vis[x]=<span class="hljs-literal">true</span>;
+	ans[++tot]=x;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;g[x].<span class="hljs-built_in">size</span>();i++)
+	{
+		<span class="hljs-type">int</span> e=g[x][i];
+		<span class="hljs-keyword">if</span>(e==fa) <span class="hljs-keyword">continue</span>;
+		<span class="hljs-built_in">dfs</span>(e,x);
+	}
+}
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs1</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> fa)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(vis[x]) <span class="hljs-keyword">return</span> ;
+	vis[x]=<span class="hljs-literal">true</span>;
+	res[++tot]=x;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;g[x].<span class="hljs-built_in">size</span>();i++)
+	{
+		<span class="hljs-type">int</span> e=g[x][i];
+		<span class="hljs-keyword">if</span>(e==fa) <span class="hljs-keyword">continue</span>;
+		<span class="hljs-keyword">if</span>((x==ru&amp;&amp;e==rv)||(x==rv&amp;&amp;e==ru))
+		<span class="hljs-keyword">continue</span>;
+		<span class="hljs-built_in">dfs1</span>(e,x);
+	}
+}
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-keyword">if</span>(res[i]&lt;ans[i]) 
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(res[i]&gt;ans[i])
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">cp</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	ans[i]=res[i];
+}
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		<span class="hljs-type">int</span> u,v;
+		cin&gt;&gt;u&gt;&gt;v;
+		g[u].<span class="hljs-built_in">push_back</span>(v);
+		g[v].<span class="hljs-built_in">push_back</span>(u);
+		a[i].p=u;
+		a[i].q=v;
+	}
+	
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	<span class="hljs-built_in">sort</span>(g[i].<span class="hljs-built_in">begin</span>(),g[i].<span class="hljs-built_in">end</span>());
+	
+	<span class="hljs-keyword">if</span>(n==m)
+	{
+		<span class="hljs-type">bool</span> flag=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+		{
+			ru=a[i].p,rv=a[i].q;
+			<span class="hljs-built_in">memset</span>(vis,<span class="hljs-literal">false</span>,<span class="hljs-built_in">sizeof</span>(vis));
+			tot=<span class="hljs-number">0</span>;
+			<span class="hljs-built_in">dfs1</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+			<span class="hljs-keyword">if</span>(tot&lt;n) <span class="hljs-keyword">continue</span>;
+			<span class="hljs-keyword">if</span>(flag)
+			{
+				<span class="hljs-built_in">cp</span>();
+				flag=<span class="hljs-literal">false</span>;
+			}
+			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>())
+			<span class="hljs-built_in">cp</span>();
+		}
+	}
+	<span class="hljs-keyword">else</span> 
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>);
+	
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+		cout&lt;&lt;ans[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	cout&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre></div><p>其实我们可以找到环，然后再暴力断环上的边的，但我不想写了</p>
+<h3 id="t2-填数游戏">T2 填数游戏</h3>
+<h4 id="思路-4">思路</h4>
+<p>有人说用搜索，有人说用状压</p>
+<p>我说我啥都不会，那就打表找规律吧</p>
+<p>规律蕴含在代码之中</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long </span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> mod=<span class="hljs-number">1e9</span><span class="hljs-number">+7</span>;
+<span class="hljs-type">int</span> n,m;
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">ksm</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b,<span class="hljs-type">int</span> p)</span>
+</span>{
+	<span class="hljs-type">int</span> res=<span class="hljs-number">1</span>%p;
+	<span class="hljs-keyword">while</span>(b)
+	{
+		<span class="hljs-keyword">if</span>(b&amp;<span class="hljs-number">1</span>)
+		res=<span class="hljs-number">1ll</span>*res%p*a%p;
+		a=<span class="hljs-number">1ll</span>*a%p*a%p;
+		b&gt;&gt;=<span class="hljs-number">1</span>;
+	}
+	<span class="hljs-keyword">return</span> res%p;
+}
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">if</span>(n&gt;m)
+	<span class="hljs-built_in">swap</span>(n,m);
+	<span class="hljs-keyword">if</span>(n==<span class="hljs-number">1</span>)
+		cout&lt;&lt;<span class="hljs-built_in">ksm</span>(<span class="hljs-number">2</span>,m,mod)%mod&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n==<span class="hljs-number">2</span>)
+		cout&lt;&lt;<span class="hljs-number">4</span>*<span class="hljs-built_in">ksm</span>(<span class="hljs-number">3</span>,m<span class="hljs-number">-1</span>,mod)%mod&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n==<span class="hljs-number">3</span>)
+		cout&lt;&lt;<span class="hljs-number">112</span>*<span class="hljs-built_in">ksm</span>(<span class="hljs-number">3</span>,m<span class="hljs-number">-3</span>,mod)%mod&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">else</span>
+	{
+		<span class="hljs-keyword">if</span>(m==n)
+		cout&lt;&lt;((<span class="hljs-number">83</span>*<span class="hljs-built_in">ksm</span>(<span class="hljs-number">8</span>,n,mod)%mod<span class="hljs-number">+5</span>*<span class="hljs-built_in">ksm</span>(<span class="hljs-number">2</span>,n<span class="hljs-number">+7</span>,mod)%mod)%mod*<span class="hljs-number">190104168</span>%mod)%mod&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+		<span class="hljs-keyword">else</span>
+		cout&lt;&lt;((<span class="hljs-number">83</span>*<span class="hljs-built_in">ksm</span>(<span class="hljs-number">8</span>,n,mod)%mod+<span class="hljs-built_in">ksm</span>(<span class="hljs-number">2</span>,n<span class="hljs-number">+8</span>,mod))*<span class="hljs-built_in">ksm</span>(<span class="hljs-number">3</span>,m-n<span class="hljs-number">-1</span>,mod)%mod*<span class="hljs-number">570312504</span>%mod)%mod&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>; 
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h3 id="t3-保卫王国">T3 保卫王国</h3>
+<h4 id="思路-5">思路</h4>
+<p>不会不会，是真的不会</p>
+<p>哭哭</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="143.html"><small>← 上一张委托</small><span>No.143 【解题报告】NOIP2017</span></a>
+          <a class="next" href="145.html"><small>下一张委托 →</small><span>No.145 【解题报告】CSP-S2019</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告noip2018">【解题报告】NOIP2018</a></li><li class="l3"><a href="#day1">Day1</a></li><li class="l4"><a href="#t1-铺设道路">T1 铺设道路</a></li><li class="l5"><a href="#思路">思路</a></li><li class="l4"><a href="#t2-货币系统">T2 货币系统</a></li><li class="l5"><a href="#思路-1">思路</a></li><li class="l4"><a href="#t3-赛道修建">T3 赛道修建</a></li><li class="l5"><a href="#思路-2">思路</a></li><li class="l3"><a href="#day2">Day2</a></li><li class="l4"><a href="#t1-旅行">T1 旅行</a></li><li class="l5"><a href="#思路-3">思路</a></li><li class="l4"><a href="#t2-填数游戏">T2 填数游戏</a></li><li class="l5"><a href="#思路-4">思路</a></li><li class="l4"><a href="#t3-保卫王国">T3 保卫王国</a></li><li class="l5"><a href="#思路-5">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/11/16/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91NOIP2018/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

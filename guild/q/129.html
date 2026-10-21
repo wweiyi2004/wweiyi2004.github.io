@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷P3627 抢掠计划 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目链接 https://www.luogu.com.cn/problem/P3627 思路 简要题意： 一个有向有环图，每个点有一个权值，请问，从某一个点出发，到某些特殊的点作为终点，经过点的时候可以得到它的权值，并且该点权值变为0，每个">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="129" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.129</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷P3627 抢掠计划</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-18T01:25:00.000Z">2021.10.18</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">285 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p3627-抢掠计划">【解题报告】洛谷P3627 抢掠计划</h1>
+<h3 id="题目链接">题目链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P3627" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P3627</a></p>
+<h3 id="思路">思路</h3>
+<p>简要题意：</p>
+<p>一个有向有环图，每个点有一个权值，请问，从某一个点出发，到某些特殊的点作为终点，经过点的时候可以得到它的权值，并且该点权值变为0，每个点可以走任意多次，请问可以得到的最大权值是多少</p>
+<p>首先，这道题目中说了是有向有环图，我们再结合酒吧的定义，和路径可以走任何多遍，知道了，我们可以把一个强连通分量里面的点全部缩成一个，权值为所有里面的点的和，如果里面有酒吧的话，就把这个缩的点变成酒吧，以此类推</p>
+<p>这里我们用强连通分量缩点需要使用到tarjan算法，然后跑一个最长路就可以了</p>
+<p>但是这里还有一点需要注意的就是，如何把点权转化为边权（纯属因为边权更加好算</p>
+<p>然后我们就可以快乐地玩耍了</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">500005</span>;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">edge</span>{
+    <span class="hljs-type">int</span> e,val,next;
+}ed[maxn&lt;&lt;<span class="hljs-number">1</span>];
+<span class="hljs-type">int</span> m,n,p,s,en;
+<span class="hljs-type">int</span> belong[maxn];
+<span class="hljs-type">int</span> u[maxn],v[maxn],w[maxn];
+<span class="hljs-type">int</span> first[maxn],bar[maxn],dis[maxn];
+<span class="hljs-type">int</span> dfn[maxn],low[maxn],stk[maxn],sum[maxn];
+<span class="hljs-type">bool</span> vis[maxn];
+queue &lt;<span class="hljs-type">int</span>&gt; q;
+<span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>,size=<span class="hljs-number">0</span>,tot=<span class="hljs-number">0</span>,total=<span class="hljs-number">0</span>;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> v)</span>
+</span>{
+	en++;
+	ed[en].e=v;
+	ed[en].next=first[u];
+	first[u]=en;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add2</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> v,<span class="hljs-type">int</span> w)</span>
+</span>{
+ 	en++;
+ 	ed[en].e=v;
+ 	ed[en].val=w;
+ 	ed[en].next=first[u];
+ 	first[u]=en;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">tarjan</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+ 	dfn[x]=low[x]=++total;
+ 	stk[++size]=x;
+	vis[x]=<span class="hljs-literal">true</span>;
+ 	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[x];i;i=ed[i].next)
+ 	{
+ 		<span class="hljs-type">int</span> e=ed[i].e;
+ 		<span class="hljs-keyword">if</span>(!dfn[e])
+ 		{
+ 			<span class="hljs-built_in">tarjan</span>(e);
+ 			low[x]=<span class="hljs-built_in">min</span>(low[x],low[e]);
+ 		}
+ 		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vis[e])
+ 		 low[x]=<span class="hljs-built_in">min</span>(low[x],dfn[e]);
+ 	}
+ 	<span class="hljs-keyword">if</span>(dfn[x]==low[x])
+ 	{
+ 		tot++;
+ 		<span class="hljs-keyword">do</span>{
+ 			<span class="hljs-type">int</span> tp=stk[size];
+ 			sum[tot]+=w[tp];
+ 			vis[tp]=<span class="hljs-literal">false</span>;
+ 			belong[tp]=tot;
+ 		}<span class="hljs-keyword">while</span>(stk[size--]!=x);
+ 	}
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">spfa</span><span class="hljs-params">(<span class="hljs-type">int</span> s)</span>
+</span>{
+ 	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=tot;i++) dis[i]=<span class="hljs-number">0</span>;
+ 	<span class="hljs-type">int</span> gs=belong[s];
+    q.<span class="hljs-built_in">push</span>(gs);
+ 	vis[gs]=<span class="hljs-literal">true</span>;
+ 	dis[gs]=sum[gs];
+ 	<span class="hljs-keyword">while</span>(!q.<span class="hljs-built_in">empty</span>())
+ 	{
+ 		<span class="hljs-type">int</span> h=q.<span class="hljs-built_in">front</span>();q.<span class="hljs-built_in">pop</span>();
+ 		vis[h]=<span class="hljs-literal">false</span>;
+ 		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[h];i;i=ed[i].next)
+ 		{
+ 			<span class="hljs-type">int</span> e=ed[i].e;
+ 			<span class="hljs-keyword">if</span>(dis[e]&lt;dis[h]+ed[i].val)
+ 			{
+ 				dis[e]=dis[h]+ed[i].val;
+ 				<span class="hljs-keyword">if</span>(!vis[e])
+ 				{
+ 					q.<span class="hljs-built_in">push</span>(e);
+ 					vis[e]=<span class="hljs-literal">true</span>;
+ 				}
+ 			}
+ 		}
+ 	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+ 	en=<span class="hljs-number">0</span>;
+ 	<span class="hljs-built_in">memset</span>(ed,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(ed));
+ 	<span class="hljs-built_in">memset</span>(first,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(first));
+
+ 	cin&gt;&gt;n&gt;&gt;m;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+    {
+        cin&gt;&gt;u[i]&gt;&gt;v[i];
+        <span class="hljs-built_in">add</span>(u[i],v[i]);
+    }
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) 
+	cin&gt;&gt;w[i];
+    cin&gt;&gt;s&gt;&gt;p;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=p;i++) 
+	cin&gt;&gt;bar[i];
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+    <span class="hljs-keyword">if</span>(!dfn[i]) 
+	<span class="hljs-built_in">tarjan</span>(i);
+	
+   	en=<span class="hljs-number">0</span>;
+ 	<span class="hljs-built_in">memset</span>(ed,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(ed));
+ 	<span class="hljs-built_in">memset</span>(first,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(first));
+    
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+    <span class="hljs-keyword">if</span>(belong[u[i]]!=belong[v[i]])
+    <span class="hljs-built_in">add2</span>(belong[u[i]],belong[v[i]],sum[belong[v[i]]]);
+    <span class="hljs-built_in">spfa</span>(s);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=p;i++)
+    ans=<span class="hljs-built_in">max</span>(ans,dis[belong[bar[i]]]);
+    cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="128.html"><small>← 上一张委托</small><span>No.128 【解题报告】洛谷P1219 八皇后</span></a>
+          <a class="next" href="130.html"><small>下一张委托 →</small><span>No.130 洛谷P1168 中位数</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p3627-抢掠计划">【解题报告】洛谷P3627 抢掠计划</a></li><li class="l4"><a href="#题目链接">题目链接</a></li><li class="l4"><a href="#思路">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7P3627-%E6%8A%A2%E6%8E%A0%E8%AE%A1%E5%88%92/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

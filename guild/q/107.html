@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷P1115 最大子段和 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目链接 https://www.luogu.com.cn/problem/P1115 思路 我们有两种方法 贪心 我们一直输入，然后一直加法，如果 就说明这是不合法的，从头再来，我们边记录，边加法，然后最后记录到的最大值就是 记录的值了 ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="107" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.107</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷P1115 最大子段和</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-11T04:10:00.000Z">2021.10.11</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">146 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p1115-最大子段和">【解题报告】洛谷P1115 最大子段和</h1>
+<h3 id="题目链接">题目链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P1115" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P1115</a></p>
+<h3 id="思路">思路</h3>
+<p>我们有两种方法</p>
+<ol>
+<li>贪心</li>
+</ol>
+<p>我们一直输入，然后一直加法，如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>u</mi><mi>m</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">sum &lt; 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 就说明这是不合法的，从头再来，我们边记录，边加法，然后最后记录到的最大值就是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>n</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">ans</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">an</span><span class="mord mathnormal">s</span></span></span></span> 记录的值了</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">int</span> ans=<span class="hljs-number">-999</span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	std::ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);
+	cin&gt;&gt;n;
+	<span class="hljs-type">int</span> sum=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> a;
+		cin&gt;&gt;a;
+		sum+=a;
+		ans=<span class="hljs-built_in">max</span>(ans,sum);
+		<span class="hljs-keyword">if</span>(sum&lt;<span class="hljs-number">0</span>) sum=<span class="hljs-number">0</span>;
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><ol start="2">
+<li>动态规划</li>
+</ol>
+<p>实际上就是贪心吧</p>
+<p>我们设 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span> 表示从1到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 的最大字段和</p>
+<p>于是我们就有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo><mo>+</mo><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f[i]=max(f[i-1]+a[i],a[i])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ma</span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">])</span></span></span></span></p>
+<p>然后我们用一个滚动数组滚一下，然后就变成贪心了</p>
+<p>别人的代码</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> n[<span class="hljs-number">200001</span>],p,ans[<span class="hljs-number">200001</span>]={<span class="hljs-number">0</span>};
+    <span class="hljs-type">int</span> sum=<span class="hljs-number">-9999999</span>;<span class="hljs-comment">//|x|&lt;=10000   QWQ</span>
+    cin&gt;&gt;p;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=p;i++)
+    {
+        cin&gt;&gt;n[i];<span class="hljs-comment">//输入</span>
+        ans[i]=<span class="hljs-built_in">max</span>(ans[i<span class="hljs-number">-1</span>]+n[i],n[i]);<span class="hljs-comment">//DP</span>
+        sum=<span class="hljs-built_in">max</span>(sum,ans[i]);<span class="hljs-comment">//取最大值也同时进行，节约时间</span>
+    }
+    cout&lt;&lt;sum;<span class="hljs-comment">//直接输出</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="106.html"><small>← 上一张委托</small><span>No.106 【解题报告】洛谷P5657 格雷码</span></a>
+          <a class="next" href="108.html"><small>下一张委托 →</small><span>No.108 【解题报告】洛谷P1719 最大加权矩形</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p1115-最大子段和">【解题报告】洛谷P1115 最大子段和</a></li><li class="l4"><a href="#题目链接">题目链接</a></li><li class="l4"><a href="#思路">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/11/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7P1115-%E6%9C%80%E5%A4%A7%E5%AD%90%E6%AE%B5%E5%92%8C/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

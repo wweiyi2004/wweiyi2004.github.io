@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【清北学堂国庆刷题班】 Day1 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="T1 打扑克 题目描述 皮蛋为了讨好黑妞，想要跟她打扑克。 他们打的扑克是这样一种规则：有面值大小从1到n的扑克各一张。其中奇数牌在皮蛋手中，偶数牌在黑妞手中。每人每次只能出一张牌，先出完者获胜（遵循最基本的扑克规则：当对手出牌后，可以选择">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="58" data-line="4" data-minutes="6">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.58</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=%E6%B8%85%E5%8C%97%E5%AD%A6%E5%A0%82">清北学堂</a></span></p>
+        <h1 class="writ__title">【清北学堂国庆刷题班】 Day1</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2020-10-29T05:25:00.000Z">2020.10.29</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">2,090 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 6 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">#动态规划</a></li><li><a href="../index.html?tag=%E5%88%86%E6%B2%BB">#分治</a></li><li><a href="../index.html?tag=%E6%8E%92%E5%BA%8F">#排序</a></li><li><a href="../index.html?tag=%E5%AD%97%E7%AC%A6%E4%B8%B2">#字符串</a></li><li><a href="../index.html?tag=%E5%89%8D%E7%BC%80%E5%92%8C%2F%E5%B7%AE%E5%88%86">#前缀和/差分</a></li><li><a href="../index.html?tag=STL">#STL</a></li><li><a href="../index.html?tag=NOI">#NOI</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="清北学堂国庆刷题班-day1">【清北学堂国庆刷题班】 Day1</h1>
+<h2 id="t1-打扑克">T1 打扑克</h2>
+<h3 id="题目描述">题目描述</h3>
+<p>皮蛋为了讨好黑妞，想要跟她打扑克。</p>
+<p>他们打的扑克是这样一种规则：有面值大小从1到n的扑克各一张。其中奇数牌在皮蛋手中，偶数牌在黑妞手中。每人每次只能出一张牌，先出完者获胜（遵循最基本的扑克规则：当对手出牌后，可以选择出一张比他大的牌，或者不管，让他再任意出一张牌）。假设皮蛋和黑妞都是足够聪明的人，都想让自己获胜。现在给定n和谁先出牌，那么谁会获胜呢？</p>
+<h3 id="输入格式">输入格式</h3>
+<p>第1行1个正整数T，表示数据组数。</p>
+<p>接下来T行，每行2个正整数n,op，表示打一局牌。其中n如题所示，保证<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mi>p</mi><mo>∈</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">op\in \lbrace 0,1\rbrace</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">o</span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">}</span></span></span></span>，op=0表示皮蛋先出牌，op=1表示黑妞先出牌。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>T行每行1个数表示打一局牌的答案。0表示皮蛋获胜，1表示黑妞获胜。</p>
+<h3 id="样例数据">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">2
+5 0
+10 1</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">0
+1</code></pre></div><h3 id="数据规模与约定">数据规模与约定</h3>
+<p>对于 40%的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">n \le 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span>。</p>
+<p>对于 70% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>10000</mn></mrow><annotation encoding="application/x-tex">n\le 10000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10000</span></span></span></span>。</p>
+<p>对于 100% 的数据,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><msup><mn>10</mn><mn>1000</mn></msup><mo separator="true">,</mo><mi>T</mi><mo>≤</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">2\le n\le 10^{1000},T\le 100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1000</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span>。</p>
+<p>时间限制：1s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路">思路</h2>
+<p>这道题主要是找规律</p>
+<p>分类讨论，对于这个题目，可以这么讨论：</p>
+<ol>
+<li>
+<p>n为偶数时</p>
+<p>&lt;1&gt;n=2 op=0</p>
+<p>当n等于二的时候当然就是一下子就出完了。</p>
+<p>&lt;2&gt;n&gt;2</p>
+<p>比如n=4的时候，有1，2，3，4四张牌</p>
+<p>皮蛋有1，3，黑妞有2，4</p>
+<p>op=0时，皮蛋先出牌，发现皮蛋不管怎么出都是输</p>
+<p>op=1时，同理</p>
+<p>经过许许多多实验发现除了当n为偶数的时候（除n=2外），皮蛋总是输</p>
+</li>
+</ol>
+<p>2.n为奇数时</p>
+<p>​		比如n=5的时候，有1，2，3，4，5五张牌</p>
+<p>​        皮蛋有1，3，5，黑妞有2，4</p>
+<p>​        op=0时，皮蛋先出牌，皮蛋出3，黑妞出4，皮蛋出5，黑妞出不了，皮蛋再出一个1，这样皮蛋就出完了，经过非常多的时间，根据不完全归纳法，我们可以<strong>判定n为奇数且皮蛋先出牌的时候可以获胜</strong></p>
+<p>​	    op=1时，黑妞先出牌，发现皮蛋怎么出都是输</p>
+<p>讨论完毕</p>
+<p>因此<strong>当n等于2且op=0的时候或者n为奇数且op=0时皮蛋可以获胜</strong>，因为n有亿点大，所以要用字符串输入，判断后两位是奇数还是偶数即可</p>
+<h2 id="代码">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> T;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;T;
+	<span class="hljs-keyword">while</span>(T--)
+	{
+		<span class="hljs-type">char</span> s[<span class="hljs-number">1005</span>];
+		<span class="hljs-type">long</span> <span class="hljs-type">long</span> n;
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>,s);
+		n=(s[<span class="hljs-built_in">strlen</span>(s)<span class="hljs-number">-2</span>])*<span class="hljs-number">10</span>+s[<span class="hljs-built_in">strlen</span>(s)<span class="hljs-number">-1</span>]-<span class="hljs-string">&#x27;0&#x27;</span>;
+		<span class="hljs-type">int</span> op;
+		cin&gt;&gt;op;
+		<span class="hljs-keyword">if</span>(n==<span class="hljs-number">2</span>)
+		{
+			cout&lt;&lt;op&lt;&lt;endl;
+			<span class="hljs-keyword">continue</span>;
+		}
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(n%<span class="hljs-number">2</span>==<span class="hljs-number">1</span>&amp;&amp;op==<span class="hljs-number">0</span>)
+		cout&lt;&lt;<span class="hljs-number">0</span>&lt;&lt;endl;
+		<span class="hljs-keyword">else</span> cout&lt;&lt;<span class="hljs-number">1</span>&lt;&lt;endl;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t2-粉刷匠">T2 粉刷匠</h2>
+<h3 id="题目描述-1">题目描述</h3>
+<p>皮蛋喜欢黑妞，想为她粉刷一面网格墙。</p>
+<p>墙上有n行m列共n∗m个网格。初始时，整面墙都是红色的。皮蛋只有红、蓝两种颜色的油漆，而且皮蛋很懒，他每次刷墙只会把某一整行或某一整列刷成红色或蓝色。皮蛋一共粉刷了k次墙。现在给出皮蛋的粉刷方案，请你求出最后这面墙有多少个格子是蓝色的。</p>
+<h3 id="输入格式-1">输入格式</h3>
+<p>第1行3个正整数n,m,k。</p>
+<p>接下来k行，每行3个整数x,y,z表示一次刷墙。保证<em>x</em>,<em>z</em>∈{0,1}x,z∈{0,1}，x=0表示皮蛋粉刷第y行，否则表示粉刷第y列；z=0则表示将该行（列）的格子都粉刷成红色，否则表示都粉刷成蓝色。保证操作合法。</p>
+<h3 id="输出格式-1">输出格式</h3>
+<p>1行1个数表示答案。</p>
+<h3 id="样例数据-1">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">2 2 2
+0 1 1
+1 2 1</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">3</code></pre></div><h3 id="数据规模与约定-1">数据规模与约定</h3>
+<p>对于 30%的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo separator="true">,</mo><mi>m</mi><mo separator="true">,</mo><mi>k</mi><mo>≤</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">1\le n,m,k \le 1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000</span></span></span></span></p>
+<p>对于另外 30%的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≤</mo><mn>10</mn><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>m</mi><mo separator="true">,</mo><mi>k</mi><mo>≤</mo><mn>1000000</mn></mrow><annotation encoding="application/x-tex">n \le 10 , 1\le m,k \le 1000000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">10</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">m</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000000</span></span></span></span></p>
+<p>对于 100% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo separator="true">,</mo><mi>m</mi><mo separator="true">,</mo><mi>k</mi><mo>≤</mo><mn>100000</mn></mrow><annotation encoding="application/x-tex">1\le n,m,k \le 100000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">m</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100000</span></span></span></span></p>
+<p>时间限制：2s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路-1">思路</h2>
+<p>这道题主要是一个思考方式的问题，如果从正面思考，来考虑有多少个方块，双重循环，这样时间复杂度严重超标，因此我们考虑到倒着进行循环</p>
+<p>倒着循环可以设一个数组，来标记一下这一行或者这一列有没有被粉刷过，如果被粉刷过就不再计算了，如果没有被粉刷过，就加上这一行或者这一列的列数或者行数，然后删除这一列或者这一行，不再计算，因为是倒着考虑的，所以不用担心其他的操作</p>
+<h2 id="代码-1">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> N 1000010</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> M 1010</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n[<span class="hljs-number">2</span>],k;
+<span class="hljs-type">int</span> x[N],y[N],z[N];
+<span class="hljs-type">bool</span> vi[<span class="hljs-number">2</span>][N];
+ll ans;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n[<span class="hljs-number">0</span>]&gt;&gt;n[<span class="hljs-number">1</span>]&gt;&gt;k;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=k;i++) <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>,&amp;x[i],&amp;y[i],&amp;z[i]);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=k;i;i--)
+	<span class="hljs-keyword">if</span>(!vi[x[i]][y[i]])
+	{
+		vi[x[i]][y[i]]=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">if</span>(z[i]) ans+=n[!x[i]];
+		n[x[i]]--;
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t3-直线竞速">T3 直线竞速</h2>
+<h3 id="题目描述-2">题目描述</h3>
+<p>一年一度的繁荣山庄直线竞速比赛要开始了！</p>
+<p>本次比赛共有<strong>n位选手，第i位选手的起点在ai位置，速度是vi</strong>，速度方向是正方向。</p>
+<p>之后有Q个询问，每次询问经过t秒后，排名在第k位的选手的编号（在相同位置时，编号小的排名靠前）。</p>
+<h3 id="输入格式-2">输入格式</h3>
+<p>第1行1个正整数n。</p>
+<p>接下来n行，每行2个正整数vi,ai。</p>
+<p>接下来1行1个整数Q。</p>
+<p>接下来Q行，每行2个正整数t,k表示一个询问。</p>
+<h3 id="输出格式-2">输出格式</h3>
+<p>Q行，每行一个整数表示询问的答案。</p>
+<h3 id="样例数据-2">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">4
+2 100
+3 50
+4 60
+5 1
+4    
+1 1
+50 2
+60 4
+100 1</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">1
+4
+1
+4</code></pre></div><h3 id="数据规模与约定-2">数据规模与约定</h3>
+<p>对于 30%的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo separator="true">,</mo><mi>Q</mi><mo>≤</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">1\le n ,Q \le 1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000</span></span></span></span></p>
+<p>对于另外40%的数据,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span></p>
+<p>对于100% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo separator="true">,</mo><mi>Q</mi><mo>≤</mo><mn>7000</mn><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>t</mi><mo>≤</mo><msup><mn>10</mn><mn>9</mn></msup><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><msub><mi>v</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>i</mi></msub><mo>≤</mo><msup><mn>10</mn><mn>5</mn></msup><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1\le n,Q \le 7000 ,1\le t \le 10^9 ,1\le v_i,a_i\le 10^5 ,1\le k\le n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">7000</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></p>
+<p>时间限制：2s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路-2">思路</h2>
+<p>这道题目看到的第一思路是暴力，对于每个询问计算一个位置，然后进行排序，直接输出第k位选手的编号，但是这个时间复杂度比较大，为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>Q</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nQ\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>,数据显然会超时，所以我们在这个上面进行改善。</p>
+<p>仔细观察上面的步骤，我们可以使用分治求第k小元素，这样我们可以在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>的时间内算出来排名第k的选手的编号了</p>
+<h2 id="代码-2">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> dd double</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ll long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> N 7010</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> M 1010</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n,Q;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">ma</span>
+{
+	<span class="hljs-type">int</span> v,a,num;
+}w[N];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">cmp1</span><span class="hljs-params">(ma x,ma y)</span>
+</span>{
+	<span class="hljs-keyword">return</span> x.a&gt;y.a;
+}
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">am</span>
+{
+	<span class="hljs-type">int</span> t,k,ans,num;
+}q[N];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">cmp2</span><span class="hljs-params">(am x,am y)</span>
+</span>{
+	<span class="hljs-keyword">return</span> x.t&lt;y.t;
+}
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">cmp3</span><span class="hljs-params">(am x,am y)</span>
+</span>{
+	<span class="hljs-keyword">return</span> x.num&lt;y.num;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;w[i].v,&amp;w[i].a);
+		w[i].num=i;
+	}
+	cin&gt;&gt;Q;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=Q;i++)
+	{
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;q[i].t,&amp;q[i].k);
+		q[i].num=i;
+	}
+	<span class="hljs-built_in">sort</span>(w<span class="hljs-number">+1</span>,w+n<span class="hljs-number">+1</span>,cmp1);
+	<span class="hljs-built_in">sort</span>(q<span class="hljs-number">+1</span>,q+Q<span class="hljs-number">+1</span>,cmp2);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;=Q;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=n;j++)
+		{
+			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=j;k&gt;<span class="hljs-number">1</span>;k--)
+			{
+				ll x=w[k].a+(ll)w[k].v*q[i].t;
+				ll y=w[k<span class="hljs-number">-1</span>].a+(ll)w[k<span class="hljs-number">-1</span>].v*q[i].t;
+				<span class="hljs-keyword">if</span>(y&lt;x||y==x&amp;&amp;w[k<span class="hljs-number">-1</span>].num&gt;w[k].num) <span class="hljs-built_in">swap</span>(w[k<span class="hljs-number">-1</span>],w[k]);
+				<span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+			}
+		}
+		q[i].ans=w[q[i].k].num;
+	}
+	<span class="hljs-built_in">sort</span>(q<span class="hljs-number">+1</span>,q+Q<span class="hljs-number">+1</span>,cmp3);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=Q;i++) <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,q[i].ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t4-游戏">T4 游戏</h2>
+<h3 id="题目描述-3">题目描述</h3>
+<p>有一个游戏：给定两个正整数序列A,B，长度分别为n,m。你可以做如下操作：删掉A的最后x(x≥1)个数并得到它们的和S1，同时删掉B的最后(y≥1)个数并得到它们的和S2，这次操作的花费是(S1–x)(S2–y)。你需要一直操作直到A,B都为空（不能做完一次操作后使得其中一个为空而另一个非空）。本次游戏的总花费是每次花费的和。求最小的总花费。</p>
+<h3 id="输入格式-3">输入格式</h3>
+<p>第1行2个正整数n,m。</p>
+<p>第2行n个正整数，表示序列A。</p>
+<p>第3行m个正整数，表示序列B。</p>
+<h3 id="输出格式-3">输出格式</h3>
+<p>1行1个数表示最小的总花费。</p>
+<h3 id="样例数据-3">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">3 2
+1 2 3
+1 2</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">2</code></pre></div><h3 id="数据规模与约定-3">数据规模与约定</h3>
+<p>数据点1：n=20，m=20。</p>
+<p>数据点2：n=110，m=80。</p>
+<p>数据点3：n=200，m=130。</p>
+<p>数据点4：0n=400，m=80。</p>
+<p>数据点5：n=1000，m=333。</p>
+<p>数据点6：n=510，m=910。</p>
+<p>数据点7：n=1200，m=1400。</p>
+<p>数据点8：n=700，m=1800。</p>
+<p>数据点9：n=1998，m=1370。</p>
+<p>数据点10：n=2000，m=1999。</p>
+<p>对于100% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><msub><mi>A</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>B</mi><mi>i</mi></msub><mo>≤</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">1\le A_i,B_i \le1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0502em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000</span></span></span></span></p>
+<p>时间限制：2s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路-3">思路</h2>
+<p><s>没有思路</s></p>
+<p>说实话，这道题看到了之后我是非常地懵逼的。看到了题解之后。。。</p>
+<p><strong>动态规划！</strong></p>
+<p>用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>来表示A的前i个数和B的前j个数做游戏，最小的总花费。</p>
+<p>然后用SA和SB两个数组存一下A序列和B序列的前缀和</p>
+<p>就有状态转移方程：<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">[</mo><mi>k</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>r</mi><mo stretchy="false">]</mo><mo>+</mo><mo stretchy="false">(</mo><mi>S</mi><mi>A</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo>−</mo><mi>S</mi><mi>A</mi><mo stretchy="false">[</mo><mi>k</mi><mo stretchy="false">]</mo><mo stretchy="false">)</mo><mo>∗</mo><mo stretchy="false">(</mo><mi>S</mi><mi>B</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>−</mo><mi>S</mi><mi>B</mi><mo stretchy="false">[</mo><mi>r</mi><mo stretchy="false">]</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F[i][j]=min(f[k][r]+(SA[i]-SA[k])*(SB[j]-SB[r]))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">min</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">])</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05017em;">SB</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">SB</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">]))</span></span></span></span><br>
+´其中<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>k</mi><mo>&lt;</mo><mi>i</mi><mo separator="true">,</mo><mn>0</mn><mo>≤</mo><mi>r</mi><mo>&lt;</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">0\le k&lt;i,0 \le r&lt;j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span><br>
+但是时间复杂度还是比较大为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>m</mi><mn>2</mn></msup><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(m^2n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，因此我们需要继续简化</p>
+<p>经过推算发现，如果存在一个最优解的话，那么<strong>至少有一段删的数字长度为1</strong>，那么我们可以重新定义状态</p>
+<p>´<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i][j][0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span></span></span></span>表示A的最后一段长度为1，……</p>
+<p>´<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i][j][1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span></span></span></span>表示B的最后一段长度为1，……</p>
+<p>这样就可以得到正确答案了。</p>
+<h2 id="代码-3">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> dd double</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ll long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> N 2010</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> M 1010</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n,m;
+<span class="hljs-type">int</span> a[N],b[N];
+<span class="hljs-type">int</span> f[N][N],g[N][N];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;a[i]);
+		a[i]--;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;b[i]);
+		b[i]--;
+	}
+	<span class="hljs-built_in">memset</span>(f,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(f));
+	<span class="hljs-built_in">memset</span>(g,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(g));
+	f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]=g[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=m;j++)
+	{
+		<span class="hljs-type">int</span> x=a[i]*b[j];
+		f[i][j]=<span class="hljs-built_in">min</span>(f[i][j<span class="hljs-number">-1</span>],<span class="hljs-built_in">min</span>(f[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>],g[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>]))+x;
+		g[i][j]=<span class="hljs-built_in">min</span>(g[i<span class="hljs-number">-1</span>][j],<span class="hljs-built_in">min</span>(f[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>],g[i<span class="hljs-number">-1</span>][j<span class="hljs-number">-1</span>]))+x;
+	}
+	<span class="hljs-type">int</span> ans=<span class="hljs-built_in">min</span>(f[n][m],g[n][m]);
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="总结">总结</h2>
+<p>对于这一套题目，主要考了找规律，有技巧的暴力，分治法和动态规划，对于解题方法不是非常地熟练，但是这些方法真的都非常重要，因此以后再复习以及训练的时候要多练一些基础算法题目，然后再次基础上拓展，逐渐达到难题（NOI）的水平</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="57.html"><small>← 上一张委托</small><span>No.57 【解题报告】 洛谷P6733 间歇泉</span></a>
+          <a class="next" href="59.html"><small>下一张委托 →</small><span>No.59 【解题报告】 洛谷P1663 山</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#清北学堂国庆刷题班-day1">【清北学堂国庆刷题班】 Day1</a></li><li class="l3"><a href="#t1-打扑克">T1 打扑克</a></li><li class="l4"><a href="#题目描述">题目描述</a></li><li class="l4"><a href="#输入格式">输入格式</a></li><li class="l4"><a href="#输出格式">输出格式</a></li><li class="l4"><a href="#样例数据">样例数据</a></li><li class="l4"><a href="#数据规模与约定">数据规模与约定</a></li><li class="l3"><a href="#思路">思路</a></li><li class="l3"><a href="#代码">代码</a></li><li class="l3"><a href="#t2-粉刷匠">T2 粉刷匠</a></li><li class="l4"><a href="#题目描述-1">题目描述</a></li><li class="l4"><a href="#输入格式-1">输入格式</a></li><li class="l4"><a href="#输出格式-1">输出格式</a></li><li class="l4"><a href="#样例数据-1">样例数据</a></li><li class="l4"><a href="#数据规模与约定-1">数据规模与约定</a></li><li class="l3"><a href="#思路-1">思路</a></li><li class="l3"><a href="#代码-1">代码</a></li><li class="l3"><a href="#t3-直线竞速">T3 直线竞速</a></li><li class="l4"><a href="#题目描述-2">题目描述</a></li><li class="l4"><a href="#输入格式-2">输入格式</a></li><li class="l4"><a href="#输出格式-2">输出格式</a></li><li class="l4"><a href="#样例数据-2">样例数据</a></li><li class="l4"><a href="#数据规模与约定-2">数据规模与约定</a></li><li class="l3"><a href="#思路-2">思路</a></li><li class="l3"><a href="#代码-2">代码</a></li><li class="l3"><a href="#t4-游戏">T4 游戏</a></li><li class="l4"><a href="#题目描述-3">题目描述</a></li><li class="l4"><a href="#输入格式-3">输入格式</a></li><li class="l4"><a href="#输出格式-3">输出格式</a></li><li class="l4"><a href="#样例数据-3">样例数据</a></li><li class="l4"><a href="#数据规模与约定-3">数据规模与约定</a></li><li class="l3"><a href="#思路-3">思路</a></li><li class="l3"><a href="#代码-3">代码</a></li><li class="l3"><a href="#总结">总结</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2020/10/29/%E3%80%90%E6%B8%85%E5%8C%97%E5%AD%A6%E5%A0%82%E5%9B%BD%E5%BA%86%E5%88%B7%E9%A2%98%E7%8F%AD%E3%80%91-Day1/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

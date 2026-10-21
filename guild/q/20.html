@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 BZOJ3032 七夕祭 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目：七夕祭（翻译过的） ps：话说今天是七夕节，我就正好做到七夕祭 解题思路： 看到这道题的题目，可以想到《均分纸牌》和我之前做的《货仓选址》两题，这样经过思考，演算和推理，我们可以得出，需要的最少步数是 其中S是A的前缀和，即 所以经过">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="20" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.20</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 BZOJ3032 七夕祭</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-08-07T16:02:23.000Z">2019.08.08</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">120 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%89%8D%E7%BC%80%E5%92%8C%2F%E5%B7%AE%E5%88%86">#前缀和/差分</a></li><li><a href="../index.html?tag=BZOJ">#BZOJ</a></li><li><a href="../index.html?tag=AcWing">#AcWing</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告-bzoj3032-七夕祭">【解题报告】 BZOJ3032 七夕祭</h1>
+<h2 id="题目七夕祭翻译过的">题目：<a href="https://www.acwing.com/problem/content/107/" target="_blank" rel="noopener">七夕祭</a>（翻译过的）</h2>
+<p>ps：话说今天是七夕节，我就正好做到七夕祭</p>
+<h3 id="解题思路">解题思路：</h3>
+<p>看到这道题的题目，可以想到《均分纸牌》和我之前做的《货仓选址》两题，这样经过思考，演算和推理，我们可以得出，需要的最少步数是</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>M</mi></munderover><mrow><mo fence="true">∣</mo><mi>S</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo>−</mo><mi>s</mi><mo stretchy="false">[</mo><mi>k</mi><mo stretchy="false">]</mo><mo fence="true">∣</mo></mrow></mrow><annotation encoding="application/x-tex">\sum\limits_{i=1}^M\left|S[i]-s[k]\right|
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.106em;vertical-align:-1.2777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">s</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">]</span><span class="mclose delimcenter" style="top:0em;">∣</span></span></span></span></span></span></p>
+<p>其中S是A的前缀和，即</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>S</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo>=</mo><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>i</mi></munderover><mi>A</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">S[i]=\sum\limits_{j=1}^iA[j]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.2254em;vertical-align:-1.4138em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8117em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.4138em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">A</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span></span></p>
+<p>所以经过简单地编码，答案就出来了</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cmath&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100005</span>;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> a[maxn],b[maxn];
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> f[maxn];
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> n,m,t;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> x,y;
+<span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">calc</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-type">long</span> a[],<span class="hljs-type">long</span> <span class="hljs-type">long</span> n)</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		a[i]-=(a[<span class="hljs-number">0</span>]/n);
+		f[i]=f[i<span class="hljs-number">-1</span>]+a[i];
+	}
+	<span class="hljs-built_in">sort</span>(f<span class="hljs-number">+1</span>,f+n<span class="hljs-number">+1</span>);
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> mid=(n<span class="hljs-number">+1</span>)&gt;&gt;<span class="hljs-number">1</span>,ans=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	ans+=<span class="hljs-built_in">abs</span>(f[mid]-f[i]);
+	<span class="hljs-keyword">return</span> ans;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m&gt;&gt;t;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=t;i++)
+	{
+		cin&gt;&gt;x&gt;&gt;y;
+		a[x]++;
+		b[y]++;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	a[<span class="hljs-number">0</span>]+=a[i];
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	b[<span class="hljs-number">0</span>]+=b[i];
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> c=a[<span class="hljs-number">0</span>]%n,d=b[<span class="hljs-number">0</span>]%m;
+	<span class="hljs-keyword">if</span>(!c&amp;&amp;!d)
+	cout&lt;&lt;<span class="hljs-string">&quot;both &quot;</span>&lt;&lt;<span class="hljs-built_in">calc</span>(a,n)+<span class="hljs-built_in">calc</span>(b,m);
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!c)
+	cout&lt;&lt;<span class="hljs-string">&quot;row &quot;</span>&lt;&lt;<span class="hljs-built_in">calc</span>(a,n);
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!d)
+	cout&lt;&lt;<span class="hljs-string">&quot;column &quot;</span>&lt;&lt;<span class="hljs-built_in">calc</span>(b,m);
+	<span class="hljs-keyword">else</span>
+	cout&lt;&lt;<span class="hljs-string">&quot;impossible&quot;</span>;
+	cout&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="19.html"><small>← 上一张委托</small><span>No.19 【解题报告】POJ2299 超快速排序</span></a>
+          <a class="next" href="21.html"><small>下一张委托 →</small><span>No.21 【解题报告】 POJ2299 超快速排序</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告-bzoj3032-七夕祭">【解题报告】 BZOJ3032 七夕祭</a></li><li class="l3"><a href="#题目七夕祭翻译过的">题目：七夕祭（翻译过的）</a></li><li class="l4"><a href="#解题思路">解题思路：</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/08/08/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-BZOJ3032-%E4%B8%83%E5%A4%95%E7%A5%AD/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

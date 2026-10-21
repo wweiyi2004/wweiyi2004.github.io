@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>简单素数筛 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="今天，我看了一些数学知识，而数论是比较主要的，而素数筛是其中重要的一个，现在来介绍一下简单素数筛 首先来，普及一下素数的概念 若一个正整数无法被除了1和它本身之外的任何自然数整除，则称该数为素数，也称质数（或素数），否则称该正整数为合数。 ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="8" data-line="3" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.8</span><a class="writ__line" href="../index.html?line=3"></a><span><a href="../index.html?cat=%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a></span></p>
+        <h1 class="writ__title">简单素数筛</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-07-29T10:11:04.000Z">2019.07.29</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">573 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%95%B0%E8%AE%BA">#数论</a></li><li><a href="../index.html?tag=STL">#STL</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="简单素数筛">简单素数筛</h1>
+<p>今天，我看了一些数学知识，而数论是比较主要的，而素数筛是其中重要的一个，现在来介绍一下简单素数筛</p>
+<p>首先来，普及一下素数的概念</p>
+<blockquote>
+<p>若一个正整数无法被除了1和它本身之外的任何自然数整除，则称该数为素数，也称质数（或素数），否则称该正整数为合数。</p>
+</blockquote>
+<p>通过介绍质数（下文统称质数）的概念，我们知道了一种判断质数的方法</p>
+<p><strong>通过枚举</strong>：这种方法的速度太慢了，因此我们需要更快的方法</p>
+<p>ps：即使从1枚举到根号n也是很慢的</p>
+<p>所以我们要引进一种好方法</p>
+<p>就是大于二的所有数的倍数都是合数，那就好办了，我们可以从2开始（先初始化一个v[]数组的所有元素为零）2的倍数都是合数，标记v[i*j]为一,3的倍数都是合数，标记为1……</p>
+<p>以此类推，我们就可以得出答案了</p>
+<p>下面有一道例题</p>
+<hr>
+<h3 id="题目描述">题目描述</h3>
+<p>给定一个范围N，你需要处理M个某数字是否为质数的询问（每个数字均在范围1-N内）</p>
+<h3 id="输入格式">输入格式</h3>
+<p>第一行包含两个正整数N、M，分别表示查询的范围和查询的个数。</p>
+<p>接下来M行每行包含一个不小于1且不大于N的整数，即询问该数是否为质数。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>输出包含M行，每行为Yes或No，即依次为每一个询问的结果。</p>
+<h3 id="输入输出样例">输入输出样例</h3>
+<p><strong>输入 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">100 5
+2
+3
+4
+91
+97</code></pre></div><p><strong>输出 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">Yes
+Yes
+No
+No
+Yes</code></pre></div><h3 id="说明提示">说明/提示</h3>
+<p>时空限制：500ms 128M</p>
+<p>数据规模：</p>
+<p>对于100%的数据：N&lt;=10000，M&lt;=10000</p>
+<p>样例说明：</p>
+<p>N=100，说明接下来的询问数均不大于100且不小于1。</p>
+<p>所以2、3、97为质数，4、91非质数。</p>
+<p>故依次输出Yes、Yes、No、No、Yes。</p>
+<hr>
+<p>这道题就是一道标准的筛素数的题，因为它要访问多个数啊，不做素数筛不可以啊，所以经过努力，我写出了代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> v[<span class="hljs-number">10000005</span>];<span class="hljs-comment">//记录用</span>
+<span class="hljs-type">int</span> n,m;
+<span class="hljs-type">int</span> p;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">primes</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span><span class="hljs-comment">//简单素数筛函数</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(v,<span class="hljs-number">0</span>,<span class="hljs-built_in">sizeof</span>(v));
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-keyword">if</span>(v[i])
+		<span class="hljs-keyword">continue</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=i;j&lt;=n/i;j++)
+		v[i*j]=<span class="hljs-number">1</span>; 
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-built_in">primes</span>(n);<span class="hljs-comment">//调用函数</span>
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		cin&gt;&gt;p;
+		<span class="hljs-keyword">if</span>(v[p])
+		cout&lt;&lt;<span class="hljs-string">&quot;No&quot;</span>&lt;&lt;endl;
+		<span class="hljs-keyword">else</span> 
+		cout&lt;&lt;<span class="hljs-string">&quot;Yes&quot;</span>&lt;&lt;endl;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><p>这就是简单素数筛，你get到了吗？</p>
+<p>下集预告：高级素数筛（或其他的）</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="7.html"><small>← 上一张委托</small><span>No.7 【解题报告】POJ1958 奇怪的汉诺塔</span></a>
+          <a class="next" href="9.html"><small>下一张委托 →</small><span>No.9 Dijkstra（迪杰斯特拉）算法</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#简单素数筛">简单素数筛</a></li><li class="l4"><a href="#题目描述">题目描述</a></li><li class="l4"><a href="#输入格式">输入格式</a></li><li class="l4"><a href="#输出格式">输出格式</a></li><li class="l4"><a href="#输入输出样例">输入输出样例</a></li><li class="l4"><a href="#说明提示">说明/提示</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/07/29/%E7%AE%80%E5%8D%95%E7%B4%A0%E6%95%B0%E7%AD%9B/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

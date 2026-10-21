@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 [NOI1999]生日蛋糕 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目：生日蛋糕 解题思路： dfs枚举 这道题上面的表面积不用管，只用管侧面积和体积，上面的表面积就是最底下的圆的面积 我们只需要枚举半径和高度就OK了 另外需要剪枝，如果枚举到dep-1层时，最小体积大于n的话，我们就可以进行剪枝了 AC">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="36" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.36</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 [NOI1999]生日蛋糕</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-08-24T20:17:00.000Z">2019.08.25</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">111 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告-noi1999生日蛋糕">【解题报告】 [NOI1999]生日蛋糕</h1>
+<h2 id="题目生日蛋糕">题目：<a href="https://www.acwing.com/problem/content/170/" target="_blank" rel="noopener">生日蛋糕</a></h2>
+<h3 id="解题思路">解题思路：</h3>
+<p>dfs枚举</p>
+<p>这道题上面的表面积不用管，只用管侧面积和体积，上面的表面积就是最底下的圆的面积</p>
+<p>我们只需要枚举半径和高度就OK了</p>
+<p>另外需要剪枝，如果枚举到dep-1层时，最小体积大于n的话，我们就可以进行剪枝了</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">0x3f3f3f</span>;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">20007</span>;
+<span class="hljs-type">int</span> ans=maxn;
+<span class="hljs-type">int</span> mins[N],minv[N],n,m;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> h,<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> v)</span>
+</span>{
+	<span class="hljs-type">int</span> mh=h;
+	<span class="hljs-keyword">if</span>(now==<span class="hljs-number">0</span>)
+	{
+		<span class="hljs-keyword">if</span>(v==n)
+		ans=<span class="hljs-built_in">min</span>(ans,s);
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-keyword">if</span>(s+mins[now<span class="hljs-number">-1</span>]&gt;=ans)
+	<span class="hljs-keyword">return</span> ;
+	<span class="hljs-keyword">if</span>(v+minv[now<span class="hljs-number">-1</span>]&gt;n)
+	<span class="hljs-keyword">return</span> ;
+	<span class="hljs-keyword">if</span>(<span class="hljs-number">2</span>*(n-v)/r+s&gt;=ans)
+	<span class="hljs-keyword">return</span> ;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=r<span class="hljs-number">-1</span>;i&gt;=now;i--)
+	{
+		<span class="hljs-keyword">if</span>(now==m)
+		s=i*i;
+		mh=<span class="hljs-built_in">min</span>(h<span class="hljs-number">-1</span>,(n-minv[now<span class="hljs-number">-1</span>]-v)/i/i);
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=mh;j&gt;=now;j--)
+		<span class="hljs-built_in">dfs</span>(now<span class="hljs-number">-1</span>,i,j,s<span class="hljs-number">+2</span>*i*j,v+i*i*j);
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		mins[i]=mins[i<span class="hljs-number">-1</span>]<span class="hljs-number">+2</span>*i*i;
+		minv[i]=minv[i]+i*i*i;
+	}
+	<span class="hljs-built_in">dfs</span>(m,n,n,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);
+	<span class="hljs-keyword">if</span>(ans==maxn)
+	cout&lt;&lt;<span class="hljs-number">0</span>&lt;&lt;endl;
+	<span class="hljs-keyword">else</span>
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="35.html"><small>← 上一张委托</small><span>No.35 【解题报告】 小猫爬山</span></a>
+          <a class="next" href="37.html"><small>下一张委托 →</small><span>No.37 【解题报告】 加成序列</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告-noi1999生日蛋糕">【解题报告】 [NOI1999]生日蛋糕</a></li><li class="l3"><a href="#题目生日蛋糕">题目：生日蛋糕</a></li><li class="l4"><a href="#解题思路">解题思路：</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/08/25/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%5BNOI1999%5D%E7%94%9F%E6%97%A5%E8%9B%8B%E7%B3%95/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

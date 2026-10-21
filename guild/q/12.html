@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 [NOI2002]银河英雄传说 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="【解题报告】[NOI2002]银河英雄传说 题目：luogu P1196 ------ 题意简述 处理M个指令，都为两种如下形式的指令之一 1.M i j 表示让第i好战舰所在列的全部战舰保持原有顺序，接在第j好战舰所在列的尾部。 2.C ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="12" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.12</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 [NOI2002]银河英雄传说</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-08-04T07:21:00.000Z">2019.08.04</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">267 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告noi2002银河英雄传说">【解题报告】[NOI2002]银河英雄传说</h1>
+<h2 id="题目luogu-p1196">题目：<a href="https://www.luogu.org/problem/P1196" target="_blank" rel="noopener">luogu P1196</a></h2>
+<hr>
+<h3 id="题意简述">题意简述</h3>
+<p>处理M个指令，都为两种如下形式的指令之一</p>
+<p>1.M i j 表示让第i好战舰所在列的全部战舰保持原有顺序，接在第j好战舰所在列的尾部。</p>
+<p>2.C i j，表示询问第i号战舰与第j号战舰当前是否处于同一列中，如果在同一列中，它们之间间隔了多少艘战舰。如果不在同一列中，输出-1；</p>
+<h3 id="解题思路">解题思路</h3>
+<p>并查集</p>
+<p>第二个指令我们要知道i，j两号战舰差多少，维护一个数列d即可，d[x]代表x前面的战舰数量,要查询的时候，我们只要知道i，j两号前面各有多少战舰，然后i前面的减去j前面的绝对值减一就可以了。</p>
+<p>而第一个指令就是简单地处理一下size，记录集合大小，也很简单</p>
+<h3 id="ac代码">AC代码</h3>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> f[<span class="hljs-number">30005</span>];
+<span class="hljs-type">int</span> d[<span class="hljs-number">30005</span>];
+<span class="hljs-type">int</span> size[<span class="hljs-number">30005</span>];
+<span class="hljs-type">int</span> t;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">jdz</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+	<span class="hljs-keyword">return</span> x&gt;<span class="hljs-number">0</span>? x:(-x);
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">30000</span>;i++)
+	{
+		f[i]=i;
+		size[i]=<span class="hljs-number">1</span>;
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(x==f[x])
+	<span class="hljs-keyword">return</span> x;
+	<span class="hljs-type">int</span> root=<span class="hljs-built_in">get</span>(f[x]);
+	d[x]+=d[f[x]];
+	<span class="hljs-keyword">return</span> f[x]=root;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">merge</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> y)</span>
+</span>{
+	x=<span class="hljs-built_in">get</span>(x),y=<span class="hljs-built_in">get</span>(y);
+	f[x]=y;d[x]=size[y];
+	size[y]+=size[x];
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;t;
+	<span class="hljs-built_in">init</span>();
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=t;i++)
+	{
+		<span class="hljs-type">char</span> s[<span class="hljs-number">2</span>];
+		<span class="hljs-type">int</span> x,y;
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>,s);
+		cin&gt;&gt;x&gt;&gt;y;
+		<span class="hljs-keyword">if</span>(s[<span class="hljs-number">0</span>]==<span class="hljs-string">&#x27;M&#x27;</span>)
+		<span class="hljs-built_in">merge</span>(x,y);
+		<span class="hljs-keyword">if</span>(s[<span class="hljs-number">0</span>]==<span class="hljs-string">&#x27;C&#x27;</span>)
+		{
+			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">get</span>(x)==<span class="hljs-built_in">get</span>(y))
+			cout&lt;&lt;<span class="hljs-built_in">jdz</span>(d[x]-d[y])<span class="hljs-number">-1</span>&lt;&lt;endl;
+			<span class="hljs-keyword">else</span>
+			cout&lt;&lt;<span class="hljs-string">&quot;-1&quot;</span>&lt;&lt;endl;
+		}
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><p>数据情况<a href="https://www.luogu.org/record/22153408" target="_blank" rel="noopener">https://www.luogu.org/record/22153408</a></p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="11.html"><small>← 上一张委托</small><span>No.11 幂运算</span></a>
+          <a class="next" href="13.html"><small>下一张委托 →</small><span>No.13 【解题报告】[NOI2002]银河英雄传说</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告noi2002银河英雄传说">【解题报告】[NOI2002]银河英雄传说</a></li><li class="l3"><a href="#题目luogu-p1196">题目：luogu P1196</a></li><li class="l4"><a href="#题意简述">题意简述</a></li><li class="l4"><a href="#解题思路">解题思路</a></li><li class="l4"><a href="#ac代码">AC代码</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/08/04/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%5BNOI2002%5D%E9%93%B6%E6%B2%B3%E8%8B%B1%E9%9B%84%E4%BC%A0%E8%AF%B4/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 [NOIP2006]能量项链 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目描述 在Mars星球上，每个Mars人都随身佩带着一串能量项链，在项链上有 N 颗能量珠。 能量珠是一颗有头标记与尾标记的珠子，这些标记对应着某个正整数。 并且，对于相邻的两颗珠子，前一颗珠子的尾标记一定等于后一颗珠子的头标记。 因为只">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="44" data-line="4" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.44</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 [NOIP2006]能量项链</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-09-21T07:24:00.000Z">2019.09.21</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">680 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告-noip2006能量项链">【解题报告】 [NOIP2006]能量项链</h1>
+<h4 id="题目描述">题目描述</h4>
+<p>在Mars星球上，每个Mars人都随身佩带着一串能量项链，在项链上有 N 颗能量珠。</p>
+<p>能量珠是一颗有头标记与尾标记的珠子，这些标记对应着某个正整数。</p>
+<p>并且，对于相邻的两颗珠子，前一颗珠子的尾标记一定等于后一颗珠子的头标记。</p>
+<p>因为只有这样，通过吸盘（吸盘是Mars人吸收能量的一种器官）的作用，这两颗珠子才能聚合成一颗珠子，同时释放出可以被吸盘吸收的能量。</p>
+<p>如果前一颗能量珠的头标记为m，尾标记为r，后一颗能量珠的头标记为 r，尾标记为 n，则聚合后释放的能量为 m<em>r</em>n（Mars单位），新产生的珠子的头标记为 m，尾标记为 n。</p>
+<p>需要时，Mars人就用吸盘夹住相邻的两颗珠子，通过聚合得到能量，直到项链上只剩下一颗珠子为止。</p>
+<p>显然，不同的聚合顺序得到的总能量是不同的，请你设计一个聚合顺序，使一串项链释放出的总能量最大。</p>
+<p>例如：设N=4，4颗珠子的头标记与尾标记依次为(2，3) (3，5) (5，10) (10，2)。</p>
+<p>我们用记号⊕表示两颗珠子的聚合操作，(j⊕k)表示第 j，k 两颗珠子聚合后所释放的能量。则</p>
+<p>第4、1两颗珠子聚合后释放的能量为：(4⊕1)=10<em>2</em>3=60。</p>
+<p>这一串项链可以得到最优值的一个聚合顺序所释放的总能量为((4⊕1)⊕2)⊕3）= 10<em>2</em>3+10<em>3</em>5+10<em>5</em>10=710。</p>
+<h4 id="输入格式">输入格式</h4>
+<p>输入的第一行是一个正整数 N，表示项链上珠子的个数。</p>
+<p>第二行是N个用空格隔开的正整数，所有的数均不超过1000，第 i 个数为第 i 颗珠子的头标记，当i&lt;N时，第 i 颗珠子的尾标记应该等于第 i+1 颗珠子的头标记，第 N 颗珠子的尾标记应该等于第1颗珠子的头标记。</p>
+<p>至于珠子的顺序，你可以这样确定：将项链放到桌面上，不要出现交叉，随意指定第一颗珠子，然后按顺时针方向确定其他珠子的顺序。</p>
+<h4 id="输出格式">输出格式</h4>
+<p>输出只有一行，是一个正整数 E，为一个最优聚合顺序所释放的总能量。</p>
+<h4 id="数据范围">数据范围</h4>
+<p>4≤<em>N</em>≤100</p>
+<h4 id="输入样例">输入样例：</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">4
+2 3 5 10</code></pre></div><h4 id="输出样例">输出样例：</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">710</code></pre></div><h3 id="解题思路">解题思路</h3>
+<p>这道题是一道环形dp的练习题目，非常地简单，但是值得一做</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">300</span>;
+<span class="hljs-type">int</span> n,e[maxn],s[maxn][maxn];
+<span class="hljs-type">int</span> ans;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		cin&gt;&gt;e[i];
+		e[i+n]=e[i];
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;<span class="hljs-number">2</span>*n;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=i<span class="hljs-number">-1</span>;i-j&lt;n&amp;&amp;j&gt;=<span class="hljs-number">1</span>;j--)
+		{
+			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=j;k&lt;i;k++)
+			{
+				s[j][i]=<span class="hljs-built_in">max</span>(s[j][i],s[j][k]+s[k<span class="hljs-number">+1</span>][i]+e[j]*e[i<span class="hljs-number">+1</span>]*e[k<span class="hljs-number">+1</span>]);
+			}
+			<span class="hljs-keyword">if</span>(s[j][i]&gt;ans)
+			ans=s[j][i]; 
+		}
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="43.html"><small>← 上一张委托</small><span>No.43 【解题报告】 启示录</span></a>
+          <a class="next" href="45.html"><small>下一张委托 →</small><span>No.45 【解题报告】[AHOI2001]彩票摇奖</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告-noip2006能量项链">【解题报告】 [NOIP2006]能量项链</a></li><li class="l5"><a href="#题目描述">题目描述</a></li><li class="l5"><a href="#输入格式">输入格式</a></li><li class="l5"><a href="#输出格式">输出格式</a></li><li class="l5"><a href="#数据范围">数据范围</a></li><li class="l5"><a href="#输入样例">输入样例：</a></li><li class="l5"><a href="#输出样例">输出样例：</a></li><li class="l4"><a href="#解题思路">解题思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/09/21/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%5BNOIP2006%5D%E8%83%BD%E9%87%8F%E9%A1%B9%E9%93%BE/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>魔物图鉴 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="wweiyi 看过的番剧，实时同步自 Bangumi。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="icon" href="../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/guild.css">
+</head>
+<body data-page="bestiary">
+  <header class="hall"></header>
+
+  <main class="shell">
+    <h1 class="sr-only">魔物图鉴</h1>
+    <div class="filters" id="kinds" role="group" aria-label="收藏状态">
+      <button class="tag" type="button" data-type="3" aria-pressed="false">讨伐中</button>
+      <button class="tag" type="button" data-type="2" aria-pressed="true">已讨伐</button>
+      <button class="tag" type="button" data-type="1" aria-pressed="false">悬赏中</button>
+    </div>
+    <section class="board" id="board" aria-label="魔物图鉴">
+      <ul class="bestiary" id="beasts"><li class="empty">正在翻阅图鉴…</li></ul>
+    </section>
+    <nav class="pager" id="pager" aria-label="翻页"></nav>
+    <p class="filter-note">图鉴数据来自 <a href="https://bangumi.tv/user/wweiyi" target="_blank" rel="noopener" style="color:var(--brass-hi)">Bangumi · wweiyi</a></p>
+  </main>
+
+  <footer class="floor"></footer>
+
+  <script src="../js/glyphs.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    (function () {
+      const { esc, tilt, frame, mountChrome } = window.GUILD;
+      mountChrome('bestiary');
+      frame(document.getElementById('board'));
+
+      // Bangumi collection types: 1 想看 2 看过 3 在看
+      const USER = 'wweiyi';
+      const PER = 24;
+      const $beasts = document.getElementById('beasts');
+      const $pager = document.getElementById('pager');
+      const $kinds = document.getElementById('kinds');
+      const state = { type: '2', page: 1, total: 0 };
+
+      async function load() {
+        $beasts.innerHTML = '<li class="empty">正在翻阅图鉴…</li>';
+        const url = `https://api.bgm.tv/v0/users/${USER}/collections?subject_type=2&type=${state.type}&limit=${PER}&offset=${(state.page - 1) * PER}`;
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(res.status);
+          const j = await res.json();
+          state.total = j.total;
+          const base = (state.page - 1) * PER;
+          $beasts.innerHTML = j.data.map((c, i) => {
+            const s = c.subject;
+            const img = s.images ? s.images.common || s.images.medium : '';
+            const year = s.date ? s.date.slice(0, 4) : '—';
+            return `<li><a class="beast" href="https://bangumi.tv/subject/${s.id}" target="_blank" rel="noopener" style="--r:${tilt(s.id)}">
+              <span class="beast__no"><span>No.${String(state.total - base - i).padStart(3, '0')}</span><span>${year}</span></span>
+              <span class="beast__img" style="background-image:url('${esc(img)}')" role="img" aria-label="${esc(s.name_cn || s.name)}"></span>
+              <h3>${esc(s.name_cn || s.name)}</h3>
+              <p class="beast__orig">${esc(s.name)}</p>
+              <dl>
+                <dt>话数</dt><dd>${s.eps || '?'}</dd>
+                <dt>评分</dt><dd>${c.rate ? '★ ' + c.rate : s.score ? '公会 ' + s.score : '—'}</dd>
+              </dl>
+            </a></li>`;
+          }).join('') || '<li class="empty">这一栏还是空的。</li>';
+          const pages = Math.max(1, Math.ceil(state.total / PER));
+          const link = (p, label) => `<button class="tag" type="button" data-page="${p}"${p < 1 || p > pages ? ' aria-disabled="true" disabled' : ''}>${label}</button>`;
+          $pager.innerHTML = pages > 1 ? `${link(state.page - 1, '← 上一页')}<span>第 ${state.page} / ${pages} 页 · 共 ${state.total} 只</span>${link(state.page + 1, '下一页 →')}` : '';
+        } catch (e) {
+          $beasts.innerHTML = '<li class="empty">图鉴暂时打不开（Bangumi 没有回应），稍后再来看看吧。</li>';
+          $pager.innerHTML = '';
+        }
+      }
+
+      $kinds.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-type]');
+        if (!b) return;
+        state.type = b.dataset.type;
+        state.page = 1;
+        for (const x of $kinds.querySelectorAll('[data-type]')) x.setAttribute('aria-pressed', String(x === b));
+        load();
+      });
+      $pager.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-page]');
+        if (!b || b.disabled) return;
+        state.page = Number(b.dataset.page);
+        load();
+        document.getElementById('board').scrollIntoView({ behavior: 'smooth' });
+      });
+      load();
+    })();
+  </script>
+</body>
+</html>

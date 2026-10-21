@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>二分总结 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="二分 这是一个二分算法的总结 对于算法来说，二分的确非常简单，被归类于基础算法，但是同样的，因为是基础算法，所以在竞赛中非常常用，今天距离CSP只剩下不到9天的时间了，我将利用这些时间对我的一些基础算法进行一些理解和总结，让csp得到尽量高">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="55" data-line="4" data-minutes="4">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.55</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">二分总结</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2020-10-27T03:43:00.000Z">2020.10.27</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">1,346 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 4 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E8%B4%AA%E5%BF%83">#贪心</a></li><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li><li><a href="../index.html?tag=CSP">#CSP</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="二分">二分</h1>
+<p><strong>这是一个二分算法的总结</strong></p>
+<p>对于算法来说，二分的确非常简单，被归类于基础算法，但是同样的，因为是基础算法，所以在竞赛中非常常用，今天距离CSP只剩下不到9天的时间了，我将利用这些时间对我的一些基础算法进行一些理解和总结，让csp得到尽量高的分数</p>
+<h2 id="1狭义二分">1.狭义二分</h2>
+<p>当我们第一次见到二分的时候，我们是在一道题：</p>
+<p>从一个有序数列中找到某个数的位置，这道题因为数列是有序的满足<strong>单调性</strong>，<strong>单调递增或者单调递减</strong>，所以我们可以使用二分算法，核心代码如下：</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-comment">//a为有序序列的数组</span>
+<span class="hljs-type">int</span> l=<span class="hljs-number">1</span>,r=n;<span class="hljs-comment">//n是数组的长度</span>
+<span class="hljs-keyword">while</span>(l&lt;r){
+    <span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;
+    <span class="hljs-keyword">if</span>(x&lt;a[mid]) r=mid;<span class="hljs-comment">//x为要查找的数字</span>
+    <span class="hljs-keyword">else</span> l=mid<span class="hljs-number">+1</span>;;
+}</code></pre></div><p>最后l即为最后的答案</p>
+<p>通过这个程序，我们知道了通过二分可以来进行对于查找的简化，大大降低时间复杂度，让程序运行更加高效，最主要可以获得更高的分数。</p>
+<h2 id="2广义二分">2.广义二分</h2>
+<p>因此我们从上面的例子可以明白，二分法实际上是对于一个单元函数具有单调性的时候，一个非常好的查找方法，因此我们可以运用这个方法到实际中，比如进行二分答案，快速查找答案</p>
+<p>二分答案有以下应用情景：</p>
+<p><strong>平衡树查询第k大</strong></p>
+<p><strong>最小化最大值</strong></p>
+<p><strong>求第k大</strong></p>
+<p><strong>二分查找 lower_bound</strong></p>
+<p><strong>连续函数中值定理。区间中找到[mn,mx]中任一p的位置。</strong></p>
+<p><strong>集合中找出一个数。每次两个集合中至少有一个包含那个数即可</strong></p>
+<p>下面一道经典例题，主要讲的是最小值最大的问题，同样这道题也有一些贪心的思想</p>
+<h3 id="洛谷p2678-跳石头">洛谷P2678 跳石头</h3>
+<h4 id="题目背景">题目背景</h4>
+<p>一年一度的“跳石头”比赛又要开始了!</p>
+<h4 id="题目描述">题目描述</h4>
+<p>这项比赛将在一条笔直的河道中进行，河道中分布着一些巨大岩石。组委会已经选择好了两块岩石作为比赛起点和终点。在起点和终点之间，有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span>块岩石（不含起点和终点的岩石）。在比赛过程中，选手们将从起点出发，每一步跳向相邻的岩石，直至到达终点。</p>
+<p>为了提高比赛难度，组委会计划移走一些岩石，使得选手们在比赛过程中的最短跳跃距离尽可能长。由于预算限制，组委会至多从起点和终点之间移走<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>块岩石（不能移走起点和终点的岩石）。</p>
+<h4 id="输入格式">输入格式</h4>
+<p>第一行包含三个整数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo separator="true">,</mo><mi>N</mi><mo separator="true">,</mo><mi>M</mi></mrow><annotation encoding="application/x-tex">L,N,M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">L</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>分别表示起点到终点的距离，起点和终点之间的岩石数，以及组委会至多移走的岩石数。保证 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>≥</mo><mn>1</mn><mtext>且</mtext><mi>N</mi><mo>≥</mo><mi>M</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">L\ge 1且 N\ge M\ge 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mord cjk_fallback">且</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>。</p>
+<p>接下来 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 行，每行一个整数，第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 行的整数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mn>0</mn><mo>≤</mo><msub><mi>D</mi><mi>i</mi></msub><mo>≤</mo><mi>L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">D_i  (0\le D_i\le L)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mclose">)</span></span></span></span>， 表示第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span>块岩石与起点的距离。这些岩石按与起点距离从小到大的顺序给出，且不会有两个岩石出现在同一个位置。</p>
+<h4 id="输出格式">输出格式</h4>
+<p>一个整数，即最短跳跃距离的最大值。</p>
+<h4 id="输入输出样例">输入输出样例</h4>
+<p><strong>输入 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">25 5 2 
+2
+11
+14
+17 
+21</code></pre></div><p><strong>输出 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">4</code></pre></div><h4 id="说明提示">说明/提示</h4>
+<p>输入输出样例 1 说明：将与起点距离为 2和 14 的两个岩石移走后,最短的跳跃距离为 4(从与起点距离 17 的岩石跳到距离21的岩石,或者从距离 21 的岩石跳到终点)。</p>
+<p>另：对于 20%的数据,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>M</mi><mo>≤</mo><mi>N</mi><mo>≤</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">0\le M\le N\le10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span></p>
+<p>对于50%的数据,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>M</mi><mo>≤</mo><mi>N</mi><mo>≤</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">0\le M\le N \le 100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span>。</p>
+<p>对于 100%的数据,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>M</mi><mo>≤</mo><mi>N</mi><mo>≤</mo><mn>50</mn><mo separator="true">,</mo><mn>000</mn><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>L</mi><mo>≤</mo><mn>1</mn><mo separator="true">,</mo><mn>000</mn><mo separator="true">,</mo><mn>000</mn><mo separator="true">,</mo><mn>000</mn></mrow><annotation encoding="application/x-tex">0\le M \le N \le 50,000,1\le L \le 1,000,000,000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">50</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">000</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">000</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">000</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">000</span></span></span></span></p>
+<h3 id="思路">思路</h3>
+<p>首先，有n块岩石，然后每个岩石距离起点有一定的距离，并且是有序的，接着分析，我们可以移除m块石头，且不可以移除终点和起点的，目的是使最短跳跃距离的最大值。</p>
+<p>也就是说，这道题的目的是把最小距离最大化，因此我们设当移除dis块石头的时候，可以是最小距离最大化，这个最小距离的最大值为x。当当前石头和之前石头的距离小于dis的时候，我们就需要移走一块石头，因为我们设置的最小距离是dis，我们要使这个当前的时候和之前的石头的距离大于dis，这个时候就cnt（我们设置的计数器，用来统计需要移走的石头）加一。如果当当前石头和之前的石头的距离大于dis的时候，我们就不需要移走石头，也就是说这种情况符合题意，然后把之前的石头的距离x替换为当前的石头的距离，用于和下一块石头进行比较。</p>
+<p>由于当我们的距离dis越来越大的时候，我们需要移走的石头将会又来越多，所以这个函数符合单调递增的原则，因为我们需要找到一个值小于m，则当m大于cnt的时候就选择左区间进行查找，当m小于cnt的时候就选择右区间进行查找，这样循环下去，就可以找到最小距离的最大值。</p>
+<h3 id="代码">代码</h3>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> l,n,m,ans;
+<span class="hljs-type">int</span> d[<span class="hljs-number">50005</span>];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-type">int</span> dis)</span>
+</span>{
+	<span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>,x=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n<span class="hljs-number">+1</span>;i++)
+	{
+		<span class="hljs-keyword">if</span>(d[i]-x&lt;dis)
+		cnt++;
+		<span class="hljs-keyword">else</span> x=d[i];
+	}
+	<span class="hljs-keyword">return</span> cnt&lt;=m;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;l&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	cin&gt;&gt;d[i];
+	d[n<span class="hljs-number">+1</span>]=l;
+	<span class="hljs-type">int</span> left=<span class="hljs-number">0</span>,right=l;
+	<span class="hljs-keyword">while</span>(left&lt;=right)
+	{
+		<span class="hljs-type">int</span> mid=(left+right)/<span class="hljs-number">2</span>;
+		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>(mid)) left=mid<span class="hljs-number">+1</span>,ans=mid;
+		<span class="hljs-keyword">else</span> right=mid<span class="hljs-number">-1</span>;
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+}</code></pre></div><p>这是我目前对于二分的总结，之后将会继续总结，持续更新中</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="54.html"><small>← 上一张委托</small><span>No.54 【清北学堂周末刷题班】 Day3</span></a>
+          <a class="next" href="56.html"><small>下一张委托 →</small><span>No.56 【解题报告】 洛谷P1542 包裹快递</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#二分">二分</a></li><li class="l3"><a href="#1狭义二分">1.狭义二分</a></li><li class="l3"><a href="#2广义二分">2.广义二分</a></li><li class="l4"><a href="#洛谷p2678-跳石头">洛谷P2678 跳石头</a></li><li class="l5"><a href="#题目背景">题目背景</a></li><li class="l5"><a href="#题目描述">题目描述</a></li><li class="l5"><a href="#输入格式">输入格式</a></li><li class="l5"><a href="#输出格式">输出格式</a></li><li class="l5"><a href="#输入输出样例">输入输出样例</a></li><li class="l5"><a href="#说明提示">说明/提示</a></li><li class="l4"><a href="#思路">思路</a></li><li class="l4"><a href="#代码">代码</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2020/10/27/%E4%BA%8C%E5%88%86%E6%80%BB%E7%BB%93/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

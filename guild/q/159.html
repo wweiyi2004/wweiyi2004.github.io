@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>2024年武汉大学电信算法与数据结构期末复习随记 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="期末复习 易错点 叶子结点以外的结点称为分支结点 时间复杂度 1.4 (1) (2) (3) (4) 线性表 栈与队列 String类 树与二叉树 树的定义与二叉树的性质 二叉树遍历的过程 先序遍历：中 左 右 中序遍历：左 中 右 后序遍">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="159" data-line="3" data-minutes="3">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.159</span><a class="writ__line" href="../index.html?line=3"></a><span><a href="../index.html?cat=%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a></span></p>
+        <h1 class="writ__title">2024年武汉大学电信算法与数据结构期末复习随记</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2024-06-01T07:05:00.000Z">2024.06.01</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">991 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 3 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E5%88%86%E6%B2%BB">#分治</a></li><li><a href="../index.html?tag=%E6%8E%92%E5%BA%8F">#排序</a></li><li><a href="../index.html?tag=%E9%80%92%E6%8E%A8">#递推</a></li><li><a href="../index.html?tag=STL">#STL</a></li><li><a href="../index.html?tag=Codeforces">#Codeforces</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="期末复习">期末复习</h1>
+<h2 id="易错点">易错点</h2>
+<p>叶子结点以外的结点称为分支结点</p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h2 id="时间复杂度">时间复杂度</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><strong>1.4</strong></p>
+<p>(1) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">nm</span><span class="mclose">)</span></span></span></span></p>
+<p>(2)  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>(3)  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>(4) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>3</mn></msub><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(log_3n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<h2 id="线性表">线性表</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h2 id="栈与队列">栈与队列</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h2 id="string类">String类</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h2 id="树与二叉树">树与二叉树</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="树的定义与二叉树的性质">树的定义与二叉树的性质</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="二叉树遍历的过程">二叉树遍历的过程</h3>
+<p>先序遍历：中 左 右</p>
+<p>中序遍历：左 中 右</p>
+<p>后序遍历：左 右 中</p>
+<h3 id="二叉树遍历的递归算法">二叉树遍历的递归算法</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="二叉树遍历的非递归算法">二叉树遍历的非递归算法</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="层次遍历二叉树">层次遍历二叉树</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="二叉树的建立">二叉树的建立</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p>对于完全二叉树，可以把树存储在一个数组中</p>
+<p>但是对于大多数的二叉树，需要用链的形式来储存来减少空间的浪费</p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h4 id="节点类型的定义">节点类型的定义</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">BTNode</span>{
+  T data;
+  BTNode&lt;T&gt; *left;
+  BTNode&lt;T&gt; *right;
+  <span class="hljs-built_in">BTNode</span>(<span class="hljs-type">const</span> T&amp; k):<span class="hljs-built_in">data</span>(k),<span class="hljs-built_in">left</span>(<span class="hljs-literal">nullptr</span>),<span class="hljs-built_in">right</span>(<span class="hljs-literal">nullptr</span>){};
+  <span class="hljs-built_in">BTNode</span>():data{},<span class="hljs-built_in">left</span>(<span class="hljs-literal">nullptr</span>),<span class="hljs-built_in">right</span>(<span class="hljs-literal">nullptr</span>){};
+  ~<span class="hljs-built_in">BTNode</span>(){ }
+};</code></pre></div><h4 id="二叉树类的定义">二叉树类的定义</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">BTree</span> {
+<span class="hljs-keyword">protected</span>:
+	BTNode&lt;T&gt;* _root;
+<span class="hljs-keyword">public</span>:
+	<span class="hljs-built_in">BTree</span>():_root(<span class="hljs-literal">nullptr</span>){}
+	<span class="hljs-function"><span class="hljs-type">const</span> BTNode&lt;T&gt;* <span class="hljs-title">root</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span>{ <span class="hljs-keyword">return</span> _root; }
+	<span class="hljs-function">BTNode&lt;T&gt;*&amp; <span class="hljs-title">root</span><span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> _root; }
+
+	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dispose</span><span class="hljs-params">()</span><span class="hljs-comment">//删除二叉树</span>
+	</span>{
+		<span class="hljs-keyword">if</span> (_root != <span class="hljs-literal">nullptr</span>)
+		{
+			<span class="hljs-built_in">dispose</span>(_root);
+			_root = <span class="hljs-literal">nullptr</span>;
+		}
+	}
+
+	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dispose</span><span class="hljs-params">(BTNode&lt;T&gt;* p)</span>
+	</span>{
+		<span class="hljs-keyword">if</span> (p != <span class="hljs-literal">nullptr</span>)
+		{
+			<span class="hljs-built_in">dispose</span>(p-&gt;left);
+			<span class="hljs-built_in">dispose</span>(p-&gt;right);
+		}
+		<span class="hljs-keyword">delete</span> p;
+	}
+};</code></pre></div><h4 id="根据顺序表建立二叉树">根据顺序表建立二叉树</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">byArray</span><span class="hljs-params">(<span class="hljs-type">const</span> T* pt, <span class="hljs-type">int</span> cnt, BTree&lt;T&gt;* bt)</span>
+</span>{
+	<span class="hljs-type">int</span> n = cnt;
+	<span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>)
+		bt-&gt;<span class="hljs-built_in">root</span>() = <span class="hljs-literal">nullptr</span>;
+	<span class="hljs-type">int</span> i, j;
+	BTNode&lt;T&gt;** q = <span class="hljs-keyword">new</span> BTNode&lt;T&gt;*[n];
+	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; n; i++)
+		q[i] = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BTNode</span>&lt;T&gt;(pt[i]);
+
+	<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; n; i++)
+	{
+		j = <span class="hljs-number">2</span> * i + <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">if</span> (j &lt; n)
+			q[i]-&gt;left = q[j];
+		<span class="hljs-keyword">else</span>
+			q[i]-&gt;left = <span class="hljs-literal">nullptr</span>;
+		j++;
+		<span class="hljs-keyword">if</span> (j &lt; n)
+			q[i]-&gt;right = q[j];
+		<span class="hljs-keyword">else</span>
+			q[i]-&gt;right = <span class="hljs-literal">nullptr</span>;
+	}
+	bt-&gt;<span class="hljs-built_in">root</span>() = q[<span class="hljs-number">0</span>];
+}</code></pre></div><h4 id="根据广义表构建二叉树">根据广义表构建二叉树</h4>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">ListFlags</span> {
+	T NullSubtreeFlag;
+	T LeftDelimitFlag;
+	T RightDelimitFlag;
+	T MiddleDelimitFlag;
+};
+<span class="hljs-type">static</span> <span class="hljs-type">int</span> idx = <span class="hljs-number">0</span>;
+<span class="hljs-type">static</span> <span class="hljs-type">void</span>* pListFlags = <span class="hljs-literal">nullptr</span>;
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function">BTNode&lt;T&gt;* <span class="hljs-title">rootByGList</span><span class="hljs-params">(T* sList)</span>
+</span>{
+	BTNode&lt;T&gt;* p = <span class="hljs-literal">nullptr</span>;
+	T nodeData = sList[idx];
+	ListFlags&lt;T&gt;* pFlags = (ListFlags&lt;T&gt;*)pListFlags;
+	<span class="hljs-keyword">if</span> (<span class="hljs-built_in">isData</span>(nodeData, pFlags))
+	{
+		p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BTNode</span>&lt;T&gt;(nodeData);
+		idx++;
+		nodeData = sList[idx];
+		<span class="hljs-keyword">if</span> (nodeData == pFlags-&gt;LeftDelimitFlag)
+		{
+			idx++;
+			p-&gt;left = <span class="hljs-built_in">rootByGList</span>(sList);
+			idx++;
+			p-&gt;right = <span class="hljs-built_in">rootByGList</span>(sList);
+			idx++;
+		}
+	}
+	<span class="hljs-keyword">if</span> (nodeData == pFlags-&gt;NullSubtreeFlag)
+		idx++;
+	<span class="hljs-keyword">return</span> p;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">byGList</span><span class="hljs-params">(T* sList, <span class="hljs-type">int</span> cnt, BTree&lt;T&gt;* bt, <span class="hljs-type">const</span> ListFlags&lt;T&gt;* pCustomListFlags = <span class="hljs-literal">nullptr</span>)</span>
+</span>{
+	idx = <span class="hljs-number">0</span>;
+	ListFlags&lt;T&gt; DefaultFlags{ <span class="hljs-string">&#x27;^&#x27;</span>,<span class="hljs-string">&#x27;(&#x27;</span>,<span class="hljs-string">&#x27;)&#x27;</span>,<span class="hljs-string">&#x27;,&#x27;</span> };
+
+	<span class="hljs-keyword">if</span> (cnt &gt; <span class="hljs-number">0</span>)
+	{
+		ListFlags&lt;T&gt;* p;
+		<span class="hljs-keyword">if</span> (pCustomListFlags != <span class="hljs-literal">nullptr</span>)
+			p = (ListFlags&lt;T&gt;*)pCustomListFlags;
+		<span class="hljs-keyword">else</span>
+			p = &amp;DefaultFlags;
+		pListFlags = p;
+		bt-&gt;<span class="hljs-built_in">root</span>() = <span class="hljs-built_in">rootByGList</span>(sList);
+	}
+	<span class="hljs-keyword">else</span>
+		bt-&gt;<span class="hljs-built_in">root</span>() = <span class="hljs-literal">nullptr</span>;
+	<span class="hljs-keyword">return</span>;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isData</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp; nodeValue, <span class="hljs-type">const</span> ListFlags&lt;T&gt;* pFlags)</span>
+</span>{
+	<span class="hljs-keyword">if</span> (nodeValue == pFlags-&gt;NullSubtreeFlag) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	<span class="hljs-keyword">if</span> (nodeValue == pFlags-&gt;LeftDelimitFlag) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	<span class="hljs-keyword">if</span> (nodeValue == pFlags-&gt;RightDelimitFlag) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	<span class="hljs-keyword">if</span> (nodeValue == pFlags-&gt;MiddleDelimitFlag) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}</code></pre></div><h4 id="根据先根和中根次序建立二叉树">根据先根和中根次序建立二叉树</h4>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function">BTNode&lt;T&gt;* <span class="hljs-title">rootBy2Lists</span><span class="hljs-params">(vector&lt;T&gt;&amp; preList, vector&lt;T&gt;&amp; inList)</span> </span>{
+	BTNode&lt;T&gt;* p = <span class="hljs-literal">nullptr</span>;
+	vector&lt;T&gt; presub, insub;
+	<span class="hljs-type">int</span> n = preList.<span class="hljs-built_in">size</span>();
+	<span class="hljs-keyword">if</span> (n &gt; <span class="hljs-number">0</span>) {
+		T rootData = preList[<span class="hljs-number">0</span>];
+		p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">BTNode</span>&lt;T&gt;(rootData);
+		<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">while</span> (k &lt; n &amp;&amp; inList[k] != rootData)
+			k++;
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; k; i++)
+			presub.<span class="hljs-built_in">push_back</span>(preList[i<span class="hljs-number">+1</span>]);
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; k; i++)
+			insub.<span class="hljs-built_in">push_back</span>(inList[i]);
+		p-&gt;left = <span class="hljs-built_in">rootBy2Lists</span>(presub, insub);
+		presub.<span class="hljs-built_in">clear</span>();
+		insub.<span class="hljs-built_in">clear</span>();
+
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n - k - <span class="hljs-number">1</span>; i++)
+			presub.<span class="hljs-built_in">push_back</span>(preList[i + k + <span class="hljs-number">1</span>]);
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n - k - <span class="hljs-number">1</span>; i++)
+			insub.<span class="hljs-built_in">push_back</span>(inList[i + k + <span class="hljs-number">1</span>]);
+		p-&gt;right = <span class="hljs-built_in">rootBy2Lists</span>(presub, insub);
+	}
+	<span class="hljs-keyword">return</span> p;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">by2Lists</span><span class="hljs-params">(vector&lt;T&gt;&amp; preList, vector&lt;T&gt;&amp; inList, BTree&lt;T&gt;* bt)</span> </span>{
+	bt-&gt;<span class="hljs-built_in">root</span>() = <span class="hljs-built_in">rootBy2Lists</span>(preList, inList);
+}
+</code></pre></div><h3 id="课后习题">课后习题</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><strong>9.1</strong></p>
+<p>1）<br>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mn>5</mn></munderover><msup><mn>2</mn><mi>k</mi></msup><mo>=</mo><msup><mn>2</mn><mn>6</mn></msup><mo>−</mo><mn>1</mn><mo>=</mo><mn>63</mn><mspace linebreak="newline"></mspace><msup><mn>2</mn><mn>5</mn></msup><mo>=</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">\sum_{k=0}^5 2^k=2^6-1=63
+\\
+2^5=32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.1032em;vertical-align:-1.3021em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8011em;"><span style="top:-1.8479em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3021em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">63</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.8641em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32</span></span></span></span></span></p>
+<ol start="2">
+<li></li>
+</ol>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">⌊</mo><msubsup><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn><mn>257</mn></msubsup><mo stretchy="false">⌋</mo><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">\lfloor \log_2^{257} \rfloor=8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1484em;vertical-align:-0.25em;"></span><span class="mopen">⌊</span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-2.453em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">257</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mclose">⌋</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">8</span></span></span></span><br>
+3)<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>n</mi><mn>0</mn></msub><mo>+</mo><msub><mi>n</mi><mn>1</mn></msub><mo>+</mo><msub><mi>n</mi><mn>2</mn></msub><mo>=</mo><mn>1000</mn><mspace linebreak="newline"></mspace><msub><mi>n</mi><mn>0</mn></msub><mo>=</mo><msub><mi>n</mi><mn>2</mn></msub><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n_0+n_1+n_2=1000
+\\
+n_0=n_2+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span><br>
+联立可得</p>
+<ol start="4">
+<li></li>
+</ol>
+<p><strong>9.2</strong></p>
+<p>二叉树有左子树和右子树的区别，度为2的数只是最大有两个子树而已</p>
+<p><strong>9.3</strong></p>
+<p>先序遍历:1 2 3 4 5 6 7 8 9</p>
+<p>中序遍历:2 3 4 1 6 7 9 8 5</p>
+<p>后序遍历:4 3 2 9 8 7 6 5 1</p>
+<p><strong>9.4</strong></p>
+<h2 id="排序">排序</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p>5.1</p>
+<p>排序算法稳定性：</p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">平均时间复杂度</th>
+<th style="text-align:center">空间复杂度</th>
+<th style="text-align:center">是否稳定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">直接插入排序</td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center">稳定</td>
+</tr>
+<tr>
+<td style="text-align:center">冒泡排序</td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center">稳定</td>
+</tr>
+<tr>
+<td style="text-align:center">快速排序</td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlog_2n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center">不稳定</td>
+</tr>
+<tr>
+<td style="text-align:center">选择排序</td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center">不稳定</td>
+</tr>
+<tr>
+<td style="text-align:center">归并排序</td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlog_2n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></td>
+<td style="text-align:center">稳定</td>
+</tr>
+</tbody>
+</table></div>
+<p>排序算法的形式</p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="直接插入排序">直接插入排序</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InsertSort</span><span class="hljs-params">(T* items, <span class="hljs-type">int</span> cnt)</span> </span>{
+	T k;
+	<span class="hljs-type">int</span> m, n = cnt;
+	<span class="hljs-type">int</span> i, j;
+	<span class="hljs-keyword">for</span> (m = <span class="hljs-number">1</span>; m &lt; n; m++)
+	{
+		k = items[m];
+		<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; m; i++)
+		{
+			<span class="hljs-keyword">if</span> (k &lt; items[i]) {
+				<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = m - <span class="hljs-number">1</span>; j &gt;= i; j--)
+					items[j + <span class="hljs-number">1</span>] = items[j];
+				items[i] = k;
+				<span class="hljs-keyword">break</span>;
+			}
+		}
+	}
+}</code></pre></div><h4 id="优化过的插入排序">优化过的插入排序</h4>
+<p>由于前面的m-1个数字已经处于排序状态，所以可以运用查找的方法来进行优化寻找下一个数插入位置的方法，因此经过优化的插入排序的时间复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlog_2n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">BinarySearch</span><span class="hljs-params">(T k, T* items, <span class="hljs-type">int</span> cnt, <span class="hljs-type">int</span> si = <span class="hljs-number">0</span>, <span class="hljs-type">int</span> length = <span class="hljs-number">-16</span>)</span> </span>{
+	<span class="hljs-keyword">if</span> (length == <span class="hljs-number">-16</span>)
+		length = cnt;
+	<span class="hljs-type">int</span> mid = <span class="hljs-number">0</span>, left = si;
+	<span class="hljs-type">int</span> right = left + length - <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">while</span> (left &lt;= right) {
+		mid = (left + right) / <span class="hljs-number">2</span>;
+		<span class="hljs-keyword">if</span> (k == items[mid])
+			<span class="hljs-keyword">return</span> mid;
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (k &lt; items[mid]) {
+			right = mid - <span class="hljs-number">1</span>;
+		}
+		<span class="hljs-keyword">else</span>
+			left = mid + <span class="hljs-number">1</span>;
+	}
+	<span class="hljs-keyword">if</span> (k &gt; items[mid])
+		mid++;
+	<span class="hljs-keyword">return</span> ~mid;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InsertSortBS</span><span class="hljs-params">(T* items, <span class="hljs-type">int</span> cnt)</span> </span>{
+	T k;
+	<span class="hljs-type">int</span>  i, j, m, n = cnt;
+	<span class="hljs-keyword">for</span> (m = <span class="hljs-number">1</span>; m &lt; n; m++) {
+		k = items[m];
+		<span class="hljs-comment">//i = lower_bound(items, items + m, k) - items;</span>
+
+		i = <span class="hljs-built_in">BinarySearch</span>(k, items, cnt, <span class="hljs-number">0</span>, m);
+		<span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">0</span>)
+			i = ~i;
+		<span class="hljs-keyword">for</span> (j = m - <span class="hljs-number">1</span>; j &gt;= i; j--) 
+			items[j + <span class="hljs-number">1</span>] = items[j];
+		items[i] = k;
+	}
+}</code></pre></div><h3 id="冒泡排序">冒泡排序</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">myswap</span><span class="hljs-params">(T&amp; x, T&amp; y)</span> </span>{
+	T t;
+	t = x;
+	x = y;
+	y = t;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BubbleSort</span><span class="hljs-params">(T* items, <span class="hljs-type">int</span> cnt)</span> </span>{
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = cnt<span class="hljs-number">-1</span>; i &gt; <span class="hljs-number">0</span>; i--) {
+		<span class="hljs-type">bool</span> exchanged = <span class="hljs-literal">false</span>;
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++)
+		{
+			<span class="hljs-keyword">if</span> (items[j] &gt; items[j + <span class="hljs-number">1</span>])
+			{
+				exchanged = <span class="hljs-literal">true</span>;
+				<span class="hljs-built_in">myswap</span>(items[j], items[j<span class="hljs-number">+1</span>]);
+			}
+		}
+		<span class="hljs-keyword">if</span> (!exchanged)
+			<span class="hljs-keyword">break</span>;
+	}
+}</code></pre></div><h3 id="选择排序">选择排序</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">myswap</span><span class="hljs-params">(T&amp; x, T&amp; y)</span> </span>{
+	T t;
+	t = x;
+	x = y;
+	y = t;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SelectSort</span><span class="hljs-params">(T* items, <span class="hljs-type">int</span> cnt)</span> </span>{
+	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; cnt; i++)
+	{
+		T minidx = i ;
+		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i + <span class="hljs-number">1</span>; j &lt; cnt; j++) {
+			<span class="hljs-keyword">if</span> (items[j] &lt; items[minidx])
+				minidx = j;
+		}
+		<span class="hljs-built_in">myswap</span>(items[minidx], items[i]);
+	}
+}</code></pre></div><h3 id="快速排序的原理">快速排序的原理</h3>
+<p>1.首先确定一个基准值 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>i</mi><mi>l</mi><mi>o</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">pilot</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span></span></span></span> 一般为第一个元素</p>
+<p>2.使用两个地址位，第二个元素的地址位为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> ，最后一个元素的地址位为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span></p>
+<p>3.对 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 递增操作，直到找到一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 地址位的元素使得其值大于基准值，对 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> 递减操作，只打找到一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> 地址位的元素使得其值小于基准值</p>
+<p>4.交换 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 与 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> 两个地址位的元素，重复3中过程，直到不满足 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>&lt;</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i&lt; j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6986em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span></p>
+<p>5.<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>+</mo><mo>+</mo><mo separator="true">,</mo><mi>j</mi><mo>−</mo><mo>−</mo></mrow><annotation encoding="application/x-tex">i++,j--</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord">+</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">−</span></span></span></span> 然后交换基准元素与 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> 地址位的元素，并以基准值元素为界来分别对左边的元素和右边的元素进行1到5的操作，直到只剩下一个元素为止</p>
+<h3 id="归并排序的原理">归并排序的原理</h3>
+<p>1.二分区间，把两边的序列认为是已经有序的序列，并将两个有序的序列合成一个有序的序列</p>
+<p>2.对于每个想要其有序的序列，对其进行归并排序再合并</p>
+<p>3.递归下去，就得到了一个有序的序列</p>
+<h3 id="排序的趟数">排序的趟数</h3>
+<p>初始序列并不是第一趟</p>
+<p>冒泡排序的最后一趟要跟倒数第二趟一模一样</p>
+<h2 id="哈希查找">哈希查找</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="探测定址法">探测定址法</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="散列链法">散列链法</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="哈希表的实现散列链法">哈希表的实现（散列链法）</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h2 id="顺序查找">顺序查找</h2>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> IIT,<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Index</span><span class="hljs-params">(IIT first, IIT end, <span class="hljs-type">const</span> T&amp; k)</span> </span>{
+	<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">auto</span> pitems = first;
+	<span class="hljs-keyword">while</span> (pitems &lt; end &amp;&amp; (*pitems) != k) {
+		i++;
+		pitems++;
+	}
+	<span class="hljs-keyword">if</span> (pitems == end)
+		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">return</span> i;
+}
+
+<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> IIT,<span class="hljs-keyword">typename</span> Predicate&gt;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">IndexIf</span><span class="hljs-params">(IIT first, IIT end, Predicate pred)</span> </span>{
+	<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">auto</span> pitems = first;
+	<span class="hljs-keyword">while</span> (pitems &lt; end &amp;&amp; !<span class="hljs-built_in">pred</span>(*pitems))
+	{
+		i++;
+		pitems++;
+	}
+	<span class="hljs-keyword">if</span> (pitems == end)
+		<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">return</span> i;
+}</code></pre></div><h2 id="二分查找">二分查找</h2>
+<p>前提：序列已经成为有序状态</p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BinarySearch1</span><span class="hljs-params">(<span class="hljs-type">const</span> T&amp; k,T* items, <span class="hljs-type">int</span> len)</span> </span>{
+	<span class="hljs-type">int</span> left = <span class="hljs-number">0</span>;
+	<span class="hljs-type">int</span> right = len - <span class="hljs-number">1</span>;
+	<span class="hljs-type">int</span> mid = <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">while</span> (left &lt;= right) {
+		mid = (left + right) / <span class="hljs-number">2</span>;<span class="hljs-comment">//最迹在这里打i声明，不然就寄了</span>
+		<span class="hljs-keyword">if</span> (k == items[mid])
+			<span class="hljs-keyword">return</span> mid;
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (k &lt; items[mid])
+			right = mid - <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">else</span>
+			left = mid + <span class="hljs-number">1</span>;
+	}
+	<span class="hljs-keyword">if</span> (k &gt; items[mid])
+		mid++;
+	
+	<span class="hljs-keyword">return</span> ~mid;
+}
+</code></pre></div><p>如果遇到不存在的数，返回的数字是这个数应该插入的地方取反</p>
+<p>例如输出为-6，则是正确的插入位置为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>−</mo><mn>1</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">6-1=5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span></p>
+<h2 id="分块查找">分块查找</h2>
+<p>把数据按照某种规律储存在不同的块里面，查找的时候再对应块查找就可以了</p>
+<h2 id="二叉查找树排序树与判定树">二叉查找树、排序树与判定树</h2>
+<p>二叉查找树和二叉排序树是一样的，只是同一个东西的不同名字</p>
+<p>二分判定树则是每次二分查找中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">mid</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">mi</span><span class="mord mathnormal">d</span></span></span></span> 的值</p>
+<h3 id="二叉判定树的画法">二叉判定树的画法</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<h3 id="二叉查找树的画法">二叉查找树的画法</h3>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p><span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="158.html"><small>← 上一张委托</small><span>No.158 雪夜记事</span></a>
+          <a class="next" href="160.html"><small>下一张委托 →</small><span>No.160 wweiyi-first-blog</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#期末复习">期末复习</a></li><li class="l3"><a href="#易错点">易错点</a></li><li class="l3"><a href="#时间复杂度">时间复杂度</a></li><li class="l3"><a href="#线性表">线性表</a></li><li class="l3"><a href="#栈与队列">栈与队列</a></li><li class="l3"><a href="#string类">String类</a></li><li class="l3"><a href="#树与二叉树">树与二叉树</a></li><li class="l4"><a href="#树的定义与二叉树的性质">树的定义与二叉树的性质</a></li><li class="l4"><a href="#二叉树遍历的过程">二叉树遍历的过程</a></li><li class="l4"><a href="#二叉树遍历的递归算法">二叉树遍历的递归算法</a></li><li class="l4"><a href="#二叉树遍历的非递归算法">二叉树遍历的非递归算法</a></li><li class="l4"><a href="#层次遍历二叉树">层次遍历二叉树</a></li><li class="l4"><a href="#二叉树的建立">二叉树的建立</a></li><li class="l5"><a href="#节点类型的定义">节点类型的定义</a></li><li class="l5"><a href="#二叉树类的定义">二叉树类的定义</a></li><li class="l5"><a href="#根据顺序表建立二叉树">根据顺序表建立二叉树</a></li><li class="l5"><a href="#根据广义表构建二叉树">根据广义表构建二叉树</a></li><li class="l5"><a href="#根据先根和中根次序建立二叉树">根据先根和中根次序建立二叉树</a></li><li class="l4"><a href="#课后习题">课后习题</a></li><li class="l3"><a href="#排序">排序</a></li><li class="l4"><a href="#直接插入排序">直接插入排序</a></li><li class="l5"><a href="#优化过的插入排序">优化过的插入排序</a></li><li class="l4"><a href="#冒泡排序">冒泡排序</a></li><li class="l4"><a href="#选择排序">选择排序</a></li><li class="l4"><a href="#快速排序的原理">快速排序的原理</a></li><li class="l4"><a href="#归并排序的原理">归并排序的原理</a></li><li class="l4"><a href="#排序的趟数">排序的趟数</a></li><li class="l3"><a href="#哈希查找">哈希查找</a></li><li class="l4"><a href="#探测定址法">探测定址法</a></li><li class="l4"><a href="#散列链法">散列链法</a></li><li class="l4"><a href="#哈希表的实现散列链法">哈希表的实现（散列链法）</a></li><li class="l3"><a href="#顺序查找">顺序查找</a></li><li class="l3"><a href="#二分查找">二分查找</a></li><li class="l3"><a href="#分块查找">分块查找</a></li><li class="l3"><a href="#二叉查找树排序树与判定树">二叉查找树、排序树与判定树</a></li><li class="l4"><a href="#二叉判定树的画法">二叉判定树的画法</a></li><li class="l4"><a href="#二叉查找树的画法">二叉查找树的画法</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2024/06/01/2024%E5%B9%B4%E6%AD%A6%E6%B1%89%E5%A4%A7%E5%AD%A6%E7%94%B5%E4%BF%A1%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0%E9%9A%8F%E8%AE%B0/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

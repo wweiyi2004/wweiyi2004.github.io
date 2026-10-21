@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>API Nexus —— 一个本地 AI 模型网关 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="前言 用 AI 用得越多，越会撞上同一个烦恼：手里攒了一堆 API Key，DeepSeek、OpenAI、智谱、Kimit……每个客户端都得单独配一遍 baseurl 和 key；有的工具只认 OpenAI 格式，有的（比如 Claude">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="173" data-line="1" data-minutes="3">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.173</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE">我的项目</a></span></p>
+        <h1 class="writ__title">API Nexus —— 一个本地 AI 模型网关</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2026-06-03T13:00:00.000Z">2026.06.03</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">972 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 3 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=API%20Nexus">#API Nexus</a></li><li><a href="../index.html?tag=AI">#AI</a></li><li><a href="../index.html?tag=Tauri">#Tauri</a></li><li><a href="../index.html?tag=Rust">#Rust</a></li><li><a href="../index.html?tag=%E5%BC%80%E6%BA%90">#开源</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="api-nexus--一个本地-ai-模型网关">API Nexus —— 一个本地 AI 模型网关</h1>
+<h2 id="前言">前言</h2>
+<p>用 AI 用得越多，越会撞上同一个烦恼：手里攒了一堆 API Key，DeepSeek、OpenAI、智谱、Kimit……每个客户端都得单独配一遍 base_url 和 key；有的工具只认 OpenAI 格式，有的（比如 Claude Code）只认 Anthropic 格式，想换个供应商就得到处改配置。</p>
+<p><strong>API Nexus</strong> 就是我为了解决这件事写的一个小工具——一个跑在本地的 AI 模型网关。它把所有供应商收拢到一个统一入口后面，对外同时暴露 OpenAI 和 Anthropic 两套兼容接口，谁来都能接上；中间还会做协议互转、优先级路由和故障回退。说人话就是：<strong>客户端只管连本地这一个地址，剩下的脏活累活交给它。</strong></p>
+<!-- more -->
+<h2 id="它能做什么">它能做什么</h2>
+<ul>
+<li><strong>OpenAI 兼容入口</strong>：<code>/v1/chat/completions</code>、<code>/v1/completions</code>、<code>/v1/embeddings</code>、<code>/v1/models</code></li>
+<li><strong>Anthropic 兼容入口</strong>：<code>/v1/messages</code>、<code>/v1/messages/count_tokens</code></li>
+<li><strong>双向协议转换</strong>：OpenAI Chat Completions 和 Anthropic Messages 两种协议之间自动互转。也就是说，一个只会说 Anthropic 协议的客户端（比如 Claude Code），可以无缝调用一个只提供 OpenAI 接口的供应商，反之亦然。</li>
+<li><strong>优先级路由与故障回退</strong>：给每个供应商设优先级，请求按优先级走；上游挂了或报错，自动 fallback 到下一个。</li>
+<li><strong>供应商预设</strong>：内置了一票常见厂商的预设，填 Key 就能用。</li>
+<li><strong>本地代理 Key 保护</strong>：对外的本地接口可以单独设一个代理 API Key，不会把真实上游 Key 直接暴露给每个客户端。</li>
+<li><strong>桌面 UI</strong>：基于 Tauri 的桌面应用，供应商管理、模型管理、用量统计都有可视化页面。</li>
+</ul>
+<h2 id="技术栈">技术栈</h2>
+<p>这个项目我用的是 <strong>Tauri 2</strong> 的架构，前后端分得很干净：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>桌面外壳</td>
+<td>Tauri 2</td>
+</tr>
+<tr>
+<td>前端 UI</td>
+<td>React 18 + TypeScript + React Router</td>
+</tr>
+<tr>
+<td>样式</td>
+<td>Tailwind CSS</td>
+</tr>
+<tr>
+<td>构建</td>
+<td>Vite 6</td>
+</tr>
+<tr>
+<td>后端核心</td>
+<td>Rust</td>
+</tr>
+<tr>
+<td>HTTP 服务</td>
+<td>axum + tokio</td>
+</tr>
+<tr>
+<td>上游请求</td>
+<td>reqwest</td>
+</tr>
+</tbody>
+</table></div>
+<p>选 Tauri 而不是 Electron，主要是图它轻——核心代理逻辑用 Rust 写，常驻后台也不吃内存；UI 那部分用 React 写起来顺手，热更新体验也好。后端的代理服务跑在 axum 上，默认监听 <code>127.0.0.1:11434</code>。</p>
+<h2 id="内置的供应商预设">内置的供应商预设</h2>
+<p>为了省去查文档填 base_url 的功夫，我把常用厂商都做成了预设，选一个、填上 Key 就能用：</p>
+<ul>
+<li>DeepSeek（OpenAI 协议 / Anthropic 协议两版都有）</li>
+<li>OpenAI</li>
+<li>Anthropic</li>
+<li>Gemini（OpenAI 协议）</li>
+<li>Mistral</li>
+<li>xAI</li>
+<li>Kimi</li>
+<li>OpenRouter</li>
+<li>SiliconFlow（硅基流动）</li>
+<li>火山方舟</li>
+<li>智谱 GLM</li>
+<li>腾讯混元</li>
+<li>百度千帆</li>
+</ul>
+<p>当然，预设之外你也可以手动加任意 OpenAI / Anthropic 兼容的供应商，自定义 base_url 和模型列表。</p>
+<h2 id="跑起来">跑起来</h2>
+<p>开发环境：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">npm install
+npm run dev</code></pre></div><p>跑 Tauri 桌面应用：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">npm run tauri dev</code></pre></div><p>打包：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">npm run tauri build</code></pre></div><h2 id="客户端怎么连">客户端怎么连</h2>
+<p>API Nexus 起来之后，把客户端指向本地这一个地址就行。</p>
+<p>OpenAI 兼容的客户端：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">base_url = http://127.0.0.1:11434/v1</code></pre></div><p>Anthropic 兼容的客户端（包括 Claude Code）：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">ANTHROPIC_BASE_URL=http://127.0.0.1:11434</code></pre></div><p>客户端那边的 API Key，填你在 API Nexus 里设的那个<strong>代理 Key</strong> 就好——真实的上游 Key 只存在网关里，不用散落在各个工具的配置文件里。</p>
+<h2 id="一个典型用法">一个典型用法</h2>
+<p>我自己最常用的场景，是拿它给 Claude Code 喂便宜的国产模型。Claude Code 只认 Anthropic 协议，但我想用走 OpenAI 协议的某家供应商——直接配是配不上的。有了 API Nexus，把它的 Anthropic 入口指给 Claude Code，再让网关在背后把请求转成 OpenAI 协议发给真正的上游，就通了。同时还能配上多家供应商做优先级和回退，主力额度用光了自动切备用，体验上几乎无感。</p>
+<h2 id="开源地址">开源地址</h2>
+<p>项目已经开源，欢迎 Star / Issue / PR：</p>
+<p>👉 <strong><a href="https://github.com/wweiyi2004/api-nexus" target="_blank" rel="noopener">https://github.com/wweiyi2004/api-nexus</a></strong></p>
+<p>如果你也被一堆 API Key 和不兼容的协议折磨过，不妨试试看。</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="172.html"><small>← 上一张委托</small><span>No.172 漫协物语果然有问题</span></a>
+          <a class="next" href="174.html"><small>下一张委托 →</small><span>No.174 Expert Chat —— 一个自带钥匙的跨平台 LLM 客户端</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#api-nexus--一个本地-ai-模型网关">API Nexus —— 一个本地 AI 模型网关</a></li><li class="l3"><a href="#前言">前言</a></li><li class="l3"><a href="#它能做什么">它能做什么</a></li><li class="l3"><a href="#技术栈">技术栈</a></li><li class="l3"><a href="#内置的供应商预设">内置的供应商预设</a></li><li class="l3"><a href="#跑起来">跑起来</a></li><li class="l3"><a href="#客户端怎么连">客户端怎么连</a></li><li class="l3"><a href="#一个典型用法">一个典型用法</a></li><li class="l3"><a href="#开源地址">开源地址</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2026/06/03/API-Nexus-%E6%9C%AC%E5%9C%B0AI%E6%A8%A1%E5%9E%8B%E7%BD%91%E5%85%B3/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

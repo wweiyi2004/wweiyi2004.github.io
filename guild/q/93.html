@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【全程NOIP计划】初赛 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="计算机基础 IT发展历史 第一台计算机：埃尼阿克 ，1946 应用：计算，数据储存处理，通信，辅助工作等 第一个程序员：Ada（女），为了纪念她，命名了一个编程语言是她的名字 计算机：图灵奖 数学：菲尔兹奖 物理化学生物经济文学和平：诺贝尔">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="93" data-line="4" data-minutes="4">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.93</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92">全程NOIP计划</a></span></p>
+        <h1 class="writ__title">【全程NOIP计划】初赛</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-09-18T04:00:00.000Z">2021.09.18</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">1,473 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 4 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E8%B4%AA%E5%BF%83">#贪心</a></li><li><a href="../index.html?tag=%E5%9B%BE%E8%AE%BA">#图论</a></li><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E6%95%B0%E8%AE%BA">#数论</a></li><li><a href="../index.html?tag=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">#数据结构</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E5%88%86%E6%B2%BB">#分治</a></li><li><a href="../index.html?tag=%E6%8E%92%E5%BA%8F">#排序</a></li><li><a href="../index.html?tag=%E7%9F%A9%E9%98%B5">#矩阵</a></li><li><a href="../index.html?tag=%E9%80%92%E6%8E%A8">#递推</a></li><li><a href="../index.html?tag=%E4%BD%8D%E8%BF%90%E7%AE%97">#位运算</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li><li><a href="../index.html?tag=Codeforces">#Codeforces</a></li><li><a href="../index.html?tag=NOIP">#NOIP</a></li><li><a href="../index.html?tag=NOI">#NOI</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="全程noip计划初赛">【全程NOIP计划】初赛</h1>
+<h2 id="计算机基础">计算机基础</h2>
+<h3 id="it发展历史">IT发展历史</h3>
+<p>第一台计算机：埃尼阿克 ，1946</p>
+<p>应用：计算，数据储存处理，通信，辅助工作等</p>
+<p>第一个程序员：Ada（女），为了纪念她，命名了一个编程语言是她的名字</p>
+<p>计算机：图灵奖</p>
+<p>数学：菲尔兹奖</p>
+<p>物理化学生物经济文学和平：诺贝尔奖</p>
+<p>ACM（美国计算机协会），IEEE（美国工程院学会），<s>臭名远扬</s>CCF</p>
+<p>【NOIP2018】下列关于图灵奖的说法中，正确的有（ ）。</p>
+<p>A. 图灵奖是由电气和电子工程师协会（IEEE）设立的。</p>
+<p>B.    目前获得该奖项的华人学者只有姚期智教授一人。</p>
+<p>C. 其名称取自计算机科学的先驱、英国科学家艾伦·麦席森·图灵。</p>
+<p>D.  它是计算机界最负盛名、最崇高的一个奖项，有“计算机界的诺贝尔奖”之称。</p>
+<p>【解析】答案选择BCD，图灵奖是又ACM设立的，其它的没得一点问题</p>
+<h3 id="计算机组成">计算机组成</h3>
+<p>冯诺依曼结构（储存程序原理）——计算机的基础模型</p>
+<p>字长：32位和64位；意思指的是每次指令可以处理32位的数据或者64位的数据</p>
+<p>主频：2.4GHz，指的是计算机处理的速度</p>
+<p>内存：8GB，临时存放东西，也叫RAM，随机存储设备，断电丢失</p>
+<p>位Bit：一个0，或者一个1,</p>
+<p>字节Byte：8个0或1</p>
+<p>1KB=1024B,1MB=1024KB,1GB=1024MB,1TB=1024GB;</p>
+<p>摩尔定律：18个月翻倍（快要失效了，主要是要突破物理极限了）</p>
+<h3 id="软件系统">软件系统</h3>
+<p>操作系统：Windows,DOS,UNIX,Linux,MacOS,Android,iOS,鸿蒙</p>
+<p>应用软件：浏览器，办公软件，游戏，机器语言，汇编语言，高级语言</p>
+<h3 id="编码">编码</h3>
+<p>文字、图片、声音-&gt;01串</p>
+<p>ASCLL编码，GBK编码（2字节），utf-8（3字节）</p>
+<p>图片：黑白（01），24位彩色(RGB)</p>
+<p>文件系统拓展名：</p>
+<p>图片:jpg,gif,png,tiff,jpeg</p>
+<p>文档：txt,docx,pdf</p>
+<p>声音：mp3/视频：avi,rm,mp4</p>
+<p>可执行文件：exe(Windows),无（Linux）</p>
+<h3 id="noi系列">NOI系列</h3>
+<p>NOI:1984,中国计算机学会(CCF)</p>
+<p>NOIP:1995-2019,2020-?</p>
+<p>可以带：文具（不能带草稿纸），衣服，水，证件</p>
+<p>2022年之后只能使用C++（明年就不能用了）</p>
+<h3 id="程序设计">程序设计</h3>
+<p>编译：代码-&gt;可执行文件（机器码） C/C++,Pascal</p>
+<p>解释：一样一行运行Python,JavaScript,PHP,BASIC</p>
+<p>时间复杂度：数据规模增长和运行时间增长的趋势</p>
+<p><a href="http://www.zhihu.com/answer/830343420" target="_blank" rel="noopener">www.zhihu.com/answer/830343420</a></p>
+<h2 id="基础算法串讲">基础算法串讲</h2>
+<h3 id="排序">排序</h3>
+<h5 id="计数排序">计数排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>a</mi><mo>+</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(a+n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<p>是一种基于统计而不是基于比较的排序</p>
+<h5 id="选择排序">选择排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>不稳定</p>
+<h5 id="冒泡排序">冒泡排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>稳定</p>
+<h5 id="插入排序">插入排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>稳定</p>
+<h5 id="归并排序">归并排序</h5>
+<p>时间复杂度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<p>稳定，需要额外辅助空间</p>
+<h5 id="快速排序">快速排序</h5>
+<p>时间复杂度平均 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<p>最坏为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>不稳定</p>
+<h5 id="堆排序">堆排序</h5>
+<p>时间复杂度<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<p>不稳定</p>
+<h3 id="贪心">贪心</h3>
+<p>需要证明，有时候不正确</p>
+<p>比较奇技淫巧</p>
+<h3 id="二分">二分</h3>
+<p>顺序查找效率低，要找N次</p>
+<p>二分查找，需要找logn次，但是要求有序</p>
+<h3 id="递推递归分治">递推递归分治</h3>
+<p>递推：从小到大递推</p>
+<p>斐波那契数列 1 1 2 3 5 8 13 21</p>
+<p>递推要有初始值和递推条件</p>
+<p>分治：大问题拆成小问题，递归解决</p>
+<p>例如归并排序和快速排序</p>
+<h3 id="栈">栈</h3>
+<p>应用：</p>
+<p>卡特兰数：1 2 5 14 52；</p>
+<p>后缀表达式计算</p>
+<p>括号匹配</p>
+<h3 id="队列">队列</h3>
+<p>先进先出</p>
+<h3 id="链表">链表</h3>
+<p>有的时候比数组方便</p>
+<h3 id="树">树</h3>
+<p>有n个节点，n-1条边，可能有一个根节点，所有节点之间都联通，没有环</p>
+<p>森林是树的集合</p>
+<h3 id="二叉树">二叉树</h3>
+<p>高度，节点数量，叶子节点数量，下一层数量是上一层两倍</p>
+<p>每层的数量，一共的数量</p>
+<p>完全二叉树，满二叉树</p>
+<p>完全二叉树：有n层，前n-1层都是满的，最后一层的全部靠左</p>
+<h4 id="遍历">遍历</h4>
+<p>前序遍历：根左右</p>
+<p>中序遍历：左根右</p>
+<p>后序遍历：左右根</p>
+<h3 id="表达式树">表达式树</h3>
+<p>中序表达式就是最普通的表达式</p>
+<p>后缀表达式这个表达式的后序遍历</p>
+<p>前序表达式这个表达式的前序遍历</p>
+<p>可以对一个表达式树遍历，然后反表达来求什么奇怪的波兰啊，逆波兰表达式之类的</p>
+<h3 id="图">图</h3>
+<p>无向图，无向图（带权），有向图（带权）</p>
+<p>顶点V；边E，完全图的边数量：假设n为顶点数量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac {n \times (n-1)} 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.113em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>度数：顶点连着边的条数，有向图分入度和出度</p>
+<p>重边：两个相同定点中间有很多边</p>
+<p>自环：自己连着自己</p>
+<p>简单图：没有重边和自环</p>
+<p>存储方式：</p>
+<p>邻接矩阵，邻接表</p>
+<h3 id="图论算法">图论算法</h3>
+<p>单元最短路径：Dijkstra nlogn SPFA死了</p>
+<p>Floyd <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">n^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>PS：循环的顺序比较重要，实际上不记得的话，任何一种方式的循环只要循环三次就一定能得到正确结果</p>
+<p>最小生成树： Prim <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> ，kruskal  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">elog e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">e</span></span></span></span></p>
+<p>Prim是针对点的，可以用堆优化，类似于Dijkstra，所以也是贪心</p>
+<p>Kruskal 是针对边的贪心，用并查集，一般来说用这个比较方便</p>
+<p>欧拉回路：一笔画问题，只能最多两个奇数度的定点</p>
+<h2 id="进制转换与位运算">进制转换与位运算</h2>
+<h3 id="进制转换">进制转换</h3>
+<p>n进制转10进制比较简单</p>
+<p>10进制转n进制，短除法</p>
+<p>注意一下十进制可以这么写 比如：10写成  10 B</p>
+<p>同样地，十六进制也有这么写的 10 H ，这个就表示<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>10</mn><msub><mo stretchy="false">)</mo><mn>16</mn></msub></mrow><annotation encoding="application/x-tex">(10)_{16}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">10</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">16</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<h3 id="计算机编码">计算机编码</h3>
+<p>原码：数字的二进制表示</p>
+<p>反码：除了符号位各位取反</p>
+<p>补码：正数不变，负数反码加一</p>
+<h3 id="主定理">主定理</h3>
+<p>秋令营中讲过</p>
+<p>话说难的主要是组合数学和读程序吧，awa，听天由命吧awa</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="92.html"><small>← 上一张委托</small><span>No.92 【解题报告】luoguP2158 仪仗队</span></a>
+          <a class="next" href="94.html"><small>下一张委托 →</small><span>No.94 【游记】CSP-S2021 退役记</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#全程noip计划初赛">【全程NOIP计划】初赛</a></li><li class="l3"><a href="#计算机基础">计算机基础</a></li><li class="l4"><a href="#it发展历史">IT发展历史</a></li><li class="l4"><a href="#计算机组成">计算机组成</a></li><li class="l4"><a href="#软件系统">软件系统</a></li><li class="l4"><a href="#编码">编码</a></li><li class="l4"><a href="#noi系列">NOI系列</a></li><li class="l4"><a href="#程序设计">程序设计</a></li><li class="l3"><a href="#基础算法串讲">基础算法串讲</a></li><li class="l4"><a href="#排序">排序</a></li><li class="l4"><a href="#贪心">贪心</a></li><li class="l4"><a href="#二分">二分</a></li><li class="l4"><a href="#递推递归分治">递推递归分治</a></li><li class="l4"><a href="#栈">栈</a></li><li class="l4"><a href="#队列">队列</a></li><li class="l4"><a href="#链表">链表</a></li><li class="l4"><a href="#树">树</a></li><li class="l4"><a href="#二叉树">二叉树</a></li><li class="l5"><a href="#遍历">遍历</a></li><li class="l4"><a href="#表达式树">表达式树</a></li><li class="l4"><a href="#图">图</a></li><li class="l4"><a href="#图论算法">图论算法</a></li><li class="l3"><a href="#进制转换与位运算">进制转换与位运算</a></li><li class="l4"><a href="#进制转换">进制转换</a></li><li class="l4"><a href="#计算机编码">计算机编码</a></li><li class="l4"><a href="#主定理">主定理</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/09/18/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E5%88%9D%E8%B5%9B/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

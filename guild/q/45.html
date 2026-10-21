@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】[AHOI2001]彩票摇奖 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目描述 为了丰富人民群众的生活、支持某些社会公益事业，北塔市设置了一项彩票。该彩票的规则是： (1) 每张彩票上印有 7 个各不相同的号码，且这些号码的取指范围为 133。 (2) 每次在兑奖前都会公布一个由七个各不相同的号码构成的中奖号">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="45" data-line="4" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.45</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】[AHOI2001]彩票摇奖</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-09-21T07:27:00.000Z">2019.09.21</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">585 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告ahoi2001彩票摇奖">【解题报告】[AHOI2001]彩票摇奖</h1>
+<h3 id="题目描述">题目描述</h3>
+<p>为了丰富人民群众的生活、支持某些社会公益事业，北塔市设置了一项彩票。该彩票的规则是：</p>
+<p>(1) 每张彩票上印有 7 个各不相同的号码，且这些号码的取指范围为 1~33。</p>
+<p>(2) 每次在兑奖前都会公布一个由七个各不相同的号码构成的中奖号码。</p>
+<p>(3) 共设置 7 个奖项，特等奖和一等奖至六等奖。兑奖规则如下：</p>
+<p>特等奖：要求彩票上 7 个号码都出现在中奖号码中。</p>
+<p>一等奖：要求彩票上有 6 个号码出现在中奖号码中。</p>
+<p>二等奖：要求彩票上有 5 个号码出现在中奖号码中。</p>
+<p>三等奖：要求彩票上有 4 个号码出现在中奖号码中。</p>
+<p>四等奖：要求彩票上有 3 个号码出现在中奖号码中。</p>
+<p>五等奖：要求彩票上有 2 个号码出现在中奖号码中。</p>
+<p>六等奖：要求彩票上有 1 个号码出现在中奖号码中。</p>
+<p>注：兑奖时并不考虑彩票上的号码和中奖号码中的各个号码出现的位置。例如，中奖号码为 23 31 1 14 19 17 18，则彩票 12 8 9 23 1 16 7 由于其中有两个号码(23 和 1)出现在中奖号码中，所以该彩票中了五等奖。</p>
+<p>现已知中奖号码和小明买的若干张彩票的号码，请你写一个程序帮助小明判断他买的彩票的中奖情况。</p>
+<h3 id="输入格式">输入格式</h3>
+<p>文件的第一行只有一个自然数 n (n &lt; 1000) ，表示小明买的彩票张数；</p>
+<p>第二行存放了 7 个介于 1 和 33 之间的自然数，表示中奖号码；</p>
+<p>在随后的 n 行中每行都有 7 个介于 1 和 33 之间的自然数，分别表示小明所买的 n 张彩票。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>依次输出小明所买的彩票的中奖情况(中奖的张数)，首先输出特等奖的中奖张数，然后依次输出一等奖至六等奖的中奖张数。</p>
+<h3 id="输入输出样例">输入输出样例</h3>
+<p><strong>输入 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">2
+23 31 1 14 19 17 18
+12 8 9 23 1 16 7
+11 7 10 21 2 9 31</code></pre></div><p><strong>输出 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">0 0 0 0 0 1 1</code></pre></div><h3 id="解题思路">解题思路</h3>
+<p>运用了一点点解题技巧</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">int</span> m;
+<span class="hljs-type">int</span> c[<span class="hljs-number">50</span>];
+<span class="hljs-type">int</span> p[<span class="hljs-number">10</span>];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">7</span>;i++)
+	{
+		cin&gt;&gt;m;
+		c[m]=<span class="hljs-number">1</span>;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> prize=<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">7</span>;i++)
+		{
+			cin&gt;&gt;m;
+			<span class="hljs-keyword">if</span>(c[m]==<span class="hljs-number">1</span>)
+			prize++;
+		}
+		p[prize]++;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">7</span>;i&gt;=<span class="hljs-number">1</span>;i--)
+	cout&lt;&lt;p[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	cout&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="44.html"><small>← 上一张委托</small><span>No.44 【解题报告】 [NOIP2006]能量项链</span></a>
+          <a class="next" href="46.html"><small>下一张委托 →</small><span>No.46 【解题报告】 [YNOI2019]排队</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告ahoi2001彩票摇奖">【解题报告】[AHOI2001]彩票摇奖</a></li><li class="l4"><a href="#题目描述">题目描述</a></li><li class="l4"><a href="#输入格式">输入格式</a></li><li class="l4"><a href="#输出格式">输出格式</a></li><li class="l4"><a href="#输入输出样例">输入输出样例</a></li><li class="l4"><a href="#解题思路">解题思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/09/21/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%5BAHOI2001%5D%E5%BD%A9%E7%A5%A8%E6%91%87%E5%A5%96/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

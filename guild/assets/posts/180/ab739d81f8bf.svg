@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+<title id="title">04 / 从一串 token 向量，得到一个句向量</title><desc id="desc">先取得上下文隐藏状态，再按模型训练时的约定进行 pooling</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="650" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">04 / 从一串 token 向量，得到一个句向量</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">先取得上下文隐藏状态，再按模型训练时的约定进行 pooling</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<rect x="48" y="175" width="308" height="269" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="215" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">隐藏状态 H：[B, L, d]</text>
+<text x="70" y="253" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">[CLS] → h₀</text>
+<text x="70" y="286" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">词元 1 → h₁</text>
+<text x="70" y="319" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">词元 2 → h₂</text>
+<text x="70" y="352" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">[PAD] → h₃（忽略）</text>
+<rect x="440" y="175" width="300" height="122" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="462" y="215" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">路线 A：CLS pooling</text>
+<text x="462" y="253" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">取最后一层的 h₀</text>
+<rect x="440" y="335" width="300" height="122" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="462" y="375" fill="#148071" font-size="25" text-anchor="start" font-weight="700">路线 B：Masked mean</text>
+<text x="462" y="413" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">只对有效位置求平均</text>
+<path d="M370,300 L404,300 L404,236 L426,236" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M404,300 L404,396 L426,396" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M754,236 L791,236 L791,311 L830,311" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M754,396 L791,396 L791,311" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<rect x="848" y="247" width="304" height="144" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="870" y="287" fill="#cb7028" font-size="25" text-anchor="start" font-weight="700">句向量：[B, D]</text>
+<text x="870" y="325" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">可选投影 → L2 归一化</text>
+<text x="870" y="358" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">再按约定计算相似度</text>
+<rect x="48" y="510" width="1104" height="79" rx="16" fill="#fff9ef" stroke="#ebd4ac" stroke-width="2"/>
+<text x="74" y="558" fill="#cb7028" font-size="23" text-anchor="start" font-weight="400">本篇 BGE 示例使用 CLS；不能把任意 pooling 当作可以互换的后处理。</text>
+<text x="48" y="626" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">原创示意图 · 用于解释机制，不代表真实模型的测量结果</text>
+</g></svg>

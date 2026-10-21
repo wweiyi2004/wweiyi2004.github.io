@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【全程NOIP计划】树上问题 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="最近公共祖先 问题 给定一棵树，每次给两个点，求他们的祖先，且该祖先为深度最小 思路 一般来说，我们想到一个暴力做法 查询x,y的话，直接把x的祖先全部标记一遍，然后把y向上遍历，直到遍历到一个点，使得这个点被标记过，这个点就是x和y的最近">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="153" data-line="4" data-minutes="3">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.153</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92">全程NOIP计划</a></span></p>
+        <h1 class="writ__title">【全程NOIP计划】树上问题</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-11-18T23:19:00.000Z">2021.11.19</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">950 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 3 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">#动态规划</a></li><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=%E5%89%8D%E7%BC%80%E5%92%8C%2F%E5%B7%AE%E5%88%86">#前缀和/差分</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li><li><a href="../index.html?tag=NOIP">#NOIP</a></li><li><a href="../index.html?tag=NOI">#NOI</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="全程noip计划树上问题">【全程NOIP计划】树上问题</h1>
+<h2 id="最近公共祖先">最近公共祖先</h2>
+<h5 id="问题">问题</h5>
+<p>给定一棵树，每次给两个点，求他们的祖先，且该祖先为深度最小</p>
+<h5 id="思路">思路</h5>
+<p>一般来说，我们想到一个暴力做法</p>
+<p>查询x,y的话，直接把x的祖先全部标记一遍，然后把y向上遍历，直到遍历到一个点，使得这个点被标记过，这个点就是x和y的最近公共祖先</p>
+<p>或者，使得深度更大的第一个点一直向上跳，让x和y的深度一样，让他们一起一步一步向上跳，直到他们遇到同一个点，这样的方法正确性没有问题，它的复杂度和这棵树的深度是有关的</p>
+<p>考虑倍增，对于刚才的做法进行优化</p>
+<p>原来的方法：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">fa[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span></span></span></span>表示i的父亲</p>
+<p>倍增的方法：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mi>a</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">fa[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">a</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>表示i向上跳<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>j</mi></msup></mrow><annotation encoding="application/x-tex">2^j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span></span></span></span></span></span></span>到哪个点</p>
+<p>怎么预处理呢?</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp">f[i][<span class="hljs-number">0</span>];
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=logn;j++)
+{
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+        f[i][j]=f[f[i][j<span class="hljs-number">-1</span>]][j<span class="hljs-number">-1</span>];
+}</code></pre></div><p>这样我们就维护出来了</p>
+<p>所以倍增lca的步骤就是：</p>
+<p>1.先让y的深度比x大，然后将y和x调到深度相同的位置</p>
+<p>2.然后把log从小到大枚举，如果跳完了到的是同一个点，他们就不跳，如果不是同一个点，那么他们就向上跳，这样重复的话一定可以跳到同一个点</p>
+<p>3.我们可以唯一确定该这个拆分（不考虑顺序</p>
+<h3 id="基础问题">基础问题</h3>
+<h5 id="题目">题目</h5>
+<p>给一个n个点的树，有m次查询，每次查x到y路上的点权和</p>
+<h5 id="思路-1">思路</h5>
+<p>可以利用树上前缀和和最近公共祖先</p>
+<p>发现答案就是x的深度加上y的深度，减去lca的深度，再减去lca父亲的深度就可以了</p>
+<h3 id="又一个基础问题">又一个基础问题</h3>
+<h5 id="题目-1">题目</h5>
+<p>给一个n个节点的树，有m次查询，每次给定两个点x，y，求x是不是y的祖先</p>
+<h5 id="思路-2">思路</h5>
+<p>直接判断x和y的最近公共祖先是不是他们其中一个不就得了</p>
+<p>不不不，下面有一个神奇的玩意儿</p>
+<h2 id="dfs序">DFS序</h2>
+<p>实际上就是维护一下一个点是什么时候dfs到的，或者什么时候走入它的子树，走出它的子树的</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-type">int</span> cnt;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+    l[x]=++cnt;
+    <span class="hljs-keyword">for</span>(x的每个儿子)
+        <span class="hljs-built_in">dfs</span>(对应的儿子)；
+    r[x]=cnt;
+}</code></pre></div><p>对于x子树内的每个y，都有<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>l</mi><mo stretchy="false">[</mo><mi>y</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>r</mi><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">l[x]\le l[y]\le r[x]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span></span></span></span>，</p>
+<p>上面的那道题目直接看y的区间是不是在进入x的和走出x的区间之内就好了</p>
+<h3 id="p3128">P3128</h3>
+<h5 id="思路-3">思路</h5>
+<p>x到根的路径加一，然后<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo stretchy="false">[</mo><mi>x</mi><mo stretchy="false">]</mo><mo>+</mo><mo>+</mo></mrow><annotation encoding="application/x-tex">b[x]++</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">b</span><span class="mopen">[</span><span class="mord mathnormal">x</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">+</span></span></span></span></p>
+<h3 id="p2680-运输计划">P2680 运输计划</h3>
+<h5 id="思路-4">思路</h5>
+<p>最长的最小，让我们想到了二分答案</p>
+<p>发现，两条路径只能变短，不能变长</p>
+<p>我们可以用一个树上差分做法来做</p>
+<h3 id="经典问题">经典问题</h3>
+<h5 id="题目-2">题目</h5>
+<p>给一个n个节点的数，有点权，有m次查询，每次给三个数x,y,z，求x,y之间有多少点值=z，假设值域<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
+<h5 id="思路-5">思路</h5>
+<p>树上差分的做法</p>
+<p>直接查一个点到根上面的z有多少个，dfs到一个点的时候，我们直接维护一个值域上的数组</p>
+<h3 id="未公开题目">未公开题目</h3>
+<h5 id="题目-3">题目</h5>
+<p>给一棵n个节点的树，有m次询问</p>
+<p>每次查询：从x点开始走向y点，每秒走一步，假设在第i秒走到了i点，则答案加一，求答案</p>
+<h5 id="思路-6">思路</h5>
+<h3 id="p1600-天天爱跑步">P1600 天天爱跑步</h3>
+<h5 id="思路-7">思路</h5>
+<p>每个选手可以被差分掉</p>
+<p>把x到y的路径的选手先分成x到lca，以及lca到y</p>
+<h3 id="loj6276">LOJ6276</h3>
+<h5 id="思路-8">思路</h5>
+<h3 id="p1967-货车运输">P1967 货车运输</h3>
+<h5 id="思路-9">思路</h5>
+<h3 id="p1352-没有上司的舞会">P1352 没有上司的舞会</h3>
+<h5 id="思路-10">思路</h5>
+<p>就一个树形DP，骚简单</p>
+<h3 id="未公开题目-1">未公开题目</h3>
+<h5 id="题目-4">题目</h5>
+<p>一个图，保证每个点最多在一个简单环里面，问你这个图上面有多少个眼镜</p>
+<h5 id="思路-11">思路</h5>
+<h3 id="p2607-骑士">P2607 骑士</h3>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="152.html"><small>← 上一张委托</small><span>No.152 【全程NOIP计划】简单数论</span></a>
+          <a class="next" href="154.html"><small>下一张委托 →</small><span>No.154 【全程NOIP计划】数学推导选讲</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#全程noip计划树上问题">【全程NOIP计划】树上问题</a></li><li class="l3"><a href="#最近公共祖先">最近公共祖先</a></li><li class="l4"><a href="#基础问题">基础问题</a></li><li class="l4"><a href="#又一个基础问题">又一个基础问题</a></li><li class="l3"><a href="#dfs序">DFS序</a></li><li class="l4"><a href="#p3128">P3128</a></li><li class="l4"><a href="#p2680-运输计划">P2680 运输计划</a></li><li class="l4"><a href="#经典问题">经典问题</a></li><li class="l4"><a href="#未公开题目">未公开题目</a></li><li class="l4"><a href="#p1600-天天爱跑步">P1600 天天爱跑步</a></li><li class="l4"><a href="#loj6276">LOJ6276</a></li><li class="l4"><a href="#p1967-货车运输">P1967 货车运输</a></li><li class="l4"><a href="#p1352-没有上司的舞会">P1352 没有上司的舞会</a></li><li class="l4"><a href="#未公开题目-1">未公开题目</a></li><li class="l4"><a href="#p2607-骑士">P2607 骑士</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/11/19/%E3%80%90%E5%85%A8%E7%A8%8BNOIP%E8%AE%A1%E5%88%92%E3%80%91%E6%A0%91%E4%B8%8A%E9%97%AE%E9%A2%98/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

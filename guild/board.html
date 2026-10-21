@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>留言板 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="在公会留言板上留下你的冒险心得。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="icon" href="../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/guild.css">
+</head>
+<body data-page="ledger">
+  <header class="hall"></header>
+
+  <main class="shell">
+    <article class="ledger">
+      <h1>冒险者留言簿</h1>
+      <p class="ledger__intro">路过的冒险者，欢迎在这里留下名字和想说的话。<br>交换情报、催更、或者只是打个招呼都可以——用 GitHub 账号登录即可留言。</p>
+      <!-- the same thread as the Hexo blog's /messageboard/ page -->
+      <div class="giscus" data-term="messageboard/"></div>
+    </article>
+  </main>
+
+  <footer class="floor"></footer>
+
+  <script src="../js/glyphs.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    (function () {
+      const { mountChrome, giscus } = window.GUILD;
+      mountChrome('ledger');
+      const el = document.querySelector('.giscus');
+      giscus(el, el.dataset.term);
+    })();
+  </script>
+</body>
+</html>

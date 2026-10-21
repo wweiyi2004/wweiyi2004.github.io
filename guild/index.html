@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>委托告示板 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="wweiyi 的博客：AI 与开发工具、嵌入式、大学课程、算法竞赛与随笔。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="icon" href="../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/guild.css">
+</head>
+<body data-page="board">
+  <!-- Opening scene: the party at the quest board. Scrolling walks up to the board;
+       js/intro.js zooms into the board in the picture, then the real board grows in. -->
+  <section class="intro" id="intro" aria-label="开场：和真小队在委托告示板前">
+    <div class="intro__stage">
+      <img class="intro__scene" id="scene" src="img/intro-day-1920.jpg"
+        data-day="img/intro-day-1920.jpg 1920w, img/intro-day-3840.jpg 3840w"
+        data-night="img/intro-night-1920.jpg 1920w, img/intro-night-3840.jpg 3840w"
+        sizes="100vw" width="3840" height="2161"
+        alt="冒险者公会大厅里，惠惠踮着脚兴奋地指着告示板上的紧急委托，和真和阿库娅在一旁吵架，达克妮斯红着脸扭捏着。"
+        data-board="0.222 0.095 0.778 0.600">
+      <div class="intro__caption">
+        <p class="intro__sign">欢迎来到阿克塞尔冒险者公会！</p>
+        <a class="intro__hint" href="#hall" aria-label="向下翻，走近告示板">▼</a>
+      </div>
+    </div>
+  </section>
+
+  <header class="hall" id="hall"></header>
+
+  <main class="shell">
+    <h1 class="sr-only">委托告示板</h1>
+    <div class="filters">
+      <div class="filters__lines" id="lines" role="group" aria-label="按任务线筛选"></div>
+      <label class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 3C12 5 8 10 5 21M20 3C19 10 14 14 8 15M9 11H13"/></svg>
+        <span class="sr-only">搜索委托</span>
+        <input id="q" type="search" placeholder="搜索委托…" autocomplete="off">
+      </label>
+      <p class="filter-note" id="note" hidden></p>
+    </div>
+
+    <div class="hall-floor">
+      <section class="board" id="board" aria-label="委托告示板">
+        <div class="quests" id="quests"><p class="empty">正在从柜台取回委托单…</p></div>
+      </section>
+
+      <aside class="dossier" aria-label="冒险者档案">
+        <div class="dossier__board"><div class="dossier__sheet" id="dossier">
+          <h2>冒险者档案</h2>
+        </div></div>
+      </aside>
+
+      <aside class="stand" aria-label="公会公告">
+        <div class="stand__board"><div class="stand__sheet" id="stand">
+          <h2>公会公告</h2>
+        </div></div>
+      </aside>
+    </div>
+    <nav class="pager" id="pager" aria-label="翻页"></nav>
+  </main>
+
+  <footer class="floor"></footer>
+
+  <script src="../js/glyphs.js"></script>
+  <script src="../js/profile.js"></script>
+  <script src="js/friends.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/intro.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+/* night: the card under lamp light on a dark counter */
+:root {
+  --paper: #e6dec3;
+  --ink: #403a2b;
+  --bg-top: #2a2e31;
+  --bg-bottom: #16181b;
+  --lamp: rgba(255, 196, 120, 0.14);
+  --text: #e9dfc7;
+}
+/* day: the same card in daylight; shares the guild's setting (localStorage 'guild-theme') */
+:root[data-theme='day'] {
+  --paper: #f2ecd8;
+  --bg-top: #c9bfa5;
+  --bg-bottom: #a39880;
+  --lamp: rgba(255, 252, 235, 0.55);
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-family: 'Noto Serif SC', 'Songti SC', serif;
+  background:
+    radial-gradient(1100px 640px at 50% 18%, var(--lamp), transparent 65%),
+    linear-gradient(var(--bg-top), var(--bg-bottom));
+}
+
+/* the window is the card; js/card.js reflows the layout to the window's shape */
+.stage {
+  position: fixed;
+  inset: 0;
+}
+
+/* light falling on the card: a lamp above it at night, sunlight from the upper left by day */
+.stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 95% at 50% 8%, rgba(255, 196, 110, 0.12), rgba(26, 18, 10, 0) 45%, rgba(26, 18, 10, 0.5) 100%);
+  mix-blend-mode: multiply;
+  transition: opacity 0.4s ease;
+}
+:root[data-theme='day'] .stage::after {
+  background:
+    linear-gradient(118deg, rgba(255, 251, 236, 0.55) 0%, rgba(255, 251, 236, 0) 38%),
+    linear-gradient(118deg, transparent 52%, rgba(255, 251, 236, 0.18) 60%, transparent 70%);
+  mix-blend-mode: soft-light;
+}
+
+.card {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--ink);
+}
+
+.paper { fill: var(--paper); }
+
+/* Latin in Cormorant Garamond, a classical book face; Chinese falls through to Noto Serif SC */
+.zh {
+  fill: currentColor;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', serif;
+  font-variant-numeric: lining-nums;
+}
+
+/* the text layers are drawn over the whole card (the foil fills it edge to edge),
+   so they must let clicks through to the emblem links underneath */
+.layer-glyph, .layer-zh { pointer-events: none; }
+
+/* printed form labels step back so the foil-stamped details lead */
+.zh.form { opacity: 0.72; }
+
+/* emblem links: on hover the medallion swells and turns to gold foil */
+.emblem-link { cursor: pointer; outline: none; }
+.emblem-link .medal { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.emblem-link .icon-bg { transition: fill 0.2s ease; }
+.emblem-link .icon-ink, .emblem-link .icon-gold { transition: opacity 0.2s ease; }
+.emblem-link .icon-gold { opacity: 0; }
+.emblem-link:hover .medal,
+.emblem-link:focus-visible .medal { transform: scale(1.22); }
+.emblem-link:hover .icon-bg,
+.emblem-link:focus-visible .icon-bg { fill: #f6eed3; }
+.emblem-link:hover .icon-gold,
+.emblem-link:focus-visible .icon-gold { opacity: 1; }
+.emblem-link:hover .icon-ink,
+.emblem-link:focus-visible .icon-ink { opacity: 0; }
+
+.emblem-label, .emblem-zz { transition: opacity 0.2s ease; }
+.emblem-label { opacity: 0; }
+.card.show-label .emblem-label { opacity: 1; }
+.card.show-label .emblem-zz { opacity: 0; }
+
+/* the magic wand replaces the pointer on devices that have one */
+body.has-wand:not(.is-back), body.has-wand:not(.is-back) * { cursor: none !important; }
+body.is-back .wand, body.is-back .fx { display: none; }
+/* the card side while the back is showing (kept laid out so it can reflow) */
+.stage.is-away { visibility: hidden; }
+
+.card {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.fx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.wand {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 112px;
+  height: 112px;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  will-change: transform;
+}
+.wand.is-on { opacity: 1; }
+.wand svg {
+  display: block;
+  transform-origin: 24px 24px;
+  filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.35));
+}
+.wand.is-casting svg { animation: wand-flick 0.5s ease-out; }
+.wand .orb-glow { transform-box: fill-box; transform-origin: center; }
+.wand.is-casting .orb-glow { animation: orb-flare 0.7s ease-out; }
+/* the Manatite brightens and pulses while it hovers something clickable */
+.wand.is-near .orb-glow { animation: orb-near 0.9s ease-in-out infinite; }
+
+@keyframes orb-near {
+  0%, 100% { transform: scale(1.5); opacity: 0.7; }
+  50% { transform: scale(2.1); opacity: 0.95; }
+}
+
+@keyframes orb-flare {
+  30% { transform: scale(2.6); opacity: 0.95; }
+  100% { transform: scale(1); opacity: 0.45; }
+}
+
+@keyframes wand-flick {
+  30% { transform: rotate(-22deg); }
+  65% { transform: rotate(9deg); }
+  100% { transform: rotate(0); }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* brass medallion buttons: the flip in the top-right corner, and on the back the
+   language and day/night switches beside it */
+.medal-btn {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  color: #2a1d14;
+  background: #c9a24c;
+  border: 3px solid #2a1d14;
+  border-radius: 50%;
+  box-shadow: inset 0 3px 0 #ecd28c, inset 0 -4px 0 #8d6c2b, 2px 3px 0 rgba(10, 8, 6, 0.45);
+  transition: transform 0.15s ease;
+}
+.medal-btn:hover, .medal-btn:focus-visible { transform: translateY(-2px) rotate(-8deg); outline: none; }
+.medal-btn:focus-visible { box-shadow: inset 0 3px 0 #ecd28c, inset 0 -4px 0 #8d6c2b, 0 0 0 3px #f2ecd8; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wand.is-casting svg { animation: none; }
+}

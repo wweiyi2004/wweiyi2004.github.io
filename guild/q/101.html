@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷 P4753 River Jumping · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="原题链接 https://www.luogu.com.cn/problem/P4753 题目大意 一条宽度为 的河上，有 块石头，每块石头距离起点（坐标为0）有一个距离，我们要从起点跳到终点，通过一些方法使得跳到每个石头上一次，最终回到起点">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="101" data-line="4" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.101</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷 P4753 River Jumping</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-06T14:54:00.000Z">2021.10.06</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">622 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷-p4753-river-jumping">【解题报告】洛谷 P4753 River Jumping</h1>
+<h3 id="原题链接">原题链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P4753" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P4753</a></p>
+<h3 id="题目大意">题目大意</h3>
+<p>一条宽度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 的河上，有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 块石头，每块石头距离起点（坐标为0）有一个距离，我们要从起点跳到终点，通过一些方法使得跳到每个石头上一次，最终回到起点，每次跳的距离有一个下限 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> ,输出一种可能的方案</p>
+<h3 id="思路">思路</h3>
+<p>看到这道题目，我们首先关注到的是一个下限 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> ，为什么我们要关注这个呢？因为，我们可以发现，如果你想跳的石头与你的距离 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>≥</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">d \ge s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> 你是不是就可以随便跳？</p>
+<p>于是我们自然而然地想，我们是不是可以使用贪心算法？</p>
+<p>每次跳，跳到一个距离自己第一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">\ge s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> 的石头上，一直向右，到右边了之后，我们再向左重复上述过程。因为在<strong>能完成的情况下</strong>我们跳到最右边的时候，离左边的距离一定大于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> ，所以我们可以跳过去，然后再跳回来，反复横跳，最后就能完成了</p>
+<p>那么，我们还要处理<strong>不能完成</strong>的情况，那么我们什么情况不能完成呢？</p>
+<ul>
+<li>最左边的石头和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 距离小于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>  ，或者最右边的石头和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 的距离小于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span></li>
+<li>有连续三个石头之间的距离小于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> ，因为这样总有一个石头跳不到</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 的距离小于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span> ，实际上这个是严格被第一个不能完成的条件包含的</li>
+</ul>
+<p>这样，我们找到了所有不能完成的情况</p>
+<p>接着，我们进行一个暴力，从 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 开始跳，每次判断是否能跳，如果能跳的话，标记一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>i</mi><mi>s</mi><mo>=</mo><mi>t</mi><mi>r</mi><mi>u</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">vis=true</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">i</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">u</span><span class="mord mathnormal">e</span></span></span></span> 表示已经访问过了，如果已经访问过了，那就访问下一个石头能不能跳.跳到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> 之后反过来向 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 跳.对于这个过程使用一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mi>h</mi><mi>i</mi><mi>l</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">while</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal">hi</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span></span></span></span> 循环就可以了，我们每次循环开头判断一下是否每个石头都走了，如果都走了，那我们退出循环</p>
+<p>至于输出的话，一定要记得不要先输出 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> ，它永远都是最后一个，然后我们把输出放在循环里面边跳边输出就可以了</p>
+<p>这道题目我昨天干了两个多小时，一直被不能完成的条件所困，<strong>请大家一定要注意条件！！！</strong></p>
+<p>好的，管理员大大求过</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100005</span>;
+<span class="hljs-type">int</span> n,m,s;
+<span class="hljs-type">int</span> w[maxn];
+<span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;
+<span class="hljs-type">bool</span> vis[maxn];
+<span class="hljs-type">bool</span> flag=<span class="hljs-literal">false</span>;
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;=m<span class="hljs-number">+1</span>;i++)
+	<span class="hljs-keyword">if</span>(!vis[i])
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	std::ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);
+	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>),cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>); 
+	cin&gt;&gt;n&gt;&gt;m&gt;&gt;s;
+	
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	{
+		cin&gt;&gt;w[i];
+		<span class="hljs-keyword">if</span>(w[i]-w[i<span class="hljs-number">-1</span>]&lt;s)
+		cnt++;
+		<span class="hljs-keyword">else</span>
+		cnt=<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">if</span>(cnt&gt;=<span class="hljs-number">3</span>) flag=<span class="hljs-literal">true</span>;
+	}
+	w[<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;w[m<span class="hljs-number">+1</span>]=n;
+	
+	<span class="hljs-keyword">if</span>(n&lt;s)
+	{
+		cout&lt;&lt;<span class="hljs-string">&quot;NO&quot;</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	}
+	
+	<span class="hljs-keyword">if</span>(m!=<span class="hljs-number">0</span>&amp;&amp;(w[<span class="hljs-number">1</span>]&lt;s||n-w[m]&lt;s))
+	{
+		cout&lt;&lt;<span class="hljs-string">&quot;NO&quot;</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	}
+	<span class="hljs-comment">/*if(m==2)
+	{
+		if(w[m]-w[m-1]&lt;s)
+		{
+			cout&lt;&lt;&quot;NO&quot;&lt;&lt;&#x27;\n&#x27;;
+			return 0;
+		}
+	}*/</span>
+	<span class="hljs-keyword">if</span>(flag)
+	{
+		cout&lt;&lt;<span class="hljs-string">&quot;NO&quot;</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	}
+	cout&lt;&lt;<span class="hljs-string">&quot;YES&quot;</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>; 
+	<span class="hljs-type">int</span> last=<span class="hljs-number">0</span>;
+	<span class="hljs-type">int</span> tot=<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">while</span>(!<span class="hljs-built_in">check</span>())
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m<span class="hljs-number">+1</span>;i++)
+		{
+			<span class="hljs-keyword">if</span>(w[i]-w[last]&gt;=s&amp;&amp;!vis[i])
+			{
+				cout&lt;&lt;i&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+				vis[i]=<span class="hljs-literal">true</span>;
+				last=i;
+			}
+			<span class="hljs-keyword">else</span> <span class="hljs-keyword">continue</span>;
+		}
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=last;i&gt;=<span class="hljs-number">0</span>;i--)
+		{
+			<span class="hljs-keyword">if</span>(w[last]-w[i]&gt;=s&amp;&amp;!vis[i])
+			{
+				cout&lt;&lt;i&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+				vis[i]=<span class="hljs-literal">true</span>;
+				last=i;
+			}
+		}
+	}
+	
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="100.html"><small>← 上一张委托</small><span>No.100 【解题报告】洛谷P3275 糖果</span></a>
+          <a class="next" href="102.html"><small>下一张委托 →</small><span>No.102 【解题报告】 洛谷P1297 单选错位</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷-p4753-river-jumping">【解题报告】洛谷 P4753 River Jumping</a></li><li class="l4"><a href="#原题链接">原题链接</a></li><li class="l4"><a href="#题目大意">题目大意</a></li><li class="l4"><a href="#思路">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7-P4753-River-Jumping/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+/* ============================================================
+   The back of the card: a plain academic homepage.
+   Few elements, in KonoSuba's colours — Aqua's blue for links, Megumin's
+   crimson for marks, Darkness's gold for rules, Kazuma's green — on the
+   card's parchment by day and Axel's night-sky navy by night.
+   ============================================================ */
+
+.about {
+  --party-0: #2f86d4;   /* Aqua */
+  --party-1: #b81d36;   /* Megumin */
+  --party-2: #b48a25;   /* Darkness */
+  --party-3: #2f7a4f;   /* Kazuma */
+  --bg: #1a2133;
+  --surface: #212a40;
+  --text: #ece3cc;
+  --muted: #a89f8b;
+  --rule: #34405c;
+  --link: #7cc4f2;
+  --mark: #e5596e;
+  --gold: #e2b23d;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow-y: auto;
+  color: var(--text);
+  background: var(--bg);
+  font-family: 'Noto Serif SC', 'Songti SC', serif;
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+:root[data-theme='day'] .about {
+  --bg: #f4eedd;
+  --surface: #fbf7ec;
+  --text: #2a1d14;
+  --muted: #6e5b44;
+  --rule: #e1d4b4;
+  --link: #1f6fb8;
+  --mark: #b81d36;
+  --gold: #a87e1c;
+}
+.about[hidden] { display: none; }
+.about, .about * { cursor: auto; }
+.about a, .about button { cursor: pointer; }
+:root[data-theme='night'] .about { --party-0: #7cc4f2; --party-1: #e5596e; --party-2: #e2b23d; --party-3: #6cbf8a; }
+
+/* ---------- the top bar: the name, the sections, and room for the corner buttons ---------- */
+.about__nav { position: sticky; top: 0; z-index: 5; background: var(--bg); }
+.about__bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 74px;
+  /* the name lines up with the page below; the right end leaves the corner buttons their space */
+  padding: 0 316px 0 max(32px, calc((100% - 1080px) / 2 + 32px));
+}
+.about__brand {
+  flex: none;
+  color: var(--text) !important;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none !important;
+}
+.about__menu { display: flex; gap: 4px; margin: 0 0 0 auto; padding: 0; list-style: none; }
+.about .about__menu a {
+  position: relative;
+  display: block;
+  padding: 6px 12px;
+  color: var(--muted);
+  font-size: 15px;
+  white-space: nowrap;
+  text-decoration: none !important;
+  transition: color 0.15s ease;
+}
+.about .about__menu a:hover { color: var(--text); }
+/* the section being read is underlined in one of the party colours */
+.about__menu a::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--c);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.about .about__menu a.is-active { color: var(--text); font-weight: 700; }
+.about__menu a.is-active::after { transform: none; }
+
+/* the four party colours as a thin band under the top bar */
+.about__band {
+  height: 3px;
+  background: linear-gradient(90deg, var(--party-0) 0 25%, var(--party-1) 25% 50%, var(--party-2) 50% 75%, var(--party-3) 75%);
+}
+
+/* the top-right corner: language and day/night (on the back), then the flip */
+.corner { position: fixed; top: 14px; right: 14px; z-index: 30; display: flex; align-items: center; gap: 10px; }
+.corner .medal-btn { position: static; cursor: pointer; font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 700; }
+.corner .medal-btn[hidden] { display: none; }
+
+/* the flip: a dark leather tab with gold lettering, so it reads on the pale card */
+.flip-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 18px 0 14px;
+  color: #ecd28c;
+  font: 700 16px/1 'Noto Serif SC', 'Songti SC', serif;
+  letter-spacing: 0.08em;
+  background: #3a2716;
+  border: 3px solid #c9a24c;
+  border-radius: 23px;
+  box-shadow: inset 0 0 0 2px #2a1d14, 2px 3px 0 rgba(10, 8, 6, 0.45);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.flip-switch:hover, .flip-switch:focus-visible { background: #4f3520; transform: translateY(-2px); outline: none; }
+.flip-switch:focus-visible { box-shadow: inset 0 0 0 2px #2a1d14, 0 0 0 3px #f2ecd8; }
+.flip-switch.is-hinting { animation: flip-hint 4s ease-in-out 1.2s infinite; }
+@keyframes flip-hint {
+  0%, 82%, 100% { transform: none; }
+  86% { transform: perspective(300px) rotateY(-28deg); }
+  90% { transform: perspective(300px) rotateY(22deg); }
+  94% { transform: perspective(300px) rotateY(-10deg); }
+}
+
+.about a { color: var(--link); text-decoration: none; }
+.about a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.about .muted { color: var(--muted); }
+.about .todo { color: var(--muted); background: repeating-linear-gradient(-45deg, transparent 0 6px, rgba(226, 178, 61, 0.14) 6px 12px); border-bottom: 1px dashed var(--gold); }
+.about p { margin: 0; }
+
+.about__page {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 64px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 48px 32px 72px;
+}
+
+/* ---------- left column: who and how to reach ---------- */
+.about__side { position: sticky; top: 117px; align-self: start; }
+.about__avatar {
+  display: block;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 6px var(--bg), 0 0 0 7px var(--rule);
+}
+.about__side h1 { margin: 22px 0 0; font-family: 'Cormorant Garamond', 'Noto Serif SC', serif; font-size: 34px; font-weight: 700; line-height: 1.15; }
+.about__alias { color: var(--muted); font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; }
+.about__role { margin-top: 10px !important; font-weight: 700; }
+.about__aff { color: var(--muted); font-size: 15px; line-height: 1.6; }
+.about__links { margin: 22px 0 0; padding: 18px 0 0; list-style: none; border-top: 1px solid var(--rule); font-size: 15px; }
+.about__links li + li { margin-top: 8px; }
+.about__links a, .about__links .is-empty { display: grid; grid-template-columns: 18px auto minmax(0, 1fr); align-items: center; column-gap: 10px; }
+.about__links svg { color: var(--muted); }
+.about__links a:hover svg { color: var(--link); }
+.about__link-text { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.about .is-empty { color: var(--muted); opacity: 0.7; cursor: default; }
+
+/* ---------- right column: sections ---------- */
+.about__sec + .about__sec { margin-top: 44px; }
+.about__sec h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--rule);
+}
+.about__sec h2 span { color: var(--mark); font-size: 13px; }
+.about__sec p + p { margin-top: 12px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 2px 14px; font-size: 15px; border: 1.5px solid var(--c); border-radius: 999px; color: var(--c); }
+
+.about__sec h3 { margin: 0 0 12px; color: var(--muted); font-size: 15px; font-weight: 700; letter-spacing: 0.06em; }
+.about__facts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; margin-top: 26px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.chips li { padding: 2px 14px; font-size: 15px; border: 1.5px solid var(--c); border-radius: 999px; color: var(--c); }
+
+.rows { margin: 0; padding: 0; list-style: none; }
+.rows > li { display: grid; grid-template-columns: 120px minmax(0, 1fr); column-gap: 20px; }
+.rows > li + li { margin-top: 18px; }
+.about__facts .rows > li { grid-template-columns: minmax(0, 1fr); }
+.when { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 15px; }
+.rows strong { font-weight: 700; line-height: 1.55; }
+.rows .muted { font-size: 15px; }
+.about__sec .rows p + p { margin-top: 2px; }
+.rows + .links { margin-top: 16px !important; }
+.rows .authors { font-size: 15px; }
+.rows .authors strong { color: var(--text); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px; }
+
+/* the issuer of an award, as a small gold tag */
+.org { display: inline-block; margin-left: 6px; padding: 0 7px; color: var(--gold); font-size: 12px; font-weight: 700; line-height: 1.6; vertical-align: 2px; border: 1px solid var(--gold); border-radius: 4px; }
+.points { margin: 6px 0 0; padding-left: 1.2em; font-size: 15px; }
+.points li::marker { color: var(--mark); }
+.post { font-weight: 700; }
+.excerpt { margin-top: 2px !important; color: var(--muted); font-size: 14px; line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+.contact { margin: 14px 0 0; padding: 0; list-style: none; }
+.contact li + li { margin-top: 8px; }
+.contact a, .contact li > span { display: inline-flex; align-items: center; gap: 10px; }
+.contact svg { flex: none; color: var(--mark); }
+
+.links { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 4px !important; font-size: 14px; }
+.links a::before, .links .is-empty::before { content: '['; color: var(--muted); }
+.links a::after, .links .is-empty::after { content: ']'; color: var(--muted); }
+
+.about__foot { margin-top: 56px !important; padding-top: 16px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--rule); }
+
+/* ---------- narrower screens: the sections move to a second row of the top bar ---------- */
+@media (max-width: 1120px) {
+  .about__bar { flex-wrap: wrap; row-gap: 0; height: auto; padding: 0 32px; }
+  .about__brand { display: flex; align-items: center; height: 74px; }
+  .about__menu { flex-basis: 100%; margin: 0 -12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+  .about__menu::-webkit-scrollbar { display: none; }
+  .about__side { top: 155px; }
+}
+
+/* ---------- narrow screens: one column ---------- */
+@media (max-width: 820px) {
+  .about__page { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 36px 20px 56px; }
+  .about__bar { padding: 0 20px; }
+  .about__brand { font-size: 22px; }
+  .about__side { position: static; text-align: center; }
+  .about__avatar { margin: 0 auto; width: 128px; height: 128px; }
+  .about__links { display: inline-block; text-align: left; }
+  .rows > li { grid-template-columns: minmax(0, 1fr); row-gap: 4px; }
+  .about__facts { grid-template-columns: minmax(0, 1fr); }
+}

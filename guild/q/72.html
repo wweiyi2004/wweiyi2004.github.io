@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>图论笔记 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="图 图的定义 图G是一个有序二元组(V,E)，其中V称为点集，E称为边集 无向图、有向图： 无向图：所有边都是无向边 有向图：存在一条边是有向的图 (上文为简单理解) 图的概念 度：一个顶点的度指的是与该顶点相关联的边的边的条数，顶点v的度">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="72" data-line="4" data-minutes="5">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.72</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">图论笔记</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-03-02T00:45:00.000Z">2021.03.02</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">1,796 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 5 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">#动态规划</a></li><li><a href="../index.html?tag=%E5%9B%BE%E8%AE%BA">#图论</a></li><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=%E6%8E%92%E5%BA%8F">#排序</a></li><li><a href="../index.html?tag=%E7%9F%A9%E9%98%B5">#矩阵</a></li><li><a href="../index.html?tag=%E5%89%8D%E7%BC%80%E5%92%8C%2F%E5%B7%AE%E5%88%86">#前缀和/差分</a></li><li><a href="../index.html?tag=STL">#STL</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="图论笔记">图论笔记</h1>
+<h3 id="图">图</h3>
+<p><strong>图的定义</strong></p>
+<p>图G是一个有序二元组(V,E)，其中V称为点集，E称为边集</p>
+<p><strong>无向图、有向图：</strong></p>
+<p>无向图：所有边都是无向边</p>
+<p>有向图：存在一条边是有向的图</p>
+<p>(上文为简单理解)</p>
+<h3 id="图的概念">图的概念</h3>
+<p>**度：**一个顶点的度指的是与该顶点相关联的边的边的条数，顶点v的度称为d(v).</p>
+<p>**入度、出度：**对于有向图来说，一个顶点的度可以细分为入度和出度。一个顶点的入度指的是与其相关联的各边中，以其为终点的边数；出度则是相对的概念，指以该顶点为起点的边数。</p>
+<p>**自环：**如果一条边的两个顶点为同一顶点，那么这个边就称为自环</p>
+<p>**路径：**在一个图上遍历，所遍历的点叫路径</p>
+<p>**环：**如果路径的出发点和路径的结束点一样，那么这个路径就叫做环</p>
+<p>**简单路径：**每个点最多只走一次的路径，在简单路径中，点是不可以重复的</p>
+<p>**简单环：**去掉起点之后，是一个简单路径，这样的环叫做简单环</p>
+<h3 id="特殊的图">特殊的图</h3>
+<p>**没有环的无向图（无环无向连通图）：**树</p>
+<p>n个点的树有n-1条边</p>
+<p>—&gt;无环无向图：森林</p>
+<p>—&gt;无环连通图：外向树、内向树</p>
+<p>**外向树：**树上的的所有边的方向都是向叶子节点指的</p>
+<p>**内向树：**树上的所有边的方向都是向根节点指的</p>
+<p><strong>树的拓展：</strong></p>
+<p>**章鱼图：**中间只有一个环，周边伸展出去都是一棵树的图，又称“基环树”</p>
+<p><strong>怎么把这个图变成一棵树呢？</strong></p>
+<p>将环断掉，删去环上的任意一条边就可以变成一棵树了。</p>
+<p><strong>如何把一棵树变成一个章鱼图呢？</strong></p>
+<p>随便加一条边即可。</p>
+<p>**章鱼图Dp的做法：**两个DP，一个树形DP，一个环形DP，先树形Dp，再环形DP</p>
+<p><strong>如何在章鱼图上找环？</strong></p>
+<p>深度优先搜索，一直，直到走到了它的某一个祖先，这样它和它的祖先之间就形成了一个环</p>
+<p>**仙人掌图：**边仙人掌和点仙人掌</p>
+<p>**边仙人掌：**有很多个环，每个环对应树的一个边</p>
+<p><strong>点仙人掌</strong>：有很多个环，每个环对应树的一个节点</p>
+<p>**DAG:**有向无环图（多半是一个Dp的题目）</p>
+<p>**二分图：**如果一个图有奇环，是二分图，如果没有奇环，那一定是二分图</p>
+<p>如果两个相邻的两个点通过染不同的颜色，只有一种染色方法，那么这就是二分图</p>
+<h3 id="图的储存方法">图的储存方法</h3>
+<p><strong>邻接矩阵：</strong></p>
+<p>好处：非常非常快，判断边的存在只需要O(1)的时间</p>
+<p>坏处：空间过大</p>
+<p><strong>边表：</strong></p>
+<p>用链表来存储所有的边</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">edge</span>
+{
+	<span class="hljs-type">int</span> e,next;<span class="hljs-comment">//next代表下一条边的边号是多少 、e表示终点 </span>
+}ed[maxm];
+
+<span class="hljs-type">int</span> en,first[maxn];<span class="hljs-comment">//en代表边的数量 first从i出发的第一个边的编号 </span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> e)</span>
+</span>{
+	en++;
+	ed[en].next=first[s];
+	first[s]=en;
+	ed[en].e=e;
+}
+
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> p=first[<span class="hljs-number">1</span>];p!=<span class="hljs-number">0</span>;p=ed[p].next)
+ed[p].e; </code></pre></div><h3 id="最短路问题">最短路问题</h3>
+<p>**单源最短路径：**求一点到所有点的最短路</p>
+<p>**多源最短路径：**求多点到所有点的最短路</p>
+<h4 id="floyd">FLOYD</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=n;j++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">1</span>;k&lt;=n;k++)
+		f[j][k]=<span class="hljs-built_in">min</span>(f[j][k],f[j][i]+f[i][k]); 
+	}
+}</code></pre></div><h4 id="dijkstra">Dijkstra</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(dist,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(dist));
+	dist[s]=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(inr i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=n;j++)
+		<span class="hljs-keyword">if</span>(!right[j]&amp;&amp;(p==<span class="hljs-number">-1</span>||dist[p]&gt;dist[j])) p=j;
+		right[p]=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=first[p];j;j=ed[j].next)
+       dist[ed[j].e]=<span class="hljs-built_in">min</span>(dist[ed[j].e],dist[p]+ed[j].d);
+	}
+}</code></pre></div><p>堆优化</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-comment">//dijkstra 的堆优化 </span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">point</span>{
+	<span class="hljs-type">int</span> p,d;
+	<span class="hljs-built_in">point</span>(){p=d=<span class="hljs-number">0</span>;}
+	<span class="hljs-built_in">point</span>(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b){p=a;d=b;}
+};
+<span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span>&lt;(<span class="hljs-type">const</span> point &amp;a,<span class="hljs-type">const</span> point &amp;b)
+{
+	retuern a.d&gt;b.d;
+}
+priority_queue&lt;point&gt; heap;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> s)</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(dist,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(dist));
+	dist[s]=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">point</span>(i,dist[i]));
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-keyword">while</span>(right[heap.<span class="hljs-built_in">top</span>().p])
+		heap.<span class="hljs-built_in">pop</span>();
+		point now=heap.<span class="hljs-built_in">top</span>();
+		heap.<span class="hljs-built_in">pop</span>();
+		<span class="hljs-type">int</span> p=now.p,d=now.d;
+		right[p]=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=first[p];j!=<span class="hljs-number">0</span>;j=ed[j].next)
+		{
+			<span class="hljs-type">int</span> e=ed[j].e;
+			<span class="hljs-type">int</span> d=dist[p]+ed[j].d;
+			<span class="hljs-keyword">if</span>(dist[e]&gt;d)
+			{
+				dist[e]=d;
+				heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">point</span>(e,d));
+			}
+		}
+	}
+}</code></pre></div><h4 id="bellman-ford">Bellman-Ford</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+{
+	cin&gt;&gt;s[i]&gt;&gt;e[i]&gt;&gt;d[i];
+}
+<span class="hljs-built_in">memset</span>(dist,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(dist));
+dist[<span class="hljs-number">1</span>]=<span class="hljs-number">0</span>;
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++)
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=m;j++)
+dist[e[j]]=<span class="hljs-built_in">min</span>(dist[e[j]],dist[s[j]]);</code></pre></div><h4 id="spfa">SPFA</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">spfa</span><span class="hljs-params">(<span class="hljs-type">int</span> s)</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(dist,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(dist));
+	dist[s]=<span class="hljs-number">0</span>;
+	queue&lt;<span class="hljs-type">int</span>&gt; q;
+	q.<span class="hljs-built_in">push</span>(s);
+	<span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())
+	{
+		now=q.top;
+		q.<span class="hljs-built_in">pop</span>();
+		
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next)
+		{
+			<span class="hljs-type">int</span> e=ed[i].e;
+			<span class="hljs-type">int</span> d=dist[now]+ed[i].d;
+			<span class="hljs-keyword">if</span>(dist[e]&gt;d)
+			{
+				dist[e]=d;
+				<span class="hljs-keyword">if</span>(!=inque[e])
+				inque[e]=<span class="hljs-literal">true</span>,q.<span class="hljs-built_in">push</span>(e);  
+			}
+		}
+	}
+}</code></pre></div><h4 id="section"></h4>
+<h3 id="负环的判定">负环的判定</h3>
+<p><strong>1.最短路经过边数不能大于n-1</strong></p>
+<p><strong>2. SPFA 任何一个点入队次数不能超过n次</strong></p>
+<h3 id="差分约束">差分约束</h3>
+<p>给定n个变量和m个不等式</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>x</mi><mi>j</mi></msub><mo>≤</mo><msub><mi>a</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">x_i-x_j \leq a_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9221em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>求<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>n</mi></msub><mo>−</mo><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_n-x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>的最大值</p>
+<p>解法：</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>x</mi><mi>j</mi></msub><mo>≤</mo><mi>a</mi><mo separator="true">,</mo><msub><mi>x</mi><mi>j</mi></msub><mo>−</mo><msub><mi>x</mi><mi>k</mi></msub><mo>≤</mo><mi>b</mi><mo>→</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>x</mi><mi>k</mi></msub><mo>≤</mo><mi>a</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">x_i-x_j \leq a ,x_j-x_k \leq b \rightarrow x_i-x_k \le a+b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9221em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.786em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.786em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span></p>
+<p>记录<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>表示到第i个点的最短路</p>
+<p>则有</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub><mo>≤</mo><msub><mi>y</mi><mi>j</mi></msub><mo>+</mo><mi>a</mi><mo separator="true">,</mo><msub><mi>y</mi><mi>j</mi></msub><mo>≤</mo><msub><mi>y</mi><mi>k</mi></msub><mo>+</mo><mi>b</mi><mo>→</mo><msub><mi>y</mi><mi>i</mi></msub><mo>≤</mo><msub><mi>y</mi><mi>k</mi></msub><mo>+</mo><mi>a</mi><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">y_i \le y_j+a,y_j \le y_k+b \rightarrow y_i \le y_k +a+b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9221em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span></p>
+<p>最大值对应最短路，最小值对应最长路</p>
+<h3 id="树相关">树相关</h3>
+<p>**树的储存方式：**当做一个无向图去存</p>
+<p>树最上面的节点叫根，最下面的节点叫做叶子</p>
+<h3 id="最近公共祖先问题lca">最近公共祖先问题（LCA）：</h3>
+<p>给你两个点，这两个点都有他们的祖先，他们的公共祖先是这两个点祖先的交集，所有公共祖先最靠下的一点叫做最近公共祖先。</p>
+<p><strong>作用</strong></p>
+<p>确定树上一条路径</p>
+<h4 id="lca的求法">LCA的求法</h4>
+<p><strong>暴力</strong></p>
+<p>两个点往上跳，找出各自的祖先，得到它们最深的一个交点就是最近公共祖先</p>
+<p><strong>如果两个点深度相等</strong></p>
+<p>可以倍增跳；</p>
+<p>-----&gt;倍增求LCA</p>
+<h4 id="倍增求lca">倍增求LCA</h4>
+<p>设立状态</p>
+<p>F i j 表示i这个点向上跳<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>j</mi></msup></mrow><annotation encoding="application/x-tex">2^j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span></span></span></span></span></span></span>步能到的点</p>
+<p>可以看做先跳<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2^{j-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>，再跳<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2^{j-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8247em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8247em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>步，这样这个问题就可以解决了</p>
+<p>既</p>
+<p>F i j=F [F i j-1]    j-1</p>
+<p><strong>步骤：</strong></p>
+<p>1.调整深度</p>
+<p>2.一起跳</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-comment">//预处理 </span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now)</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> p=first[now];i;i=ed[i].next)
+	<span class="hljs-keyword">if</span>(ed[i].e!=f[now][<span class="hljs-number">0</span>])
+	{
+		<span class="hljs-type">int</span> p=ed[i].e;
+		depth[p]=depth[now]<span class="hljs-number">+1</span>; 
+		<span class="hljs-type">int</span> f[p][<span class="hljs-number">0</span>]=now;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> x=<span class="hljs-number">1</span>;x&lt;=<span class="hljs-number">18</span>;x++)
+		f[p][x]=f[f[p][x<span class="hljs-number">-1</span>]][x<span class="hljs-number">-1</span>];
+		<span class="hljs-built_in">dfs</span>(p);
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_lca</span><span class="hljs-params">(<span class="hljs-type">int</span> p1,<span class="hljs-type">int</span> p2)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(depth[p1]&lt;depth[p2])
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> x=<span class="hljs-number">18</span>;x&gt;=<span class="hljs-number">0</span>;x--) 
+	{
+		<span class="hljs-type">int</span> p=f[p1][x];
+		<span class="hljs-keyword">if</span>(depth[p]&gt;=depth[p2]) p1=p;
+	}
+	<span class="hljs-keyword">if</span>(p1==p2) <span class="hljs-keyword">return</span> p1;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> x=<span class="hljs-number">18</span>;x&gt;=<span class="hljs-number">0</span>;x--)
+	<span class="hljs-keyword">if</span>(f[p1][x]!=f[p2][x])
+	p1=f[p1][x],p2[p2][x];
+	<span class="hljs-keyword">return</span> f[p1][<span class="hljs-number">0</span>];
+}</code></pre></div><h3 id="树的序列化">树的序列化</h3>
+<h4 id="dfs序">dfs序</h4>
+<p>按照深度优先搜索的顺序遍历的点所组成的序列叫做dfs序</p>
+<p><strong>预处理dfs序</strong></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> f)</span>
+</span>{
+	q[l[now]]=now;<span class="hljs-comment">//q表示dfs序列 </span>
+	<span class="hljs-type">int</span> x=l[now]<span class="hljs-number">+1</span>;
+	size[now]=<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next )
+	<span class="hljs-keyword">if</span>(ed[i].e!=f)
+	{
+		l[e-&gt;e]=x;
+		<span class="hljs-built_in">dfs</span>(ed[i].e);
+		x=r[ed[i].e]<span class="hljs-number">+1</span>;
+		<span class="hljs-built_in">dfs</span>(ed[i].e);
+		size[now]+=size[ed[i].e];
+	}
+	r[now]=l[now]+size[now]<span class="hljs-number">-1</span>;
+}
+
+l[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>,r[<span class="hljs-number">1</span>]=n;</code></pre></div><p>bfs求dfs序</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-type">int</span> front=<span class="hljs-number">1</span>,tail=<span class="hljs-number">1</span>;
+q[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>;
+<span class="hljs-keyword">for</span>( ;front&lt;=tail;)
+{
+	<span class="hljs-type">int</span> now=q[front++];
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next)
+	<span class="hljs-keyword">if</span>(!vis[ed[i].e])
+	{
+		q[++tail]=ed[i].e;
+		vis[ed[i].e]=<span class="hljs-literal">true</span>;
+	}
+}
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=n;i&gt;=<span class="hljs-number">1</span>;i--)
+{
+	<span class="hljs-type">int</span> now=q[i];
+	size[now]=<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next )
+	<span class="hljs-keyword">if</span>(size[ed[i].e])
+	size[now]+=size[ed[i].e];
+}
+l[<span class="hljs-number">1</span>]=<span class="hljs-number">1</span>;r[<span class="hljs-number">1</span>]=n;
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+{
+	<span class="hljs-type">int</span> now=q[i];
+	<span class="hljs-type">int</span> x=l[now]<span class="hljs-number">+1</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next)
+	<span class="hljs-keyword">if</span>(size[ed[i].e]&lt;size[now])
+	{
+		l[ed[i].e]=x;
+		r[ed[i].e]=l[ed[i].e]+size[ed[i].e]
+		x=r[ed[i].e]<span class="hljs-number">+1</span>;
+	}
+}
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+q[l[i]]=i;</code></pre></div><h4 id="括号序列">括号序列</h4>
+<h3 id="生成树">生成树</h3>
+<p>一个图变成一个树</p>
+<h4 id="最小生成树">最小生成树</h4>
+<p>找到一棵生成树，使得这些边的边权总和最小</p>
+<h4 id="prim">Prim</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">prim</span><span class="hljs-params">(<span class="hljs-type">int</span> s)</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(dist,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(dist));
+	dist[s]=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> p=<span class="hljs-number">-1</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=n;j++)
+		<span class="hljs-keyword">if</span>(!right[j]&amp;&amp;(p==<span class="hljs-number">-1</span>||dist[p]&gt;dist[j])) p=j;
+		right[p]=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=first[p];j;j=ed[j].next)
+		dist[ed[j].e]=<span class="hljs-built_in">min</span>(dist[ed[j].e],ed[j].d);
+	}
+}</code></pre></div><p>优化和Dijkstra 非常相似</p>
+<h4 id="kruscal">Kruscal</h4>
+<p>使用并查集来做</p>
+<h4 id="求次小生成树">求次小生成树</h4>
+<p>可以由最小生成树替换一条边得到</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-comment">//并查集求最大链</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_max</span><span class="hljs-params">(<span class="hljs-type">int</span> p1,<span class="hljs-type">int</span> p2)</span>
+</span>{
+	p1=<span class="hljs-built_in">get_f</span>(p1);
+	p2=<span class="hljs-built_in">get_f</span>(p2);
+	<span class="hljs-type">int</span> ans=<span class="hljs-number">-23333</span>;
+	<span class="hljs-keyword">while</span>(p1!=p2)
+	{
+		<span class="hljs-keyword">if</span>(depth[p1]&lt;depth[p2])
+		<span class="hljs-built_in">swap</span>(p1,p2);
+		ans=<span class="hljs-built_in">max</span>(ans,fd[p1]);<span class="hljs-comment">//fd代表到父亲的长度</span>
+		<span class="hljs-built_in">merge</span>(p1,f[p1]);
+		p1=<span class="hljs-built_in">get_f</span>(p1);
+	}
+	<span class="hljs-keyword">return</span> ans; 
+}</code></pre></div><h3 id="连通分量">连通分量</h3>
+<p>如果一个子图，从其中任意一个点出发，可以到达这个图的任意一个点，这个连通分量就叫做强连通分量</p>
+<h3 id="求强连通分量">求强连通分量</h3>
+<h4 id="tarjan求强连通分量">Tarjan求强连通分量</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now)</span>
+</span>{
+	t++;<span class="hljs-comment">//找到了一个新的点 </span>
+	dfn[now]=low[now]=t;<span class="hljs-comment">//dfn代表dfs的顺序，low表示从i点出发，可以向下走或者走回边</span>
+	<span class="hljs-comment">//能走到的所有点中dfn值最小是多少 ,赋值为t是因为它最先走到它自己 </span>
+	s[++size]=now;<span class="hljs-comment">//储存当前点的祖先或在环里面且为确定为连通分量的点 </span>
+	instack[now]=<span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next)
+	{
+		<span class="hljs-type">int</span> e=ed[i].e;
+		<span class="hljs-keyword">if</span>(!dfn[e])
+		{
+			<span class="hljs-built_in">dfs</span>(e);
+			low[now]=<span class="hljs-built_in">min</span>(low[now],low[e]);<span class="hljs-comment">//e能走到的所有点now也可以走到 </span>
+		}
+		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">if</span>(instack[e])
+			low[now]=<span class="hljs-built_in">min</span>(low[now],dfn[e]);
+			<span class="hljs-comment">//还没有从栈里面弹出来，所以他的祖先在栈里面，这是一条回边 </span>
+		}
+	 }
+	 <span class="hljs-keyword">if</span>(dfn[now]==low[now])<span class="hljs-comment">//如果自己dfn值和low值一样，要取出这个点了 </span>
+	 {
+	 	cnt++;
+	 	belong[now]=cnt;<span class="hljs-comment">//now 这个节点属于新的连通分量 </span>
+	 	<span class="hljs-keyword">while</span>(s[size]!=now)<span class="hljs-comment">//在栈now后面的都属于和now的同一个强连通分量 </span>
+	 	{
+	 		belong[s[size]]=now;
+	 		instack[s[size]]=<span class="hljs-literal">false</span>;
+	 		size--;
+		 }
+		 size--;
+		 instack[now]=<span class="hljs-literal">false</span>;
+	 }
+}</code></pre></div><h4 id="作用">作用</h4>
+<p><strong>缩点</strong>，然后变成有向无环图（DAG），然后做dp,点权和边权规定到相应的强连通分量中</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+<span class="hljs-keyword">if</span>(!dfn[i]) <span class="hljs-built_in">dfs</span>(i);
+
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=first[i];j;j=ed[j].next)
+	<span class="hljs-keyword">if</span>(belong[i]!=belong[ed[j].e])
+	<span class="hljs-built_in">add_edge2</span>(belong[i],belong[ed[j].e]);</code></pre></div><h3 id="拓扑排序">拓扑排序</h3>
+<p>**目的：**使转移始终从左向右进行</p>
+<p>**方法：**每次找到一个入度为0的点，然后删去，不断重复这一过程，被删去点的先后顺序即为拓扑排序的顺序</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-type">int</span> size=<span class="hljs-number">0</span>;
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+<span class="hljs-keyword">if</span>(!in[i])
+{
+	size++;
+	q[size]=i;
+}
+
+<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+{
+	<span class="hljs-type">int</span> now=q[i];
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=first[now];j;j=ed[j].next)
+	{
+		<span class="hljs-type">int</span> e=ed[j].e;
+		in[e]--;
+		<span class="hljs-keyword">if</span>(!in[e])
+		{
+			size++;
+			q[size]=e;
+		} 
+	}
+}</code></pre></div><h3 id="2-sat问题判定性问题">2 SAT问题（判定性问题）</h3>
+<h4 id="无向图中的问题">无向图中的问题</h4>
+<p>**桥：**在无向图中，删掉这一条边，使这个无向图不连通，那么这一条边叫做桥</p>
+<p>**割点：**删掉这个点，使这个图不连通，那么这个点叫做割点</p>
+<p>**边双连通分量：**这个子图尽量大，且这个图里面没有桥</p>
+<p>**点双连通分量：**这个子图尽量大，且这个图里面啊没有割点</p>
+<p>如果一个图里面有k个桥，那么这个图里面有k+1个边双连通分量</p>
+<p>边双连通分量，缩点后可以看成一个树</p>
+<h4 id="求边双连通分量">求边双连通分量</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp">dfn[<span class="hljs-number">2333</span>],low[<span class="hljs-number">2333</span>];<span class="hljs-comment">//和tarjan的相同 </span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> from)</span><span class="hljs-comment">//from指的是当前从那一条边走过来的 </span>
+</span>{
+	t++;
+	dfn[now]=low[now]=t;
+	vis[now]=<span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[now];i;i=ed[i].next)<span class="hljs-comment">//一条无向边会被拆为两条有向边形成死循环 </span>
+	<span class="hljs-keyword">if</span>((i^<span class="hljs-number">1</span>)!=from)
+	{
+		<span class="hljs-type">int</span> e=ed[i].e;
+		<span class="hljs-keyword">if</span>(!dfb[e])
+		{
+			<span class="hljs-built_in">dfs</span>(e,i);
+			low[now]=<span class="hljs-built_in">min</span>(low[now],low[e]);
+		}
+		<span class="hljs-keyword">else</span>
+		{
+			<span class="hljs-keyword">if</span>(vis[e])
+			low[now]=<span class="hljs-built_in">min</span>(low[now],dfn[e]);
+		}
+	}
+	vis[e]=<span class="hljs-literal">false</span>;
+}</code></pre></div><h3 id="二分图问题">二分图问题</h3>
+<p>回顾二分图：左边有n个点，右边有m个点，左边内部没有边，右边内部也没有</p>
+<p>**匹配：**如果说左边的i和右边的j连接了一条边，那么这两个点可以匹配，每个点最多只能和一个点匹配</p>
+<h4 id="匈牙利算法求最大二分图匹配">匈牙利算法求最大二分图匹配</h4>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-type">int</span> n,m;<span class="hljs-comment">//左边有n个人，右边有m个人 </span>
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span><span class="hljs-comment">//让左边第i个人尝试匹配，看是否成功 </span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=m;j++)
+	<span class="hljs-keyword">if</span>(match[i][j]&amp;&amp;!use[j])
+	{
+		use[j]=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">if</span>(!result[j]||<span class="hljs-built_in">dfs</span>(result[j]))<span class="hljs-comment">//result[i]表示右边的i和左边的某个数匹配 </span>
+		{
+			result[j]=i;
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+		}
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">xiongyali</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-built_in">memset</span>(use,<span class="hljs-literal">false</span>,<span class="hljs-built_in">sizeof</span>(use));
+		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(i)) ans++;<span class="hljs-comment">//匹配成功就把答案加一 </span>
+	}
+	<span class="hljs-keyword">return</span> ans;
+} </code></pre></div><h3 id="最大独立集">最大独立集</h3>
+<p>选择尽量多的点，使这几个点之间都没有边相连，这就是最大独立集</p>
+<h3 id="最大团">最大团</h3>
+<p>从一个图中选择尽量多的点，每个点之间都必须连边，这就是最大团</p>
+<h3 id="最大团与最大独立集的关系">最大团与最大独立集的关系</h3>
+<p>最大团等于补图的最大独立集</p>
+<h4 id="它们都是npc的问题">它们都是NPC的问题</h4>
+<p>在二分图上我们可以求最大独立集</p>
+<p>最大独立集<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>二分图</p>
+<p>最大团<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>二分图的补图</p>
+<p><strong>最大独立集和最大匹配之和等于点数</strong></p>
+<p><strong>类似于最大流等于最小割</strong></p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="71.html"><small>← 上一张委托</small><span>No.71 希望人没事</span></a>
+          <a class="next" href="73.html"><small>下一张委托 →</small><span>No.73 【解题报告】洛谷P1896 [SOCI2005]互不侵犯</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#图论笔记">图论笔记</a></li><li class="l4"><a href="#图">图</a></li><li class="l4"><a href="#图的概念">图的概念</a></li><li class="l4"><a href="#特殊的图">特殊的图</a></li><li class="l4"><a href="#图的储存方法">图的储存方法</a></li><li class="l4"><a href="#最短路问题">最短路问题</a></li><li class="l5"><a href="#floyd">FLOYD</a></li><li class="l5"><a href="#dijkstra">Dijkstra</a></li><li class="l5"><a href="#bellman-ford">Bellman-Ford</a></li><li class="l5"><a href="#spfa">SPFA</a></li><li class="l5"><a href="#section"></a></li><li class="l4"><a href="#负环的判定">负环的判定</a></li><li class="l4"><a href="#差分约束">差分约束</a></li><li class="l4"><a href="#树相关">树相关</a></li><li class="l4"><a href="#最近公共祖先问题lca">最近公共祖先问题（LCA）：</a></li><li class="l5"><a href="#lca的求法">LCA的求法</a></li><li class="l5"><a href="#倍增求lca">倍增求LCA</a></li><li class="l4"><a href="#树的序列化">树的序列化</a></li><li class="l5"><a href="#dfs序">dfs序</a></li><li class="l5"><a href="#括号序列">括号序列</a></li><li class="l4"><a href="#生成树">生成树</a></li><li class="l5"><a href="#最小生成树">最小生成树</a></li><li class="l5"><a href="#prim">Prim</a></li><li class="l5"><a href="#kruscal">Kruscal</a></li><li class="l5"><a href="#求次小生成树">求次小生成树</a></li><li class="l4"><a href="#连通分量">连通分量</a></li><li class="l4"><a href="#求强连通分量">求强连通分量</a></li><li class="l5"><a href="#tarjan求强连通分量">Tarjan求强连通分量</a></li><li class="l5"><a href="#作用">作用</a></li><li class="l4"><a href="#拓扑排序">拓扑排序</a></li><li class="l4"><a href="#2-sat问题判定性问题">2 SAT问题（判定性问题）</a></li><li class="l5"><a href="#无向图中的问题">无向图中的问题</a></li><li class="l5"><a href="#求边双连通分量">求边双连通分量</a></li><li class="l4"><a href="#二分图问题">二分图问题</a></li><li class="l5"><a href="#匈牙利算法求最大二分图匹配">匈牙利算法求最大二分图匹配</a></li><li class="l4"><a href="#最大独立集">最大独立集</a></li><li class="l4"><a href="#最大团">最大团</a></li><li class="l4"><a href="#最大团与最大独立集的关系">最大团与最大独立集的关系</a></li><li class="l5"><a href="#它们都是npc的问题">它们都是NPC的问题</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/03/02/%E5%9B%BE%E8%AE%BA%E7%AC%94%E8%AE%B0/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

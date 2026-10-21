@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 CH0501 货仓选址 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目：货仓选址 解题思路： 中位数 中位数是一种美好的数，在数学中经常使用，这道题建立一个数组，读入数据，然后排序一下，假设货仓建在x处，x左边有p个商家，x右边有q个商家，如果p q，就把货仓向左移一个位置，所以建在中间的时候距离之和最小">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="18" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.18</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 CH0501 货仓选址</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-08-06T16:06:20.000Z">2019.08.07</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">116 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%8E%92%E5%BA%8F">#排序</a></li><li><a href="../index.html?tag=AcWing">#AcWing</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告-ch0501-货仓选址">【解题报告】 CH0501 货仓选址</h1>
+<h2 id="题目货仓选址">题目：<a href="https://www.acwing.com/problem/content/106/" target="_blank" rel="noopener">货仓选址</a></h2>
+<h3 id="解题思路">解题思路：</h3>
+<p>中位数</p>
+<p>中位数是一种美好的数，在数学中经常使用，这道题建立一个数组，读入数据，然后排序一下，假设货仓建在x处，x左边有p个商家，x右边有q个商家，如果p&lt;q,那么把货仓向右移一个位置，距离之和就变小，类似地，p&gt;q，就把货仓向左移一个位置，所以建在中间的时候距离之和最小</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cmath&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100005</span>;
+<span class="hljs-type">int</span> a[maxn],n,ans,pos;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    cin&gt;&gt;n;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+    cin&gt;&gt;a[i];
+    <span class="hljs-built_in">sort</span>(a<span class="hljs-number">+1</span>,a<span class="hljs-number">+1</span>+n);
+    <span class="hljs-type">int</span> pos=a[n/<span class="hljs-number">2</span><span class="hljs-number">+1</span>];
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+    ans+=<span class="hljs-built_in">abs</span>(a[i]-pos);
+    cout&lt;&lt;ans&lt;&lt;endl;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="17.html"><small>← 上一张委托</small><span>No.17 【解题报告】 CF67C Cinema</span></a>
+          <a class="next" href="19.html"><small>下一张委托 →</small><span>No.19 【解题报告】POJ2299 超快速排序</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告-ch0501-货仓选址">【解题报告】 CH0501 货仓选址</a></li><li class="l3"><a href="#题目货仓选址">题目：货仓选址</a></li><li class="l4"><a href="#解题思路">解题思路：</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/08/07/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-CH0501-%E8%B4%A7%E4%BB%93%E9%80%89%E5%9D%80/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

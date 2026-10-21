@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>Expert Chat —— 一个自带钥匙的跨平台 LLM 客户端 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="前言 DeepSeek 官网那套体验我很喜欢——深度思考能看推理过程、能联网、能传文件，界面也干净。但网页端总归是网页端：要登录、有限制、数据在别人服务器上。我想要的是一个纯本地、自带 API Key、跑在我自己设备上的客户端，把官网的核心">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="174" data-line="1" data-minutes="3">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.174</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE">我的项目</a></span></p>
+        <h1 class="writ__title">Expert Chat —— 一个自带钥匙的跨平台 LLM 客户端</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2026-06-03T13:30:00.000Z">2026.06.03</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">907 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 3 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=Expert%20Chat">#Expert Chat</a></li><li><a href="../index.html?tag=AI">#AI</a></li><li><a href="../index.html?tag=Flutter">#Flutter</a></li><li><a href="../index.html?tag=Dart">#Dart</a></li><li><a href="../index.html?tag=%E5%BC%80%E6%BA%90">#开源</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="expert-chat--一个自带钥匙的跨平台-llm-客户端">Expert Chat —— 一个自带钥匙的跨平台 LLM 客户端</h1>
+<h2 id="前言">前言</h2>
+<p>DeepSeek 官网那套体验我很喜欢——深度思考能看推理过程、能联网、能传文件，界面也干净。但网页端总归是网页端：要登录、有限制、数据在别人服务器上。我想要的是一个<strong>纯本地、自带 API Key、跑在我自己设备上</strong>的客户端，把官网的核心体验搬下来，同时所有数据只留在本机。</p>
+<p>于是有了 <strong>Expert Chat</strong>：一个用 Flutter 写的跨平台 LLM 客户端，支持任意 OpenAI 兼容的服务（DeepSeek、OpenAI、Kimi、智谱……填进去就能用）。<strong>没有后端、没有账号、不做云同步</strong>——你的 Key 和聊天记录都只待在你自己的设备里。</p>
+<!-- more -->
+<h2 id="功能特性">功能特性</h2>
+<ul>
+<li><strong>多模型对话</strong>：可以配多个 LLM 供应商，随时切换。</li>
+<li><strong>流式输出</strong>：AI 的回复实时一段段吐出来，不用干等。</li>
+<li><strong>思考过程展示</strong>：接 reasoner 类模型时，可以展开看模型的完整推理链（thinking）。</li>
+<li><strong>文件解析</strong>：支持上传 PDF、DOCX、Excel、TXT 等文件，解析成文本作为上下文喂给模型。</li>
+<li><strong>联网搜索</strong>：集成搜索 API，模型可以自主决定检索、注入结果、并带上引用来源。</li>
+<li><strong>对话管理</strong>：新建、删除、导出对话历史。</li>
+<li><strong>Markdown 渲染</strong>：代码高亮、表格、链接等完整支持。</li>
+<li><strong>安全存储</strong>：API Key 走 <code>flutter_secure_storage</code> 加密存储，进系统钥匙串（Windows DPAPI / macOS Keychain / Android Keystore）。</li>
+<li><strong>跨平台</strong>：Windows、macOS、Linux、iOS、Android、Web 一套代码全覆盖。</li>
+<li><strong>主题</strong>：浅色 / 深色 / 跟随系统。</li>
+</ul>
+<h2 id="为什么用-flutter">为什么用 Flutter</h2>
+<p>一开始我也纠结过技术选型。Electron、Tauri 桌面端是强，但移动端缺位；React Native 加 Tauri 又得维护两套技术栈。算来算去，<strong>Flutter 是唯一能真正六端通吃的方案</strong>——一套 Dart 代码同时编译到桌面和移动，桌面性能还比 Electron 好。加上我本来就有 Flutter 环境，就定了它。</p>
+<p>技术栈大致是这样：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>框架 / 语言</td>
+<td>Flutter 3 / Dart 3</td>
+</tr>
+<tr>
+<td>状态管理</td>
+<td>Riverpod 3.x</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>Drift（SQLite）</td>
+</tr>
+<tr>
+<td>网络 / SSE</td>
+<td>Dio（<code>ResponseType.stream</code> 逐 chunk 解析）</td>
+</tr>
+<tr>
+<td>安全存储</td>
+<td>flutter_secure_storage</td>
+</tr>
+<tr>
+<td>文件解析</td>
+<td>syncfusion_flutter_pdf / docx_to_text / excel</td>
+</tr>
+<tr>
+<td>UI 字体</td>
+<td>Noto Sans SC</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="架构">架构</h2>
+<p>项目是纯客户端分层结构，<code>lib/</code> 下大致这么组织：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">lib/
+├── core/          # 全局配置（主题、Provider）
+├── data/          # 数据层（Drift 数据库、Repository）
+│   └── db/        # 数据库定义
+├── domain/        # 业务逻辑
+│   ├── export/    # 对话导出
+│   ├── llm/       # LLM 调用封装（OpenAI 兼容抽象）
+│   └── tools/     # 文件解析、搜索等工具
+├── features/      # UI 页面
+│   ├── chat/      # 聊天界面
+│   └── settings/  # 设置界面
+└── state/         # 状态管理（Controller）</code></pre></div><p>多个供应商背后是一层统一的 <code>llm_provider</code> 抽象，DeepSeek / OpenAI / Kimi / 智谱这些只要是 OpenAI 兼容的，都通过同一套接口接进来。联网搜索和文件解析这两块，因为官网那套服务端能力不对外开放，所以是自己实现的——搜索源可以自选，文件在本地解析成文本再注入。</p>
+<h2 id="跑起来">跑起来</h2>
+<p>环境要求：Flutter SDK ≥ 3.12，Dart SDK ≥ 3.12。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 克隆仓库</span>
+git <span class="hljs-built_in">clone</span> https://github.com/wweiyi2004/expert_chat.git
+<span class="hljs-built_in">cd</span> expert_chat
+
+<span class="hljs-comment"># 安装依赖</span>
+flutter pub get
+
+<span class="hljs-comment"># 生成 Drift 数据库代码</span>
+dart run build_runner build
+
+<span class="hljs-comment"># 运行应用</span>
+flutter run</code></pre></div><p>跑起来之后进 <strong>设置</strong> 页面，填上 LLM API 的 Base URL、API Key 和模型名；想用联网搜索的话，再配一个搜索 API Key 即可。</p>
+<h2 id="一些踩坑记录">一些踩坑记录</h2>
+<p>Riverpod 从 2.x 升到 3.x 有几个地方不一样，我在这上面卡过：</p>
+<ul>
+<li>取值要用 <code>AsyncValue.value</code>，<strong>不是</strong> <code>valueOrNull</code>。</li>
+<li><code>AsyncNotifier</code> 自带 <code>update</code> 方法，自定义方法别和它重名（我后来统一用 <code>apply</code>）。</li>
+</ul>
+<p>另外历史存储我是先用 JSON 文件跑通、再切到 Drift/SQLite 的——接口提前抽象好，避免一上来就被 codegen 卡住首次运行。这种&quot;先能跑、再升级&quot;的节奏，对个人项目挺友好。</p>
+<h2 id="开源地址">开源地址</h2>
+<p>项目已经开源，欢迎 Star / Issue / PR：</p>
+<p>👉 <strong><a href="https://github.com/wweiyi2004/expert_chat" target="_blank" rel="noopener">https://github.com/wweiyi2004/expert_chat</a></strong></p>
+<p>如果你也想要一个数据只留在自己设备上的 AI 客户端，欢迎试用、提建议。</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="173.html"><small>← 上一张委托</small><span>No.173 API Nexus —— 一个本地 AI 模型网关</span></a>
+          <a class="next" href="175.html"><small>下一张委托 →</small><span>No.175 【时评】别把偏见伪装成正义</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#expert-chat--一个自带钥匙的跨平台-llm-客户端">Expert Chat —— 一个自带钥匙的跨平台 LLM 客户端</a></li><li class="l3"><a href="#前言">前言</a></li><li class="l3"><a href="#功能特性">功能特性</a></li><li class="l3"><a href="#为什么用-flutter">为什么用 Flutter</a></li><li class="l3"><a href="#架构">架构</a></li><li class="l3"><a href="#跑起来">跑起来</a></li><li class="l3"><a href="#一些踩坑记录">一些踩坑记录</a></li><li class="l3"><a href="#开源地址">开源地址</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2026/06/03/Expert-Chat-%E8%B7%A8%E5%B9%B3%E5%8F%B0LLM%E5%AE%A2%E6%88%B7%E7%AB%AF/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

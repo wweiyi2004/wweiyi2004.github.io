@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 占卜DIY · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目：占卜DIY 解题思路： 简简单单的模拟加上dfs（简单的dfs） 但是这个游戏还是挺有意思的，可以看一下 一副去掉大小王的扑克共52张，打乱后均分为13堆，编号113，每堆4张，其中第13堆称作“生命牌”，也就是说你有4条命。 这里边">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="32" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.32</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 占卜DIY</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-08-17T16:19:06.000Z">2019.08.18</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">445 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=%E6%A8%A1%E6%8B%9F">#模拟</a></li><li><a href="../index.html?tag=AcWing">#AcWing</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告-占卜diy">【解题报告】 占卜DIY</h1>
+<h2 id="题目占卜diy">题目：<a href="https://www.acwing.com/problem/content/119/" target="_blank" rel="noopener">占卜DIY</a></h2>
+<h3 id="解题思路">解题思路：</h3>
+<p>简简单单的模拟加上dfs（简单的dfs）</p>
+<p>但是这个游戏还是挺有意思的，可以看一下</p>
+<blockquote>
+<p>一副去掉大小王的扑克共52张，打乱后均分为13堆，编号1~13，每堆4张，其中第13堆称作“生命牌”，也就是说你有4条命。</p>
+<p>这里边，4张K被称作死神。</p>
+<p>初始状态下，所有的牌背面朝上扣下。</p>
+<p>流程如下：</p>
+<p>1.抽取生命牌中的最上面一张(第一张)。</p>
+<p>2.把这张牌翻开，正面朝上，放到牌上的数字所对应编号的堆的最上边。(例如抽到2，正面朝上放到第2堆牌最上面，又比如抽到J，放到第11堆牌最上边，注意是正面朝上放)</p>
+<p>3.从刚放了牌的那一堆最底下(最后一张)抽取一张牌，重复第2步。（例如你上次抽了2，放到了第二堆顶部，现在抽第二堆最后一张发现是8，又放到第8堆顶部…）</p>
+<p>4.在抽牌过程中如果抽到K，则称死了一条命，就扔掉K再从第1步开始。</p>
+<p>5.当发现四条命都死了以后，统计现在每堆牌上边正面朝上的牌的数目，只要同一数字的牌出现4张正面朝上的牌(比如4个A)，则称“开了一对”，当然4个K是不算的。</p>
+<p>6.统计一共开了多少对，开了0对称作”极凶”，1~2对为“大凶”，3对为“凶”，4~5对为“小凶”，6对为“中庸”，7~8对“小吉”，9对为“吉”，10~11为“大吉”，12为“满堂开花，极吉”。</p>
+</blockquote>
+<p>这个游戏还是比较高级的</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> po[<span class="hljs-number">60</span>][<span class="hljs-number">60</span>];
+<span class="hljs-type">int</span> d[<span class="hljs-number">60</span>][<span class="hljs-number">60</span>];
+<span class="hljs-type">int</span> s[<span class="hljs-number">60</span>];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">13</span>;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">4</span>;j++)
+		{
+			<span class="hljs-type">char</span> p=<span class="hljs-built_in">getchar</span>();
+			<span class="hljs-keyword">if</span>(p&gt;=<span class="hljs-string">&#x27;2&#x27;</span>&amp;&amp;p&lt;=<span class="hljs-string">&#x27;9&#x27;</span>)
+			po[i][j]=p-<span class="hljs-string">&#x27;0&#x27;</span>;
+			<span class="hljs-keyword">if</span>(p==<span class="hljs-string">&#x27;0&#x27;</span>)
+			po[i][j]=<span class="hljs-number">10</span>;
+			<span class="hljs-keyword">if</span>(p==<span class="hljs-string">&#x27;J&#x27;</span>)
+			po[i][j]=<span class="hljs-number">11</span>;
+			<span class="hljs-keyword">if</span>(p==<span class="hljs-string">&#x27;Q&#x27;</span>)
+			po[i][j]=<span class="hljs-number">12</span>;
+			<span class="hljs-keyword">if</span>(p==<span class="hljs-string">&#x27;K&#x27;</span>)
+			po[i][j]=<span class="hljs-number">13</span>;
+			<span class="hljs-keyword">if</span>(p==<span class="hljs-string">&#x27;A&#x27;</span>)
+			po[i][j]=<span class="hljs-number">1</span>;
+			<span class="hljs-built_in">getchar</span>();
+		}
+		d[i][<span class="hljs-number">5</span>]=<span class="hljs-number">5</span>;
+	}
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(x==<span class="hljs-number">13</span>)
+	<span class="hljs-keyword">return</span> ;
+	d[x][++d[x][<span class="hljs-number">0</span>]]=x;
+	<span class="hljs-type">int</span> cx=po[x][--d[x][<span class="hljs-number">5</span>]];
+	<span class="hljs-built_in">dfs</span>(cx);
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">sum</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">13</span>;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">4</span>;j++)
+		{
+			<span class="hljs-keyword">if</span>(d[i][j])
+			s[d[i][j]]++;
+		}
+	}
+	<span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">13</span>;i++)
+	{
+		<span class="hljs-keyword">if</span>(s[i]==<span class="hljs-number">4</span>)
+		ans++;
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-built_in">init</span>();
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">4</span>;i++)
+	<span class="hljs-built_in">dfs</span>(po[<span class="hljs-number">13</span>][i]);
+	<span class="hljs-built_in">sum</span>();
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="31.html"><small>← 上一张委托</small><span>No.31 【解题报告】 士兵</span></a>
+          <a class="next" href="33.html"><small>下一张委托 →</small><span>No.33 【解题报告】 耍杂技的牛</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告-占卜diy">【解题报告】 占卜DIY</a></li><li class="l3"><a href="#题目占卜diy">题目：占卜DIY</a></li><li class="l4"><a href="#解题思路">解题思路：</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/08/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%8D%A0%E5%8D%9CDIY/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

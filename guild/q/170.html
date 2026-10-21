@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>Claude Code 内置命令参考指南 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="前言 Claude Code 提供了丰富的内置命令（slash commands），涵盖项目管理、代码审查、MCP 集成、子代理等多个方面。本文详细介绍所有内置命令的用法，特别关注 Agent 与 MCP 相关功能。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="170" data-line="1" data-minutes="5">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.170</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B">工具教程</a></span></p>
+        <h1 class="writ__title">Claude Code 内置命令参考指南</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2026-04-05T12:00:00.000Z">2026.04.05</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">1,880 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 5 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=Claude%20Code">#Claude Code</a></li><li><a href="../index.html?tag=AI">#AI</a></li><li><a href="../index.html?tag=CLI">#CLI</a></li><li><a href="../index.html?tag=Agent">#Agent</a></li><li><a href="../index.html?tag=MCP">#MCP</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="claude-code-内置命令参考指南">Claude Code 内置命令参考指南</h1>
+<h2 id="前言">前言</h2>
+<p>Claude Code 提供了丰富的内置命令（slash commands），涵盖项目管理、代码审查、MCP 集成、子代理等多个方面。本文详细介绍所有内置命令的用法，特别关注 Agent 与 MCP 相关功能。</p>
+<!-- more -->
+<h2 id="命令概览">命令概览</h2>
+<p>在 Claude Code 中输入 <code>/</code> 即可看到所有可用命令。下面按功能分类说明。</p>
+<h2 id="agent-与子代理">Agent 与子代理</h2>
+<h3 id="agents--管理子代理配置"><code>/agents</code> — 管理子代理配置</h3>
+<p>查看和配置子代理（subagent）。子代理是运行在独立上下文中的专业 AI 助手，拥有独立的工具访问权限和系统提示词。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 查看所有配置的子代理</span>
+/agents</code></pre></div><p>配置示例（<code>.claude/agents/</code> 目录下）：</p>
+<div class="code"><div class="code__bar"><span>json</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;When Claude should delegate to this subagent&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;prompt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Instructions for the subagent&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;model&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;haiku&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;tools&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Read&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Glob&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;Grep&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;mcpServers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;github&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;permissionMode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;plan&quot;</span>
+<span class="hljs-punctuation">}</span></code></pre></div><p><strong>子代理主要用途：</strong></p>
+<ul>
+<li><strong>保持上下文分离</strong> — 保持探索和实现各自独立</li>
+<li><strong>限制工具访问</strong> — 控制子代理能使用哪些工具</li>
+<li><strong>复用配置</strong> — 通过用户级子代理实现</li>
+<li><strong>专门化行为</strong> — 通过专注的系统提示词</li>
+<li><strong>控制成本</strong> — 路由到更快/更便宜的模型（如 Haiku）</li>
+</ul>
+<h3 id="cli-命令claude-agents">CLI 命令：<code>claude agents</code></h3>
+<p>通过终端查看子代理：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">claude agents</code></pre></div><h3 id="agent-相关配置字段">Agent 相关配置字段</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td>何时应委托给此子代理</td>
+</tr>
+<tr>
+<td><code>prompt</code></td>
+<td>子代理的指令</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>使用的模型（default/sonnet/opus/haiku）</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>子代理可访问的工具</td>
+</tr>
+<tr>
+<td><code>allowedAgents</code></td>
+<td>限制哪些主代理可以启动此子代理</td>
+</tr>
+<tr>
+<td><code>mcpServers</code></td>
+<td>作用域到此子代理的 MCP 服务器</td>
+</tr>
+<tr>
+<td><code>permissionMode</code></td>
+<td>权限模式（default/acceptEdits/plan）</td>
+</tr>
+<tr>
+<td><code>skills</code></td>
+<td>预加载到子代理的技能</td>
+</tr>
+<tr>
+<td><code>memoryEnabled</code></td>
+<td>启用持久化内存</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="mcpmodel-context-protocol">MCP（Model Context Protocol）</h2>
+<h3 id="mcp--管理-mcp-服务器"><code>/mcp</code> — 管理 MCP 服务器</h3>
+<p>连接和管理 MCP 服务器。MCP 是一种让 AI 与外部工具和服务交互的协议。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 启动 MCP 配置</span>
+/mcp</code></pre></div><h3 id="mcp-服务器类型">MCP 服务器类型</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Remote HTTP Server</strong></td>
+<td>连接基于 HTTP 的 MCP 服务器</td>
+</tr>
+<tr>
+<td><strong>Remote SSE Server</strong></td>
+<td>连接 Server-Sent Events MCP 服务器</td>
+</tr>
+<tr>
+<td><strong>Local stdio Server</strong></td>
+<td>通过 stdio 运行本地 MCP 服务器</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="mcp-安装作用域">MCP 安装作用域</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>作用域</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Local</strong></td>
+<td>仅当前项目可用</td>
+</tr>
+<tr>
+<td><strong>Project</strong></td>
+<td>项目级别（<code>.mcp.json</code>）</td>
+</tr>
+<tr>
+<td><strong>User</strong></td>
+<td>全局用户级别</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="mcp-核心特性">MCP 核心特性</h3>
+<ul>
+<li><strong>动态工具更新</strong> — 工具出现/消失无需重启</li>
+<li><strong>推送消息与频道</strong> — 实时通知</li>
+<li><strong>插件提供的 MCP 服务器</strong> — 通过插件扩展</li>
+<li><strong>MCP 资源</strong> — 引用文件内容和数据</li>
+<li><strong>MCP 提示词作为命令</strong> — 格式：<code>/mcp__&lt;server&gt;__&lt;prompt&gt;</code></li>
+<li><strong>工具搜索</strong> — 通过 MCP 工具搜索扩展</li>
+</ul>
+<h3 id="cli-命令claude-mcp">CLI 命令：<code>claude mcp</code></h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 配置 MCP 服务器</span>
+claude mcp</code></pre></div><h2 id="计划与执行">计划与执行</h2>
+<h3 id="plan--进入计划模式"><code>/plan</code> — 进入计划模式</h3>
+<p>直接进入计划模式，用于安全地分析代码而不进行编辑。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/plan                          <span class="hljs-comment"># 进入计划模式</span>
+/plan fix the auth bug         <span class="hljs-comment"># 带描述进入计划模式</span></code></pre></div><p><strong>使用场景：</strong></p>
+<ul>
+<li>分析复杂代码结构</li>
+<li>设计实现方案</li>
+<li>在不修改代码的情况下思考问题</li>
+</ul>
+<h3 id="compact--压缩对话"><code>/compact</code> — 压缩对话</h3>
+<p>压缩对话历史，并可传入聚焦指令。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/compact                       <span class="hljs-comment"># 压缩对话</span>
+/compact focus on auth         <span class="hljs-comment"># 压缩并聚焦于认证相关</span></code></pre></div><h3 id="rewind--回溯对话代码"><code>/rewind</code> — 回溯对话/代码</h3>
+<p>回溯到之前的某个状态（别名：<code>/checkpoint</code>）。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/rewind                        <span class="hljs-comment"># 查看可用回溯点</span>
+/rewind 5                      <span class="hljs-comment"># 回溯 5 条消息</span></code></pre></div><h2 id="权限与安全">权限与安全</h2>
+<h3 id="permissions--管理工具权限"><code>/permissions</code> — 管理工具权限</h3>
+<p>配置工具权限规则（别名：<code>/allowed-tools</code>）。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/permissions                   <span class="hljs-comment"># 查看当前权限配置</span>
+/permissions allow Read        <span class="hljs-comment"># 允许 Read 工具</span>
+/permissions deny Bash         <span class="hljs-comment"># 拒绝 Bash 工具</span></code></pre></div><p>权限模式：</p>
+<ul>
+<li><strong>allow</strong> — 自动允许</li>
+<li><strong>ask</strong> — 每次询问（默认）</li>
+<li><strong>deny</strong> — 自动拒绝</li>
+</ul>
+<h3 id="security-review--安全审查"><code>/security-review</code> — 安全审查</h3>
+<p>分析当前分支的待提交更改，检查安全漏洞（注入、认证问题、数据泄露）。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/security-review</code></pre></div><h3 id="sandbox--切换沙盒模式"><code>/sandbox</code> — 切换沙盒模式</h3>
+<p>切换沙盒模式，限制文件系统和网络访问。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/sandbox</code></pre></div><h2 id="项目管理">项目管理</h2>
+<h3 id="init--初始化项目"><code>/init</code> — 初始化项目</h3>
+<p>在当前目录初始化带有 <code>CLAUDE.md</code> 引导的项目。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/init</code></pre></div><h3 id="diff--查看变更"><code>/diff</code> — 查看变更</h3>
+<p>打开交互式差异查看器，查看未提交的更改。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/diff</code></pre></div><h3 id="branch--创建分支别名fork"><code>/branch</code> — 创建分支（别名：<code>/fork</code>）</h3>
+<p>创建当前对话的分支/分支。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/branch new-feature            <span class="hljs-comment"># 创建新分支</span></code></pre></div><h3 id="resume--恢复会话别名continue"><code>/resume</code> — 恢复会话（别名：<code>/continue</code>）</h3>
+<p>按 ID 或名称恢复之前的对话。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/resume my-session             <span class="hljs-comment"># 按名称恢复</span>
+/resume abc123                 <span class="hljs-comment"># 按 ID 恢复</span></code></pre></div><h2 id="开发者工具">开发者工具</h2>
+<h3 id="hooks--查看钩子配置"><code>/hooks</code> — 查看钩子配置</h3>
+<p>查看已配置的钩子事件。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/hooks</code></pre></div><h3 id="terminal-setup--配置终端"><code>/terminal-setup</code> — 配置终端</h3>
+<p>为 VS Code、Alacritty、Warp 等配置终端快捷键。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/terminal-setup</code></pre></div><h3 id="keybindings--打开创建快捷键配置"><code>/keybindings</code> — 打开/创建快捷键配置</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/keybindings</code></pre></div><h3 id="ide--管理-ide-集成"><code>/ide</code> — 管理 IDE 集成</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/ide</code></pre></div><h2 id="系统与配置">系统与配置</h2>
+<h3 id="config--打开设置界面别名settings"><code>/config</code> — 打开设置界面（别名：<code>/settings</code>）</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/config</code></pre></div><h3 id="status--查看状态"><code>/status</code> — 查看状态</h3>
+<p>查看版本、模型、账户信息。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/status</code></pre></div><h3 id="model--选择模型"><code>/model</code> — 选择模型</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/model sonnet                  <span class="hljs-comment"># 切换到 Sonnet</span>
+/model opus                    <span class="hljs-comment"># 切换到 Opus</span>
+/model haiku                   <span class="hljs-comment"># 切换到 Haiku</span></code></pre></div><h3 id="effort--设置模型努力级别"><code>/effort</code> — 设置模型努力级别</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/effort low                    <span class="hljs-comment"># 低努力，快速响应</span>
+/effort medium                 <span class="hljs-comment"># 中等</span>
+/effort high                   <span class="hljs-comment"># 高努力，深入分析</span>
+/effort max                    <span class="hljs-comment"># 最大努力</span>
+/effort auto                   <span class="hljs-comment"># 自动（默认）</span></code></pre></div><h3 id="fast--切换快速模式"><code>/fast</code> — 切换快速模式</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/fast on                       <span class="hljs-comment"># 开启快速模式</span>
+/fast off                      <span class="hljs-comment"># 关闭快速模式</span></code></pre></div><h3 id="doctor--诊断安装"><code>/doctor</code> — 诊断安装</h3>
+<p>诊断和验证 Claude Code 安装状态。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/doctor</code></pre></div><h2 id="对话管理">对话管理</h2>
+<h3 id="clear--清除对话别名reset-new"><code>/clear</code> — 清除对话（别名：<code>/reset</code>, <code>/new</code>）</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/clear                         <span class="hljs-comment"># 清除当前对话</span></code></pre></div><h3 id="export--导出对话"><code>/export</code> — 导出对话</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/export                        <span class="hljs-comment"># 导出为纯文本</span>
+/export my-conversation        <span class="hljs-comment"># 导出为指定文件名</span></code></pre></div><h3 id="copy--复制响应"><code>/copy</code> — 复制响应</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/copy                          <span class="hljs-comment"># 复制最后一条响应</span>
+/copy 3                        <span class="hljs-comment"># 复制倒数第 3 条响应</span></code></pre></div><h3 id="btw--快速提问"><code>/btw</code> — 快速提问</h3>
+<p>在不添加到对话历史的情况下快速提问。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/btw what does this <span class="hljs-keyword">function</span> <span class="hljs-keyword">do</span>?</code></pre></div><h3 id="color--设置提示条颜色"><code>/color</code> — 设置提示条颜色</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/color                         <span class="hljs-comment"># 查看可用颜色</span>
+/color blue                    <span class="hljs-comment"># 设置为蓝色</span>
+/color default                 <span class="hljs-comment"># 恢复默认</span></code></pre></div><h3 id="theme--更改主题"><code>/theme</code> — 更改主题</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/theme</code></pre></div><h3 id="rename--重命名会话"><code>/rename</code> — 重命名会话</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/rename new-name                <span class="hljs-comment"># 重命名当前会话</span></code></pre></div><h2 id="统计与监控">统计与监控</h2>
+<h3 id="cost--显示令牌使用统计"><code>/cost</code> — 显示令牌使用统计</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/cost</code></pre></div><h3 id="usage--显示计划使用限制"><code>/usage</code> — 显示计划使用限制</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/usage</code></pre></div><h3 id="stats--可视化每日使用情况"><code>/stats</code> — 可视化每日使用情况</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/stats</code></pre></div><h3 id="insights--生成分析报告"><code>/insights</code> — 生成分析报告</h3>
+<p>分析你的 Claude Code 使用会话。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/insights</code></pre></div><h2 id="技能与插件">技能与插件</h2>
+<h3 id="skills--列出可用技能"><code>/skills</code> — 列出可用技能</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/skills</code></pre></div><p>内置技能包括：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/simplify</code></td>
+<td>审查更改的代码，复用、质量、效率</td>
+</tr>
+<tr>
+<td><code>/batch</code></td>
+<td>并行研究并执行大规模更改</td>
+</tr>
+<tr>
+<td><code>/debug</code></td>
+<td>启用调试日志并诊断问题</td>
+</tr>
+<tr>
+<td><code>/loop</code></td>
+<td>按间隔重复运行命令</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="plugin--管理插件"><code>/plugin</code> — 管理插件</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/plugin                        <span class="hljs-comment"># 查看已安装插件</span>
+/plugin install &lt;name&gt;        <span class="hljs-comment"># 安装插件</span></code></pre></div><h3 id="reload-plugins--重载插件"><code>/reload-plugins</code> — 重载插件</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/reload-plugins</code></pre></div><h2 id="云端功能">云端功能</h2>
+<h3 id="schedule--管理云端计划任务"><code>/schedule</code> — 管理云端计划任务</h3>
+<p>创建、更新、列出和运行云端计划任务。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/schedule                      <span class="hljs-comment"># 查看计划任务</span>
+/schedule <span class="hljs-string">&quot;描述&quot;</span>               <span class="hljs-comment"># 创建新任务</span></code></pre></div><h3 id="remote-control--远程控制别名rc"><code>/remote-control</code> — 远程控制（别名：<code>/rc</code>）</h3>
+<p>从 <a href="http://claude.ai" target="_blank" rel="noopener">claude.ai</a> 启用远程控制。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/remote-control</code></pre></div><h3 id="remote-env--配置远程环境"><code>/remote-env</code> — 配置远程环境</h3>
+<p>为 Web 会话配置默认远程环境。</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/remote-env</code></pre></div><h2 id="其他命令">其他命令</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/help</code></td>
+<td>显示帮助</td>
+</tr>
+<tr>
+<td><code>/login</code></td>
+<td>登录 Anthropic 账户</td>
+</tr>
+<tr>
+<td><code>/logout</code></td>
+<td>登出账户</td>
+</tr>
+<tr>
+<td><code>/exit</code> / <code>/quit</code></td>
+<td>退出 CLI</td>
+</tr>
+<tr>
+<td><code>/add-dir</code></td>
+<td>添加工作目录</td>
+</tr>
+<tr>
+<td><code>/context</code></td>
+<td>可视化当前上下文使用</td>
+</tr>
+<tr>
+<td><code>/add-dir</code></td>
+<td>添加工作目录</td>
+</tr>
+<tr>
+<td><code>/feedback</code></td>
+<td>提交反馈（别名：<code>/bug</code>）</td>
+</tr>
+<tr>
+<td><code>/insights</code></td>
+<td>生成会话分析报告</td>
+</tr>
+<tr>
+<td><code>/install-github-app</code></td>
+<td>设置 GitHub Actions 应用</td>
+</tr>
+<tr>
+<td><code>/install-slack-app</code></td>
+<td>安装 Slack 应用</td>
+</tr>
+<tr>
+<td><code>/mobile</code></td>
+<td>显示移动端下载二维码（别名：<code>/ios</code>, <code>/android</code>）</td>
+</tr>
+<tr>
+<td><code>/powerup</code></td>
+<td>通过互动课程发现功能</td>
+</tr>
+<tr>
+<td><code>/privacy-settings</code></td>
+<td>查看/更新隐私设置（Pro/Max）</td>
+</tr>
+<tr>
+<td><code>/release-notes</code></td>
+<td>查看更新日志</td>
+</tr>
+<tr>
+<td><code>/tasks</code></td>
+<td>列出后台任务（别名：<code>/bashes</code>）</td>
+</tr>
+<tr>
+<td><code>/upgrade</code></td>
+<td>打开升级页面</td>
+</tr>
+<tr>
+<td><code>/voice</code></td>
+<td>切换语音听写</td>
+</tr>
+<tr>
+<td><code>/extra-usage</code></td>
+<td>配置额外使用量</td>
+</tr>
+<tr>
+<td><code>/desktop</code></td>
+<td>切换到桌面应用</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="交互模式快捷键">交互模式快捷键</h2>
+<h3 id="常规控制">常规控制</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+C</code></td>
+<td>取消当前输入或生成</td>
+</tr>
+<tr>
+<td><code>Ctrl+D</code></td>
+<td>退出会话</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code> / <code>Ctrl+X Ctrl+E</code></td>
+<td>在默认文本编辑器中打开</td>
+</tr>
+<tr>
+<td><code>Ctrl+L</code></td>
+<td>重绘屏幕</td>
+</tr>
+<tr>
+<td><code>Ctrl+O</code></td>
+<td>切换详细输出</td>
+</tr>
+<tr>
+<td><code>Ctrl+R</code></td>
+<td>反向搜索命令历史</td>
+</tr>
+<tr>
+<td><code>Ctrl+B</code></td>
+<td>后台运行任务</td>
+</tr>
+<tr>
+<td><code>Ctrl+T</code></td>
+<td>切换任务列表</td>
+</tr>
+<tr>
+<td><code>Esc+Esc</code></td>
+<td>回溯或总结</td>
+</tr>
+<tr>
+<td><code>Shift+Tab</code></td>
+<td>循环切换权限模式</td>
+</tr>
+<tr>
+<td><code>Option+P</code> / <code>Alt+P</code></td>
+<td>切换模型</td>
+</tr>
+<tr>
+<td><code>Option+T</code></td>
+<td>切换扩展思考</td>
+</tr>
+<tr>
+<td><code>Option+O</code></td>
+<td>切换快速模式</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="文本编辑">文本编辑</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+K</code></td>
+<td>删除到行尾</td>
+</tr>
+<tr>
+<td><code>Ctrl+U</code></td>
+<td>从光标删除到行首</td>
+</tr>
+<tr>
+<td><code>Ctrl+Y</code></td>
+<td>粘贴删除的文本</td>
+</tr>
+<tr>
+<td><code>Alt+B</code> / <code>Alt+F</code></td>
+<td>光标向前/后移动一个单词</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="命令前缀">命令前缀</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code> 在开头</td>
+<td>命令或技能</td>
+</tr>
+<tr>
+<td><code>!</code> 在开头</td>
+<td>直接执行 Bash</td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>文件路径提及</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="cli-命令参考">CLI 命令参考</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude</code></td>
+<td>启动交互式会话</td>
+</tr>
+<tr>
+<td><code>claude &quot;query&quot;</code></td>
+<td>带初始提示启动</td>
+</tr>
+<tr>
+<td><code>claude -p &quot;query&quot;</code></td>
+<td>通过 SDK 查询后退出</td>
+</tr>
+<tr>
+<td><code>claude -c</code></td>
+<td>继续最近的对话</td>
+</tr>
+<tr>
+<td><code>claude -r &quot;&lt;session&gt;&quot; &quot;query&quot;</code></td>
+<td>按 ID 或名称恢复会话</td>
+</tr>
+<tr>
+<td><code>claude update</code></td>
+<td>更新到最新版本</td>
+</tr>
+<tr>
+<td><code>claude auth login/logout/status</code></td>
+<td>认证管理</td>
+</tr>
+<tr>
+<td><code>claude agents</code></td>
+<td>列出配置的子代理</td>
+</tr>
+<tr>
+<td><code>claude mcp</code></td>
+<td>配置 MCP 服务器</td>
+</tr>
+<tr>
+<td><code>claude plugin</code></td>
+<td>管理插件</td>
+</tr>
+<tr>
+<td><code>claude remote-control</code></td>
+<td>启动远程控制服务器</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><a href="https://code.claude.com/docs/en/commands.md" target="_blank" rel="noopener">Claude Code 官方命令文档</a></li>
+<li><a href="https://code.claude.com/docs/en/sub-agents.md" target="_blank" rel="noopener">子代理文档</a></li>
+<li><a href="https://code.claude.com/docs/en/mcp.md" target="_blank" rel="noopener">MCP 文档</a></li>
+<li><a href="https://code.claude.com/docs/en/interactive-mode.md" target="_blank" rel="noopener">交互模式文档</a></li>
+<li><a href="https://code.claude.com/docs/en/cli-reference.md" target="_blank" rel="noopener">CLI 参考</a></li>
+<li><a href="https://code.claude.com/docs/en/keybindings.md" target="_blank" rel="noopener">快捷键文档</a></li>
+<li><a href="https://api.anthropic.com/mcp-registry/docs" target="_blank" rel="noopener">MCP 注册表</a></li>
+</ul>
+<h2 id="结语">结语</h2>
+<p>Claude Code 的内置命令系统非常强大，熟练掌握这些命令可以大幅提升开发效率。特别是 Agent 和 MCP 功能，为构建专业化的 AI 编程工作流提供了坚实基础。</p>
+<hr>
+<p><em>如有问题，欢迎留言交流！</em></p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="169.html"><small>← 上一张委托</small><span>No.169 【工具】ARIS——让 Claude Code 在你睡觉时做科研</span></a>
+          <a class="next" href="171.html"><small>下一张委托 →</small><span>No.171 【小说】风停在旧日之前</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#claude-code-内置命令参考指南">Claude Code 内置命令参考指南</a></li><li class="l3"><a href="#前言">前言</a></li><li class="l3"><a href="#命令概览">命令概览</a></li><li class="l3"><a href="#agent-与子代理">Agent 与子代理</a></li><li class="l4"><a href="#agents--管理子代理配置">/agents — 管理子代理配置</a></li><li class="l4"><a href="#cli-命令claude-agents">CLI 命令：claude agents</a></li><li class="l4"><a href="#agent-相关配置字段">Agent 相关配置字段</a></li><li class="l3"><a href="#mcpmodel-context-protocol">MCP（Model Context Protocol）</a></li><li class="l4"><a href="#mcp--管理-mcp-服务器">/mcp — 管理 MCP 服务器</a></li><li class="l4"><a href="#mcp-服务器类型">MCP 服务器类型</a></li><li class="l4"><a href="#mcp-安装作用域">MCP 安装作用域</a></li><li class="l4"><a href="#mcp-核心特性">MCP 核心特性</a></li><li class="l4"><a href="#cli-命令claude-mcp">CLI 命令：claude mcp</a></li><li class="l3"><a href="#计划与执行">计划与执行</a></li><li class="l4"><a href="#plan--进入计划模式">/plan — 进入计划模式</a></li><li class="l4"><a href="#compact--压缩对话">/compact — 压缩对话</a></li><li class="l4"><a href="#rewind--回溯对话代码">/rewind — 回溯对话/代码</a></li><li class="l3"><a href="#权限与安全">权限与安全</a></li><li class="l4"><a href="#permissions--管理工具权限">/permissions — 管理工具权限</a></li><li class="l4"><a href="#security-review--安全审查">/security-review — 安全审查</a></li><li class="l4"><a href="#sandbox--切换沙盒模式">/sandbox — 切换沙盒模式</a></li><li class="l3"><a href="#项目管理">项目管理</a></li><li class="l4"><a href="#init--初始化项目">/init — 初始化项目</a></li><li class="l4"><a href="#diff--查看变更">/diff — 查看变更</a></li><li class="l4"><a href="#branch--创建分支别名fork">/branch — 创建分支（别名：/fork）</a></li><li class="l4"><a href="#resume--恢复会话别名continue">/resume — 恢复会话（别名：/continue）</a></li><li class="l3"><a href="#开发者工具">开发者工具</a></li><li class="l4"><a href="#hooks--查看钩子配置">/hooks — 查看钩子配置</a></li><li class="l4"><a href="#terminal-setup--配置终端">/terminal-setup — 配置终端</a></li><li class="l4"><a href="#keybindings--打开创建快捷键配置">/keybindings — 打开/创建快捷键配置</a></li><li class="l4"><a href="#ide--管理-ide-集成">/ide — 管理 IDE 集成</a></li><li class="l3"><a href="#系统与配置">系统与配置</a></li><li class="l4"><a href="#config--打开设置界面别名settings">/config — 打开设置界面（别名：/settings）</a></li><li class="l4"><a href="#status--查看状态">/status — 查看状态</a></li><li class="l4"><a href="#model--选择模型">/model — 选择模型</a></li><li class="l4"><a href="#effort--设置模型努力级别">/effort — 设置模型努力级别</a></li><li class="l4"><a href="#fast--切换快速模式">/fast — 切换快速模式</a></li><li class="l4"><a href="#doctor--诊断安装">/doctor — 诊断安装</a></li><li class="l3"><a href="#对话管理">对话管理</a></li><li class="l4"><a href="#clear--清除对话别名reset-new">/clear — 清除对话（别名：/reset, /new）</a></li><li class="l4"><a href="#export--导出对话">/export — 导出对话</a></li><li class="l4"><a href="#copy--复制响应">/copy — 复制响应</a></li><li class="l4"><a href="#btw--快速提问">/btw — 快速提问</a></li><li class="l4"><a href="#color--设置提示条颜色">/color — 设置提示条颜色</a></li><li class="l4"><a href="#theme--更改主题">/theme — 更改主题</a></li><li class="l4"><a href="#rename--重命名会话">/rename — 重命名会话</a></li><li class="l3"><a href="#统计与监控">统计与监控</a></li><li class="l4"><a href="#cost--显示令牌使用统计">/cost — 显示令牌使用统计</a></li><li class="l4"><a href="#usage--显示计划使用限制">/usage — 显示计划使用限制</a></li><li class="l4"><a href="#stats--可视化每日使用情况">/stats — 可视化每日使用情况</a></li><li class="l4"><a href="#insights--生成分析报告">/insights — 生成分析报告</a></li><li class="l3"><a href="#技能与插件">技能与插件</a></li><li class="l4"><a href="#skills--列出可用技能">/skills — 列出可用技能</a></li><li class="l4"><a href="#plugin--管理插件">/plugin — 管理插件</a></li><li class="l4"><a href="#reload-plugins--重载插件">/reload-plugins — 重载插件</a></li><li class="l3"><a href="#云端功能">云端功能</a></li><li class="l4"><a href="#schedule--管理云端计划任务">/schedule — 管理云端计划任务</a></li><li class="l4"><a href="#remote-control--远程控制别名rc">/remote-control — 远程控制（别名：/rc）</a></li><li class="l4"><a href="#remote-env--配置远程环境">/remote-env — 配置远程环境</a></li><li class="l3"><a href="#其他命令">其他命令</a></li><li class="l3"><a href="#交互模式快捷键">交互模式快捷键</a></li><li class="l4"><a href="#常规控制">常规控制</a></li><li class="l4"><a href="#文本编辑">文本编辑</a></li><li class="l4"><a href="#命令前缀">命令前缀</a></li><li class="l3"><a href="#cli-命令参考">CLI 命令参考</a></li><li class="l3"><a href="#参考链接">参考链接</a></li><li class="l3"><a href="#结语">结语</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2026/04/05/Claude-Code%E5%86%85%E7%BD%AE%E5%91%BD%E4%BB%A4%E5%8F%82%E8%80%83%E6%8C%87%E5%8D%97/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷P1120 小木棍 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目链接 https://www.luogu.com.cn/problem/P1120 思路 ——摘自《算法竞赛进阶指南》 我们可以从小到大枚举原始木棒的长度 , 它应该是所有木棍长度的和 的因数，并且原始木棒的根数 应该等于 对于每一个枚">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="131" data-line="4" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.131</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷P1120 小木棍</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-18T04:51:00.000Z">2021.10.18</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">661 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p1120-小木棍">【解题报告】洛谷P1120 小木棍</h1>
+<h3 id="题目链接">题目链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P1120" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P1120</a></p>
+<h3 id="思路">思路</h3>
+<p>——摘自《算法竞赛进阶指南》</p>
+<p>我们可以从小到大枚举原始木棒的长度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span></span></span></span> , 它应该是所有木棍长度的和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>u</mi><mi>m</mi></mrow><annotation encoding="application/x-tex">sum</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span></span></span></span> 的因数，并且原始木棒的根数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>n</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">cnt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span></span></span></span> 应该等于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true" scriptlevel="0"><mfrac><mrow><mi>s</mi><mi>u</mi><mi>m</mi></mrow><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac {sum} {len}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.7936em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">s</span><span class="mord mathnormal">u</span><span class="mord mathnormal">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>对于每一个枚举的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">len</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span></span></span></span> ，我们可以一次搜索每根原始木棒由哪些木棍拼成，具体的讲，也就是搜索的状态是 ：已经拼好的原始木棒的数量，正在拼的原始木棒的当前长度，每个木棍的使用情况，在么一个状态下，我们从还没有用的木棍中选择一个，尝试拼到当前的原始木棒中，然后递归到新的状态，递归边界就是成功拼好 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>n</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">cnt</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span></span></span></span> 根原始木棒，或者因为无法继续拼接而失败</p>
+<p>这个算法的效率比较低，我们可以进行几类剪枝：</p>
+<ol>
+<li>优化搜索顺序</li>
+</ol>
+<p>把木棒从大到小排序，优先尝试比较长的木棍</p>
+<ol start="2">
+<li>排除等效冗余</li>
+</ol>
+<p>可以限制先后加入一根原始木棒的木棍长度是递减的，这是因为先拼上一根长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> 的木棍，再拼上一根长度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> 的木棍，和先拼 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span> 再拼 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> 一毛一样，所以只用搜索其中一种</p>
+<p>对于当前的原始木棒，记录最近一次尝试拼接的木棒的长度，如果分支搜索失败回溯，就不再尝试向该木棒中拼接其他相同的木棒，因为必定也会失败</p>
+<p>如果当前原始木棒中，尝试拼入的第一根木棍的递归分支就失败了，那这个分支肯定失败，立马回溯，这是因为在拼入这根木棒之前，面对的所有的木棍都是空的，这些木棒都是等效的，木棍拼在当前的木棒里面失败，拼在其他的木棒里面也一定会失败</p>
+<p>如果在当前的原始木棒里面拼入一根木棍之后，木棒恰好被拼接完整，并且接下来拼接剩余原始木棒的递归分支返回失败，那么就直接判定当前的分支失败，立即回溯，该剪枝可以使用贪心来解释，再用1根木棍敲好拼完当前的原始木棒必然比再用若干根木棍拼完当前的木棒更加好</p>
+<p>这样运用一些等效性和贪心就剪掉了搜索树上面的很多分支，提高了搜索的效率</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">3300</span>;
+<span class="hljs-type">int</span> n,ans,res,tot,mx,sum;
+<span class="hljs-type">int</span> s,l;
+<span class="hljs-type">int</span> a[<span class="hljs-number">70</span>];
+<span class="hljs-type">bool</span> vis[maxn];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now,<span class="hljs-type">int</span> len,<span class="hljs-type">int</span> cnt)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(now&gt;s) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">if</span>(len==l)
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">dfs</span>(now<span class="hljs-number">+1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>);
+	<span class="hljs-type">int</span> f=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=cnt;i&lt;=tot;i++)
+	{
+		<span class="hljs-keyword">if</span>(!vis[i]&amp;&amp;len+a[i]&lt;=l&amp;&amp;f!=a[i])
+		{
+			vis[i]=<span class="hljs-literal">true</span>;
+			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(now,len+a[i],i<span class="hljs-number">+1</span>))
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+			f=a[i];
+			vis[i]=<span class="hljs-literal">false</span>;
+			<span class="hljs-keyword">if</span>(len==<span class="hljs-number">0</span>||len+a[i]==l)
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+		}
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	std::ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);
+	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>),cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> x;
+		cin&gt;&gt;x;
+		<span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">50</span>) <span class="hljs-keyword">continue</span>;
+		a[++tot]=x;
+		mx=<span class="hljs-built_in">max</span>(mx,x);
+		sum+=x;
+	}
+	<span class="hljs-built_in">sort</span>(a<span class="hljs-number">+1</span>,a+tot<span class="hljs-number">+1</span>);
+	<span class="hljs-built_in">reverse</span>(a<span class="hljs-number">+1</span>,a+tot<span class="hljs-number">+1</span>);
+	<span class="hljs-keyword">for</span>(l=mx;l&lt;=sum;l++)
+	{
+		<span class="hljs-keyword">if</span>(sum%l) <span class="hljs-keyword">continue</span>;
+		s=sum/l;
+		<span class="hljs-built_in">memset</span>(vis,<span class="hljs-literal">false</span>,<span class="hljs-built_in">sizeof</span>(vis));
+		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>))
+		<span class="hljs-keyword">break</span>;
+	}
+	cout&lt;&lt;l&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="130.html"><small>← 上一张委托</small><span>No.130 洛谷P1168 中位数</span></a>
+          <a class="next" href="132.html"><small>下一张委托 →</small><span>No.132 【解题报告】洛谷P3870 开关</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p1120-小木棍">【解题报告】洛谷P1120 小木棍</a></li><li class="l4"><a href="#题目链接">题目链接</a></li><li class="l4"><a href="#思路">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/18/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7P1120-%E5%B0%8F%E6%9C%A8%E6%A3%8D/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

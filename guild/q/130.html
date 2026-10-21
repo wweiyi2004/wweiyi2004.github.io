@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>洛谷P1168 中位数 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="【解题报告】 题目链接 https://www.luogu.com.cn/problem/P1168 思路 这道题目是个数据结构 由于数据结构很长时间没有码了，所以就开了一个这个 发现不怎么有思路 本来想开一个数组，然后比较位置，然后加入数">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="130" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.130</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">洛谷P1168 中位数</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-18T02:23:00.000Z">2021.10.18</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">426 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p1168-中位数">【解题报告】洛谷P1168 中位数</h1>
+<h3 id="题目链接">题目链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P1168" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P1168</a></p>
+<h3 id="思路">思路</h3>
+<p>这道题目是个数据结构</p>
+<p>由于数据结构很长时间没有码了，所以就开了一个这个</p>
+<p>发现不怎么有思路</p>
+<p>本来想开一个数组，然后比较位置，然后加入数组的，发现炸掉</p>
+<p>然后主流的思路有以下两种，我也基本搞懂了</p>
+<h4 id="stl大法">STL大法</h4>
+<p>stl大法好！</p>
+<p>用一个vector,然后直接查询就好了</p>
+<p>然后vector我似乎不太会用，所以我就查了一下下百度</p>
+<blockquote>
+<ul>
+<li>
+<p>void push_back(const T&amp; x):向量尾部增加一个元素X</p>
+</li>
+<li>
+<p>iterator insert(iterator it,const T&amp; x):向量中迭代器指向元素前增加一个元素x</p>
+</li>
+<li>
+<p>iterator insert(iterator it,int n,const T&amp; x):向量中迭代器指向元素前增加n个相同的元素x</p>
+</li>
+<li>
+<p>iterator insert(iterator it,const_iterator first,const_iterator last):向量中迭代器指向元素前插入另一个相同类型向量的[first,last)间的数据</p>
+</li>
+</ul>
+<p>——<a href="https://www.cnblogs.com/zsq1993/p/5929806.html" target="_blank" rel="noopener">https://www.cnblogs.com/zsq1993/p/5929806.html</a></p>
+</blockquote>
+<p>这里可以直接使用第二个用法，然后加上一个 <code>upper_bound()</code> 就行了</p>
+<p>话说我第一次知道有这种用法</p>
+<p><s>如果数据是单调递减会不会炸掉啊</s></p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100005</span>;
+<span class="hljs-type">int</span> n;
+vector &lt;<span class="hljs-type">int</span>&gt; a;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> x;
+		cin&gt;&gt;x;
+		a.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">upper_bound</span>(a.<span class="hljs-built_in">begin</span>(),a.<span class="hljs-built_in">end</span>(),x),x);
+		<span class="hljs-keyword">if</span>(i&amp;<span class="hljs-number">1</span>)
+		cout&lt;&lt;a[(i<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>]&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</code></pre></div><h4 id="对顶堆">对顶堆</h4>
+<p>还是用到了stl</p>
+<p>但是思想完全不一样</p>
+<p>我们建一个大根堆，建一个小根堆</p>
+<p>然后就完了<span class="missing-art" role="note" title="迁移自旧博客，原图已丢失">原图已丢失</span></p>
+<p>左边是一个大根堆，堆顶靠近mid，右边是一个小根堆，堆顶靠近mid</p>
+<p>每次查询的时候调整堆的大小，是两个堆的大小相差为1，多的那个第一个就是中位数，速度会比用vector的更快一些</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100005</span>;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">int</span> a[maxn];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">jdz</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+	<span class="hljs-keyword">return</span> x&gt;<span class="hljs-number">0</span>? x:-x;
+}
+priority_queue &lt;<span class="hljs-type">int</span>,vector&lt;<span class="hljs-type">int</span>&gt;,less&lt;<span class="hljs-type">int</span>&gt; &gt; q1; <span class="hljs-comment">//大根堆 </span>
+priority_queue &lt;<span class="hljs-type">int</span>,vector&lt;<span class="hljs-type">int</span>&gt;,greater&lt;<span class="hljs-type">int</span>&gt; &gt; q2;<span class="hljs-comment">//小根堆 </span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	cin&gt;&gt;a[<span class="hljs-number">1</span>];
+	<span class="hljs-type">int</span> mid=a[<span class="hljs-number">1</span>];
+	cout&lt;&lt;mid&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)
+	{
+		cin&gt;&gt;a[i];
+		<span class="hljs-keyword">if</span>(a[i]&gt;mid) 
+		q<span class="hljs-number">2.</span><span class="hljs-built_in">push</span>(a[i]);
+		<span class="hljs-keyword">else</span>
+		q<span class="hljs-number">1.</span><span class="hljs-built_in">push</span>(a[i]);
+		<span class="hljs-keyword">if</span>(i&amp;<span class="hljs-number">1</span>)
+		{
+			<span class="hljs-keyword">while</span>(q<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>()!=q<span class="hljs-number">2.</span><span class="hljs-built_in">size</span>())
+			{
+				<span class="hljs-keyword">if</span>(q<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>()&gt;q<span class="hljs-number">2.</span><span class="hljs-built_in">size</span>())
+				{
+					q<span class="hljs-number">2.</span><span class="hljs-built_in">push</span>(mid);
+					mid=q<span class="hljs-number">1.</span><span class="hljs-built_in">top</span>();
+					q<span class="hljs-number">1.</span><span class="hljs-built_in">pop</span>();
+				}
+				<span class="hljs-keyword">else</span>
+				{
+					q<span class="hljs-number">1.</span><span class="hljs-built_in">push</span>(mid);
+					mid=q<span class="hljs-number">2.</span><span class="hljs-built_in">top</span>();
+					q<span class="hljs-number">2.</span><span class="hljs-built_in">pop</span>();
+				}
+			}
+			cout&lt;&lt;mid&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+		}
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="129.html"><small>← 上一张委托</small><span>No.129 【解题报告】洛谷P3627 抢掠计划</span></a>
+          <a class="next" href="131.html"><small>下一张委托 →</small><span>No.131 【解题报告】洛谷P1120 小木棍</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p1168-中位数">【解题报告】洛谷P1168 中位数</a></li><li class="l4"><a href="#题目链接">题目链接</a></li><li class="l4"><a href="#思路">思路</a></li><li class="l5"><a href="#stl大法">STL大法</a></li><li class="l5"><a href="#对顶堆">对顶堆</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/18/%E6%B4%9B%E8%B0%B7P1168-%E4%B8%AD%E4%BD%8D%E6%95%B0/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

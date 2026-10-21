@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【游记】2025年电子设计竞赛国赛 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="Day0 7.29 是电子设计竞赛的国赛前一天，经过了一年多的准备终于等到了这一天。不管是什么样的题目都已经做过了，面对电子设计竞赛的国赛也是没有了心理负担，准备进行下去了。早上先是补了补觉，为国赛的熬夜做准备，然后到实验室准备明天的比赛。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="163" data-line="2" data-minutes="4">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.163</span><a class="writ__line" href="../index.html?line=2"></a><span><a href="../index.html?cat=%E6%B8%B8%E8%AE%B0">游记</a></span></p>
+        <h1 class="writ__title">【游记】2025年电子设计竞赛国赛</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2025-08-06T15:29:46.000Z">2025.08.06</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">1,496 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 4 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="游记2025年电子设计竞赛国赛">【游记】2025年电子设计竞赛国赛</h1>
+<h3 id="day0-729">Day0 7.29</h3>
+<p>是电子设计竞赛的国赛前一天，经过了一年多的准备终于等到了这一天。不管是什么样的题目都已经做过了，面对电子设计竞赛的国赛也是没有了心理负担，准备进行下去了。早上先是补了补觉，为国赛的熬夜做准备，然后到实验室准备明天的比赛。</p>
+<p>早上先是调了调自己的M0，把之前调过的工程都改了改看了看，确保没有问题之后就和队友一起收拾自己的东西，方便为自己之后的移位置做准备。收拾东西大多是硬件汤进行，软件没有多少收拾的，我就和软件李开始玩文明6。文明6是刚下载没有多久的，因此很多情况下都是我发展缓慢而软件李科技和文化值发展得非常快，让我目不暇接。很快，我们把东西收拾完之后就回寝室了，准备早睡，迎接第二天早上六点的起床，七点半的题目发布。</p>
+<h3 id="day1-730">Day1 7.30</h3>
+<p>起了一个大早，早上很快就拿到了题目，仪器组一共三道题目，分别是以太网线的检测仪、接收机还有电路模型探究装置。那两道题目我们是没有选的。因为以太网线的检测仪是测量题，需要标定等一系列麻烦的事情，对于我们来说并不友好。那么接收机呢？这个涉及射频，我们还没有学会把非常小的信号放大，因此也不选。那么留在我们眼前的只剩下了一道题目，电路模型探究装置。</p>
+<p>这道题目看起来非常简单，于是我们也就选了这道题目。基础部分非常简单，直接用AD9833进行波形的输出，但是因为电压要求，对于输出级还需要一些处理，所以基础部分留给了硬件手去搭建，开始思考软件的问题。对于发挥部分，第一问判断滤波器类型，也是比较简单的，我们使用正弦波进行扫频，然后通过ADC读取通过滤波网络和AD637有效值检波器的电压大小，就可以算出在特定频率下该滤波器对于信号的增益。然后对于低频与高频分别扫频，在题目要求的范围内，我们可以根据两点法判断滤波器的类型，这样发挥部分第一问也解决了。</p>
+<p>现在于我们而言，比较困难的是发挥部分的第二问，我们如何学习模型电路，并且复刻出模型电路呢？我们先是想到了一种方法，因为我们可以对未知电路进行扫频学习，那么我们就可以知道位置电路在各个频点下的幅频响应和相频响应。然后在输出的时候，我们对于输入的信号，就进行FFT操作，分析出其含有的各个频率的分量，根据之前的幅频响应和相频响应进行累加，继而使用DMA+DAC输出波形。这个时候，我们看到了发挥部分后面的输出波形要求。步进为200Hz，这让我们意识到无法使用DMA+DAC进行求解，另外，后面要求输出的波形和未知电路的波形要求同频显示，这让我们更加确信了频率控制字没有那么精准的时候不能选择这个方法。</p>
+<p>那么我们该怎么办呢？我们该使用什么方法才能做到同频显示呢？这个时候我们想而到了使用FPGA的方法，使用FPGA写一个二阶IIR真实滤波器，使用单片机传入参数。</p>
+<p>目标已然确定，开始行动了。李开始写滤波器，汤搭硬件，我去寻找拟合曲线的方法。然而拟合曲线并非很容易，最先想到的是最小二乘法，先去尝试，然而最小二乘法在单片机中运行不动，只能放弃，但是又没有别的方法，我想到了python。但是python并不能在单片机中使用，怎么办，只有天知道。这个时候已经接近第二天的凌晨，我听说了别的组使用树莓派的做法，于是我也去找周老师拿了一块树莓派，进行开始写树莓派。但是我不太会用树莓派，于是我就开始从0开始安装驱动等之类的，然后，也是成功安装好了系统。回去睡觉了。</p>
+<h3 id="day2-731">Day2 7.31</h3>
+<p>第二天也是早早过来，寻找如何解决曲线拟合的问题，我搞了第一天的树莓派，一直搞到晚上七点多才解决所有的驱动，然后开始尝试。然而这个时候李发现了一种可以在单片机中计算出来系数的方法，于是他就开始写，我们将树莓派解决作为备选方案。</p>
+<p>直到凌晨，我们也没有弄出些什么，只知道单片机拟合出来的数据始终不是那么准确，我们不知道为什么，我们陷入了长时间的疑惑，这个时候已经到达了第三天的凌晨。</p>
+<h3 id="day3-81">Day3 8.1</h3>
+<p>小睡了一会儿，我们还是没有解决，我们开始寻找方法，但是没有成功。真的要放弃了吗？后来发现有一部分原因是DE10的时钟虽然设置的是1MHz，但是实际上是1.17Mhz，当我们改过来之后就好了一点，我们感觉非常兴奋。</p>
+<h3 id="day4-82">Day4 8.2</h3>
+<p>何意味，但是没有异味</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="162.html"><small>← 上一张委托</small><span>No.162 为美好的世界献上祝福</span></a>
+          <a class="next" href="164.html"><small>下一张委托 →</small><span>No.164 【学习笔记】最优化方法</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#游记2025年电子设计竞赛国赛">【游记】2025年电子设计竞赛国赛</a></li><li class="l4"><a href="#day0-729">Day0 7.29</a></li><li class="l4"><a href="#day1-730">Day1 7.30</a></li><li class="l4"><a href="#day2-731">Day2 7.31</a></li><li class="l4"><a href="#day3-81">Day3 8.1</a></li><li class="l4"><a href="#day4-82">Day4 8.2</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2025/08/06/%E3%80%90%E6%B8%B8%E8%AE%B0%E3%80%912025%E5%B9%B4%E7%94%B5%E5%AD%90%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B%E5%9B%BD%E8%B5%9B/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

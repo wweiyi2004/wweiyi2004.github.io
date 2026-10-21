@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>任务线 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="沿着兴趣与问题，把零散的委托连成一条任务线。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="icon" href="../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/guild.css">
+</head>
+<body data-page="lines">
+  <header class="hall"></header>
+
+  <main class="shell">
+    <h1 class="sr-only">任务线</h1>
+    <section class="board" id="board" aria-label="任务线">
+      <ul class="lines" id="lines"><li class="empty">正在整理任务线…</li></ul>
+    </section>
+  </main>
+
+  <footer class="floor"></footer>
+
+  <script src="../js/glyphs.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    (function () {
+      const { LINES, esc, eris, tilt, frame, mountChrome, loadQuests } = window.GUILD;
+      mountChrome('lines');
+      frame(document.getElementById('board'));
+      loadQuests().then((quests) => {
+        const ids = Object.keys(LINES).filter((id) => id !== '0' && quests.some((q) => String(q.line) === id));
+        document.getElementById('lines').innerHTML = ids.map((id, i) => {
+          const line = LINES[id];
+          const list = quests.filter((q) => String(q.line) === id).sort((a, b) => b.no - a.no);
+          const words = list.reduce((s, q) => s + q.words, 0);
+          return `<li><article class="line-card" style="--r:${tilt(i + 3)}">
+            <span class="stamp" aria-hidden="true">${line.seal}</span>
+            <div class="line-card__no">${String(i + 1).padStart(2, '0')}</div>
+            <p class="line-card__kicker">${line.kicker}</p>
+            <h2>${esc(line.name)}</h2>
+            <p class="line-card__desc">${esc(line.desc)}</p>
+            <div class="line-card__stats"><span>委托 <b>${list.length}</b> 张</span><span>报酬 <b>${eris(words)}</b> 艾莉丝</span></div>
+            <ol>${list.slice(0, 6).map((q) => `<li><a href="q/${q.no}.html"><small>No.${q.no}</small><span>${esc(q.title)}</span></a></li>`).join('')}</ol>
+            <a class="tag" href="index.html?line=${id}">查看全部 ${list.length} 张委托 →</a>
+          </article></li>`;
+        }).join('');
+      });
+    })();
+  </script>
+</body>
+</html>

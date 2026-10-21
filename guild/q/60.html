@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【清北学堂国庆刷题班】 Day2 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="T1 小路灯 题目描述 一条平直的公路上有n个小路灯，第ii个路灯的坐标是ai。小A需要把其中的k个点亮，使得每个小路灯与距离最近的被点亮的小路灯的距离的最大值最小。求这个最小值。 输入格式 第1行2个正整数n,k。 接下来n行，每行一个整">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="60" data-line="4" data-minutes="5">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.60</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=%E6%B8%85%E5%8C%97%E5%AD%A6%E5%A0%82">清北学堂</a></span></p>
+        <h1 class="writ__title">【清北学堂国庆刷题班】 Day2</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2020-10-30T05:31:00.000Z">2020.10.30</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">1,686 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 5 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">#动态规划</a></li><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=%E6%A8%A1%E6%8B%9F">#模拟</a></li><li><a href="../index.html?tag=STL">#STL</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="清北学堂国庆刷题班-day2">【清北学堂国庆刷题班】 Day2</h1>
+<h2 id="t1-小路灯">T1 小路灯</h2>
+<h3 id="题目描述">题目描述</h3>
+<p>一条平直的公路上有n个小路灯，第<em>i</em>i个路灯的坐标是ai。小A需要把其中的k个点亮，使得每个小路灯与距离最近的被点亮的小路灯的距离的最大值最小。求这个最小值。</p>
+<h3 id="输入格式">输入格式</h3>
+<p>第1行2个正整数n,k。</p>
+<p>接下来n行，每行一个整数ai，表示第i个小路灯的坐标，保证ai是严格单调递增的。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>1行1个数表示答案。</p>
+<h3 id="样例数据">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">6 3
+5
+6
+12
+19
+20
+27</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">6</code></pre></div><h3 id="样例解释">样例解释</h3>
+<p>点亮第2、5、6个路灯，每个路灯与距离最近的被点亮的路灯的距离分为是1,0,6,1,0,0，最大值是6。可以证明没有比6更小的方案。</p>
+<h3 id="数据规模与约定">数据规模与约定</h3>
+<p>对于 30% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo separator="true">,</mo><mi>k</mi><mo>≤</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">n,k\le 100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span>。</p>
+<p>对于 100% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>100000</mn><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>k</mi><mo>≤</mo><mi>n</mi><mo separator="true">,</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mo>≤</mo><msup><mn>10</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">1\le n\le 100000,1\le k \le n,|a_i|\le 10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">100000</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></p>
+<p>时间限制：1s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路">思路</h2>
+<p>二分答案</p>
+<p>看题目，<strong>最大值最小</strong>，一看就知道是二分答案</p>
+<p>但是这道题目怎么二分答案呢，我们可以设这个最小的最大值为x，对这个x进行二分，如果一个路灯距离前一个路灯的距离<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>−</mo><mi>l</mi><mi>a</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">a_i-last</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span></span></span></span>不大于x的话，说明这个数小于这个最大值，所以不需要管他，直接continue ，进行下一步循环；如果一个路灯距离上一个被点亮的路灯距离<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>−</mo><mi>n</mi><mi>o</mi><mi>w</mi></mrow><annotation encoding="application/x-tex">a_i-now</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span></span></span></span>大于这个最小值的话，显然不符合题意，所以我们需要更改这个点亮的路灯，直到符合题意，然后这个路灯距离上一个路灯的距离小于x的我们就会把now初始化掉，最后统计一下点亮的灯的个数就可以了。</p>
+<h2 id="代码">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n,k;
+<span class="hljs-type">int</span> a[<span class="hljs-number">100005</span>];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span><span class="hljs-comment">//设这个最大的最小值为x </span>
+</span>{
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> last=<span class="hljs-number">-2e10</span>;
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> now=<span class="hljs-number">-2e10</span>;
+	<span class="hljs-type">int</span> s=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-keyword">if</span>(a[i]-last&lt;=x) <span class="hljs-keyword">continue</span>;
+		<span class="hljs-keyword">if</span>(now==<span class="hljs-number">-2e10</span>) now=a[i];
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(a[i]-now&gt;x)
+		{
+			last=a[i<span class="hljs-number">-1</span>];
+			<span class="hljs-keyword">if</span>(a[i]-last&lt;=x) now=<span class="hljs-number">-2e10</span>;
+			<span class="hljs-keyword">else</span> now=a[i];
+			s++;
+		}
+	}
+	<span class="hljs-keyword">if</span>(now!=<span class="hljs-number">-2e10</span>) s++;
+	<span class="hljs-keyword">return</span> s&lt;=k; 
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;k;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	cin&gt;&gt;a[i];
+	<span class="hljs-type">int</span> l=<span class="hljs-number">0</span>,r=<span class="hljs-number">2e9</span>;
+	<span class="hljs-keyword">while</span>(l&lt;r)
+	{
+		<span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;
+		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>(mid)) r=mid;
+		<span class="hljs-keyword">else</span> l=mid<span class="hljs-number">+1</span>;
+	}
+	cout&lt;&lt;l&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t2-序列">T2 序列</h2>
+<h3 id="题目描述-1">题目描述</h3>
+<p>设数列P=[p1,p2,……,pn]，定义f(p,k)=[p2,p3,……,pk,p1,pk+2,pk+3,……,p2k,pk+1,……]，也就是把P每k个分成一段（最后如果不足k个，把它们分到新的一段），然后将每段的首个元素移动到该段末尾。求f(f(……f(f([1,2,……,n],2),3),……),n)。</p>
+<h3 id="输入格式-1">输入格式</h3>
+<p>1行1个正整数n。</p>
+<h3 id="输出格式-1">输出格式</h3>
+<p>1行n个数表示答案。</p>
+<h3 id="样例数据-1">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">4</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">4 2 3 1</code></pre></div><h3 id="样例解释-1">样例解释</h3>
+<p>P:[1,2,3,4]→[2,1,4,3]→[1,4,2,3]→[4,2,3,1]</p>
+<h3 id="数据规模与约定-1">数据规模与约定</h3>
+<p>对于 40% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">1\le n\le 1000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000</span></span></span></span></p>
+<p>对于 60% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>100000</mn></mrow><annotation encoding="application/x-tex">1\le n\le 100000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100000</span></span></span></span></p>
+<p>对于 100% 的数据，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1000000</mn></mrow><annotation encoding="application/x-tex">1\le n \le 1000000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7804em;vertical-align:-0.136em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1000000</span></span></span></span></p>
+<p>时间限制：2s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路-1">思路</h2>
+<p><s>没有思路</s></p>
+<p>模拟？</p>
+<p>这道题模拟n=10的情况</p>
+<p>1 2 3 4 5 6 7 8 9 10<br>
+2 1 4 3 6 5 8 7 10 9<br>
+1 4 2 6 5 3 7 10 8 9<br>
+4 2 6 1 3 7 10 5 9 8<br>
+2 6 1 3 4 10 5 9 8 7<br>
+6 1 3 4 10 2 9 8 7 5<br>
+1 3 4 10 2 9 6 7 5 8<br>
+3 4 10 2 9 6 7 1 5 8<br>
+4 10 2 9 6 7 1 5 3 8<br>
+10 2 9 6 7 1 5 3 8 4</p>
+<p>然后发现了一点东西，就跟四中童佬和怀哥讨论了一下，经过了1.5h的讨论与探究，我们进行了超级大的模拟，结果发现，最佳方法是空间换时间？</p>
+<p>对于每个n直接把这个数字向后移，然后开两倍数组就够了。</p>
+<p>无语无语。</p>
+<h2 id="代码-1">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iomanip&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">int</span> p[<span class="hljs-number">1000005</span>*<span class="hljs-number">2</span>],t;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	p[i]=i;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> t=<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=i<span class="hljs-number">-1</span>;j&lt;=i<span class="hljs-number">-1</span>+n<span class="hljs-number">-1</span>;j+=i)
+			<span class="hljs-built_in">swap</span>(p[j],t);
+		p[i<span class="hljs-number">-1</span>+n]=t;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=n;i&lt;n+n;i++)
+	cout&lt;&lt;p[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	cout&lt;&lt;endl; 
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t3-路灯">T3 路灯</h2>
+<h3 id="题目描述-2">题目描述</h3>
+<p>一条平直的公路上有n个路灯，第<em>i</em>i个路灯的坐标是ai。小A需要把其中的k个点亮，使得每个路灯与距离最近的被点亮的路灯的距离和最小。求这个最小值。</p>
+<h3 id="输入格式-2">输入格式</h3>
+<p>第1行2个正整数n,k。</p>
+<p>接下来n行，每行一个整数ai，表示第i个路灯的坐标，保证ai是严格单调递增的。</p>
+<h3 id="输出格式-2">输出格式</h3>
+<p>1行1个数表示答案。</p>
+<h3 id="样例数据-2">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">6 3
+5
+6
+12
+19
+20
+27</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">8</code></pre></div><h3 id="样例解释-2">样例解释</h3>
+<p>点亮第2、4、6个路灯，每个路灯与距离最近的被点亮的路灯的距离和是8。可以证明没有比8更小的方案。</p>
+<h3 id="数据规模与约定-2">数据规模与约定</h3>
+<p>对于 30% 的数据，k=2。</p>
+<p>对于 50% 的数据，n≤10。</p>
+<p>对于 100% 的数据，1≤n≤200，1≤k≤30，k≤n，|ai|≤50000。</p>
+<p>时间限制：1s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路-2">思路</h2>
+<p>动态规划！</p>
+<p>这套题目非常有意思，和第一题很像，只是少了一个小字，虽然只是少了一个小字，但是题目的解法完完全全的不同了，这道题需要使用的是动态规划</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>表示前i个小路灯点亮了j个，且第j个是点亮的，之前每个路灯与距离最近的被点亮的路灯的距离的和最小是多少</p>
+<p>状态转移方程为<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">[</mo><mi>r</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo><mo>+</mo><mi>h</mi><mo stretchy="false">(</mo><mi>r</mi><mo separator="true">,</mo><mi>i</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mtext>，</mtext><mn>0</mn><mo>&lt;</mo><mo>=</mo><mi>r</mi><mo>&lt;</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">f[i][j]=min(f[r][j-1]+h(r,i)))，0&lt;=r&lt;i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">min</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">i</span><span class="mclose">)))</span><span class="mord cjk_fallback">，</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi><mo stretchy="false">(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h(i,j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">h</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">)</span></span></span></span>代表的是第i个路灯到第j个路灯中的一个路灯k，到i路灯和j路灯中的最小值的和，存的就是到i和j距离总和最近的那一个</p>
+<p>这样就可以满分了</p>
+<h2 id="代码-2">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> N 210</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> M 1010</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n,m,a[N];
+<span class="hljs-type">int</span> f[N][N],dp[N][N];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;m;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;a[i]);
+	a[<span class="hljs-number">0</span>]=<span class="hljs-number">-1e9</span>;
+	a[n<span class="hljs-number">+1</span>]=<span class="hljs-number">1e9</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;=n;i++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=i<span class="hljs-number">+1</span>;j&lt;=n<span class="hljs-number">+1</span>;j++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=i;k&lt;=j;k++) f[i][j]+=<span class="hljs-built_in">min</span>(a[k]-a[i],a[j]-a[k]);
+	<span class="hljs-built_in">memset</span>(dp,<span class="hljs-number">0x3f</span>,<span class="hljs-built_in">sizeof</span>(dp));
+	dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=m;j++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">0</span>;k&lt;i;k++) dp[i][j]=<span class="hljs-built_in">min</span>(dp[i][j],dp[k][j<span class="hljs-number">-1</span>]+f[k][i]);
+	<span class="hljs-type">int</span> ans=<span class="hljs-number">1e9</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) ans=<span class="hljs-built_in">min</span>(ans,dp[i][m]+f[i][n<span class="hljs-number">+1</span>]);
+	cout&lt;&lt;ans&lt;&lt;endl;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t4-匹配">T4 匹配</h2>
+<h3 id="题目描述-3">题目描述</h3>
+<p>给定一颗n个点n−1条边的树，每条边的长度都是1，i号节点的权是ai。如果三个节点两两在树上的距离都是4，那么称这三个节点构成了一个“组合”，一个“组合”的权是三个节点的权的乘积。求所有“组合”的权的和。</p>
+<h3 id="输入格式-3">输入格式</h3>
+<p>第1行一个整数n。</p>
+<p>接下来1行n个正整数，第<em>i</em>i个数表示ai。</p>
+<p>接下来n−1行，每行2个正整数u,v，表示u，v间有一条边。保证输入的是一颗树。</p>
+<h3 id="输出格式-3">输出格式</h3>
+<p>1行1个数表示答案。</p>
+<h3 id="样例数据-3">样例数据</h3>
+<p><strong>input</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">7
+1 2 3 4 5 6 7
+1 2
+2 3
+1 4
+4 5
+1 6
+6 7</code></pre></div><p><strong>output</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">105</code></pre></div><h3 id="样例解释-3">样例解释</h3>
+<p>只有(3,5,7)构成了“组合”，这个“组合”的权是105。</p>
+<h3 id="数据规模与约定-3">数据规模与约定</h3>
+<p>对于 20% 的数据，1≤n≤100。</p>
+<p>对于 40% 的数据，1≤<em>n</em>≤20001≤n≤2000。</p>
+<p>对于 100% 的数据，1≤n≤100000，1≤ai≤10，1≤u,v≤n。</p>
+<p>时间限制：1s</p>
+<p>空间限制：512MB</p>
+<h2 id="思路-3">思路</h2>
+<p><s>这个真的不会</s></p>
+<p>引用qbxt：</p>
+<p>可以发现三个点是“组合”当且仅当与中间点距离为2且互相在中间点的不同子树中</p>
+<p>一次树形dp求出每个点子节点的权的和f</p>
+<p>对于一个中间点，它的贡献就是每个子节点（包括父亲）的f值集合中任取3个的乘积的和</p>
+<h2 id="代码-3">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> dd double</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> ll long long</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> N 1000010</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> M 1010</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n,u,v,a[N];
+<span class="hljs-type">int</span> s,to[N*<span class="hljs-number">2</span>],ne[N*<span class="hljs-number">2</span>],pre[N];
+<span class="hljs-type">int</span> fa[N],f[N];
+ll ans;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> v)</span>
+</span>{
+	to[++s]=v;
+	ne[s]=pre[u];
+	pre[u]=s;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=pre[k];i;i=ne[i])
+	<span class="hljs-keyword">if</span>(to[i]!=fa[k])
+	{
+		<span class="hljs-type">int</span> x=to[i];
+		fa[x]=k;
+		<span class="hljs-built_in">dfs</span>(x);
+		f[k]+=a[x];
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-comment">//freopen(&quot;./match/match1.in&quot;,&quot;r&quot;,stdin);</span>
+	<span class="hljs-comment">//freopen(&quot;./match/match1.out&quot;,&quot;w&quot;,stdout);</span>
+	
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d&quot;</span>,&amp;a[i]);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++)
+	{
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;u,&amp;v);
+		<span class="hljs-built_in">add</span>(u,v);
+		<span class="hljs-built_in">add</span>(v,u);
+	}
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		ll s1=a[fa[fa[i]]];
+		<span class="hljs-keyword">if</span>(i&gt;<span class="hljs-number">1</span>) s1+=f[fa[i]]-a[i];
+		ll s2=<span class="hljs-number">0</span>; 
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=pre[i];j;j=ne[j])
+		<span class="hljs-keyword">if</span>(to[j]!=fa[i])
+		{
+			<span class="hljs-type">int</span> x=to[j];
+			ans+=s2*f[x];
+			s2+=s1*f[x];
+			s1+=f[x];
+		}
+	}
+	cout&lt;&lt;ans&lt;&lt;endl;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="总结">总结</h2>
+<p>通过这四道题，考察了二分，找规律？模拟？，动态规划和树上的几个算法，最后一个没看懂。明白了可以用空间换时间，这样非常值得。</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="59.html"><small>← 上一张委托</small><span>No.59 【解题报告】 洛谷P1663 山</span></a>
+          <a class="next" href="61.html"><small>下一张委托 →</small><span>No.61 【清北学堂国庆刷题班】 Day3</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#清北学堂国庆刷题班-day2">【清北学堂国庆刷题班】 Day2</a></li><li class="l3"><a href="#t1-小路灯">T1 小路灯</a></li><li class="l4"><a href="#题目描述">题目描述</a></li><li class="l4"><a href="#输入格式">输入格式</a></li><li class="l4"><a href="#输出格式">输出格式</a></li><li class="l4"><a href="#样例数据">样例数据</a></li><li class="l4"><a href="#样例解释">样例解释</a></li><li class="l4"><a href="#数据规模与约定">数据规模与约定</a></li><li class="l3"><a href="#思路">思路</a></li><li class="l3"><a href="#代码">代码</a></li><li class="l3"><a href="#t2-序列">T2 序列</a></li><li class="l4"><a href="#题目描述-1">题目描述</a></li><li class="l4"><a href="#输入格式-1">输入格式</a></li><li class="l4"><a href="#输出格式-1">输出格式</a></li><li class="l4"><a href="#样例数据-1">样例数据</a></li><li class="l4"><a href="#样例解释-1">样例解释</a></li><li class="l4"><a href="#数据规模与约定-1">数据规模与约定</a></li><li class="l3"><a href="#思路-1">思路</a></li><li class="l3"><a href="#代码-1">代码</a></li><li class="l3"><a href="#t3-路灯">T3 路灯</a></li><li class="l4"><a href="#题目描述-2">题目描述</a></li><li class="l4"><a href="#输入格式-2">输入格式</a></li><li class="l4"><a href="#输出格式-2">输出格式</a></li><li class="l4"><a href="#样例数据-2">样例数据</a></li><li class="l4"><a href="#样例解释-2">样例解释</a></li><li class="l4"><a href="#数据规模与约定-2">数据规模与约定</a></li><li class="l3"><a href="#思路-2">思路</a></li><li class="l3"><a href="#代码-2">代码</a></li><li class="l3"><a href="#t4-匹配">T4 匹配</a></li><li class="l4"><a href="#题目描述-3">题目描述</a></li><li class="l4"><a href="#输入格式-3">输入格式</a></li><li class="l4"><a href="#输出格式-3">输出格式</a></li><li class="l4"><a href="#样例数据-3">样例数据</a></li><li class="l4"><a href="#样例解释-3">样例解释</a></li><li class="l4"><a href="#数据规模与约定-3">数据规模与约定</a></li><li class="l3"><a href="#思路-3">思路</a></li><li class="l3"><a href="#代码-3">代码</a></li><li class="l3"><a href="#总结">总结</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2020/10/30/%E3%80%90%E6%B8%85%E5%8C%97%E5%AD%A6%E5%A0%82%E5%9B%BD%E5%BA%86%E5%88%B7%E9%A2%98%E7%8F%AD%E3%80%91-Day2/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

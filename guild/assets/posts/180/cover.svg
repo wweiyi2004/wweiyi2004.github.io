@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+<title id="title">Embedding：从文字走进向量空间</title><desc id="desc">从查表与梯度，到上下文、句向量和语义检索</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="630" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">Embedding：从文字走进向量空间</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">从查表与梯度，到上下文、句向量和语义检索</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<rect x="50" y="170" width="305" height="150" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="72" y="210" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">现实中的表达</text>
+<text x="72" y="248" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">“账号密码忘了怎么办？”</text>
+<text x="72" y="281" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">“如何重新设置密码？”</text>
+<path d="M370,243 L449,243" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<rect x="470" y="170" width="280" height="150" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="492" y="210" fill="#148071" font-size="25" text-anchor="start" font-weight="700">训练好的编码器</text>
+<text x="492" y="248" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">Tokenizer → Transformer</text>
+<text x="492" y="281" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">Pooling → Normalize</text>
+<path d="M765,243 L844,243" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<rect x="865" y="150" width="285" height="280" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="890" y="190" fill="#3264d5" font-size="24" text-anchor="start" font-weight="700">可比较的向量</text>
+<path d="M901,392 L1120,392" stroke="#6c82a2" stroke-width="2.5" fill="none"/>
+<path d="M901,392 L901,220" stroke="#6c82a2" stroke-width="2.5" fill="none"/>
+<circle cx="967" cy="261" r="8" fill="#3264d5"/>
+<circle cx="987" cy="277" r="8" fill="#3264d5"/>
+<circle cx="954" cy="286" r="8" fill="#3264d5"/>
+<circle cx="1080" cy="345" r="8" fill="#148071"/>
+<circle cx="1099" cy="328" r="8" fill="#148071"/>
+<circle cx="1063" cy="330" r="8" fill="#148071"/>
+<text x="1020" y="237" fill="#3264d5" font-size="18" text-anchor="middle" font-weight="400">相近表达</text>
+<text x="1053" y="375" fill="#148071" font-size="18" text-anchor="middle" font-weight="400">其他主题</text>
+<rect x="50" y="388" width="700" height="142" rx="16" fill="#fff9ef" stroke="#d5deeb" stroke-width="2"/>
+<text x="72" y="428" fill="#cb7028" font-size="25" text-anchor="start" font-weight="700">关键问题：什么决定“近”？</text>
+<text x="72" y="466" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">训练数据给出关联，损失函数定义目标，梯度更新参数。</text>
+<text x="72" y="499" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">最终学到的是适合特定任务的表示。</text>
+<text x="48" y="606" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">原创示意图 · 用于解释机制，不代表真实模型的测量结果</text>
+</g></svg>

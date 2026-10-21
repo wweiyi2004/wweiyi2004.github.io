@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】POJ2299 超快速排序 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目：超快速排序（已翻译） 解题思路： 归并排序求逆序对 归并排序使我们众所周知的，我们只要在归并排序中计算每一个子序列中的逆序对数，我们就可以计算出总的逆序对数了，也就是 $ cnt+=mid-i+1 $ 然后就完成了这道题 AC代码 顺">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="19" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.19</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】POJ2299 超快速排序</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-08-07T08:09:00.000Z">2019.08.07</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">113 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=POJ">#POJ</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告poj2299-超快速排序">【解题报告】POJ2299 超快速排序</h1>
+<h2 id="题目超快速排序已翻译">题目：<a href="https://www.acwing.com/problem/content/109/" target="_blank" rel="noopener">超快速排序</a>（已翻译）</h2>
+<h3 id="解题思路">解题思路：</h3>
+<p>归并排序求逆序对</p>
+<p>归并排序使我们众所周知的，我们只要在归并排序中计算每一个子序列中的逆序对数，我们就可以计算出总的逆序对数了，也就是<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>n</mi><mi>t</mi><mo>+</mo><mo>=</mo><mi>m</mi><mi>i</mi><mi>d</mi><mo>−</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">cnt+=mid-i+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6984em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">mi</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span><br>
+然后就完成了这道题</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> cnt;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">500005</span>;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> a[maxn];
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> b[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(r&gt;l)
+    {
+        <span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;
+        <span class="hljs-type">int</span> i=l; 
+        <span class="hljs-type">int</span> p=l,q=mid<span class="hljs-number">+1</span>;
+        <span class="hljs-built_in">merge_sort</span>(l,mid);
+        <span class="hljs-built_in">merge_sort</span>(mid<span class="hljs-number">+1</span>,r);
+        <span class="hljs-keyword">while</span>(p&lt;=mid||q&lt;=r)
+        {
+            <span class="hljs-keyword">if</span>(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))
+            b[i++] = a[p++];
+            <span class="hljs-keyword">else</span>
+            {
+                b[i++]=a[q++];
+                cnt+=mid-p<span class="hljs-number">+1</span>;
+            }
+        }
+        <span class="hljs-keyword">for</span>(i=l;i&lt;=r;i++)
+        a[i]=b[i];
+    }
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">while</span>(cin&gt;&gt;n&amp;&amp;n)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+		cin&gt;&gt;a[i];
+		cnt=<span class="hljs-number">0</span>;
+		<span class="hljs-built_in">merge_sort</span>(<span class="hljs-number">1</span>,n);
+		cout&lt;&lt;cnt&lt;&lt;endl;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><p>顺便附上归并排序的代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n,cnt;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100005</span>;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> a[maxn];
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> b[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(r&gt;l)
+    {
+        <span class="hljs-type">int</span> mid=(l+r)/<span class="hljs-number">2</span>;
+        <span class="hljs-type">int</span> i=l; 
+        <span class="hljs-type">int</span> p=l,q=mid<span class="hljs-number">+1</span>;
+        <span class="hljs-built_in">merge_sort</span>(l,mid);
+        <span class="hljs-built_in">merge_sort</span>(mid<span class="hljs-number">+1</span>,r);
+        <span class="hljs-keyword">while</span>(p&lt;=mid||q&lt;=r)
+        {
+            <span class="hljs-keyword">if</span>(q&gt;r||(p&lt;=mid&amp;&amp;a[p]&lt;=a[q]))
+            b[i++] = a[p++];
+            <span class="hljs-keyword">else</span>
+            {
+                b[i++]=a[q++];
+                cnt+=mid-p<span class="hljs-number">+1</span>;
+            }
+        }
+        <span class="hljs-keyword">for</span>(i=l;i&lt;=r;i++)
+        a[i]=b[i];
+    }
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	cin&gt;&gt;a[i];
+	<span class="hljs-built_in">merge_sort</span>(<span class="hljs-number">1</span>,n);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		cout&lt;&lt;a[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	}
+	cout&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="18.html"><small>← 上一张委托</small><span>No.18 【解题报告】 CH0501 货仓选址</span></a>
+          <a class="next" href="20.html"><small>下一张委托 →</small><span>No.20 【解题报告】 BZOJ3032 七夕祭</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告poj2299-超快速排序">【解题报告】POJ2299 超快速排序</a></li><li class="l3"><a href="#题目超快速排序已翻译">题目：超快速排序（已翻译）</a></li><li class="l4"><a href="#解题思路">解题思路：</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/08/07/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91POJ2299-%E8%B6%85%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

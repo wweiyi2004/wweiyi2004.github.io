@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷P1896 [SOCI2005]互不侵犯 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目描述 在N×N的棋盘里面放K个国王，使他们互不攻击，共有多少种摆放方案。国王能攻击到它上下左右，以及左上左下右上右下八个方向上附近的各一个格子，共8个格子。 注：数据有加强（2018/4/25） 输入格式 只有一行，包含两个数N，K （">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="73" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.73</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷P1896 [SOCI2005]互不侵犯</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-03-21T01:42:00.000Z">2021.03.21</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">521 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p1896-soci2005互不侵犯">【解题报告】洛谷P1896 [SOCI2005]互不侵犯</h1>
+<h4 id="题目描述">题目描述</h4>
+<p>在N×N的棋盘里面放K个国王，使他们互不攻击，共有多少种摆放方案。国王能攻击到它上下左右，以及左上左下右上右下八个方向上附近的各一个格子，共8个格子。</p>
+<p>注：数据有加强（2018/4/25）</p>
+<h4 id="输入格式">输入格式</h4>
+<p>只有一行，包含两个数N，K （ 1 &lt;=N &lt;=9, 0 &lt;= K &lt;= N * N）</p>
+<h4 id="输出格式">输出格式</h4>
+<p>所得的方案数</p>
+<h4 id="输入输出样例">输入输出样例</h4>
+<p><strong>输入 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">3 2</code></pre></div><p><strong>输出 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">16</code></pre></div><h2 id="思路">思路</h2>
+<p>互不侵犯是一道非常经典的 <strong>状态压缩Dp</strong>的题目（最主要我最近在练习状态压缩DP）</p>
+<p>为什么不能用搜索呢，因为状态数量太多了，是一个指数级别的大爆搜，肯定不能过，而且，这个棋盘的某个格子放不放棋子是两个状态，0不放，1放，因此我们可以使用一个十进制数来表示一个二进制数，而二进制数又是一串数字，<strong>正好是由0和1组成的一个串</strong>，在看<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≤</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">N\leq 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span></span></span></span>，因此存的下，所以我们用一个二进制数来表示每一行的状态，然而有一些状态是无用的，我们可以预处理一下（<s>想一想，为什么</s>）</p>
+<p>预处理好每一行的状态之后，我们继续处理相邻两行之间的状态，处理方式和处理一行的时候的方式是一样的，我们都需要使用位运算，处理完之后，我们可以写出一个状态转移方程<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>w</mi><mo>+</mo><mi>k</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo stretchy="false">[</mo><mi>n</mi><mi>o</mi><mi>w</mi><mo stretchy="false">]</mo><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>s</mi><msub><mi>t</mi><mrow><mi>n</mi><mi>o</mi><mi>w</mi></mrow></msub><mo stretchy="false">]</mo><mo>+</mo><mo>=</mo><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>w</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>s</mi><msub><mi>t</mi><mrow><mi>f</mi><mi>o</mi><mi>r</mi><mi>m</mi><mi>e</mi><mi>r</mi></mrow></msub><mo stretchy="false">]</mo><mo stretchy="false">(</mo><mi>w</mi><mo>+</mo><mi>k</mi><mi>i</mi><mi>n</mi><mi>g</mi><mo stretchy="false">[</mo><mi>n</mi><mi>o</mi><mi>w</mi><mo stretchy="false">]</mo><mo>≤</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f[i+1][w+king[now]][st_{now}]+=f[i][w][st_{former}]   (w+king[now]\leq k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">kin</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">]]</span><span class="mopen">[</span><span class="mord mathnormal">s</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">]</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal">s</span><span class="mord"><span class="mord mathnormal">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10764em;">f</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">or</span><span class="mord mathnormal mtight">m</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">er</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">]</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">kin</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span><br>
+其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>k</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i][j][k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span>表示到了第i行，第i行及以前已经有j个国王了，当前第i行的状态为k（一个二进制数）</p>
+<p>所以我们就可以开始动态规划了，时间复杂度很高，但是已经足以把这道题目过掉了</p>
+<p><strong>这道题非常重要，强烈建议读者独自写出代码</strong></p>
+<h2 id="代码">代码</h2>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">11</span>;
+<span class="hljs-type">int</span> n,k;
+<span class="hljs-type">bool</span> st[<span class="hljs-number">1</span>&lt;&lt;maxn];
+<span class="hljs-type">bool</span> dst[<span class="hljs-number">1</span>&lt;&lt;maxn][<span class="hljs-number">1</span>&lt;&lt;maxn];
+<span class="hljs-type">int</span> king[<span class="hljs-number">1</span>&lt;&lt;maxn];
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> f[maxn][<span class="hljs-number">100</span>][<span class="hljs-number">1</span>&lt;&lt;maxn];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n&gt;&gt;k;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;(<span class="hljs-number">1</span>&lt;&lt;n);i++)
+	{
+		<span class="hljs-keyword">if</span>(i&amp;(i&gt;&gt;<span class="hljs-number">1</span>)) <span class="hljs-keyword">continue</span>;
+		st[i]=<span class="hljs-literal">true</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=i;j&lt;&lt;=<span class="hljs-number">1</span>)
+		<span class="hljs-keyword">if</span>(j&amp;i)
+		king[i]++;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;(<span class="hljs-number">1</span>&lt;&lt;n);i++)
+	{
+		<span class="hljs-keyword">if</span>(st[i]) 
+		{
+			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;(<span class="hljs-number">1</span>&lt;&lt;n);j++)
+			{
+				<span class="hljs-keyword">if</span>(st[j]&amp;&amp;!(i&amp;j)&amp;&amp;!(i&amp;(j&lt;&lt;<span class="hljs-number">1</span>))&amp;&amp;!(i&amp;(j&gt;&gt;<span class="hljs-number">1</span>)))
+				dst[i][j]=<span class="hljs-literal">true</span>;
+			}
+		}
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;(<span class="hljs-number">1</span>&lt;&lt;n);i++)
+	{
+		<span class="hljs-keyword">if</span>(st[i])
+		f[<span class="hljs-number">1</span>][king[i]][i]=<span class="hljs-number">1</span>;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> poss=<span class="hljs-number">0</span>;poss&lt;(<span class="hljs-number">1</span>&lt;&lt;n);poss++)
+		{
+			<span class="hljs-keyword">if</span>(st[poss])
+			{
+				<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> next=<span class="hljs-number">0</span>;next&lt;(<span class="hljs-number">1</span>&lt;&lt;n);next++)
+				{
+					<span class="hljs-keyword">if</span>(st[next]&amp;&amp;dst[poss][next])
+					{
+						<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> w=king[poss];w+king[next]&lt;=k;w++)
+						{
+							f[i<span class="hljs-number">+1</span>][w+king[next]][next]+=f[i][w][poss];
+						}
+					}
+				}
+			}
+		}
+	}
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> ans=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;(<span class="hljs-number">1</span>&lt;&lt;n);i++)
+	ans+=f[n][k][i];
+	cout&lt;&lt;ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="72.html"><small>← 上一张委托</small><span>No.72 图论笔记</span></a>
+          <a class="next" href="74.html"><small>下一张委托 →</small><span>No.74 泄恨励志安慰鼓励反省书</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p1896-soci2005互不侵犯">【解题报告】洛谷P1896 [SOCI2005]互不侵犯</a></li><li class="l5"><a href="#题目描述">题目描述</a></li><li class="l5"><a href="#输入格式">输入格式</a></li><li class="l5"><a href="#输出格式">输出格式</a></li><li class="l5"><a href="#输入输出样例">输入输出样例</a></li><li class="l3"><a href="#思路">思路</a></li><li class="l3"><a href="#代码">代码</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/03/21/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7P1896-%5BSOCI2005%5D%E4%BA%92%E4%B8%8D%E4%BE%B5%E7%8A%AF/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

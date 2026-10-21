@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【比赛重现】从NOIP2004说开去 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="今天做题目，有很多题目都不会，距离今年的NOIP也只有一两百天的时间了，对于自己的水平我也是知晓的，不可能在今年有很好的成绩，但是我还是要坚持下去，毕竟，不到最后，什么也说不准。经过一些思考，我认为，真题是最重要的，只有准确把握的真题的方法">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="77" data-line="2" data-minutes="7">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.77</span><a class="writ__line" href="../index.html?line=2"></a><span><a href="../index.html?cat=%E7%AB%9E%E8%B5%9B%E7%9B%B8%E5%85%B3">竞赛相关</a></span></p>
+        <h1 class="writ__title">【比赛重现】从NOIP2004说开去</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-04-11T01:46:00.000Z">2021.04.11</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">2,279 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 7 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">#动态规划</a></li><li><a href="../index.html?tag=%E8%B4%AA%E5%BF%83">#贪心</a></li><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=%E5%AD%97%E7%AC%A6%E4%B8%B2">#字符串</a></li><li><a href="../index.html?tag=%E6%A8%A1%E6%8B%9F">#模拟</a></li><li><a href="../index.html?tag=STL">#STL</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li><li><a href="../index.html?tag=NOIP">#NOIP</a></li><li><a href="../index.html?tag=NOI">#NOI</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="比赛重现从noip2004说开去">【比赛重现】从NOIP2004说开去</h1>
+<p>今天做题目，有很多题目都不会，距离今年的NOIP也只有一两百天的时间了，对于自己的水平我也是知晓的，不可能在今年有很好的成绩，但是我还是要坚持下去，毕竟，不到最后，什么也说不准。经过一些思考，我认为，真题是最重要的，只有准确把握的真题的方法与思路，才能真正地掌握一场比赛的全貌，因此，今天，从NOIP2004说开去</p>
+<p>相对而言，NOIP2004是比较简单的，并且，这是我出生的那一年，既然，我是从那一年开始的，那么，我的故事便从2004年开始。</p>
+<h2 id="t1-津津的储蓄计划">T1 津津的储蓄计划</h2>
+<h4 id="问题描述">【问题描述】</h4>
+<p>津津的零花钱一直都是自己管理。每个月的月初妈妈给津津300元钱，津津会预算这个月的花销，并且总能做到实际花销和预算的相同。</p>
+<p>为了让津津学习如何储蓄，妈妈提出，津津可以随时把整百的钱存在她那里，到了年末她会加上20%还给津津。因此津津制定了一个储蓄计划：每个月的月初，在得到妈妈给的零花钱后，如果她预计到这个月的月末手中还会有多于100元或恰好100元，她就会把整百的钱存在妈妈那里，剩余的钱留在自己手中。</p>
+<p>例如11月初津津手中还有83元，妈妈给了津津300元。津津预计11月的花销是180元，那么她就会在妈妈那里存200元，自己留下183元。到了11月月末，津津手中会剩下3元钱。</p>
+<p>津津发现这个储蓄计划的主要风险是，存在妈妈那里的钱在年末之前不能取出。有可能在某个月的月初，津津手中的钱加上这个月妈妈给的钱，不够这个月的原定预算。如果出现这种情况，津津将不得不在这个月省吃俭用，压缩预算。</p>
+<p>现在请你根据2004年1月到12月每个月津津的预算，判断会不会出现这种情况。如果不会，计算到2004年年末，妈妈将津津平常存的钱加上20%还给津津之后，津津手中会有多少钱。</p>
+<h4 id="输入文件">【输入文件】</h4>
+<p>输入文件<strong><a href="http://save.in" target="_blank" rel="noopener">save.in</a></strong>包括12行数据，每行包含一个小于350的非负整数，分别表示1月到12月津津的预算。</p>
+<h4 id="输出文件">【输出文件】</h4>
+<p>输出文件<strong>save.out</strong>包括一行，这一行只包含一个整数。如果储蓄计划实施过程中出现某个月钱不够用的情况，输出-X，X表示出现这种情况的第一个月；否则输出到2004年年末津津手中会有多少钱。</p>
+<h4 id="样例输入1">【样例输入1】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">290
+230
+280
+200
+300
+170
+340
+50
+90
+80
+200
+60</code></pre></div><h4 id="样例输出1">【样例输出1】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">-7</code></pre></div><h4 id="样例输入2">【样例输入2】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">290
+230
+280
+200
+300
+170
+330
+50
+90
+80
+200
+60</code></pre></div><h4 id="样例输出2">【样例输出2】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">1580</code></pre></div><h3 id="题解">题解</h3>
+<p><strong>模拟</strong></p>
+<p>当初第一次做这道题的时候还是在2018年的一月份吧，很怀念了，当时花了好长时间才做出来，然后第二次做是在2018年的国庆节在武汉培训的时候，这道题是一道模拟题，分析一下就能做出来了</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> i,yq,haiyouqian,gq=<span class="hljs-number">300</span>,sq=<span class="hljs-number">0</span>,cq=<span class="hljs-number">0</span>;  
+	<span class="hljs-type">double</span> lq=<span class="hljs-number">0</span>;            
+	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">12</span>;i++)
+	{
+	    cin&gt;&gt;yq;
+	    haiyouqian=gq+sq;
+	    <span class="hljs-keyword">if</span> (haiyouqian&lt;yq)
+	    {
+	    	cout&lt;&lt;-i&lt;&lt;endl;
+	    	<span class="hljs-keyword">break</span>;
+		}
+		cq+=(haiyouqian-yq)/<span class="hljs-number">100</span>;
+		sq=(haiyouqian-yq)%<span class="hljs-number">100</span>;
+    }
+    lq=cq*<span class="hljs-number">100</span>*<span class="hljs-number">1.2</span>;
+    <span class="hljs-keyword">if</span> (i&gt;<span class="hljs-number">12</span>)
+    cout&lt;&lt;(<span class="hljs-type">int</span>)lq+sq&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t2-合并果子">T2 合并果子</h2>
+<h4 id="问题描述-1">【问题描述】</h4>
+<p>在一个果园里，多多已经将所有的果子打了下来，而且按果子的不同种类分成了不同的堆。多多决定把所有的果子合成一堆。</p>
+<p>每一次合并，多多可以把两堆果子合并到一起，消耗的体力等于两堆果子的重量之和。可以看出，所有的果子经过n-1次合并之后，就只剩下一堆了。多多在合并果子时总共消耗的体力等于每次合并所耗体力之和。</p>
+<p>因为还要花大力气把这些果子搬回家，所以多多在合并果子时要尽可能地节省体力。假定每个果子重量都为1，并且已知果子的种类数和每种果子的数目，你的任务是设计出合并的次序方案，使多多耗费的体力最少，并输出这个最小的体力耗费值。</p>
+<p>例如有3种果子，数目依次为1，2，9。可以先将 1、2堆合并，新堆数目为3，耗费体力为3。接着，将新堆与原先的第三堆合并，又得到新的堆，数目为12，耗费体力为 12。所以多多总共耗费体力=3+12=15。可以证明15为最小的体力耗费值。</p>
+<h4 id="输入文件-1">【输入文件】</h4>
+<p>输入文件<strong><a href="http://fruit.in" target="_blank" rel="noopener">fruit.in</a></strong>包括两行，第一行是一个整数n（1 &lt;= n &lt;= 10000），表示果子的种类数。第二行包含n个整数，用空格分隔，第i个整数ai（1 &lt;= ai &lt;= 20000）是第i种果子的数目</p>
+<h4 id="输出文件-1">【输出文件】</h4>
+<p>输出文件<strong>fruit.out</strong>包括一行，这一行只包含一个整数，也就是最小的体力耗费值。输入数据保证这个值小于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">2^{31}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">31</span></span></span></span></span></span></span></span></span></span></span></span>。</p>
+<h4 id="样例输入">【样例输入】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">3
+1 2 9</code></pre></div><h4 id="样例输出">【样例输出】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">15</code></pre></div><h4 id="数据规模">【数据规模】</h4>
+<p>对于30%的数据，保证有n &lt;= 1000；</p>
+<p>对于50%的数据，保证有n &lt;= 5000；</p>
+<p>对于全部的数据，保证有n &lt;= 10000。</p>
+<h3 id="题解-1">题解</h3>
+<p><strong>贪心 优先队列</strong></p>
+<p>优先合并比较小的两堆，运用优先队列存储再好不过，只不过存的时候要存一个相反的负数，这样才能保证堆顶是两个比较小的数</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+priority_queue &lt;<span class="hljs-type">int</span>&gt; heap;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> ans;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		<span class="hljs-type">int</span> x;
+		cin&gt;&gt;x;
+		heap.<span class="hljs-built_in">push</span>(-x);
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n<span class="hljs-number">-1</span>;i++)
+	{
+		<span class="hljs-type">int</span> a,b;
+		a=heap.<span class="hljs-built_in">top</span>();
+		heap.<span class="hljs-built_in">pop</span>();
+		b=heap.<span class="hljs-built_in">top</span>();
+		heap.<span class="hljs-built_in">pop</span>();
+		ans+=(a+b);
+		heap.<span class="hljs-built_in">push</span>(a+b);
+	}
+	cout&lt;&lt;-ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t3-合唱队形">T3 合唱队形</h2>
+<h4 id="问题描述-2">【问题描述】</h4>
+<p>N位同学站成一排，音乐老师要请其中的(N-K)位同学出列，使得剩下的K位同学排成合唱队形。</p>
+<p>合唱队形是指这样的一种队形：设K位同学从左到右依次编号为1, 2, …, K，他们的身高分别为T1, T2, …, TK，则他们的身高满足T1 &lt; T2 &lt; … &lt; Ti , Ti &gt; Ti+1 &gt; … &gt; TK (1 &lt;= i &lt;= K)。</p>
+<p>你的任务是，已知所有N位同学的身高，计算最少需要几位同学出列，可以使得剩下的同学排成合唱队形。</p>
+<h4 id="输入文件-2">【输入文件】</h4>
+<p>输入文件<strong><a href="http://chorus.in" target="_blank" rel="noopener">chorus.in</a></strong>的第一行是一个整数N（2 &lt;= N &lt;= 100），表示同学的总数。第一行有n个整数，用空格分隔，第i个整数Ti（130 &lt;= Ti &lt;= 230）是第i位同学的身高（厘米）。</p>
+<h4 id="输出文件-2">【输出文件】</h4>
+<p>输出文件<strong>chorus.out</strong>包括一行，这一行只包含一个整数，就是最少需要几位同学出列。</p>
+<h4 id="样例输入-1">【样例输入】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">8
+186 186 150 200 160 130 197 220</code></pre></div><h4 id="样例输出-1">【样例输出】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">4</code></pre></div><h4 id="数据规模-1">【数据规模】</h4>
+<p>对于50%的数据，保证有n &lt;= 20；</p>
+<p>对于全部的数据，保证有n &lt;= 100。</p>
+<h3 id="题解-2">题解</h3>
+<p><strong>动态规划</strong></p>
+<p>运用的实际上是基本模型<strong>最长上升子序列</strong>，从左往右做一个最长上升子序列，再从有往左做一个最长上升子序列，然后从中间枚举断点，计算这种情况下的最多能留下多少人，对所有的断点所对应的值取一个max，然后最后的答案就是n-max了</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">int</span> a[<span class="hljs-number">105</span>],b[<span class="hljs-number">105</span>];
+<span class="hljs-type">int</span> f[<span class="hljs-number">105</span>],g[<span class="hljs-number">105</span>];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		cin&gt;&gt;a[i];
+		b[n-i<span class="hljs-number">+1</span>]=a[i];
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		f[i]=<span class="hljs-number">1</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=i;j++)
+		{
+			<span class="hljs-keyword">if</span>(a[i]&gt;a[j])
+			f[i]=<span class="hljs-built_in">max</span>(f[i],f[j]<span class="hljs-number">+1</span>);
+		}
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	{
+		g[i]=<span class="hljs-number">1</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=i;j++)
+		{
+			<span class="hljs-keyword">if</span>(b[i]&gt;b[j])
+			g[i]=<span class="hljs-built_in">max</span>(g[i],g[j]<span class="hljs-number">+1</span>);
+		}
+	}
+	<span class="hljs-type">int</span> ans=<span class="hljs-number">-999</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	ans=<span class="hljs-built_in">max</span>(ans,f[i]+g[n-i<span class="hljs-number">+1</span>]<span class="hljs-number">-1</span>);
+	cout&lt;&lt;n-ans&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="t4-虫食算">T4 虫食算</h2>
+<h4 id="问题描述-3">【问题描述】</h4>
+<p>所谓虫食算，就是原先的算式中有一部分被虫子啃掉了，需要我们根据剩下的数字来判定被啃掉的字母。来看一个简单的例子：</p>
+<p>43#98650#45</p>
+<p>+  8468#6633</p>
+<hr>
+<p>44445506978</p>
+<p>其中#号代表被虫子啃掉的数字。根据算式，我们很容易判断：第一行的两个数字分别是5和3，第二行的数字是5。</p>
+<p>现在，我们对问题做两个限制：</p>
+<p>首先，我们只考虑加法的虫食算。这里的加法是N进制加法，算式中三个数都有N位，允许有前导的0。</p>
+<p>其次，虫子把所有的数都啃光了，我们只知道哪些数字是相同的。我们将相同的数字用相同的字母表示，不同的数字用不同的字母表示。如果这个算式是N进制的，我们就取英文字母表中的前N个大写字母来表示这个算式中的0到N-1这N个不同的数字（但是这N个字母并不一定顺序地代表0到N-1）。输入数据保证N个字母分别至少出现一次。</p>
+<p>BADC</p>
+<p>+ CBDA</p>
+<hr>
+<p>DCCC</p>
+<p>上面的算式是一个4进制的算式。很显然，我们只要让ABCD分别代表0123，便可以让这个式子成立了。你的任务是，对于给定的N进制加法算式，求出N个不同的字母分别代表的数字，使得该加法算式成立。输入数据保证有且仅有一组解。</p>
+<h4 id="输入文件-3">【输入文件】</h4>
+<p>输入文件<strong><a href="http://alpha.in" target="_blank" rel="noopener">alpha.in</a></strong>包含4行。第一行有一个正整数N（N &lt;= 26），后面的3行每行有一个由大写字母组成的字符串，分别代表两个加数以及和。这3个字符串左右两端都没有空格，从高位到低位，并且恰好有N位。</p>
+<h4 id="输出文件-3">【输出文件】</h4>
+<p>输出文件<strong>alpha.out</strong>包含一行。在这一行中，应当包含唯一的那组解。解是这样表示的：输出N个数字，分别表示A，B，C……所代表的数字，相邻的两个数字用一个空格隔开，不能有多余的空格。</p>
+<h4 id="样例输入-2">【样例输入】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">5
+ABCED
+BDACE
+EBBAA</code></pre></div><h4 id="样例输出-2">【样例输出】</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">1 0 3 4 2</code></pre></div><h4 id="数据规模-2">【数据规模】</h4>
+<p>对于30%的数据，保证有N &lt;= 10；</p>
+<p>对于50%的数据，保证有N &lt;= 15；</p>
+<p>对于全部的数据，保证有N &lt;= 26。</p>
+<h3 id="题解-3">题解</h3>
+<p><strong>搜索+剪枝</strong>or <strong>高斯消元？</strong></p>
+<p>我们可以这么想，枚举0~n-1的全排列，然后将数字一个一个带入，这样就可以了？</p>
+<p>啊不，不可以，这样绝对会超时，因为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≤</mo><mn>26</mn></mrow><annotation encoding="application/x-tex">N\leq 26</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">26</span></span></span></span>,计算量为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>26</mn><mo stretchy="false">!</mo><mo>∗</mo><mn>26</mn></mrow><annotation encoding="application/x-tex">26!*26</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">26</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">26</span></span></span></span>，这个数非常大，所以我们考虑一下剪枝，我们可以提前知道对于某一个数位上的两个字母，枚举的时候判断一下</p>
+<p>如果这一位加一和不加一都不满足等式的话，那么这个肯定不成立，剪掉</p>
+<p>如果最高位的两个字母相加有进位，那么还是不成立</p>
+<p>有了这两条剪枝就能做出来了</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">30</span>;
+<span class="hljs-type">int</span> n,k;
+<span class="hljs-type">char</span> e[<span class="hljs-number">3</span>][N];
+<span class="hljs-type">int</span> q[N],path[N];
+<span class="hljs-type">bool</span> st[N];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">()</span><span class="hljs-comment">//检查是否符合等式</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=n<span class="hljs-number">-1</span>,t=<span class="hljs-number">0</span>;i&gt;=<span class="hljs-number">0</span>;i--)
+	{
+		<span class="hljs-type">int</span> a=e[<span class="hljs-number">0</span>][i]-<span class="hljs-string">&#x27;A&#x27;</span>,b=e[<span class="hljs-number">1</span>][i]-<span class="hljs-string">&#x27;A&#x27;</span>,c=e[<span class="hljs-number">2</span>][i]-<span class="hljs-string">&#x27;A&#x27;</span>;
+		<span class="hljs-keyword">if</span>(path[a]!=<span class="hljs-number">-1</span>&amp;&amp;path[b]!=<span class="hljs-number">-1</span>&amp;&amp;path[c]!=<span class="hljs-number">-1</span>)
+		{
+			a=path[a],b=path[b],c=path[c];	
+			<span class="hljs-keyword">if</span>(t!=<span class="hljs-number">-1</span>)
+			{
+				<span class="hljs-keyword">if</span>((a+b+t)%n!=c) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+				<span class="hljs-keyword">if</span>(!i&amp;&amp;a+b+t&gt;n) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+				t=(a+b+t)/n;
+			}
+			<span class="hljs-keyword">else</span>
+			{
+				<span class="hljs-keyword">if</span>((a+b<span class="hljs-number">+0</span>)%n!=c&amp;&amp;(a+b<span class="hljs-number">+1</span>)%n!=c)
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+				<span class="hljs-keyword">if</span>(!i&amp;&amp;a+b&gt;=n)
+				<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+			}
+		}
+		<span class="hljs-keyword">else</span> t=<span class="hljs-number">-1</span>;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span><span class="hljs-comment">//枚举函数</span>
+</span>{
+	<span class="hljs-keyword">if</span>(u==n)
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)
+	{
+		<span class="hljs-keyword">if</span>(!st[i])
+		{
+			st[i]=<span class="hljs-literal">true</span>;
+			path[q[u]]=i;
+			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>()&amp;&amp;<span class="hljs-built_in">dfs</span>(u<span class="hljs-number">+1</span>))<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+			st[i]=<span class="hljs-literal">false</span>;
+			path[q[u]]=<span class="hljs-number">-1</span>;
+		}
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">3</span>;i++)
+	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%s&quot;</span>,e[i]);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=n<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">0</span>;i--)
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">3</span>;j++)
+	{
+		<span class="hljs-type">int</span> t=e[j][i]-<span class="hljs-string">&#x27;A&#x27;</span>;
+		<span class="hljs-keyword">if</span>(!st[t])
+		{
+			st[t]=<span class="hljs-literal">true</span>;
+			q[k++]=t;<span class="hljs-comment">//q记录的是字母出现的顺序 </span>
+		}
+	}
+	<span class="hljs-built_in">memset</span>(st,<span class="hljs-literal">false</span>,<span class="hljs-built_in">sizeof</span>(st));<span class="hljs-comment">//代表这个数字是不是被用过 </span>
+	<span class="hljs-built_in">memset</span>(path,<span class="hljs-number">-1</span>,<span class="hljs-built_in">sizeof</span>(path));<span class="hljs-comment">//代表这个字母是不是被赋值 </span>
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>);
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)
+	cout&lt;&lt;path[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+	cout&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="76.html"><small>← 上一张委托</small><span>No.76 NOI Online2021游记</span></a>
+          <a class="next" href="78.html"><small>下一张委托 →</small><span>No.78 回忆</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#比赛重现从noip2004说开去">【比赛重现】从NOIP2004说开去</a></li><li class="l3"><a href="#t1-津津的储蓄计划">T1 津津的储蓄计划</a></li><li class="l5"><a href="#问题描述">【问题描述】</a></li><li class="l5"><a href="#输入文件">【输入文件】</a></li><li class="l5"><a href="#输出文件">【输出文件】</a></li><li class="l5"><a href="#样例输入1">【样例输入1】</a></li><li class="l5"><a href="#样例输出1">【样例输出1】</a></li><li class="l5"><a href="#样例输入2">【样例输入2】</a></li><li class="l5"><a href="#样例输出2">【样例输出2】</a></li><li class="l4"><a href="#题解">题解</a></li><li class="l3"><a href="#t2-合并果子">T2 合并果子</a></li><li class="l5"><a href="#问题描述-1">【问题描述】</a></li><li class="l5"><a href="#输入文件-1">【输入文件】</a></li><li class="l5"><a href="#输出文件-1">【输出文件】</a></li><li class="l5"><a href="#样例输入">【样例输入】</a></li><li class="l5"><a href="#样例输出">【样例输出】</a></li><li class="l5"><a href="#数据规模">【数据规模】</a></li><li class="l4"><a href="#题解-1">题解</a></li><li class="l3"><a href="#t3-合唱队形">T3 合唱队形</a></li><li class="l5"><a href="#问题描述-2">【问题描述】</a></li><li class="l5"><a href="#输入文件-2">【输入文件】</a></li><li class="l5"><a href="#输出文件-2">【输出文件】</a></li><li class="l5"><a href="#样例输入-1">【样例输入】</a></li><li class="l5"><a href="#样例输出-1">【样例输出】</a></li><li class="l5"><a href="#数据规模-1">【数据规模】</a></li><li class="l4"><a href="#题解-2">题解</a></li><li class="l3"><a href="#t4-虫食算">T4 虫食算</a></li><li class="l5"><a href="#问题描述-3">【问题描述】</a></li><li class="l5"><a href="#输入文件-3">【输入文件】</a></li><li class="l5"><a href="#输出文件-3">【输出文件】</a></li><li class="l5"><a href="#样例输入-2">【样例输入】</a></li><li class="l5"><a href="#样例输出-2">【样例输出】</a></li><li class="l5"><a href="#数据规模-2">【数据规模】</a></li><li class="l4"><a href="#题解-3">题解</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/04/11/%E3%80%90%E6%AF%94%E8%B5%9B%E9%87%8D%E7%8E%B0%E3%80%91%E4%BB%8ENOIP2004%E8%AF%B4%E5%BC%80%E5%8E%BB/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="670" viewBox="0 0 1200 670" role="img" aria-labelledby="title desc">
+<title id="title">05 / 对比学习：把正确配对排到前面</title><desc id="desc">同一 batch 中，query i 与 document i 为正样本；其余先视为负样本</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="670" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">05 / 对比学习：把正确配对排到前面</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">同一 batch 中，query i 与 document i 为正样本；其余先视为负样本</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<rect x="48" y="174" width="410" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="214" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">训练数据决定关系</text>
+<text x="70" y="252" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">q₁：忘记密码怎么办？</text>
+<text x="70" y="285" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">d₁：通过邮箱验证重置密码。</text>
+<rect x="48" y="350" width="410" height="174" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="390" fill="#cb7028" font-size="25" text-anchor="start" font-weight="700">损失函数比较整行分数</text>
+<text x="70" y="428" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">对角线：匹配的 query / document</text>
+<text x="70" y="461" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">非对角线：batch 内其他候选</text>
+<text x="70" y="494" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">注意：其他候选也可能是真正相关项！</text>
+<text x="799" y="169" fill="#3264d5" font-size="25" text-anchor="middle" font-weight="700">相似度矩阵 S = QDᵀ / τ</text>
+<text x="640" y="213" fill="#50647e" font-size="23" text-anchor="middle" font-weight="400">d1</text>
+<text x="761" y="213" fill="#50647e" font-size="23" text-anchor="middle" font-weight="400">d2</text>
+<text x="882" y="213" fill="#50647e" font-size="23" text-anchor="middle" font-weight="400">d3</text>
+<text x="1003" y="213" fill="#50647e" font-size="23" text-anchor="middle" font-weight="400">d4</text>
+<text x="547" y="270" fill="#50647e" font-size="23" text-anchor="start" font-weight="400">q1</text>
+<rect x="591" y="235" width="100" height="60" rx="10" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="641" y="274" fill="white" font-size="30" text-anchor="middle" font-weight="400">+</text>
+<rect x="712" y="235" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="762" y="274" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="833" y="235" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="883" y="274" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="954" y="235" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="1004" y="274" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<text x="547" y="346" fill="#50647e" font-size="23" text-anchor="start" font-weight="400">q2</text>
+<rect x="591" y="311" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="641" y="350" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="712" y="311" width="100" height="60" rx="10" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="762" y="350" fill="white" font-size="30" text-anchor="middle" font-weight="400">+</text>
+<rect x="833" y="311" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="883" y="350" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="954" y="311" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="1004" y="350" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<text x="547" y="422" fill="#50647e" font-size="23" text-anchor="start" font-weight="400">q3</text>
+<rect x="591" y="387" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="641" y="426" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="712" y="387" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="762" y="426" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="833" y="387" width="100" height="60" rx="10" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="883" y="426" fill="white" font-size="30" text-anchor="middle" font-weight="400">+</text>
+<rect x="954" y="387" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="1004" y="426" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<text x="547" y="498" fill="#50647e" font-size="23" text-anchor="start" font-weight="400">q4</text>
+<rect x="591" y="463" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="641" y="502" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="712" y="463" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="762" y="502" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="833" y="463" width="100" height="60" rx="10" fill="#e7edf7" stroke="#d5deeb" stroke-width="2"/>
+<text x="883" y="502" fill="#50647e" font-size="30" text-anchor="middle" font-weight="400">−</text>
+<rect x="954" y="463" width="100" height="60" rx="10" fill="#3264d5" stroke="#d5deeb" stroke-width="2"/>
+<text x="1004" y="502" fill="white" font-size="30" text-anchor="middle" font-weight="400">+</text>
+<text x="48" y="590" fill="#148071" font-size="25" text-anchor="start" font-weight="700">梯度沿相似度 → pooling → Transformer → token 词表反向传播。</text>
+<text x="48" y="646" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">原创示意图 · 用于解释机制，不代表真实模型的测量结果</text>
+</g></svg>

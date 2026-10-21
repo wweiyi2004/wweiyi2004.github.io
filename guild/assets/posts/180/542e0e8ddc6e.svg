@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+<title id="title">03 / 同一个 token，不同上下文</title><desc id="desc">下图按词展示语义；真实 tokenizer 可能把“苹果”拆成多个 token</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="680" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">03 / 同一个 token，不同上下文</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">下图按词展示语义；真实 tokenizer 可能把“苹果”拆成多个 token</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<rect x="48" y="168" width="360" height="125" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="208" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">我刚吃了一个苹果</text>
+<text x="70" y="246" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">提示：吃、水果、食物</text>
+<rect x="48" y="376" width="360" height="125" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="416" fill="#148071" font-size="25" text-anchor="start" font-weight="700">苹果发布了新款电脑</text>
+<text x="70" y="454" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">提示：发布、电脑、品牌</text>
+<path d="M420,232 L470,232" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M420,440 L470,440" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<rect x="488" y="168" width="267" height="333" rx="16" fill="#eaf1ff" stroke="#d5deeb" stroke-width="2"/>
+<text x="510" y="208" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">共享编码器</text>
+<text x="510" y="246" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">① token 查表</text>
+<text x="510" y="279" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">② 加入位置信息</text>
+<text x="510" y="312" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">③ 多层注意力</text>
+<text x="510" y="345" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">④ 前馈网络</text>
+<text x="510" y="378" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">    残差与归一化</text>
+<path d="M770,232 L820,232" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M770,440 L820,440" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<rect x="840" y="168" width="312" height="125" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="862" y="208" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">上下文表示 A</text>
+<text x="862" y="246" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">包含“水果”相关线索</text>
+<rect x="840" y="376" width="312" height="125" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="862" y="416" fill="#148071" font-size="25" text-anchor="start" font-weight="700">上下文表示 B</text>
+<text x="862" y="454" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">包含“科技品牌”线索</text>
+<rect x="48" y="550" width="1104" height="68" rx="16" fill="#fff9ef" stroke="#ebd4ac" stroke-width="2"/>
+<text x="74" y="594" fill="#cb7028" font-size="24" text-anchor="start" font-weight="400">输入查表向量可以相同；经过上下文计算后的隐藏状态可以不同。</text>
+<text x="48" y="656" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">原创示意图 · 用于解释机制，不代表真实模型的测量结果</text>
+</g></svg>

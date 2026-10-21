@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>DeepSeek V4 Flash 正式版发布，主流大模型能力与价格横评（2026 年 7 月） · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="前言 2026 年 7 月 31 日，DeepSeek 宣布 DeepSeek-V4-Flash 正式版（deepseek-v4-flash-0731）上线公测，并放出一张以 Agent 能力为主的基准成绩单。这也是 V4 系列在 4 月 ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="179" data-line="1" data-minutes="15">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.179</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E9%9A%8F%E7%AC%94">随笔</a></span></p>
+        <h1 class="writ__title">DeepSeek V4 Flash 正式版发布，主流大模型能力与价格横评（2026 年 7 月）</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2026-07-31T13:00:00.000Z">2026.07.31</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">5,291 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 15 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=AI">#AI</a></li><li><a href="../index.html?tag=DeepSeek">#DeepSeek</a></li><li><a href="../index.html?tag=%E5%A4%A7%E6%A8%A1%E5%9E%8B">#大模型</a></li><li><a href="../index.html?tag=Benchmark">#Benchmark</a></li><li><a href="../index.html?tag=LLM">#LLM</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="deepseek-v4-flash-正式版发布主流大模型能力与价格横评2026-年-7-月">DeepSeek V4 Flash 正式版发布，主流大模型能力与价格横评（2026 年 7 月）</h1>
+<h2 id="前言">前言</h2>
+<p>2026 年 7 月 31 日，DeepSeek 宣布 <strong>DeepSeek-V4-Flash 正式版</strong>（<code>deepseek-v4-flash-0731</code>）上线公测，并放出一张以 Agent 能力为主的基准成绩单。这也是 V4 系列在 4 月 24 日发布预览版后迎来的第一个正式版。</p>
+<p>趁着这个节点，我把国内外最新的主力模型（截至 2026 年 7 月 31 日）的能力与价格整理了一份横评：海外是 OpenAI GPT-5.6、Anthropic Claude 5 家族、Google Gemini 3.6/3.5 Flash，国内是 Qwen3.7-Max、GLM-5.2、Kimi K3、MiniMax M3 和豆包 2.1 Pro。最后附上这些基准测试到底是什么、该怎么读的说明。</p>
+<blockquote>
+<p>所有数据均来自各厂商官方发布页/定价页（已在文中注明），少数为第三方评测（如 Artificial Analysis、LMArena）并有标注。各厂商评测口径不同、官方公布的数据维度不同，直接横比需谨慎，下文会逐一说明。</p>
+</blockquote>
+<!-- more -->
+<h2 id="deepseek-v4-flash-正式版">DeepSeek V4 Flash 正式版</h2>
+<h3 id="发布要点">发布要点</h3>
+<ul>
+<li><strong>模型名</strong>：<code>deepseek-v4-flash</code>，API 调用方式不变；<code>deepseek-v4-flash</code> 现已指向 V4-Flash-0731。</li>
+<li><strong>与预览版关系</strong>：官方明确说明「DeepSeek-V4-Flash-0731 的模型结构、尺寸和 V4-Flash-Preview 保持一致，仅重新进行了后训练（post-training）」——这是 Flash 档位从预览到正式的转正。</li>
+<li><strong>API 特性</strong>：原生支持 OpenAI Responses API，并适配了 Codex；同时兼容 Anthropic 接口。</li>
+<li><strong>V4-Pro 状态</strong>：V4-Pro 的 API 与 APP/WEB 模型本次不变，正式版「将会尽快发布」。</li>
+<li><strong>旧名退役</strong>：<code>deepseek-chat</code> / <code>deepseek-reasoner</code> 已于 2026-07-24 停止使用。</li>
+</ul>
+<h3 id="基准成绩单">基准成绩单</h3>
+<p>V4 Flash 正式版的评测全部是 <strong>Agent / 真实环境</strong>类基准（测试条件：DeepSeek Harness 极简模式、max 档位、top_p=0.95、temperature=1.0）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>基准</th>
+<th>V4-Flash-0731</th>
+<th>对比 V4-Pro-Preview</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Terminal-Bench 2.1（终端 agent）</td>
+<td><strong>82.7</strong></td>
+<td>远超</td>
+</tr>
+<tr>
+<td>CyberGym（网络安全 PoC）</td>
+<td><strong>76.7</strong></td>
+<td>远超</td>
+</tr>
+<tr>
+<td>Toolathlon Verified（工具调用）</td>
+<td><strong>70.3</strong></td>
+<td>远超</td>
+</tr>
+<tr>
+<td>DSBench-FullStack（内部全栈开发）</td>
+<td><strong>68.7</strong></td>
+<td>41.8</td>
+</tr>
+<tr>
+<td>DSBench-Hard（内部编码难题）</td>
+<td><strong>59.6</strong></td>
+<td>31.1</td>
+</tr>
+<tr>
+<td>DeepSWE（原创长程工程）</td>
+<td><strong>54.4</strong></td>
+<td>远超</td>
+</tr>
+<tr>
+<td>NL2Repo（自然语言生成代码仓库）</td>
+<td><strong>54.2</strong></td>
+<td>远超</td>
+</tr>
+<tr>
+<td>Agents’ Last Exam（真实专业软件操作）</td>
+<td><strong>25.2</strong></td>
+<td>远超</td>
+</tr>
+<tr>
+<td>Automation Bench（跨应用工作流）</td>
+<td><strong>25.1</strong></td>
+<td>远超</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>DSBench-FullStack / DSBench-Hard 是 DeepSeek 未公开的内部测试集（来自发布报道，非官方文档），分数与第三方评测不可比。</p>
+</blockquote>
+<p>作为参考，V4 预览版发布时（4 月 24 日）官方给出的定性评价是：V4-Pro 的 Agent 能力为开源模型最佳、内部使用体验优于 Claude Sonnet 4.5、交付质量接近 Opus 4.6 非思考模式；V4-Flash 参数与激活更小、简单 Agent 任务与 Pro 旗鼓相当。</p>
+<h3 id="价格与规格">价格与规格</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>deepseek-v4-flash</th>
+<th>deepseek-v4-pro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输入（缓存命中）</td>
+<td><strong>¥0.02 / M tokens</strong></td>
+<td>¥0.025 / M tokens</td>
+</tr>
+<tr>
+<td>输入（缓存未命中）</td>
+<td><strong>¥1 / M tokens</strong></td>
+<td>¥3 / M tokens</td>
+</tr>
+<tr>
+<td>输出</td>
+<td><strong>¥2 / M tokens</strong></td>
+<td>¥6 / M tokens</td>
+</tr>
+<tr>
+<td>上下文</td>
+<td>1M</td>
+<td>1M</td>
+</tr>
+<tr>
+<td>最大输出</td>
+<td>384K</td>
+<td>384K</td>
+</tr>
+<tr>
+<td>并发上限</td>
+<td>2500</td>
+<td>500</td>
+</tr>
+</tbody>
+</table></div>
+<p>（价格单位均为每百万 token；官方已预告后续将引入北京时区 9:00–12:00、14:00–18:00 高峰时段 2 倍计费。）</p>
+<p>作为参考，上一代 DeepSeek-V3.2 的价格是输入 ¥2 / 输出 ¥8 每百万 token——V4 Flash 的 1 元/2 元相当于<strong>输入降价一半、输出降价 75%</strong>，而且上下文从 128K 级直接拉到 1M，这个性价比在当前市场非常能打。</p>
+<h2 id="海外主流模型一览">海外主流模型一览</h2>
+<h3 id="openai-gpt-56-家族2026-07-09-ga">OpenAI GPT-5.6 家族（2026-07-09 GA）</h3>
+<p>GPT-5.6 分三档：<strong>Sol</strong>（旗舰）、<strong>Terra</strong>（均衡）、<strong>Luna</strong>（最快最便宜）。官方定位是「按 token 产出更多有效工作」，主打性能/价格比。7 月 30 日刚对 Terra/Luna 降过价。官方已不公布 AIME（GPT-5.2 时代已 100% 饱和）和 MMLU-Pro，也不发 Arena Elo。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>基准</th>
+<th>Sol</th>
+<th>Terra</th>
+<th>Luna</th>
+<th>GPT-5.5（对比）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPQA Diamond</td>
+<td><strong>94.6%</strong></td>
+<td>92.9%</td>
+<td>92.3%</td>
+<td>93.6%</td>
+</tr>
+<tr>
+<td>Agents’ Last Exam</td>
+<td><strong>52.7%</strong>（max 推理 53.6）</td>
+<td>50.4%</td>
+<td>50.3%</td>
+<td>46.9%</td>
+</tr>
+<tr>
+<td>Terminal-Bench 2.1</td>
+<td><strong>88.8%</strong>（ultra 91.9%）</td>
+<td>87.4%</td>
+<td>84.7%</td>
+<td>85.6%</td>
+</tr>
+<tr>
+<td>SWE-Bench Pro</td>
+<td><strong>64.6%</strong></td>
+<td>63.4%</td>
+<td>62.7%</td>
+<td>59.4%</td>
+</tr>
+<tr>
+<td>BrowseComp</td>
+<td><strong>90.4%</strong></td>
+<td>87.5%</td>
+<td>83.3%</td>
+<td>84.4%</td>
+</tr>
+<tr>
+<td>FrontierMath T1-3 (v2)</td>
+<td><strong>89.0%</strong></td>
+<td>84.9%</td>
+<td>78.6%</td>
+<td>85.3%</td>
+</tr>
+<tr>
+<td>OSWorld 2.0</td>
+<td><strong>62.6%</strong></td>
+<td>50.2%</td>
+<td>45.6%</td>
+<td>47.5%</td>
+</tr>
+<tr>
+<td>ARC-AGI-3</td>
+<td><strong>7.78%</strong></td>
+<td>0.8%</td>
+<td>0.18%</td>
+<td>0.43%</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>输入</th>
+<th>输出</th>
+<th>缓存读取</th>
+<th>上下文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gpt-5.6 (Sol)</td>
+<td>$5.00</td>
+<td>$30.00</td>
+<td>$0.50</td>
+<td>1.05M / 128K</td>
+</tr>
+<tr>
+<td>gpt-5.6-terra</td>
+<td><strong>$2.00</strong></td>
+<td>$12.00</td>
+<td>$0.20</td>
+<td>1.05M / 128K</td>
+</tr>
+<tr>
+<td>gpt-5.6-luna</td>
+<td><strong>$0.20</strong></td>
+<td>$1.20</td>
+<td>$0.02</td>
+<td>1.05M / 128K</td>
+</tr>
+</tbody>
+</table></div>
+<p>特性：推理强度支持到 max，还有 <strong>ultra 模式</strong>（默认协调 4 个并行 agent 分工）；新增 Programmatic Tool Calling（模型在内存中写小程序来协调工具调用）；Responses API 支持单请求内多 agent 并发。</p>
+<h3 id="anthropic-claude-5-家族">Anthropic Claude 5 家族</h3>
+<p>Anthropic 的 5 代家族当前在售四个模型。注意：<strong>官方从这一代起不再公布 MMLU-Pro / AIME</strong> 这类旧头条数字，改用 Frontier-Bench、GDPval-AA、ARC-AGI-3 等新评测。另外 2026 年起多了个 <strong>Mythos 能力层</strong>（高于 Opus），Fable 5 是公开版 Mythos 级模型。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>发布</th>
+<th>输入/输出（$/M）</th>
+<th>上下文</th>
+<th>关键官方基准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fable 5</strong></td>
+<td>06-09</td>
+<td><strong>$10 / $50</strong></td>
+<td>1M / 128K</td>
+<td>SWE-bench Verified <strong>95.0%</strong>、SWE-bench Pro <strong>80.3%</strong>、GPQA <strong>94.1%</strong>、HLE <strong>59%</strong>（无工具）、GDPval-AA Elo <strong>1932</strong></td>
+</tr>
+<tr>
+<td><strong>Opus 5</strong></td>
+<td>07-24</td>
+<td><strong>$5 / $25</strong></td>
+<td>1M / 128K</td>
+<td>Frontier-Bench v0.1 <strong>43.3%</strong>（Fable 5 33.7%）、GDPval-AA v2 Elo <strong>1861</strong>（新 SOTA）、ARC-AGI-3 <strong>30.2%</strong>（约为次强模型 3 倍）、OSWorld 2.0 <strong>70.6%</strong></td>
+</tr>
+<tr>
+<td><strong>Sonnet 5</strong></td>
+<td>06-30</td>
+<td>推广期 <strong>$2 / $10</strong>（9/1 起 $3/$15）</td>
+<td>1M / 128K</td>
+<td>SWE-bench Verified <strong>72.7%</strong>、Terminal-Bench 2.1 <strong>80.4%</strong>、GPQA <strong>78.0%</strong>、USAMO 2026 <strong>79.5%</strong></td>
+</tr>
+<tr>
+<td><strong>Haiku 4.5</strong></td>
+<td>2025-10</td>
+<td><strong>$1 / $5</strong></td>
+<td>200K / 64K</td>
+<td>SWE-bench Verified <strong>73.3%</strong>、Terminal-Bench 40.2%</td>
+</tr>
+</tbody>
+</table></div>
+<p>值得注意的反差：<strong>Opus 5 的 SWE-bench Verified 官方未公布</strong>（第三方称 96%，未证实），而主打性价比的 Sonnet 5 在 Terminal-Bench 2.1 上拿到 80.4%——在部分 agent 场景下，中间档与旗舰的差距已经很小。Arena 方面：Fable 5 长期占据文本榜 #1（约 1509 Elo）与 Coding 榜 #1（1564），Opus 5 发布后登顶 WebDev 榜（1725）。</p>
+<h3 id="google-gemini-36--35-flash">Google Gemini 3.6 / 3.5 Flash</h3>
+<p>Google 的情况比较特别：<strong>旗舰 Gemini 3.5 Pro 至今跳票未发布</strong>（原计划 6 月，传多次未达性能目标），而 Flash 档位已经迭代到 3.6。官方口径同样聚焦 agentic/coding 基准，未发布 MMLU-Pro、GPQA、AIME 等传统分数。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>发布</th>
+<th>输入/输出（$/M）</th>
+<th>上下文</th>
+<th>关键官方基准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Gemini 3.6 Flash</strong></td>
+<td>07-21</td>
+<td><strong>$1.50 / $7.50</strong></td>
+<td>1M / 64K</td>
+<td>Terminal-Bench 2.1 <strong>78.0%</strong>、SWE-Bench Pro <strong>58.7%</strong>、DeepSWE <strong>49%</strong>、MLE-Bench <strong>63.9%</strong>、OSWorld-Verified <strong>83.0%</strong>、HLE <strong>38%</strong></td>
+</tr>
+<tr>
+<td><strong>Gemini 3.5 Flash</strong></td>
+<td>05-20（I/O 2026）</td>
+<td><strong>$1.50 / $9.00</strong></td>
+<td>1M / 64K</td>
+<td>Terminal-Bench 2.1 <strong>76.2%</strong>、SWE-Bench Pro <strong>55.1%</strong>、ARC-AGI-2 <strong>72.1%</strong>、HLE <strong>40.2%</strong></td>
+</tr>
+<tr>
+<td><strong>3.5 Flash-Lite</strong></td>
+<td>07-21</td>
+<td><strong>$0.30 / $2.50</strong></td>
+<td>1M / 64K</td>
+<td>Terminal-Bench 2.1 54.0%、SWE-Bench Pro 54.2%（全面超越 3.1 Flash-Lite）</td>
+</tr>
+</tbody>
+</table></div>
+<p>3.6 Flash 主打 token 效率（输出 token 较 3.5 Flash 省 17%，长任务最高省 65%），单任务耗时减半，输出速度约 304 tokens/s；Computer Use 已成为 API 内建工具。另有一个网络安全特化的 <strong>3.5 Flash Cyber</strong>（政府/受信合作伙伴试点，无公开定价）。Gemini 4 官方确认已开始预训练。</p>
+<h2 id="国内主流模型一览">国内主流模型一览</h2>
+<p>国内 5 家的最新旗舰（2026 年 7 月 31 日时间点）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>发布</th>
+<th>输入/输出（¥/M）</th>
+<th>缓存</th>
+<th>上下文</th>
+<th>关键官方基准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Qwen3.7-Max</strong></td>
+<td>05-20</td>
+<td>¥12 / ¥36（限时 5 折 ¥6/¥18）</td>
+<td>—</td>
+<td>1M</td>
+<td>GPQA <strong>92.2</strong>、SWE-Pro <strong>60.4</strong>、Terminal-Bench 2.0 <strong>72.3</strong>、NL2Repo <strong>47.3</strong>；AA 综合指数 56.6（国产第一）</td>
+</tr>
+<tr>
+<td><strong>GLM-5.2</strong></td>
+<td>06-17（开源 MIT）</td>
+<td>¥8 / ¥28</td>
+<td>¥2</td>
+<td>1M / 128K</td>
+<td><strong>AIME 2026 99.2（该基准全球第一）</strong>、GPQA <strong>91.2</strong>、HLE <strong>54.7</strong>、SWE-Pro <strong>62.1</strong>、Terminal-Bench 2.1 <strong>81.0</strong></td>
+</tr>
+<tr>
+<td><strong>Kimi K3</strong></td>
+<td>07-16（开源权重）</td>
+<td>¥20 / ¥100</td>
+<td>¥2</td>
+<td>1M</td>
+<td><strong>WebDev Arena 1678（全球第一，超 Fable 5 的 1634）</strong>、GPQA <strong>93.5</strong>、HLE <strong>56.0</strong>、MMLU-Pro <strong>81.6</strong>、BrowseComp <strong>91.2</strong>、FrontierSWE <strong>81.2</strong></td>
+</tr>
+<tr>
+<td><strong>MiniMax M3</strong></td>
+<td>06-01（开源）</td>
+<td>¥2.1 / ¥8.4（≤512K）</td>
+<td>¥0.42</td>
+<td>1M</td>
+<td>SWE-Pro <strong>59.0</strong>（超 GPT-5.5 的 58.6）、BrowseComp <strong>83.5</strong>、MMLU-Pro 79.85</td>
+</tr>
+<tr>
+<td><strong>Doubao-Seed-2.1 Pro</strong></td>
+<td>06-23</td>
+<td>¥6 / ¥30</td>
+<td>¥1.2</td>
+<td>256K</td>
+<td>Terminal-Bench 2.1 <strong>71.0</strong>、SWE-Pro <strong>57.5</strong>、MMMU-Pro <strong>81.6</strong>（超 Opus 4.6 的 81.2）、GDPVal <strong>87.9</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>各家亮点速记：</p>
+<ul>
+<li><strong>Qwen3.7-Max</strong>：Agent 时代旗舰，三个月内从 3.5 迭代到 3.7；Arena 盲测总榜国产第一。官方未公布 MMLU-Pro 具体值。</li>
+<li><strong>GLM-5.2</strong>：MIT 开源 + <strong>AIME 2026 99.2 分全球第一</strong>（超 GPT-5.5 的 98.3）；IndexShare 稀疏注意力让百万上下文的每 token 计算量降 2.9 倍；单轮处理 88 万+ token 完整交付软件。</li>
+<li><strong>Kimi K3</strong>：当前热度最高——总参数 <strong>2.8T / 激活 104B</strong>，首个接近 3 万亿参数的开放权重模型；<strong>WebDev Arena 1678 全球登顶</strong>（首个登顶的开源模型）。代价是价格也登顶：输出 ¥100/M 是国产最贵，但官方称比 GPT-5.6 Sol、Opus 4.8 仍低 40–50%。</li>
+<li><strong>MiniMax M3</strong>：多模态稀疏 MoE（428B/23B），<strong>价格是国产旗舰里最便宜的</strong>（¥2.1/¥8.4）；24 小时自主完成 CUDA 内核优化（9.4 倍加速）。</li>
+<li><strong>豆包 2.1 Pro</strong>：Coding &amp; Agent 旗舰，面向 500+ 智能体协同场景；综合成本较 Claude Opus 4.6 降近 80%。上下文只有 256K，是这些旗舰里最短的。</li>
+</ul>
+<h2 id="直观对比图">直观对比图</h2>
+<p>下面四张图把四个有交叉数据的基准单独拎出来对比（柱子按分数降序排列，数值标注在柱顶）。<strong>注意</strong>：各厂商评测框架和口径不同，跨厂商比较只能看量级；每个模型的具体数据与来源见下方表格。</p>
+<style>
+.viz-root{--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;--grid:rgba(31,45,61,.09);--muted:rgba(31,45,61,.55);}
+[data-theme='dark'] .viz-root{--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;--grid:rgba(255,255,255,.12);--muted:rgba(255,255,255,.5);}
+.viz-root{margin:1.2em 0 2em;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;}
+.viz-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;margin-bottom:10px;}
+.viz-title{font-size:15px;font-weight:600;color:var(--font-color);}
+.viz-legend{display:flex;flex-wrap:wrap;gap:4px 14px;}
+.viz-leg{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--font-color);opacity:.92;}
+.viz-swatch{width:10px;height:10px;border-radius:2px;background:var(--c);}
+.viz-plot{position:relative;height:300px;padding-left:30px;padding-top:0;background-image:repeating-linear-gradient(to top,var(--grid) 0 1px,transparent 1px 20%);}
+.viz-tick{position:absolute;left:2px;transform:translateY(50%);font-size:11px;color:var(--muted);line-height:1;}
+.viz-bars{position:absolute;inset:0;display:flex;align-items:stretch;}
+.viz-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-top:26px;box-sizing:border-box;}
+.viz-val{font-size:12px;line-height:1;color:var(--font-color);margin-bottom:3px;opacity:.9;}
+.viz-bar{width:22px;height:var(--h);background:var(--c);border-radius:4px 4px 0 0;transition:filter .15s ease,transform .15s ease;}
+.viz-col:hover .viz-bar{filter:brightness(1.12) saturate(1.05);transform:scaleX(1.08);}
+.viz-col:not(:hover) .viz-bar{filter:saturate(.92);}
+.viz-note{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5;}
+@media (max-width:500px){.viz-bar{width:18px;}.viz-plot{padding-left:26px;}}
+</style>
+<h3 id="gpqa-diamond研究生级科学问答越高越好">GPQA Diamond（研究生级科学问答，越高越好）</h3>
+<div class="viz-root"><div class="viz-chart">
+<div class="viz-head"><span class="viz-title">GPQA Diamond · 官方数据</span><span class="viz-legend">
+<span class="viz-leg" style="--c:var(--s1)"><span class="viz-swatch"></span>GPT-5.6 Sol</span>
+<span class="viz-leg" style="--c:var(--s2)"><span class="viz-swatch"></span>Claude Fable 5</span>
+<span class="viz-leg" style="--c:var(--s7)"><span class="viz-swatch"></span>Kimi K3</span>
+<span class="viz-leg" style="--c:var(--s5)"><span class="viz-swatch"></span>Qwen3.7-Max</span>
+<span class="viz-leg" style="--c:var(--s6)"><span class="viz-swatch"></span>GLM-5.2</span>
+<span class="viz-leg" style="--c:var(--s8)"><span class="viz-swatch"></span>Claude Sonnet 5</span>
+</span></div>
+<div class="viz-plot">
+<span class="viz-tick" style="bottom:0%">0</span><span class="viz-tick" style="bottom:20%">20</span><span class="viz-tick" style="bottom:40%">40</span><span class="viz-tick" style="bottom:60%">60</span><span class="viz-tick" style="bottom:80%">80</span><span class="viz-tick" style="bottom:100%">100</span>
+<div class="viz-bars">
+<div class="viz-col" style="--c:var(--s1);--h:94.6%"><span class="viz-val">94.6</span><div class="viz-bar" title="GPT-5.6 Sol · 94.6（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s2);--h:94.1%"><span class="viz-val">94.1</span><div class="viz-bar" title="Claude Fable 5 · 94.1（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s7);--h:93.5%"><span class="viz-val">93.5</span><div class="viz-bar" title="Kimi K3 · 93.5（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s5);--h:92.2%"><span class="viz-val">92.2</span><div class="viz-bar" title="Qwen3.7-Max · 92.2（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s6);--h:91.2%"><span class="viz-val">91.2</span><div class="viz-bar" title="GLM-5.2 · 91.2（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s8);--h:78.0%"><span class="viz-val">78.0</span><div class="viz-bar" title="Claude Sonnet 5 · 78.0（官方）"></div></div>
+</div></div>
+<div class="viz-note">MiniMax M3 的 GPQA 77.8 为第三方评测、且与 Sonnet 5 几乎重合，未列入本图（见下方表格）。</div>
+</div></div>
+<h3 id="terminal-bench-21真实终端环境-agent-编码越高越好">Terminal-Bench 2.1（真实终端环境 Agent 编码，越高越好）</h3>
+<div class="viz-root"><div class="viz-chart">
+<div class="viz-head"><span class="viz-title">Terminal-Bench 2.1 · 官方发布口径</span><span class="viz-legend">
+<span class="viz-leg" style="--c:var(--s1)"><span class="viz-swatch"></span>GPT-5.6 Sol</span>
+<span class="viz-leg" style="--c:var(--s4)"><span class="viz-swatch"></span>DeepSeek V4 Flash</span>
+<span class="viz-leg" style="--c:var(--s6)"><span class="viz-swatch"></span>GLM-5.2</span>
+<span class="viz-leg" style="--c:var(--s7)"><span class="viz-swatch"></span>Claude Sonnet 5</span>
+<span class="viz-leg" style="--c:var(--s3)"><span class="viz-swatch"></span>Gemini 3.6 Flash</span>
+<span class="viz-leg" style="--c:var(--s8)"><span class="viz-swatch"></span>Doubao 2.1 Pro</span>
+</span></div>
+<div class="viz-plot">
+<span class="viz-tick" style="bottom:0%">0</span><span class="viz-tick" style="bottom:20%">20</span><span class="viz-tick" style="bottom:40%">40</span><span class="viz-tick" style="bottom:60%">60</span><span class="viz-tick" style="bottom:80%">80</span><span class="viz-tick" style="bottom:100%">100</span>
+<div class="viz-bars">
+<div class="viz-col" style="--c:var(--s1);--h:88.8%"><span class="viz-val">88.8</span><div class="viz-bar" title="GPT-5.6 Sol · 88.8（ultra 模式 91.9，官方）"></div></div>
+<div class="viz-col" style="--c:var(--s4);--h:82.7%"><span class="viz-val">82.7</span><div class="viz-bar" title="DeepSeek V4 Flash 正式版 · 82.7（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s6);--h:81.0%"><span class="viz-val">81.0</span><div class="viz-bar" title="GLM-5.2 · 81.0（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s7);--h:80.4%"><span class="viz-val">80.4</span><div class="viz-bar" title="Claude Sonnet 5 · 80.4（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s3);--h:78.0%"><span class="viz-val">78.0</span><div class="viz-bar" title="Gemini 3.6 Flash · 78.0（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s8);--h:71.0%"><span class="viz-val">71.0</span><div class="viz-bar" title="Doubao-Seed-2.1 Pro · 71.0（官方）"></div></div>
+</div></div>
+<div class="viz-note">该基准分数对评测框架（harness）极敏感，不同机构复测可差 5 分以上，跨厂商比较仅看量级。GPT-5.6 Sol 为 88.8（官方）。</div>
+</div></div>
+<h3 id="swe-bench-pro真实软件工程任务越高越好">SWE-bench Pro（真实软件工程任务，越高越好）</h3>
+<div class="viz-root"><div class="viz-chart">
+<div class="viz-head"><span class="viz-title">SWE-bench Pro · 官方发布口径</span><span class="viz-legend">
+<span class="viz-leg" style="--c:var(--s2)"><span class="viz-swatch"></span>Claude Fable 5</span>
+<span class="viz-leg" style="--c:var(--s1)"><span class="viz-swatch"></span>GPT-5.6 Sol</span>
+<span class="viz-leg" style="--c:var(--s6)"><span class="viz-swatch"></span>GLM-5.2</span>
+<span class="viz-leg" style="--c:var(--s5)"><span class="viz-swatch"></span>Qwen3.7-Max</span>
+<span class="viz-leg" style="--c:var(--s4)"><span class="viz-swatch"></span>MiniMax M3</span>
+<span class="viz-leg" style="--c:var(--s3)"><span class="viz-swatch"></span>Gemini 3.6 Flash</span>
+</span></div>
+<div class="viz-plot">
+<span class="viz-tick" style="bottom:0%">0</span><span class="viz-tick" style="bottom:20%">20</span><span class="viz-tick" style="bottom:40%">40</span><span class="viz-tick" style="bottom:60%">60</span><span class="viz-tick" style="bottom:80%">80</span><span class="viz-tick" style="bottom:100%">100</span>
+<div class="viz-bars">
+<div class="viz-col" style="--c:var(--s2);--h:80.3%"><span class="viz-val">80.3</span><div class="viz-bar" title="Claude Fable 5 · 80.3（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s1);--h:64.6%"><span class="viz-val">64.6</span><div class="viz-bar" title="GPT-5.6 Sol · 64.6（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s6);--h:62.1%"><span class="viz-val">62.1</span><div class="viz-bar" title="GLM-5.2 · 62.1（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s5);--h:60.4%"><span class="viz-val">60.4</span><div class="viz-bar" title="Qwen3.7-Max · 60.4（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s4);--h:59.0%"><span class="viz-val">59.0</span><div class="viz-bar" title="MiniMax M3 · 59.0（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s3);--h:58.7%"><span class="viz-val">58.7</span><div class="viz-bar" title="Gemini 3.6 Flash · 58.7（官方）"></div></div>
+</div></div>
+<div class="viz-note">Claude Fable 5 在此基准上大幅领先（80.3），第二集团（GPT-5.6 Sol ~ MiniMax）分数接近、仅看量级。</div>
+</div></div>
+<h3 id="hle-人类最后一考无工具越高越好">HLE 人类最后一考（无工具，越高越好）</h3>
+<div class="viz-root"><div class="viz-chart">
+<div class="viz-head"><span class="viz-title">Humanity's Last Exam · 无工具成绩</span><span class="viz-legend">
+<span class="viz-leg" style="--c:var(--s2)"><span class="viz-swatch"></span>Claude Fable 5</span>
+<span class="viz-leg" style="--c:var(--s3)"><span class="viz-swatch"></span>Gemini 3.6 Flash</span>
+<span class="viz-leg" style="--c:var(--s8)"><span class="viz-swatch"></span>Kimi K3</span>
+<span class="viz-leg" style="--c:var(--s6)"><span class="viz-swatch"></span>GLM-5.2</span>
+</span></div>
+<div class="viz-plot">
+<span class="viz-tick" style="bottom:0%">0</span><span class="viz-tick" style="bottom:20%">20</span><span class="viz-tick" style="bottom:40%">40</span><span class="viz-tick" style="bottom:60%">60</span><span class="viz-tick" style="bottom:80%">80</span><span class="viz-tick" style="bottom:100%">100</span>
+<div class="viz-bars">
+<div class="viz-col" style="--c:var(--s2);--h:59.0%"><span class="viz-val">59.0</span><div class="viz-bar" title="Claude Fable 5 · 59.0（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s3);--h:38.0%"><span class="viz-val">38.0</span><div class="viz-bar" title="Gemini 3.6 Flash · 38.0（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s8);--h:56.0%"><span class="viz-val">56.0</span><div class="viz-bar" title="Kimi K3 · 56.0（官方）"></div></div>
+<div class="viz-col" style="--c:var(--s6);--h:54.7%"><span class="viz-val">54.7</span><div class="viz-bar" title="GLM-5.2 · 54.7（官方）"></div></div>
+</div></div>
+<div class="viz-note">官方公布 HLE 数据的模型较少（GPT-5.6、Claude Opus 5 等未公布）。此图按色板顺序排列而非分数顺序。</div>
+</div></div>
+<h2 id="能力横向对比总表">能力横向对比总表</h2>
+<p>各厂商公布的口径差异很大（OpenAI 不报 Elo 和 AIME、Anthropic/Google 不报 GPQA 以外的旧基准、国内各家报的维度也不同），所以下表只汇总<strong>有交叉数据</strong>的维度，「—」表示官方未公布：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th style="text-align:center">GPQA Diamond</th>
+<th style="text-align:center">HLE</th>
+<th style="text-align:center">Terminal-Bench 2.1</th>
+<th style="text-align:center">SWE-bench Pro</th>
+<th style="text-align:center">BrowseComp</th>
+<th style="text-align:center">Arena（权威榜）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-5.6 Sol</td>
+<td style="text-align:center">94.6</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center"><strong>88.8</strong>（ultra 91.9）</td>
+<td style="text-align:center">64.6</td>
+<td style="text-align:center">90.4</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>Claude Fable 5</td>
+<td style="text-align:center">94.1</td>
+<td style="text-align:center"><strong>59.0</strong></td>
+<td style="text-align:center">84.3*</td>
+<td style="text-align:center"><strong>80.3</strong></td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">文本 #1 ~1509 / Coding #1 1564</td>
+</tr>
+<tr>
+<td>Claude Opus 5</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">79.2*</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">WebDev #1 1725</td>
+</tr>
+<tr>
+<td>Claude Sonnet 5</td>
+<td style="text-align:center">78.0</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">80.4</td>
+<td style="text-align:center">63.2*</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">Coding #16 1522</td>
+</tr>
+<tr>
+<td>Gemini 3.6 Flash</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">38.0</td>
+<td style="text-align:center">78.0</td>
+<td style="text-align:center">58.7</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>DeepSeek V4 Flash</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">82.7</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>Qwen3.7-Max</td>
+<td style="text-align:center">92.2</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">72.3（TB 2.0）</td>
+<td style="text-align:center">60.4</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">盲测国产第一</td>
+</tr>
+<tr>
+<td>GLM-5.2</td>
+<td style="text-align:center">91.2</td>
+<td style="text-align:center">54.7</td>
+<td style="text-align:center">81.0</td>
+<td style="text-align:center">62.1</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>Kimi K3</td>
+<td style="text-align:center">93.5</td>
+<td style="text-align:center">56.0</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">91.2</td>
+<td style="text-align:center">WebDev <strong>#1 1678</strong></td>
+</tr>
+<tr>
+<td>MiniMax M3</td>
+<td style="text-align:center">77.8*</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">59.0</td>
+<td style="text-align:center">83.5</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>Doubao 2.1 Pro</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">71.0</td>
+<td style="text-align:center">57.5</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+</tbody>
+</table></div>
+<p>带 * 的为第三方评测（<em>benchlm</em>、<em>Artificial Analysis</em> 等），其余为官方数据。<strong>注意 Terminal-Bench 分数对评测 harness 极其敏感，不同机构测出的分数相差可达 5 分以上</strong>，跨厂商比较只能看量级。</p>
+<p>几个值得注意的结论：</p>
+<ol>
+<li><strong>知识推理（GPQA）已经「共同富裕」</strong>：GPT-5.6 Sol、Fable 5、Kimi K3、Qwen3.7、GLM-5.2 全部在 91–95 区间，这个基准已接近饱和，很难再拉开差距。</li>
+<li><strong>Agent 编码是当前的主战场</strong>：Terminal-Bench 2.1 上 GPT-5.6 Sol（88.8）一骑绝尘，DeepSeek V4 Flash（82.7）直接打到第三档的位置，和 GLM-5.2（81.0）、Sonnet 5（80.4）非常接近——<strong>国产模型在 agent 编码上与海外旗舰的差距已经很小</strong>。</li>
+<li><strong>最难的基准上分数依旧惨淡</strong>：ARC-AGI-3 最强只有 7.78%（GPT-5.6 Sol），Agents’ Last Exam 的 Last-Exam 档所有前沿模型通过率 0%——离「通用智能」还有很长的路。</li>
+</ol>
+<h2 id="价格横向对比总表">价格横向对比总表</h2>
+<p>美元模型按 1 美元 ≈ 7.1 元人民币换算作参考（汇率约数）：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>输入</th>
+<th>输出</th>
+<th>折算人民币（输入/输出）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-5.6 Sol</td>
+<td>$5.00</td>
+<td>$30.00</td>
+<td>≈ ¥35.5 / ¥213</td>
+</tr>
+<tr>
+<td>GPT-5.6 Terra</td>
+<td>$2.00</td>
+<td>$12.00</td>
+<td>≈ ¥14.2 / ¥85</td>
+</tr>
+<tr>
+<td>GPT-5.6 Luna</td>
+<td>$0.20</td>
+<td>$1.20</td>
+<td>≈ ¥1.4 / ¥8.5</td>
+</tr>
+<tr>
+<td>Claude Fable 5</td>
+<td>$10.00</td>
+<td>$50.00</td>
+<td>≈ ¥71 / ¥355</td>
+</tr>
+<tr>
+<td>Claude Opus 5</td>
+<td>$5.00</td>
+<td>$25.00</td>
+<td>≈ ¥35.5 / ¥177.5</td>
+</tr>
+<tr>
+<td>Claude Sonnet 5（推广期）</td>
+<td>$2.00</td>
+<td>$10.00</td>
+<td>≈ ¥14.2 / ¥71</td>
+</tr>
+<tr>
+<td>Claude Haiku 4.5</td>
+<td>$1.00</td>
+<td>$5.00</td>
+<td>≈ ¥7.1 / ¥35.5</td>
+</tr>
+<tr>
+<td>Gemini 3.6 Flash</td>
+<td>$1.50</td>
+<td>$7.50</td>
+<td>≈ ¥10.7 / ¥53.3</td>
+</tr>
+<tr>
+<td>Gemini 3.5 Flash-Lite</td>
+<td>$0.30</td>
+<td>$2.50</td>
+<td>≈ ¥2.1 / ¥17.8</td>
+</tr>
+<tr>
+<td><strong>DeepSeek V4 Flash</strong></td>
+<td><strong>¥1</strong></td>
+<td><strong>¥2</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>DeepSeek V4 Pro</td>
+<td>¥3</td>
+<td>¥6</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Qwen3.7-Max</td>
+<td>¥12（5 折 ¥6）</td>
+<td>¥36（5 折 ¥18）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>GLM-5.2</td>
+<td>¥8</td>
+<td>¥28</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Kimi K3</td>
+<td>¥20</td>
+<td>¥100</td>
+<td>—</td>
+</tr>
+<tr>
+<td>MiniMax M3</td>
+<td>¥2.1</td>
+<td>¥8.4</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Doubao 2.1 Pro</td>
+<td>¥6</td>
+<td>¥30</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>价格视角的结论：</p>
+<ul>
+<li><strong>最便宜的旗舰级推理能力</strong>：GPT-5.6 Luna 输入只要 $0.20/M（≈¥1.4），与 DeepSeek V4 Flash 的 ¥1/M 处于同一量级——「便宜又强」不再是国内模型专利。</li>
+<li><strong>DeepSeek V4 Flash 的性价比在 1M 上下文档位里没有对手</strong>：¥1/¥2 的同时给 1M 上下文 + 384K 输出 + 缓存命中 0.02 元，同档位 Gemini 3.6 Flash 也要 $1.50/$7.50（约 ¥10.7/¥53.3）。</li>
+<li><strong>Kimi K3 是国产「爱马仕」</strong>：输出 ¥100/M，几乎是 V4 Flash 的 50 倍；但 WebDev Arena 全球第一的成绩确实独一档，适合高价值 agent 任务。</li>
+<li>各家的 Batch 通常半价、缓存命中约 0.1 折，实际跑 agent 工作流时成本远低于刊例价（Kimi 官方称编程场景缓存命中率超 90%）。</li>
+</ul>
+<h2 id="这些基准测试到底是什么">这些基准测试到底是什么</h2>
+<h3 id="传统问答式基准">传统「问答式」基准</h3>
+<ul>
+<li><strong>MMLU / MMLU-Pro</strong>：多任务语言理解，覆盖几十个学科的选择题，Pro 版难度更高且含推理题。曾是模型能力的「起跑线」，2025 年后前沿模型普遍 85–90+，<strong>已经接近饱和，主流厂商大多不再公布</strong>。</li>
+<li><strong>GPQA Diamond</strong>：谷歌 DeepMind 出的研究生级科学问答（物理/化学/生物），专家做也只有 74% 左右。2026 年 7 月头部模型普遍 91–95%，<strong>是知识推理维度仍有区分度的主流基准</strong>。</li>
+<li><strong>AIME（美国数学邀请赛）</strong>：竞赛数学。GPT-5.2 已拿到 100%（饱和），GLM-5.2 在 <strong>AIME 2026 拿到 99.2 分全球第一</strong>。数学类目前更能拉开差距的是 FrontierMath（前沿数学，GPT-5.6 Sol 89%）和 USAMO/IMO。</li>
+<li><strong>Humanity’s Last Exam（HLE）</strong>：「人类最后一考」，2500 道专家级题、100+ 学科，2026 年 1 月发表于 Nature。2026 年 3 月榜首才 46%，7 月已有 14 个模型超过 50%（带工具最高 64.5%），是<strong>目前最「未饱和」的主要知识基准</strong>。官方已推出动态更新的 HLE-Rolling 防针对性刷题。</li>
+<li><strong>LiveCodeBench / HumanEval</strong>：代码生成（写函数/算法题）。HumanEval 早已饱和，LiveCodeBench v6 也进入收尾阶段。</li>
+<li><strong>Chatbot Arena（现 <a href="http://arena.ai" target="_blank" rel="noopener">arena.ai</a>）</strong>：真人盲测投票的 Elo 排行榜，分通用/代码/网页开发（WebDev）等子榜。<strong>这是「真实用户口碑」维度，厂商自己不能刷</strong>——目前文本榜第一是 Claude Fable 5，WebDev 榜第一是 Kimi K3（1678 Elo，首个登顶的开源模型）。</li>
+</ul>
+<h3 id="agent-时代的新基准v4-flash-成绩单上的">Agent 时代的新基准（V4 Flash 成绩单上的）</h3>
+<p>这批基准的共同叙事是：<strong>从「静态问答」转向「真实环境、多轮执行、程序化验证」</strong>——agent 要真正操作终端/软件/API，最终结果由确定性检查判定，前沿模型普遍得分不高、且分数对评测框架（harness）极其敏感。</p>
+<ul>
+<li><strong>Terminal-Bench 2.1</strong>（2026-05 发布，Stanford × Laude Institute 等）：89 个任务，每个任务一个独立 Docker 终端环境（软件工程、系统管理、ML 训练、安全等），agent 与真实 shell 多轮交互后提交结果，<strong>二元 pass@1 判定</strong>。2.1 修复了 2.0 的 26–28 个失效任务。当前头部：GPT-5.6 Sol Ultra 91.9%、DeepSeek V4 Flash 82.7%。</li>
+<li><strong>NL2Repo-Bench</strong>（字节 Seed 等，2025-12）：自然语言 → 完整代码仓库。agent 从空工作区出发，只给一份需求文档，自主设计架构、管理依赖、产出<strong>可安装可运行的 Python 库</strong>，用上游测试套件验证。最强模型整体通过率不到 40%——长程工程能力还远没到天花板。</li>
+<li><strong>CyberGym</strong>（UC Berkeley，2025-06）：网络安全 agent 基准。1507 个真实漏洞实例（来自 OSS-Fuzz，覆盖 OpenCV、FFmpeg、curl、OpenSSL 等 188 个真实项目），agent 需写出<strong>可复现漏洞的 PoC</strong>（修复前版本崩溃、修复后不崩溃）。最强组合成功率仅 ~22%——顺便说，评测过程中 agent 还发现了 35 个 0day。</li>
+<li><strong>DeepSWE</strong>（DataCurve AI，2026-07）：113 个<strong>原创</strong>长程软件工程任务（91 个活跃开源仓库、5 种语言），任务从零手写、从不回馈上游，规避「模型见过修复」的召回问题；用手写 verifier 而非继承测试套件评分。注意与 2025 年 UC Berkeley 的「DeepSWE 模型」（Qwen3-32B 编码模型）<strong>同名不同物</strong>。</li>
+<li><strong>Toolathlon</strong>（HKUST，ICLR 2026；Verified 版 2026-06）：工具调用十项全能。108 个任务横跨 32 个应用/604 个工具（MCP server 封装：Notion、Gmail、Kubernetes、BigQuery……），平均每任务 20–27 轮调用，Docker 环境 + 确定性脚本检查最终状态。Verified 榜（2026-07）：Kimi K3 76.5%、Opus 4.8 76.2%、DeepSeek V4 Flash 70.3%。</li>
+<li><strong>Agents’ Last Exam（ALE，UC Berkeley RDI，2026-06）</strong>：agent 版「最后一考」。1490 个有经济价值的真实专业工作流（Siemens NX 三维建模、Unreal Engine 布景、After Effects 合成……），agent 以「通用计算机使用」形式在虚拟机里<strong>同时用 shell 和 GUI 点击操作真实软件</strong>。确定性代码评分（LLM 裁判仅占 6.8%）。现状：最强通过率 24% 左右，<strong>最难的 Last-Exam 档所有前沿模型通过率 0%</strong>。</li>
+<li><strong>Automation Bench</strong>（2026-04）：跨应用工作流编排，任务取材于 Zapier 真实工作流（CRM、日历、消息平台多系统协同），只看最终系统状态的程序化评分。原始版最强模型不到 10%；Artificial Analysis 的独立版（AutomationBench-AA）分数更高：Grok 4.5 51.4%、GPT-5.6 Sol 51.2%、Claude Fable 5 48.6%。</li>
+<li><strong>DSBench</strong>（命名陷阱）：公开的 DSBench（ICLR 2025）是腾讯等出的<strong>数据科学 agent</strong> 基准（Kaggle 数据分析任务）；而 DeepSeek 成绩单里的 <strong>DSBench-FullStack / Hard 是 DeepSeek 内部测试集</strong>（未公开），两者无关，分数不可比。</li>
+</ul>
+<h3 id="读基准的三个心法">读基准的三个心法</h3>
+<ol>
+<li><strong>看口径，不看数字</strong>：同样的 Terminal-Bench 2.1，不同机构（官方/AA/第三方的 harness 配置）测出来能差 5 分以上；「DeepSeek 内部测试集」「benchlm 第三方复测」和「官方基准」永远不能放进同一张表里比较。</li>
+<li><strong>看趋势，不看单点</strong>：2024 年卷 MMLU，2025 年卷 AIME/SWE-bench，2026 年卷 Terminal-Bench/ALE——<strong>基准在跟着模型的强项走，模型的强项在跟着真实工作走</strong>。当一个基准 90% 以上的模型都考到 90+，它就退役了。</li>
+<li><strong>价格要算「有效产出」</strong>：1M 上下文、缓存命中 0.1 折、Batch 半价——agent 工作流的真实成本往往只有刊例价的十分之一，比单看输入/输出单价更接近真相。</li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>2026 年 7 月的模型市场，几个清晰的变化：</p>
+<ul>
+<li><strong>Agent 化彻底成为主线</strong>：各家旗舰的评测重心、优化方向、API 特性（Responses API、multi-agent、computer use）全部围绕 agent 展开；「能干活」比「会答题」重要得多。</li>
+<li><strong>性价比战打到国产家门口</strong>：GPT-5.6 Luna $0.20/$1.20、DeepSeek V4 Flash ¥1/¥2 + 1M 上下文，模型调用已经接近「随便用」的价格；卷的方向变成了谁在长任务里更省 token、更少犯错。</li>
+<li><strong>国内梯队形成</strong>：GLM-5.2（开源 + 数学第一）、Kimi K3（WebDev 登顶 + 2.8T 开源权重）、Qwen3.7-Max（综合国产第一）、DeepSeek V4 Flash（极致性价比），各占一个生态位；MiniMax M3 和豆包 2.1 Pro 则在多模态/垂直场景发力。</li>
+</ul>
+<p>如果你的需求是：<strong>写代码/跑 agent</strong> → GPT-5.6 Sol / Claude Fable 5 是天花板，DeepSeek V4 Flash / GLM-5.2 是国产最优解；<strong>做网页</strong> → Kimi K3 或 Claude Opus 5；<strong>大批量低成本任务</strong> → GPT-5.6 Luna / Gemini 3.5 Flash-Lite / DeepSeek V4 Flash；<strong>数学</strong> → GLM-5.2。</p>
+<p>（文中数据整理于 2026-07-31，来源：DeepSeek API 文档与定价页、OpenAI 官方博客与定价页、Anthropic 官方文档、Google 官方博客与 Model Card、各国内厂商官方发布页与定价页、Artificial Analysis、<a href="http://arena.ai" target="_blank" rel="noopener">arena.ai</a> 等；第三方数据均已标注。）</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="178.html"><small>← 上一张委托</small><span>No.178 【深夜随想】凌期妖溜。</span></a>
+          <a class="next" href="180.html"><small>下一张委托 →</small><span>No.180 Embedding 原理图解：从查表到语义检索</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#deepseek-v4-flash-正式版发布主流大模型能力与价格横评2026-年-7-月">DeepSeek V4 Flash 正式版发布，主流大模型能力与价格横评（2026 年 7 月）</a></li><li class="l3"><a href="#前言">前言</a></li><li class="l3"><a href="#deepseek-v4-flash-正式版">DeepSeek V4 Flash 正式版</a></li><li class="l4"><a href="#发布要点">发布要点</a></li><li class="l4"><a href="#基准成绩单">基准成绩单</a></li><li class="l4"><a href="#价格与规格">价格与规格</a></li><li class="l3"><a href="#海外主流模型一览">海外主流模型一览</a></li><li class="l4"><a href="#openai-gpt-56-家族2026-07-09-ga">OpenAI GPT-5.6 家族（2026-07-09 GA）</a></li><li class="l4"><a href="#anthropic-claude-5-家族">Anthropic Claude 5 家族</a></li><li class="l4"><a href="#google-gemini-36--35-flash">Google Gemini 3.6 / 3.5 Flash</a></li><li class="l3"><a href="#国内主流模型一览">国内主流模型一览</a></li><li class="l3"><a href="#直观对比图">直观对比图</a></li><li class="l4"><a href="#gpqa-diamond研究生级科学问答越高越好">GPQA Diamond（研究生级科学问答，越高越好）</a></li><li class="l4"><a href="#terminal-bench-21真实终端环境-agent-编码越高越好">Terminal-Bench 2.1（真实终端环境 Agent 编码，越高越好）</a></li><li class="l4"><a href="#swe-bench-pro真实软件工程任务越高越好">SWE-bench Pro（真实软件工程任务，越高越好）</a></li><li class="l4"><a href="#hle-人类最后一考无工具越高越好">HLE 人类最后一考（无工具，越高越好）</a></li><li class="l3"><a href="#能力横向对比总表">能力横向对比总表</a></li><li class="l3"><a href="#价格横向对比总表">价格横向对比总表</a></li><li class="l3"><a href="#这些基准测试到底是什么">这些基准测试到底是什么</a></li><li class="l4"><a href="#传统问答式基准">传统「问答式」基准</a></li><li class="l4"><a href="#agent-时代的新基准v4-flash-成绩单上的">Agent 时代的新基准（V4 Flash 成绩单上的）</a></li><li class="l4"><a href="#读基准的三个心法">读基准的三个心法</a></li><li class="l3"><a href="#总结">总结</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2026/07/31/DeepSeek-V4-Flash%E6%AD%A3%E5%BC%8F%E7%89%88%E5%8F%91%E5%B8%83-%E4%B8%BB%E6%B5%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%83%BD%E5%8A%9B%E4%B8%8E%E4%BB%B7%E6%A0%BC%E6%A8%AA%E8%AF%84/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

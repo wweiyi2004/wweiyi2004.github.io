@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>省选知识学习进度 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="（来自黄学长） 1.1 基本数据结构 数组 链表，双向链表 队列，单调队列，双端队列 栈，单调栈 1.2 中级数据结构 堆 并查集与带权并查集 hash 表 自然溢出 双hash 1.3 高级数据结构 树状数组 线段树，线段树合并 平衡树 ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="51" data-line="2" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.51</span><a class="writ__line" href="../index.html?line=2"></a><span><a href="../index.html?cat=%E7%AB%9E%E8%B5%9B%E7%9B%B8%E5%85%B3">竞赛相关</a></span></p>
+        <h1 class="writ__title">省选知识学习进度</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2020-10-24T03:25:00.000Z">2020.10.24</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">700 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">#动态规划</a></li><li><a href="../index.html?tag=%E8%B4%AA%E5%BF%83">#贪心</a></li><li><a href="../index.html?tag=%E5%9B%BE%E8%AE%BA">#图论</a></li><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E6%95%B0%E8%AE%BA">#数论</a></li><li><a href="../index.html?tag=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">#数据结构</a></li><li><a href="../index.html?tag=%E4%BA%8C%E5%88%86">#二分</a></li><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=%E5%88%86%E6%B2%BB">#分治</a></li><li><a href="../index.html?tag=%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9">#状态压缩</a></li><li><a href="../index.html?tag=%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98">#背包问题</a></li><li><a href="../index.html?tag=%E6%8E%92%E5%BA%8F">#排序</a></li><li><a href="../index.html?tag=%E5%AD%97%E7%AC%A6%E4%B8%B2">#字符串</a></li><li><a href="../index.html?tag=%E5%8D%9A%E5%BC%88%E8%AE%BA">#博弈论</a></li><li><a href="../index.html?tag=%E7%9F%A9%E9%98%B5">#矩阵</a></li><li><a href="../index.html?tag=%E6%A8%A1%E6%8B%9F">#模拟</a></li><li><a href="../index.html?tag=STL">#STL</a></li><li><a href="../index.html?tag=%E6%A6%82%E7%8E%87%2F%E6%9C%9F%E6%9C%9B">#概率/期望</a></li><li><a href="../index.html?tag=%E7%9C%81%E9%80%89">#省选</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<p>（来自黄学长）<br>
+1.1 基本数据结构</p>
+<ol>
+<li>
+<p><s>数组</s></p>
+</li>
+<li>
+<p>链表，双向链表</p>
+</li>
+<li>
+<p>队列，单调队列，双端队列</p>
+</li>
+<li>
+<p>栈，单调栈</p>
+</li>
+</ol>
+<p>1.2 中级数据结构</p>
+<ol>
+<li>
+<p>堆</p>
+</li>
+<li>
+<p>并查集与带权并查集</p>
+</li>
+<li>
+<p>hash 表</p>
+<p>自然溢出</p>
+<p>双hash</p>
+</li>
+</ol>
+<p>1.3 高级数据结构</p>
+<ol>
+<li>
+<p>树状数组</p>
+</li>
+<li>
+<p>线段树，线段树合并</p>
+</li>
+<li>
+<p>平衡树</p>
+<p>Treap 随机平衡二叉树</p>
+<p>Splay 伸展树</p>
+<ul>
+<li>Scapegoat Tree 替罪羊树</li>
+</ul>
+</li>
+<li>
+<p>块状数组，块状链表</p>
+</li>
+</ol>
+<p>5.* 树套树</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">线段树套线段树
+
+线段树套平衡树
+
+* 平衡树套线段树</code></pre></div><p>6.可并堆</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">左偏树
+
+*配对堆</code></pre></div><ol start="7">
+<li>*KDtree，*四分树</li>
+</ol>
+<p>1.4 可持久化数据结构</p>
+<ol>
+<li>
+<p>可持久化线段树</p>
+<p>主席树</p>
+</li>
+<li>
+<ul>
+<li>可持久化平衡树</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>可持久化块状数组</li>
+</ul>
+</li>
+</ol>
+<p>1.5 字符串相关算法及数据结构</p>
+<ol>
+<li>
+<p>KMP</p>
+</li>
+<li>
+<p>AC 自动机</p>
+</li>
+<li>
+<p>后缀数组</p>
+</li>
+<li>
+<p>*后缀树</p>
+</li>
+<li>
+<p>*后缀自动机</p>
+</li>
+<li>
+<p>字典树 Trie</p>
+</li>
+<li>
+<p>manacher</p>
+</li>
+</ol>
+<p>1.6 图论相关</p>
+<ol>
+<li>
+<p>最小生成树</p>
+<p>prim</p>
+<p>kruskal</p>
+</li>
+<li>
+<p>最短路，次短路，K短路</p>
+<p>spfa</p>
+<p>dijkstra</p>
+<p>floyd</p>
+</li>
+<li>
+<p>图的连通</p>
+<p>连通分量</p>
+<p>割点，割边</p>
+</li>
+<li>
+<p>网络流</p>
+<p>最大流</p>
+<p>最小割</p>
+<p>费用流</p>
+<p>分数规划</p>
+</li>
+<li>
+<p>树相关</p>
+<p>树上倍增，公共祖先</p>
+<p>树链剖分</p>
+<p>树的分治算法（点分治，边分治，*动态？树分治）</p>
+<p>动态树 （LCT，*树分块）</p>
+<p>虚树</p>
+<p>*prufer编码</p>
+</li>
+<li>
+<p>拓扑排序</p>
+</li>
+<li>
+<p>欧拉图</p>
+</li>
+<li>
+<p>二分图</p>
+<p>*KM算法</p>
+<p>匈牙利算法</p>
+</li>
+</ol>
+<p>1.7 数学相关</p>
+<ol>
+<li>
+<p>（扩展）欧几里得算法，筛法，快速幂</p>
+<p>斐蜀定理</p>
+<p>更相减损术</p>
+</li>
+<li>
+<p>欧拉函数与*降幂大法</p>
+</li>
+<li>
+<p>费马小定理</p>
+</li>
+<li>
+<p>排列组合</p>
+<p>lucas定理</p>
+</li>
+<li>
+<p>乘法逆元</p>
+</li>
+<li>
+<p>矩阵乘法</p>
+</li>
+<li>
+<p>数学期望与概率</p>
+</li>
+<li>
+<p>博弈论</p>
+<p>sg函数</p>
+<p>树上删边游戏</p>
+</li>
+<li>
+<p>*拉格朗日乘子法</p>
+</li>
+<li>
+<p>中国剩余定理</p>
+</li>
+<li>
+<p>线性规划与网络流</p>
+</li>
+<li>
+<p>单纯型线性规划</p>
+</li>
+<li>
+<p>辛普森积分</p>
+</li>
+<li>
+<p>模线性方程组</p>
+</li>
+<li>
+<p>容斥原理与莫比乌斯反演</p>
+</li>
+<li>
+<p>置换群</p>
+</li>
+<li>
+<p>快速傅里叶变换</p>
+</li>
+<li>
+<p>*大步小步法（BSGS），扩展BSGS</p>
+</li>
+</ol>
+<p>1.8 动态规划</p>
+<ol>
+<li>
+<p>一般，背包，状压，区间，环形，树形，数位动态规划</p>
+<p>记忆化搜索</p>
+<p>斯坦纳树</p>
+<p>背包九讲</p>
+</li>
+<li>
+<p>斜率优化与* 四边形不等式优化</p>
+</li>
+<li>
+<p>环 + 外向树上的动态规划</p>
+</li>
+<li>
+<p>*插头动态规划</p>
+</li>
+</ol>
+<p>1.9 计算几何</p>
+<ol>
+<li>
+<p>计算几何基础</p>
+</li>
+<li>
+<p>三维计算几何初步</p>
+</li>
+<li>
+<p><em>梯形剖分与</em>三角形剖分</p>
+</li>
+<li>
+<p>旋转卡壳</p>
+</li>
+<li>
+<p>半平面交</p>
+</li>
+<li>
+<p>pick定理</p>
+</li>
+<li>
+<p>扫描线</p>
+</li>
+</ol>
+<p>1.10 搜索相关</p>
+<ol>
+<li>
+<p>bfs，dfs</p>
+</li>
+<li>
+<p>A* 算法</p>
+</li>
+<li>
+<p>迭代加深搜索，双向广搜</p>
+</li>
+</ol>
+<p>1.11 特殊算法</p>
+<ol>
+<li>
+<p>莫队算法，*树上莫队</p>
+</li>
+<li>
+<p>模拟退火</p>
+</li>
+<li>
+<p>爬山算法</p>
+</li>
+<li>
+<p>随机增量法</p>
+</li>
+</ol>
+<p>1.12 其它重要工具与方法</p>
+<p>1.模拟与贪心</p>
+<ol start="2">
+<li>
+<p>二分，三分法（求偏导）</p>
+</li>
+<li>
+<p>分治，CDQ分治</p>
+</li>
+<li>
+<p>高精度</p>
+</li>
+<li>
+<p>离线</p>
+</li>
+<li>
+<p>ST表</p>
+</li>
+</ol>
+<p>1.13 STL</p>
+<ol>
+<li>
+<p>map</p>
+</li>
+<li>
+<p>priority_queue</p>
+</li>
+<li>
+<p>set</p>
+</li>
+<li>
+<p>bitset</p>
+</li>
+<li>
+<p>rope</p>
+</li>
+</ol>
+<p>1.14 非常见算法</p>
+<ol>
+<li>
+<p>*朱刘算法</p>
+</li>
+<li>
+<p>*弦图与区间图</p>
+</li>
+</ol>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="50.html"><small>← 上一张委托</small><span>No.50 【清北学堂国庆刷题班】 Day7</span></a>
+          <a class="next" href="52.html"><small>下一张委托 →</small><span>No.52 模板</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" hidden aria-label="委托要点">
+      <h2>委托要点</h2>
+      
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2020/10/24/%E7%9C%81%E9%80%89%E7%9F%A5%E8%AF%86%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>2019.8.30做的三道题 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="Mayan游戏 没啥好说的，看着就恶心，还好有大佬的题解指导要不然我就废废废了 n皇后问题 经典的一道dfs回溯题目，比较简单 导弹防御系统 刷新了我的三观，可能是因为我太菜了？？ 多亏了yxc大佬 总结 这三道题都是比较经典的搜索题，我现">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="39" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.39</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">2019.8.30做的三道题</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-09-07T07:26:00.000Z">2019.09.07</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">140 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%90%9C%E7%B4%A2">#搜索</a></li><li><a href="../index.html?tag=STL">#STL</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="2019830做的三道题">2019.8.30做的三道题</h1>
+<h2 id="mayan游戏">Mayan游戏</h2>
+<p>没啥好说的，看着就恶心，还好有大佬的题解指导要不然我就废废废了</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cctype&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;cstdlib&gt;</span></span>
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">10</span>;
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> X=<span class="hljs-number">0</span>,w=<span class="hljs-number">0</span>; <span class="hljs-type">char</span> ch=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span>(!<span class="hljs-built_in">isdigit</span>(ch)) 
+	{
+		w|=ch==<span class="hljs-string">&#x27;-&#x27;</span>;ch=<span class="hljs-built_in">getchar</span>();
+	}
+    <span class="hljs-keyword">while</span>(<span class="hljs-built_in">isdigit</span>(ch))
+	X=(X&lt;&lt;<span class="hljs-number">3</span>)+(X&lt;&lt;<span class="hljs-number">1</span>)+(ch^<span class="hljs-number">48</span>),ch=<span class="hljs-built_in">getchar</span>();
+    <span class="hljs-keyword">return</span> w?-X:X;
+}
+<span class="hljs-type">int</span> n,map[maxn][maxn],ans[maxn][<span class="hljs-number">5</span>],last[maxn][maxn][maxn],xiao[maxn][maxn];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">remove</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-type">int</span> flag=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+		{
+            <span class="hljs-keyword">if</span>(i<span class="hljs-number">-1</span>&gt;=<span class="hljs-number">1</span>&amp;&amp;i<span class="hljs-number">+1</span>&lt;=<span class="hljs-number">5</span>&amp;&amp;map[i][j]==map[i<span class="hljs-number">-1</span>][j]&amp;&amp;map[i][j]==map[i<span class="hljs-number">+1</span>][j]&amp;&amp;map[i][j])
+			{
+                xiao[i<span class="hljs-number">-1</span>][j]=<span class="hljs-number">1</span>;
+				xiao[i<span class="hljs-number">+1</span>][j]=<span class="hljs-number">1</span>;
+				xiao[i][j]=<span class="hljs-number">1</span>;
+				flag=<span class="hljs-number">1</span>;
+            }
+            <span class="hljs-keyword">if</span>(j<span class="hljs-number">-1</span>&gt;=<span class="hljs-number">1</span>&amp;&amp;j<span class="hljs-number">+1</span>&lt;=<span class="hljs-number">7</span>&amp;&amp;map[i][j]==map[i][j<span class="hljs-number">+1</span>]&amp;&amp;map[i][j]==map[i][j<span class="hljs-number">-1</span>]&amp;&amp;map[i][j])
+			{
+                xiao[i][j]=<span class="hljs-number">1</span>;
+				xiao[i][j<span class="hljs-number">+1</span>]=<span class="hljs-number">1</span>;
+				xiao[i][j<span class="hljs-number">-1</span>]=<span class="hljs-number">1</span>;
+				flag=<span class="hljs-number">1</span>;
+            }
+        }
+    <span class="hljs-keyword">if</span>(!flag)
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+        <span class="hljs-keyword">if</span>(xiao[i][j])
+		{
+            xiao[i][j]=<span class="hljs-number">0</span>;
+            map[i][j]=<span class="hljs-number">0</span>;
+        } 
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">check</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+        <span class="hljs-keyword">if</span>(map[i][<span class="hljs-number">1</span>])
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">copy</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+        last[x][i][j]=map[i][j];
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">update</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+	{
+        <span class="hljs-type">int</span> wow=<span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+		{
+            <span class="hljs-keyword">if</span>(!map[i][j])
+			wow++;
+            <span class="hljs-keyword">else</span>
+			{
+                <span class="hljs-keyword">if</span>(!wow)
+				<span class="hljs-keyword">continue</span>;
+                map[i][j-wow]=map[i][j];
+                map[i][j]=<span class="hljs-number">0</span>;
+            }
+        }
+    }
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">move</span><span class="hljs-params">(<span class="hljs-type">int</span> i,<span class="hljs-type">int</span> j,<span class="hljs-type">int</span> x)</span>
+</span>{
+    <span class="hljs-type">int</span> tmp=map[i][j];
+    map[i][j]=map[i+x][j];
+    map[i+x][j]=tmp;
+    <span class="hljs-built_in">update</span>();
+    <span class="hljs-keyword">while</span>(<span class="hljs-built_in">remove</span>())
+	<span class="hljs-built_in">update</span>();
+}
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">check</span>())
+	{
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+		{
+            <span class="hljs-keyword">if</span>(i!=<span class="hljs-number">1</span>)<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">3</span>;j++)
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d &quot;</span>,ans[i][j]);
+        }
+        <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>);
+    }
+    <span class="hljs-keyword">if</span>(x==n<span class="hljs-number">+1</span>)
+	<span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">copy</span>(x);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+		{
+            <span class="hljs-keyword">if</span>(map[i][j])
+			{
+                <span class="hljs-keyword">if</span>(i<span class="hljs-number">+1</span>&lt;=<span class="hljs-number">5</span>&amp;&amp;map[i][j]!=map[i<span class="hljs-number">+1</span>][j])
+				{
+               		<span class="hljs-built_in">move</span>(i,j,<span class="hljs-number">1</span>);
+              		ans[x][<span class="hljs-number">1</span>]=i<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">2</span>]=j<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">3</span>]=<span class="hljs-number">1</span>;
+                	<span class="hljs-built_in">dfs</span>(x<span class="hljs-number">+1</span>);
+                	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+                    	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+                    	map[i][j]=last[x][i][j];
+                	ans[x][<span class="hljs-number">1</span>]=<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">2</span>]=<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">3</span>]=<span class="hljs-number">-1</span>;
+            }
+            	<span class="hljs-keyword">if</span>(i<span class="hljs-number">-1</span>&gt;=<span class="hljs-number">1</span>&amp;&amp;map[i<span class="hljs-number">-1</span>][j]==<span class="hljs-number">0</span>)
+				{
+             		<span class="hljs-built_in">move</span>(i,j,<span class="hljs-number">-1</span>);
+         	 	    ans[x][<span class="hljs-number">1</span>]=i<span class="hljs-number">-1</span>;
+				    ans[x][<span class="hljs-number">2</span>]=j<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">3</span>]=<span class="hljs-number">-1</span>;
+       		        <span class="hljs-built_in">dfs</span>(x<span class="hljs-number">+1</span>);
+                	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+                    	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">7</span>;j++)
+                   		map[i][j]=last[x][i][j];
+                	ans[x][<span class="hljs-number">1</span>]=<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">2</span>]=<span class="hljs-number">-1</span>;
+					ans[x][<span class="hljs-number">3</span>]=<span class="hljs-number">-1</span>;
+           		}
+        	}
+        }
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+    n=<span class="hljs-built_in">read</span>();
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">5</span>;i++)
+	{
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">8</span>;j++)
+		{
+            <span class="hljs-type">int</span> x=<span class="hljs-built_in">read</span>();
+            <span class="hljs-keyword">if</span>(x==<span class="hljs-number">0</span>)
+			<span class="hljs-keyword">break</span>;
+            map[i][j]=x;
+        }
+    }
+    <span class="hljs-built_in">memset</span>(ans,<span class="hljs-number">-1</span>,<span class="hljs-built_in">sizeof</span>(ans));
+    <span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>);
+    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;-1&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="n皇后问题">n皇后问题</h2>
+<p>经典的一道dfs回溯题目，比较简单</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">20</span>;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">char</span> ans[maxn][maxn];
+<span class="hljs-type">bool</span> h[maxn],dj[maxn],fdj[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;n;j++)
+		ans[i][j]=<span class="hljs-string">&#x27;.&#x27;</span>;
+	}
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(u==n)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)
+		cout&lt;&lt;ans[i]&lt;&lt;endl;
+		cout&lt;&lt;endl;
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)
+	{
+		<span class="hljs-keyword">if</span>(!h[i]&amp;&amp;!dj[u+i]&amp;&amp;!fdj[n-u+i])
+		{
+			ans[u][i]=<span class="hljs-string">&#x27;Q&#x27;</span>;
+			h[i]=dj[u+i]=fdj[n-u+i]=<span class="hljs-literal">true</span>;
+			<span class="hljs-built_in">dfs</span>(u<span class="hljs-number">+1</span>);
+			h[i]=dj[u+i]=fdj[n-u+i]=<span class="hljs-literal">false</span>;
+			ans[u][i]=<span class="hljs-string">&#x27;.&#x27;</span>;
+		}
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	cin&gt;&gt;n;
+	<span class="hljs-built_in">init</span>();
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="导弹防御系统">导弹防御系统</h2>
+<p>刷新了我的三观，可能是因为我太菜了？？</p>
+<p>多亏了yxc大佬</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">50</span>;
+<span class="hljs-type">int</span> n;
+<span class="hljs-type">int</span> h[maxn];
+<span class="hljs-type">int</span> up[maxn],down[maxn];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> u,<span class="hljs-type">int</span> su,<span class="hljs-type">int</span> sd,<span class="hljs-type">int</span> depth)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(su+sd&gt;depth)
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+	<span class="hljs-keyword">if</span>(u==n)<span class="hljs-comment">//到达就好 </span>
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	<span class="hljs-type">bool</span> flag=<span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=su;i++)
+	{
+		<span class="hljs-keyword">if</span>(up[i]&lt;h[u])
+		{
+			<span class="hljs-type">int</span> t=up[i];
+			up[i]=h[u];
+			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(u<span class="hljs-number">+1</span>,su,sd,depth))
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+			up[i]=t;<span class="hljs-comment">//还原现场</span>
+			flag=<span class="hljs-literal">false</span>;
+			<span class="hljs-keyword">break</span>; 
+		}
+	}
+	<span class="hljs-keyword">if</span>(flag)
+	{
+		up[su<span class="hljs-number">+1</span>]=h[u];
+		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(u<span class="hljs-number">+1</span>,su<span class="hljs-number">+1</span>,sd,depth))
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	}
+	flag=<span class="hljs-literal">true</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=sd;i++)
+	{
+		<span class="hljs-keyword">if</span>(down[i]&gt;h[u])
+		{
+			<span class="hljs-type">int</span> t=down[i];
+			down[i]=h[u];
+			<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(u<span class="hljs-number">+1</span>,su,sd,depth))
+			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+			down[i]=t;<span class="hljs-comment">//还原现场2 </span>
+			flag=<span class="hljs-literal">false</span>;
+			<span class="hljs-keyword">break</span>;
+		}
+	}
+	<span class="hljs-keyword">if</span>(flag)
+	{
+		down[sd<span class="hljs-number">+1</span>]=h[u];
+		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">dfs</span>(u<span class="hljs-number">+1</span>,su,sd<span class="hljs-number">+1</span>,depth))
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">while</span>(cin&gt;&gt;n&amp;&amp;n)<span class="hljs-comment">//循环输入 </span>
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)
+		cin&gt;&gt;h[i];
+		<span class="hljs-type">int</span> depth=<span class="hljs-number">0</span>; 
+		<span class="hljs-keyword">while</span>(!<span class="hljs-built_in">dfs</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,depth))<span class="hljs-comment">//迭代加深 </span>
+		depth++;
+		cout&lt;&lt;depth&lt;&lt;endl; 
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div><h2 id="总结">总结</h2>
+<p>这三道题都是比较经典的搜索题，我现在目前在死磕搜索、，一定要弄懂，弄会，弄明白，这样才能从量变走向质变（我才不要变质）</p>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="38.html"><small>← 上一张委托</small><span>No.38 【解题报告】 Stick</span></a>
+          <a class="next" href="40.html"><small>下一张委托 →</small><span>No.40 【解题报告】 【NOIP2017】 棋盘</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#2019830做的三道题">2019.8.30做的三道题</a></li><li class="l3"><a href="#mayan游戏">Mayan游戏</a></li><li class="l3"><a href="#n皇后问题">n皇后问题</a></li><li class="l3"><a href="#导弹防御系统">导弹防御系统</a></li><li class="l3"><a href="#总结">总结</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/09/07/2019.8.30%E5%81%9A%E7%9A%84%E4%B8%89%E9%81%93%E9%A2%98/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

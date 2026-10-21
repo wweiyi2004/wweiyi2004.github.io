@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】 启示录 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目描述 探险队员终于进入了金字塔。通过对古文字的解读， 他们发现，和《圣经》的作者想的一样，古代人认为 666 是属于魔鬼的数。不但如此，只要某数字的十进制表示中 有三个连续的 6，古代人也认为这个是魔鬼的数，比如 666, 1 666,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="43" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.43</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】 启示录</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-09-21T07:20:00.000Z">2019.09.21</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">359 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告-启示录">【解题报告】 启示录</h1>
+<h3 id="题目描述">题目描述</h3>
+<p>探险队员终于进入了金字塔。通过对古文字的解读， 他们发现，和《圣经》的作者想的一样，古代人认为 666 是属于魔鬼的数。不但如此，只要某数字的十进制表示中 有三个连续的 6，古代人也认为这个是魔鬼的数，比如 666, 1 666, 2 666, 3 666, 6 663, 16 666, 6 660 666 等等，统统是魔 鬼的数。 古代典籍经常用“第 X 大的魔鬼的数”来指代这些数。 这给研究人员带来了极大的不便。为了帮助他们，你需要写一个程序来求出这些魔鬼的数字。</p>
+<h3 id="输入格式">输入格式</h3>
+<p>输入文件包含多组测试数据。第一行有一个整数 T 表示测试数据的组数。 每组测试数据包含一个整数 X，表示需要求第 X 大的魔鬼的数。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>对于每组测试数据，在一行内输出结果。</p>
+<h3 id="输入输出样例">输入输出样例</h3>
+<p><strong>输入 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">3
+2
+3
+187</code></pre></div><p><strong>输出 #1</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">1666
+2666
+66666</code></pre></div><h3 id="说明提示">说明/提示</h3>
+<p>对于 20% 的数据，保证 X≤10e6。 对于 100% 的数据，保证 T≤1 000，X≤50 000 000。</p>
+<h3 id="解题思路">解题思路</h3>
+<p>这是一个标准的数位Dp，我们只需要简单地找出他的动态转移方程，然后用试数法（我更乐意叫此为“夹逼法”），就可以得出答案了</p>
+<p>AC代码</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">long</span> <span class="hljs-type">long</span> f[<span class="hljs-number">21</span>][<span class="hljs-number">4</span>];
+<span class="hljs-type">int</span> t,n,m;
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span>
+</span>{
+	f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]=<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">20</span>;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">3</span>;j++)
+		{
+			f[i<span class="hljs-number">+1</span>][j<span class="hljs-number">+1</span>]+=f[i][j];
+			f[i<span class="hljs-number">+1</span>][<span class="hljs-number">0</span>]+=f[i][j]*<span class="hljs-number">9</span>;
+		}
+		f[i<span class="hljs-number">+1</span>][<span class="hljs-number">3</span>]+=f[i][<span class="hljs-number">3</span>]*<span class="hljs-number">10</span>;
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-built_in">init</span>();
+	cin&gt;&gt;t;
+	<span class="hljs-keyword">while</span>(t--)
+	{
+		cin&gt;&gt;n;
+		<span class="hljs-keyword">for</span>(m=<span class="hljs-number">3</span>;f[m][<span class="hljs-number">3</span>]&lt;n;m++);
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=m,k=<span class="hljs-number">0</span>;i;i--)
+		{
+			<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;=<span class="hljs-number">9</span>;j++)
+			{
+				<span class="hljs-type">long</span> <span class="hljs-type">long</span> cnt=f[i<span class="hljs-number">-1</span>][<span class="hljs-number">3</span>];
+				<span class="hljs-keyword">if</span>(j==<span class="hljs-number">6</span>||k==<span class="hljs-number">3</span>)
+				{
+					<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-built_in">max</span>(<span class="hljs-number">3</span>-k-(j==<span class="hljs-number">6</span>),<span class="hljs-number">0</span>);l&lt;<span class="hljs-number">3</span>;l++)
+					cnt+=f[i<span class="hljs-number">-1</span>][l];
+				}
+				<span class="hljs-keyword">if</span>(cnt&lt;n)
+				{
+					n-=cnt;
+				}
+				<span class="hljs-keyword">else</span>
+				{
+					<span class="hljs-keyword">if</span>(k&lt;<span class="hljs-number">3</span>)
+					{
+						<span class="hljs-keyword">if</span>(j==<span class="hljs-number">6</span>)
+						k++;
+						<span class="hljs-keyword">else</span>
+						k=<span class="hljs-number">0</span>;
+					}
+					cout&lt;&lt;j;
+					<span class="hljs-keyword">break</span>;
+				}
+			}
+		}
+		cout&lt;&lt;endl;
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+} </code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="42.html"><small>← 上一张委托</small><span>No.42 【解题报告】 【NOIP2018】 摆渡车</span></a>
+          <a class="next" href="44.html"><small>下一张委托 →</small><span>No.44 【解题报告】 [NOIP2006]能量项链</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告-启示录">【解题报告】 启示录</a></li><li class="l4"><a href="#题目描述">题目描述</a></li><li class="l4"><a href="#输入格式">输入格式</a></li><li class="l4"><a href="#输出格式">输出格式</a></li><li class="l4"><a href="#输入输出样例">输入输出样例</a></li><li class="l4"><a href="#说明提示">说明/提示</a></li><li class="l4"><a href="#解题思路">解题思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/09/21/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91-%E5%90%AF%E7%A4%BA%E5%BD%95/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

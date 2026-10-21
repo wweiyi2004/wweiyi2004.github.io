@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【学习笔记】线段树浅谈 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="线段树，顾名思义，就是一棵树，上面的每个节点由一个“线段”构成，然后组成了一棵除去了最后一层外，是完全二叉树的树，又叫区间树，作用主要是单点修改，区间修改和区间查询，这里拿线段树的区间和来举例子 线段树的构建 线段树是一棵完全二叉树，我们可">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="79" data-line="3" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.79</span><a class="writ__line" href="../index.html?line=3"></a><span><a href="../index.html?cat=%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a></span></p>
+        <h1 class="writ__title">【学习笔记】线段树浅谈</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-07-07T01:45:00.000Z">2021.07.07</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">821 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E6%A0%91%E8%AE%BA">#树论</a></li><li><a href="../index.html?tag=%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">#数据结构</a></li><li><a href="../index.html?tag=%E9%80%92%E6%8E%A8">#递推</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="学习笔记线段树浅谈">【学习笔记】线段树浅谈</h1>
+<p>线段树，顾名思义，就是一棵树，上面的每个节点由一个“线段”构成，然后组成了一棵除去了最后一层外，是完全二叉树的树，又叫区间树，作用主要是单点修改，区间修改和区间查询，这里拿线段树的区间和来举例子</p>
+<h3 id="线段树的构建">线段树的构建</h3>
+<p>线段树是一棵完全二叉树，我们可以可以按照与二叉堆相似的储存节点的方式，根节点为k，左子树为k&lt;&lt;1,右子树则为k&lt;&lt;1|1,因为树是递归定义的，所以我们开始递归建树。</p>
+<p><strong>1.建立结构体，用于存树</strong></p>
+<p>因为完全二叉树对应一个长度为a的区间，它需要的节点个数为4a，因此，我们要把树的大小开到区间长度的四倍</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">1000010</span>;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">tree</span>{
+	<span class="hljs-type">int</span> l,r;
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> dat,add,mul;
+}t[maxn*<span class="hljs-number">4</span><span class="hljs-number">+5</span>];</code></pre></div><p><strong>2.建立上传</strong></p>
+<p>因为每次建一棵树，父节点都要有相对应的数据更新，因此我们需要pushup来上传子节点的数据</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pushup</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span>
+</span>{
+	t[k].dat=(t[k&lt;&lt;<span class="hljs-number">1</span>].dat+t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].dat)%p;
+}</code></pre></div><p><strong>3.递归建树</strong></p>
+<p>然后用递归建树</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-comment">//k代表当前节点，l代表当前节点的左端点，r代表当前节点的右端点 </span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span>
+</span>{
+	<span class="hljs-comment">//储存一下左端点和右端点，方便以后调用</span>
+	<span class="hljs-comment">//同时做一下延迟标记的初始化 </span>
+	t[k].l=l,t[k].r=r;
+	t[k].add=<span class="hljs-number">0</span>,t[k].mul=<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l==r)
+	{
+		t[k].dat=a[l];<span class="hljs-comment">//如果到区间长度为1的时候，那么这个时候就等于对应的数字 </span>
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-built_in">build</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,mid);<span class="hljs-comment">//递归建左子树 </span>
+	<span class="hljs-built_in">build</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,mid<span class="hljs-number">+1</span>,r);<span class="hljs-comment">//递归建右子树 </span>
+	<span class="hljs-built_in">pushup</span>(k);<span class="hljs-comment">//向父节点输送左子树和右子树的数据 </span>
+	t[k].dat%=p;
+	<span class="hljs-keyword">return</span> ;
+}</code></pre></div><p>这样，一棵线段树就建好了</p>
+<h3 id="线段树的操作">线段树的操作</h3>
+<p>对于线段树，我们肯定不仅仅满足于建好一棵线段树，最主要的是，我们要用它做一些什么事情，来帮助我们更好地解决我们需要解决的问题。</p>
+<p>前面说过，线段树的操作主要是点的修改和区间的数据查询，我们先说一说点的修改</p>
+<p><strong>1.点的修改</strong></p>
+<p>因为线段树是用递归定义的，因此，我们点的修改也可以用递归来进行修改这里不过多赘述，因为重要的在后面</p>
+<p><strong>2.区间修改</strong></p>
+<p>区间修改有两种修改方式，第一种是对应的某一个区间里面的数，每一个加上一个数，另一种是对应区间里面的数，每一个乘上一个数字。</p>
+<p>对于加上一个数的方式，我们直接类似于点的修改，但是我们会发现，有一些树是并没有用到的，也就是说，我们每次在更新的时候去更新下一个节点，然后数据继续往下更新，我们就会造成很大的空间与时间的冗余，这些空间和时间都很大，我们都用得到！而且可以节省很大一部分空间！</p>
+<p>因此，我们在这里就要使用一种特殊的操作，延迟标记，然后我们就可以节省大量的空间，以及时间，从而加快线段树的速度</p>
+<p>大家可以看到，在之前的结构体定义中有add和mul，它们就分别是线段树加法和乘法的延迟标记</p>
+<p>然后延迟标记在我们使用某棵树的时候需要传递下去，因此，我们与pushup相类似，我们要使用一个pushdown</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pushdown</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span>
+</span>{
+	<span class="hljs-comment">//传递节点 </span>
+	t[k&lt;&lt;<span class="hljs-number">1</span>].dat=(t[k&lt;&lt;<span class="hljs-number">1</span>].dat*t[k].mul+t[k].add*(t[k&lt;&lt;<span class="hljs-number">1</span>].r-t[k&lt;&lt;<span class="hljs-number">1</span>].l<span class="hljs-number">+1</span>))%p;
+	t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].dat=(t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].dat*t[k].mul+t[k].add*(t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].r-t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].l<span class="hljs-number">+1</span>))%p;
+	<span class="hljs-comment">//传递乘法的懒惰标记 </span>
+	t[k&lt;&lt;<span class="hljs-number">1</span>].mul=(t[k].mul*t[k&lt;&lt;<span class="hljs-number">1</span>].mul)%p;
+	t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].mul=(t[k].mul*t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].mul)%p;
+	<span class="hljs-comment">//传递加法的懒惰标记 </span>
+	t[k&lt;&lt;<span class="hljs-number">1</span>].add=(t[k&lt;&lt;<span class="hljs-number">1</span>].add*t[k].mul+t[k].add)%p;
+	t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].add=(t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].add*t[k].mul+t[k].add)%p;
+	<span class="hljs-comment">//还原父节点，因为子节点已经更新过了 </span>
+	t[k].add=<span class="hljs-number">0</span>;
+	t[k].mul=<span class="hljs-number">1</span>;
+}</code></pre></div><p>然后我们就可以快乐的进行区间修改了</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">updata1</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> v)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(l&lt;=t[k].l&amp;&amp;r&gt;=t[k].r)
+	{
+		t[k].dat=(t[k].dat*v)%p;
+		t[k].mul=(t[k].mul*v)%p;
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-built_in">pushdown</span>(k);
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l&lt;=mid)
+	<span class="hljs-built_in">updata1</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-keyword">if</span>(r&gt;mid)
+	<span class="hljs-built_in">updata1</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-built_in">pushup</span>(k);
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">updata2</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> v)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(l&lt;=t[k].l&amp;&amp;r&gt;=t[k].r)
+	{
+		t[k].dat=(t[k].dat+v*(t[k].r-t[k].l<span class="hljs-number">+1</span>)%p;
+		t[k].mul=(t[k].add+v)%p;
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-built_in">pushdown</span>(k);
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l&lt;=mid)
+	<span class="hljs-built_in">updata2</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-keyword">if</span>(r&gt;mid)
+	<span class="hljs-built_in">updata2</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-built_in">pushup</span>(k);
+}</code></pre></div><p><strong>3.区间查询</strong></p>
+<p>区间查询和区间修改实际上差不多，但是要注意返回值的时候要</p>
+<p>模，不然会出问题</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(l&lt;=t[k].r&amp;&amp;r&gt;=t[k].r)
+	<span class="hljs-keyword">return</span> t[k].dat;
+	<span class="hljs-built_in">pushdown</span>(k);
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> ans=<span class="hljs-number">0</span>;
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l&lt;=mid)
+	ans=(ans+<span class="hljs-built_in">query</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,r))%p;
+	<span class="hljs-keyword">if</span>(r&gt;mid)
+	ans=(ans+<span class="hljs-built_in">query</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,l,r))%p;
+	<span class="hljs-keyword">return</span> ans%p; 
+}</code></pre></div><p>这就是线段树的模板了</p>
+<h3 id="最终代码">最终代码</h3>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">100010</span>;
+<span class="hljs-type">int</span> n,m,p;
+<span class="hljs-type">int</span> a[maxn];
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">tree</span>{
+	<span class="hljs-type">int</span> l,r;
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> dat,add,mul;
+}t[maxn*<span class="hljs-number">4</span><span class="hljs-number">+5</span>];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pushup</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span>
+</span>{
+	t[k].dat=(t[k&lt;&lt;<span class="hljs-number">1</span>].dat+t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].dat)%p;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">pushdown</span><span class="hljs-params">(<span class="hljs-type">int</span> k)</span>
+</span>{
+	<span class="hljs-comment">//传递节点 </span>
+	t[k&lt;&lt;<span class="hljs-number">1</span>].dat=(t[k&lt;&lt;<span class="hljs-number">1</span>].dat*t[k].mul+t[k].add*(t[k&lt;&lt;<span class="hljs-number">1</span>].r-t[k&lt;&lt;<span class="hljs-number">1</span>].l<span class="hljs-number">+1</span>))%p;
+	t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].dat=(t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].dat*t[k].mul+t[k].add*(t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].r-t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].l<span class="hljs-number">+1</span>))%p;
+	<span class="hljs-comment">//传递乘法的懒惰标记 </span>
+	t[k&lt;&lt;<span class="hljs-number">1</span>].mul=(t[k].mul*t[k&lt;&lt;<span class="hljs-number">1</span>].mul)%p;
+	t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].mul=(t[k].mul*t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].mul)%p;
+	<span class="hljs-comment">//传递加法的懒惰标记 </span>
+	t[k&lt;&lt;<span class="hljs-number">1</span>].add=(t[k&lt;&lt;<span class="hljs-number">1</span>].add*t[k].mul+t[k].add)%p;
+	t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].add=(t[k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>].add*t[k].mul+t[k].add)%p;
+	<span class="hljs-comment">//还原父节点，因为子节点已经更新过了 </span>
+	t[k].add=<span class="hljs-number">0</span>;
+	t[k].mul=<span class="hljs-number">1</span>;
+}
+<span class="hljs-comment">//k代表当前节点，l代表当前节点的左端点，r代表当前节点的右端点 </span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span>
+</span>{
+	<span class="hljs-comment">//储存一下左端点和右端点，方便以后调用</span>
+	<span class="hljs-comment">//同时做一下延迟标记的初始化 </span>
+	t[k].l=l,t[k].r=r;
+	t[k].add=<span class="hljs-number">0</span>,t[k].mul=<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l==r)
+	{
+		t[k].dat=a[l];<span class="hljs-comment">//如果到区间长度为1的时候，那么这个时候就等于对应的数字 </span>
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-built_in">build</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,mid);<span class="hljs-comment">//递归建左子树 </span>
+	<span class="hljs-built_in">build</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,mid<span class="hljs-number">+1</span>,r);<span class="hljs-comment">//递归建右子树 </span>
+	<span class="hljs-built_in">pushup</span>(k);<span class="hljs-comment">//向父节点输送左子树和右子树的数据 </span>
+	t[k].dat%=p;
+	<span class="hljs-keyword">return</span> ;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">updata1</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> v)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(l&lt;=t[k].l&amp;&amp;r&gt;=t[k].r)
+	{
+		t[k].dat=(t[k].dat*v)%p;
+		t[k].mul=(t[k].mul*v)%p;
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-built_in">pushdown</span>(k);
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l&lt;=mid)
+	<span class="hljs-built_in">updata1</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-keyword">if</span>(r&gt;mid)
+	<span class="hljs-built_in">updata1</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-built_in">pushup</span>(k);
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">updata2</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r,<span class="hljs-type">int</span> v)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(l&lt;=t[k].l&amp;&amp;r&gt;=t[k].r)
+	{
+		t[k].dat=(t[k].dat+v*(t[k].r-t[k].l<span class="hljs-number">+1</span>))%p;
+		t[k].mul=(t[k].add+v)%p;
+		<span class="hljs-keyword">return</span> ;
+	}
+	<span class="hljs-built_in">pushdown</span>(k);
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l&lt;=mid)
+	<span class="hljs-built_in">updata2</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-keyword">if</span>(r&gt;mid)
+	<span class="hljs-built_in">updata2</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,l,r,v);
+	<span class="hljs-built_in">pushup</span>(k);
+}
+<span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">query</span><span class="hljs-params">(<span class="hljs-type">int</span> k,<span class="hljs-type">int</span> l,<span class="hljs-type">int</span> r)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(l&lt;=t[k].r&amp;&amp;r&gt;=t[k].r)
+	<span class="hljs-keyword">return</span> t[k].dat;
+	<span class="hljs-built_in">pushdown</span>(k);
+	<span class="hljs-type">long</span> <span class="hljs-type">long</span> ans=<span class="hljs-number">0</span>;
+	<span class="hljs-type">int</span> mid=(l+r)&gt;&gt;<span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(l&lt;=mid)
+	ans=(ans+<span class="hljs-built_in">query</span>(k&lt;&lt;<span class="hljs-number">1</span>,l,r))%p;
+	<span class="hljs-keyword">if</span>(r&gt;mid)
+	ans=(ans+<span class="hljs-built_in">query</span>(k&lt;&lt;<span class="hljs-number">1</span>|<span class="hljs-number">1</span>,l,r))%p;
+	<span class="hljs-keyword">return</span> ans%p; 
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="78.html"><small>← 上一张委托</small><span>No.78 回忆</span></a>
+          <a class="next" href="80.html"><small>下一张委托 →</small><span>No.80 一些没搞懂但是暂时通过了的题目记录</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#学习笔记线段树浅谈">【学习笔记】线段树浅谈</a></li><li class="l4"><a href="#线段树的构建">线段树的构建</a></li><li class="l4"><a href="#线段树的操作">线段树的操作</a></li><li class="l4"><a href="#最终代码">最终代码</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/07/07/%E3%80%90%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E3%80%91%E7%BA%BF%E6%AE%B5%E6%A0%91%E6%B5%85%E8%B0%88/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

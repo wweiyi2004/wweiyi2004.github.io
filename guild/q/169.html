@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【工具】ARIS——让 Claude Code 在你睡觉时做科研 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="详细介绍 ARIS（Auto-claude-code-research-in-sleep）——一个基于 Claude Code 的自主 ML 科研工作流系统，包含完整的安装配置指南、使用技巧，以及两篇顶会接收论文的案例分析。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="169" data-line="1" data-minutes="6">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.169</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E5%B7%A5%E5%85%B7">工具</a></span></p>
+        <h1 class="writ__title">【工具】ARIS——让 Claude Code 在你睡觉时做科研</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2026-04-05T12:00:00.000Z">2026.04.05</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">2,254 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 6 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=AI">#AI</a></li><li><a href="../index.html?tag=%E7%A7%91%E7%A0%94">#科研</a></li><li><a href="../index.html?tag=Claude-Code">#Claude-Code</a></li><li><a href="../index.html?tag=ARIS">#ARIS</a></li><li><a href="../index.html?tag=%E8%AE%BA%E6%96%87">#论文</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="aris--让-claude-code-在你睡觉时做科研">ARIS —— 让 Claude Code 在你睡觉时做科研</h1>
+<blockquote>
+<p><strong>作者</strong>：一泽 Eze（<a href="https://github.com/wanshuiyin" target="_blank" rel="noopener">@wanshuiyin</a>）<br>
+<strong>项目地址</strong>：<a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep" target="_blank" rel="noopener">https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep</a><br>
+<strong>许可证</strong>：MIT</p>
+</blockquote>
+<hr>
+<h2 id="前言">前言</h2>
+<p>今天要介绍的是一个让我眼前一亮的项目——<strong>ARIS</strong>（Auto-claude-code-research-in-sleep）。</p>
+<p>顾名思义，这是一个让 Claude Code 在<strong>你睡觉时自动做科研</strong>的工具。当你第二天醒来，会发现论文已经被打分、弱点已经被定位、实验已经跑完、叙事已经重写——<strong>全自动</strong>。</p>
+<p>这不是一个简单的 prompt 集合，而是一套完整的<strong>多模型协作科研工作流</strong>系统。核心理念是：</p>
+<blockquote>
+<p><strong>用 Claude Code 执行，用 Codex (GPT-5.4) 评审，两个模型互相制约，打破单模型自评的盲区。</strong></p>
+</blockquote>
+<p>更令人振奋的是，已经有<strong>两篇论文使用 ARIS 完成，最终被顶会接收</strong>：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>论文</th>
+<th style="text-align:center">评分</th>
+<th>会议</th>
+<th>作者</th>
+<th>技术栈</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CS 论文</td>
+<td style="text-align:center"><strong>8/10</strong> “clear accept”</td>
+<td>CS 会议</td>
+<td><a href="https://github.com/DefanXue" target="_blank" rel="noopener">@DefanXue</a> &amp; <a href="https://github.com/Monglitay" target="_blank" rel="noopener">@Monglitay</a></td>
+<td>Claude Code + GPT-5.4</td>
+</tr>
+<tr>
+<td>AAAI 论文</td>
+<td style="text-align:center"><strong>7/10</strong> “good paper, accept”</td>
+<td>AAAI 2026 Main Technical</td>
+<td><a href="https://github.com/xinbo820-web" target="_blank" rel="noopener">@xinbo820-web</a></td>
+<td>纯 Codex CLI</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h2 id="一为什么需要-aris">一、为什么需要 ARIS？</h2>
+<h3 id="11-单模型自评的致命缺陷">1.1 单模型自评的致命缺陷</h3>
+<p>传统的 AI 辅助科研通常是：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">你 → 单个 LLM → 输出</code></pre></div><p>问题在于：<strong>同一个模型审自己的输出，会陷入局部最优</strong>。就像自己出题自己做，永远发现不了问题。</p>
+<blockquote>
+<p>类比 bandit 问题：单模型自审是 stochastic bandit（噪声可预测），跨模型审稿则是 adversarial bandit（审稿者会主动探测执行者未预料的弱点）。</p>
+</blockquote>
+<h3 id="12-双模型协作的威力">1.2 双模型协作的威力</h3>
+<p>ARIS 的核心设计：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>角色</th>
+<th>模型</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>执行者 (Executor)</strong></td>
+<td>Claude Code</td>
+<td>快速读论文、写代码、跑实验、操作文件</td>
+</tr>
+<tr>
+<td><strong>审稿者 (Reviewer)</strong></td>
+<td>Codex (GPT-5.4)</td>
+<td>严格评审、找弱点、压力测试、批判性分析</td>
+</tr>
+</tbody>
+</table></div>
+<p>两个模型<strong>互不评自己的作业</strong>，形成真正的对抗性反馈循环：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">用户 → Claude Code（执行）
+         ↓
+      写代码 / 跑实验 / 收结果
+         ↓
+      Codex（评审）
+         ↓
+      找弱点 → 返回给 Claude Code
+         ↓
+      Claude Code（修复）
+         ↓
+      Codex（再审）
+         ↓
+      ... 循环直到顶会标准 ...</code></pre></div><h3 id="13-为什么是两个模型">1.3 为什么是两个模型？</h3>
+<blockquote>
+<p>两个是打破自我博弈盲区的<strong>最小配置</strong>，且双人博弈收敛到 Nash 均衡的效率远高于多人博弈。增加更多审稿者只会增加 API 开销和协调成本，边际收益递减。</p>
+</blockquote>
+<p>Claude Code 的优势是<strong>快速丝滑的执行</strong>，Codex (GPT-5.4) 虽然慢但<strong>审稿更严谨深入</strong>。两者<strong>速度 × 严谨</strong>的互补特性，比单模型自我对话效果更好。</p>
+<hr>
+<h2 id="二aris-核心功能">二、ARIS 核心功能</h2>
+<h3 id="21-四大工作流">2.1 四大工作流</h3>
+<h4 id="工作流-1idea-discovery想法发现">工作流 1：Idea Discovery（想法发现）</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/idea-discovery &quot;研究方向&quot;</code></pre></div><p>从研究方向自动发现创新点，完整流程：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">research-lit → idea-creator → novelty-check → research-review → research-refine-pipeline
+  (文献调研)    (头脑风暴)     (验证新颖性)    (批判性反馈)      (方法精炼 + 实验规划)</code></pre></div><p><strong>输出</strong>：</p>
+<ul>
+<li><code>IDEA_REPORT.md</code> — 排名后的想法报告</li>
+<li><code>refine-logs/FINAL_PROPOSAL.md</code> — 精炼后的提案</li>
+<li><code>refine-logs/EXPERIMENT_PLAN.md</code> — 实验路线图</li>
+</ul>
+<h4 id="工作流-2auto-review-loop自动审稿迭代">工作流 2：Auto Review Loop（自动审稿迭代）</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/auto-review-loop &quot;论文主题&quot;</code></pre></div><p>自动多轮审稿 → 修复 → 再审，全自动完成。</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">Claude Code 实现修复 → Codex 评审 → 问题 → Claude Code 再修复 → ... → 直到达标</code></pre></div><h4 id="工作流-3paper-writing论文写作">工作流 3：Paper Writing（论文写作）</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/paper-writing &quot;NARRATIVE_REPORT.md&quot;</code></pre></div><p>研究叙事 → 精修 PDF，完整流程：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">paper-plan → paper-figure → paper-write → paper-compile → auto-improvement-loop</code></pre></div><p>已内置 9 个会议模板：ICLR、NeurIPS、ICML、CVPR、ACL、AAAI、ACM、IEEE_JOURNAL、IEEE_CONF。</p>
+<h4 id="工作流-4rebuttal审稿意见辩护">工作流 4：Rebuttal（审稿意见辩护）</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/rebuttal &quot;paper/ + reviews&quot; — venue: ICML, character limit: 5000</code></pre></div><p>解析 review → 原子化 → 策略 → 起草 → 安全检查 → GPT-5.4 压力测试 → 定稿。</p>
+<p><strong>三道安全门</strong>：</p>
+<ul>
+<li>🔒 <strong>不编造</strong> — 每句话有出处</li>
+<li>🔒 <strong>不过度承诺</strong> — 没批准的不承诺</li>
+<li>🔒 <strong>全覆盖</strong> — 每个审稿意见都追踪</li>
+</ul>
+<h4 id="一键全流程research-pipeline">一键全流程：Research Pipeline</h4>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/research-pipeline &quot;研究方向&quot;</code></pre></div><p>工作流 1 → 1.5 → 2 → 3 端到端全自动。</p>
+<h3 id="22-配套工具">2.2 配套工具</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/paper-slides</code></td>
+<td>论文 → Beamer PDF + PPTX + 演讲稿</td>
+</tr>
+<tr>
+<td><code>/paper-poster</code></td>
+<td>论文 → A0/A1 海报 PDF</td>
+</tr>
+<tr>
+<td><code>/arxiv</code></td>
+<td>搜索下载 arXiv 论文</td>
+</tr>
+<tr>
+<td><code>/semantic-scholar</code></td>
+<td>搜索正式发表的顶会论文</td>
+</tr>
+<tr>
+<td><code>/meta-optimize</code></td>
+<td>ARIS 自优化——分析使用数据改进 <a href="http://SKILL.md" target="_blank" rel="noopener">SKILL.md</a></td>
+</tr>
+<tr>
+<td><code>/run-experiment</code></td>
+<td>部署实验到 GPU</td>
+</tr>
+<tr>
+<td><code>/experiment-bridge</code></td>
+<td>实验结果 → claim 判定</td>
+</tr>
+<tr>
+<td><code>/novelty-check</code></td>
+<td>想法新颖性验证</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="23-支持的平台">2.3 支持的平台</h3>
+<p>ARIS <strong>不锁定平台</strong>，全套 Markdown Skill 文件，零依赖：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>支持情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Code</strong></td>
+<td>✅ 原生支持</td>
+</tr>
+<tr>
+<td><strong>Cursor</strong></td>
+<td>✅ 适配指南见 <a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/CURSOR_ADAPTATION.md" target="_blank" rel="noopener">CURSOR_ADAPTATION.md</a></td>
+</tr>
+<tr>
+<td><strong>Trae</strong></td>
+<td>✅ 字节跳动 AI IDE，适配指南见 <a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/TRAE_ARIS_RUNBOOK_CN.md" target="_blank" rel="noopener">TRAE_ARIS_RUNBOOK_CN.md</a></td>
+</tr>
+<tr>
+<td><strong>Antigravity</strong></td>
+<td>✅ Google Agent-First IDE</td>
+</tr>
+<tr>
+<td><strong>OpenClaw</strong></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Codex CLI</strong></td>
+<td>✅ 纯执行版本</td>
+</tr>
+<tr>
+<td><strong>Windsurf</strong></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="24-支持的模型组合">2.4 支持的模型组合</h3>
+<p><strong>不需要 OpenAI API！</strong> 支持国产模型：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>组合</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MiniMax-M2.7 + GLM-5</strong></td>
+<td>零成本方案</td>
+</tr>
+<tr>
+<td><strong>Kimi + GLM</strong></td>
+<td>阿里百炼 Coding Plan</td>
+</tr>
+<tr>
+<td><strong>ModelScope</strong></td>
+<td>免费额度</td>
+</tr>
+</tbody>
+</table></div>
+<p>详见文档：</p>
+<ul>
+<li><a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/MiniMax-GLM-Configuration.md" target="_blank" rel="noopener">MiniMax-GLM-Configuration.md</a></li>
+<li><a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/blob/main/docs/MODELSCOPE_GUIDE.md" target="_blank" rel="noopener">MODELSCOPE_GUIDE.md</a></li>
+</ul>
+<hr>
+<h2 id="三aris-设计哲学">三、ARIS 设计哲学</h2>
+<blockquote>
+<p><strong>Skill = 哲学 + 技术事实，不是操作手册。讲清 tradeoff 让 AI 自己选，不替它推理。</strong></p>
+</blockquote>
+<p>这是 ARIS 最重要的设计原则。每个 <a href="http://SKILL.md" target="_blank" rel="noopener">SKILL.md</a> 不只是步骤说明，而是包含：</p>
+<ol>
+<li><strong>浏览哲学</strong>：遇到问题时的决策框架</li>
+<li><strong>技术事实</strong>：已知的方法局限和边界</li>
+<li><strong>权衡取舍</strong>：为什么这样设计而不是那样</li>
+</ol>
+<hr>
+<h2 id="四快速安装">四、快速安装</h2>
+<h3 id="41-基础安装">4.1 基础安装</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 1. 克隆仓库</span>
+git <span class="hljs-built_in">clone</span> https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep.git
+
+<span class="hljs-comment"># 2. 复制 skills 到你的 Claude Code</span>
+<span class="hljs-built_in">cp</span> -r Auto-claude-code-research-in-sleep/skills/* ~/.claude/skills/
+
+<span class="hljs-comment"># 3. 在 Claude Code 中使用</span>
+claude
+&gt; /idea-discovery <span class="hljs-string">&quot;你的研究方向&quot;</span></code></pre></div><h3 id="42-配置-codex-mcp推荐">4.2 配置 Codex MCP（推荐）</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 安装 Codex CLI</span>
+npm install -g @openai/codex
+codex setup   <span class="hljs-comment"># 提示选模型时选 gpt-5.4</span>
+
+<span class="hljs-comment"># 添加到 Claude Code</span>
+claude mcp add codex -s user -- codex mcp-server</code></pre></div><h3 id="43-无-api-成本方案">4.3 无 API 成本方案</h3>
+<p>没有 OpenAI API？用国产模型：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 详见文档</span>
+<span class="hljs-built_in">cat</span> docs/MiniMax-GLM-Configuration.md
+<span class="hljs-built_in">cat</span> docs/MODELSCOPE_GUIDE.md</code></pre></div><hr>
+<h2 id="五使用示例">五、使用示例</h2>
+<h3 id="51-基础模式给方向全自动">5.1 基础模式——给方向全自动</h3>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/research-pipeline &quot;离散扩散语言模型的 factorized gap&quot;</code></pre></div><p>ARIS 会：</p>
+<ol>
+<li>自动搜索文献</li>
+<li>生成创新想法</li>
+<li>验证新颖性</li>
+<li>获取评审反馈</li>
+<li>精炼方法</li>
+<li>设计实验</li>
+</ol>
+<h3 id="52-精准模式有参考论文">5.2 精准模式——有参考论文</h3>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/research-pipeline &quot;改进方法 X&quot; — ref paper: https://arxiv.org/abs/2406.04329, base repo: https://github.com/org/project</code></pre></div><p>ARIS 会：</p>
+<ul>
+<li>读论文 → 找弱点 → 克隆代码 → 针对弱点用那套代码生成改进方案 → 跑实验 → 写论文</li>
+</ul>
+<p>就像跟研究助手说：<em>“读这篇论文，用这个 repo，找出哪里不行，然后修好它。”</em></p>
+<h3 id="53-rebuttal-模式审稿意见来了">5.3 Rebuttal 模式——审稿意见来了</h3>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">/rebuttal &quot;paper/ + reviews&quot; — venue: ICML, character limit: 5000</code></pre></div><p>自动生成安全的 rebuttal，有三道安全门确保不编造、不过度承诺、全覆盖。</p>
+<hr>
+<h2 id="六案例分析使用-aris-完成的顶会论文">六、案例分析：使用 ARIS 完成的顶会论文</h2>
+<h3 id="61-案例-1cs-论文810-clear-accept">6.1 案例 1：CS 论文（8/10 “clear accept”）</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>评分</strong></td>
+<td>8/10 “clear accept”</td>
+</tr>
+<tr>
+<td><strong>会议</strong></td>
+<td>CS 会议</td>
+</tr>
+<tr>
+<td><strong>作者</strong></td>
+<td><a href="https://github.com/DefanXue" target="_blank" rel="noopener">@DefanXue</a> &amp; <a href="https://github.com/Monglitay" target="_blank" rel="noopener">@Monglitay</a></td>
+</tr>
+<tr>
+<td><strong>技术栈</strong></td>
+<td>Claude Code + GPT-5.4</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>使用流程</strong>：</p>
+<ol>
+<li>用 <code>/idea-discovery</code> 发现创新方向</li>
+<li>用 <code>/auto-review-loop</code> 多轮迭代</li>
+<li>用 <code>/paper-writing</code> 写完整论文</li>
+<li>提交后用 <code>/rebuttal</code> 处理审稿意见</li>
+<li>成功接收！</li>
+</ol>
+<h3 id="62-案例-2aaai-2026-论文710-good-paper-accept">6.2 案例 2：AAAI 2026 论文（7/10 “good paper, accept”）</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>评分</strong></td>
+<td>7/10 “good paper, accept”</td>
+</tr>
+<tr>
+<td><strong>会议</strong></td>
+<td>AAAI 2026 Main Technical</td>
+</tr>
+<tr>
+<td><strong>作者</strong></td>
+<td><a href="https://github.com/xinbo820-web" target="_blank" rel="noopener">@xinbo820-web</a></td>
+</tr>
+<tr>
+<td><strong>技术栈</strong></td>
+<td>纯 Codex CLI（无需 Claude Code）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>关键启示</strong>：ARIS <strong>不依赖 Claude Code</strong>。纯 Codex CLI 同样可以完成完整流程。</p>
+<h3 id="63-从想法到接收的全程记录">6.3 从想法到接收的全程记录</h3>
+<p>两篇论文都是<strong>全程 ARIS 完成——从 idea 到接收</strong>。</p>
+<p>这证明了 ARIS 工作流的可行性：</p>
+<ul>
+<li>✅ 不需要顶会论文写作经验</li>
+<li>✅ 不需要昂贵的 GPU 资源</li>
+<li>✅ 不需要多个 AI 工具拼凑</li>
+</ul>
+<p>一套工作流，从想法到顶会接收。</p>
+<hr>
+<h2 id="七重要参数说明">七、重要参数说明</h2>
+<p>所有命令都支持内联参数配置：</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AUTO_PROCEED</code></td>
+<td><code>true</code></td>
+<td>自动继续最佳选项</td>
+</tr>
+<tr>
+<td><code>human checkpoint</code></td>
+<td><code>false</code></td>
+<td>每轮 review 后暂停</td>
+</tr>
+<tr>
+<td><code>sources</code></td>
+<td><code>all</code></td>
+<td>搜索来源：zotero、local、web、semantic-scholar</td>
+</tr>
+<tr>
+<td><code>venue</code></td>
+<td><code>ICLR</code></td>
+<td>目标会议</td>
+</tr>
+<tr>
+<td><code>difficulty</code></td>
+<td><code>medium</code></td>
+<td>审稿对抗强度：medium / hard / nightmare</td>
+</tr>
+<tr>
+<td><code>compact</code></td>
+<td><code>false</code></td>
+<td>生成精简摘要文件</td>
+</tr>
+<tr>
+<td><code>ref paper</code></td>
+<td><code>false</code></td>
+<td>参考论文 URL</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>使用示例</strong>：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash">/research-pipeline <span class="hljs-string">&quot;方向&quot;</span> — AUTO_PROCEED: <span class="hljs-literal">false</span>          <span class="hljs-comment"># 在选 idea 时暂停</span>
+/research-pipeline <span class="hljs-string">&quot;方向&quot;</span> — human checkpoint: <span class="hljs-literal">true</span>        <span class="hljs-comment"># 每轮 review 后暂停</span>
+/research-pipeline <span class="hljs-string">&quot;方向&quot;</span> — difficulty: nightmare        <span class="hljs-comment"># 极限压力测试</span>
+/research-pipeline <span class="hljs-string">&quot;方向&quot;</span> — venue: CVPR                 <span class="hljs-comment"># 指定目标会议</span></code></pre></div><hr>
+<h2 id="八无-gpu没问题">八、无 GPU？没问题！</h2>
+<p>ARIS 提供两种免费 GPU 方案：</p>
+<h3 id="81-modal-serverless-gpu">8.1 Modal Serverless GPU</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># CLAUDE.md 中配置</span>
+gpu: modal
+
+<span class="hljs-comment"># 一条命令跑实验，自动 scale-to-zero</span>
+modal run launcher.py</code></pre></div><ul>
+<li>$30/月免费额度</li>
+<li>无需 SSH/Docker</li>
+<li>跑完自动停止</li>
+</ul>
+<h3 id="82-vastai-gpu-租赁">8.2 <a href="http://Vast.ai" target="_blank" rel="noopener">Vast.ai</a> GPU 租赁</h3>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># CLAUDE.md 中配置</span>
+gpu: vast</code></pre></div><ul>
+<li>自动租用最便宜的 GPU</li>
+<li>用完即销毁</li>
+<li>按小时计费</li>
+</ul>
+<hr>
+<h2 id="九自定义与扩展">九、自定义与扩展</h2>
+<h3 id="91-元优化让-aris-自我改进">9.1 元优化：让 ARIS 自我改进</h3>
+<p>ARIS 可以<strong>优化自己</strong>：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 启用被动日志</span>
+<span class="hljs-built_in">cp</span> templates/claude-hooks/meta_logging.json .claude/settings.json
+
+<span class="hljs-comment"># 累积 5 次运行后分析</span>
+/meta-optimize</code></pre></div><p>会分析你的使用数据，提出 <a href="http://SKILL.md" target="_blank" rel="noopener">SKILL.md</a> 改进方案——<strong>reviewer 审核、用户批准</strong>。</p>
+<h3 id="92-飞书通知">9.2 飞书通知</h3>
+<p>配置后可在手机接收实验进度通知：</p>
+<div class="code"><div class="code__bar"><span>bash</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-bash"><span class="hljs-comment"># 三种模式</span>
+feishu: off    <span class="hljs-comment"># 关闭</span>
+feishu: push   <span class="hljs-comment"># 推送通知</span>
+feishu: interactive  <span class="hljs-comment"># 交互模式</span></code></pre></div><h3 id="93-zotero--obsidian-集成">9.3 Zotero + Obsidian 集成</h3>
+<p>如果你有 Zotero 文献库或 Obsidian 笔记，ARIS 可以直接读取：</p>
+<ul>
+<li>Zotero 标注和高亮</li>
+<li>Obsidian 研究笔记</li>
+<li>本地 PDF 库</li>
+</ul>
+<hr>
+<h2 id="十总结">十、总结</h2>
+<h3 id="aris-能为你做什么">ARIS 能为你做什么</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>ARIS 能做到</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>没有研究方向</td>
+<td><code>/idea-discovery</code> 从大方向发现创新点</td>
+</tr>
+<tr>
+<td>有方向但不知道做什么</td>
+<td><code>/idea-creator</code> 生成 8-12 个具体想法</td>
+</tr>
+<tr>
+<td>不知道想法是否新颖</td>
+<td><code>/novelty-check</code> 多源检索验证</td>
+</tr>
+<tr>
+<td>不知道想法够不够顶会</td>
+<td><code>/research-review</code> 顶会级评审</td>
+</tr>
+<tr>
+<td>有结果不知道写不写论文</td>
+<td><code>/paper-writing</code> 自动写完整论文</td>
+</tr>
+<tr>
+<td>审稿意见来了不知道怎么回</td>
+<td><code>/rebuttal</code> 安全生成辩护信</td>
+</tr>
+<tr>
+<td>没有 GPU</td>
+<td>Modal / <a href="http://Vast.ai" target="_blank" rel="noopener">Vast.ai</a> 免费方案</td>
+</tr>
+<tr>
+<td>没有 OpenAI API</td>
+<td>MiniMax + GLM 国产方案</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="核心优势">核心优势</h3>
+<ol>
+<li><strong>零依赖</strong>：纯 Markdown 文件，没有框架要学</li>
+<li><strong>跨平台</strong>：Claude Code / Cursor / Trae / Codex CLI 都可用</li>
+<li><strong>国产友好</strong>：支持 MiniMax、GLM、Kimi 等国产模型</li>
+<li><strong>已验证</strong>：两篇顶会接收论文证明有效</li>
+<li><strong>可自优化</strong>：内置 meta-optimize 让系统自我改进</li>
+</ol>
+<h3 id="下一步">下一步</h3>
+<ol>
+<li><strong>克隆项目</strong>：<code>git clone https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep.git</code></li>
+<li><strong>安装 Skills</strong>：<code>cp -r skills/* ~/.claude/skills/</code></li>
+<li><strong>开始使用</strong>：<code>claude</code> 然后 <code>/idea-discovery &quot;你的研究方向&quot;</code></li>
+</ol>
+<hr>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+<li><strong>ARIS 项目地址</strong>：<a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep" target="_blank" rel="noopener">https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep</a></li>
+<li><strong>ARIS-Code CLI 下载</strong>：<a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/releases" target="_blank" rel="noopener">https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep/releases</a></li>
+<li><strong>PaperWeekly 收录文章</strong>：<a href="https://mp.weixin.qq.com/s/tDniVryVGjDkkkWl-5sTkQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/tDniVryVGjDkkkWl-5sTkQ</a></li>
+<li><strong>Featured on awesome-agent-skills</strong>：<a href="https://github.com/VoltAgent/awesome-agent-skills" target="_blank" rel="noopener">https://github.com/VoltAgent/awesome-agent-skills</a></li>
+</ul>
+<hr>
+<blockquote>
+<p><strong>特别致谢</strong>：ARIS 由<a href="https://github.com/wanshuiyin" target="_blank" rel="noopener">一泽 Eze</a> 开发维护，采用 MIT 许可证。这是一个完全开源的项目，欢迎 fork、star 和贡献。</p>
+<p>如果这个工具对你有帮助，欢迎：</p>
+<ul>
+<li>在 GitHub 上点一个 ⭐</li>
+<li>分享给需要做科研的朋友</li>
+<li>提交 Issue 或 PR 帮助改进</li>
+</ul>
+</blockquote>
+
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="168.html"><small>← 上一张委托</small><span>No.168 软件构造（Software Construction）知识库</span></a>
+          <a class="next" href="170.html"><small>下一张委托 →</small><span>No.170 Claude Code 内置命令参考指南</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#aris--让-claude-code-在你睡觉时做科研">ARIS —— 让 Claude Code 在你睡觉时做科研</a></li><li class="l3"><a href="#前言">前言</a></li><li class="l3"><a href="#一为什么需要-aris">一、为什么需要 ARIS？</a></li><li class="l4"><a href="#11-单模型自评的致命缺陷">1.1 单模型自评的致命缺陷</a></li><li class="l4"><a href="#12-双模型协作的威力">1.2 双模型协作的威力</a></li><li class="l4"><a href="#13-为什么是两个模型">1.3 为什么是两个模型？</a></li><li class="l3"><a href="#二aris-核心功能">二、ARIS 核心功能</a></li><li class="l4"><a href="#21-四大工作流">2.1 四大工作流</a></li><li class="l5"><a href="#工作流-1idea-discovery想法发现">工作流 1：Idea Discovery（想法发现）</a></li><li class="l5"><a href="#工作流-2auto-review-loop自动审稿迭代">工作流 2：Auto Review Loop（自动审稿迭代）</a></li><li class="l5"><a href="#工作流-3paper-writing论文写作">工作流 3：Paper Writing（论文写作）</a></li><li class="l5"><a href="#工作流-4rebuttal审稿意见辩护">工作流 4：Rebuttal（审稿意见辩护）</a></li><li class="l5"><a href="#一键全流程research-pipeline">一键全流程：Research Pipeline</a></li><li class="l4"><a href="#22-配套工具">2.2 配套工具</a></li><li class="l4"><a href="#23-支持的平台">2.3 支持的平台</a></li><li class="l4"><a href="#24-支持的模型组合">2.4 支持的模型组合</a></li><li class="l3"><a href="#三aris-设计哲学">三、ARIS 设计哲学</a></li><li class="l3"><a href="#四快速安装">四、快速安装</a></li><li class="l4"><a href="#41-基础安装">4.1 基础安装</a></li><li class="l4"><a href="#42-配置-codex-mcp推荐">4.2 配置 Codex MCP（推荐）</a></li><li class="l4"><a href="#43-无-api-成本方案">4.3 无 API 成本方案</a></li><li class="l3"><a href="#五使用示例">五、使用示例</a></li><li class="l4"><a href="#51-基础模式给方向全自动">5.1 基础模式——给方向全自动</a></li><li class="l4"><a href="#52-精准模式有参考论文">5.2 精准模式——有参考论文</a></li><li class="l4"><a href="#53-rebuttal-模式审稿意见来了">5.3 Rebuttal 模式——审稿意见来了</a></li><li class="l3"><a href="#六案例分析使用-aris-完成的顶会论文">六、案例分析：使用 ARIS 完成的顶会论文</a></li><li class="l4"><a href="#61-案例-1cs-论文810-clear-accept">6.1 案例 1：CS 论文（8/10 “clear accept”）</a></li><li class="l4"><a href="#62-案例-2aaai-2026-论文710-good-paper-accept">6.2 案例 2：AAAI 2026 论文（7/10 “good paper, accept”）</a></li><li class="l4"><a href="#63-从想法到接收的全程记录">6.3 从想法到接收的全程记录</a></li><li class="l3"><a href="#七重要参数说明">七、重要参数说明</a></li><li class="l3"><a href="#八无-gpu没问题">八、无 GPU？没问题！</a></li><li class="l4"><a href="#81-modal-serverless-gpu">8.1 Modal Serverless GPU</a></li><li class="l4"><a href="#82-vastai-gpu-租赁">8.2 Vast.ai GPU 租赁</a></li><li class="l3"><a href="#九自定义与扩展">九、自定义与扩展</a></li><li class="l4"><a href="#91-元优化让-aris-自我改进">9.1 元优化：让 ARIS 自我改进</a></li><li class="l4"><a href="#92-飞书通知">9.2 飞书通知</a></li><li class="l4"><a href="#93-zotero--obsidian-集成">9.3 Zotero + Obsidian 集成</a></li><li class="l3"><a href="#十总结">十、总结</a></li><li class="l4"><a href="#aris-能为你做什么">ARIS 能为你做什么</a></li><li class="l4"><a href="#核心优势">核心优势</a></li><li class="l4"><a href="#下一步">下一步</a></li><li class="l3"><a href="#参考链接">参考链接</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2026/04/05/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91ARIS%E2%80%94%E2%80%94%E8%AE%A9Claude-Code%E5%9C%A8%E4%BD%A0%E7%9D%A1%E8%A7%89%E6%97%B6%E5%81%9A%E7%A7%91%E7%A0%94/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷P1074 靶形数独 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="题目链接 https://www.luogu.com.cn/problem/P1074 思路 大模拟+贪心 这道题目我们要填数独，如果要直接填的话，”复杂度肯定爆炸“ 所以我们要贪心地去找应该填的列 比如，我们平常在自己手玩数独的时候，会去">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="126" data-line="4" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.126</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷P1074 靶形数独</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-15T03:39:00.000Z">2021.10.15</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">541 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p1074-靶形数独">【解题报告】洛谷P1074 靶形数独</h1>
+<h3 id="题目链接">题目链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P1074" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P1074</a></p>
+<h3 id="思路">思路</h3>
+<p>大模拟+贪心</p>
+<p>这道题目我们要填数独，如果要直接填的话，”复杂度肯定爆炸“</p>
+<p>所以我们要贪心地去找应该填的列</p>
+<p>比如，我们平常在自己手玩数独的时候，会去找填的比较多的行或者列去填，这样就好填一些，相对于这道题目而言，就是0比较少的行或者列去填</p>
+<p>然后我们按照行0少的去填</p>
+<p>所以先建立一个结构体，去统计一下每行有0的数量，然后按照从小到大的顺序排序</p>
+<p>我们就先填0少的，然后以此去填，我们可以预处理一下填某一个位置的顺序，这里可以用一个一维数组就存下来，这就比较牛逼了</p>
+<p>然后我们对于每个进行搜索，在搜索开始之前，我们还可以预处理在每个位置所在的行列和九宫格内已经存在的数字，然后这样就方便确认是否填了这个数字了，我们在枚举的时候直接枚举可以填的数字就可以了</p>
+<p>这道题目的难点，在于dfs顺序的确定，我们需要进行预处理，这里的预处理方法也是比较好的，虽然也可以用结构体来干，但是这种似乎更加省空间？</p>
+<p>这是一个小tip，但是我觉得用结构体的正确率更高一点，至少不至于就和行和列的计算问题</p>
+<p>然后这个搜索每次弄完之后不用判断是否已经填完了，因为填到第81个数字必然填完了，所以这也是一个比较好的tip，值得吸取</p>
+<p>这个大模拟消耗了我大约三个小时的时间，然后这还不是我自己做出来的，然后这种大模拟简直比较考察代码能力，然而我的代码能力如此差？不行！我要狂恋搜索和大模拟！！</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">20</span>;
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">node</span>{
+	<span class="hljs-type">int</span> id,lcnt;
+}row[maxn];
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(node x,node y)</span>
+</span>{
+	<span class="hljs-keyword">return</span> x.lcnt&lt;y.lcnt;
+}
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">dfn</span>{
+	<span class="hljs-type">int</span> x,y;
+}s[<span class="hljs-number">10000</span>];
+<span class="hljs-type">int</span> n=<span class="hljs-number">9</span>;
+<span class="hljs-type">int</span> a[maxn][maxn],ans[maxn][maxn],sol;
+<span class="hljs-type">bool</span> flag;
+<span class="hljs-type">bool</span> f[maxn][maxn];<span class="hljs-comment">//行</span>
+<span class="hljs-type">bool</span> g[maxn][maxn];<span class="hljs-comment">//列</span>
+<span class="hljs-type">bool</span> h[maxn][maxn];<span class="hljs-comment">//九宫格 </span>
+<span class="hljs-type">int</span> dfn[maxn];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_g</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> y)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(x&gt;=<span class="hljs-number">1</span>&amp;&amp;x&lt;=<span class="hljs-number">3</span>){
+		<span class="hljs-keyword">if</span>(y&gt;=<span class="hljs-number">1</span>&amp;&amp;y&lt;=<span class="hljs-number">3</span>)  	<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(y&gt;=<span class="hljs-number">4</span>&amp;&amp;y&lt;=<span class="hljs-number">6</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+		<span class="hljs-keyword">else</span>    			<span class="hljs-keyword">return</span> <span class="hljs-number">3</span>;
+	}
+	<span class="hljs-keyword">if</span>(x&gt;=<span class="hljs-number">4</span>&amp;&amp;x&lt;=<span class="hljs-number">6</span>){
+		<span class="hljs-keyword">if</span>(y&gt;=<span class="hljs-number">1</span>&amp;&amp;y&lt;=<span class="hljs-number">3</span>)  	<span class="hljs-keyword">return</span> <span class="hljs-number">4</span>;
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(y&gt;=<span class="hljs-number">4</span>&amp;&amp;y&lt;=<span class="hljs-number">6</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">5</span>;
+		<span class="hljs-keyword">else</span> 				<span class="hljs-keyword">return</span> <span class="hljs-number">6</span>;
+	}
+	<span class="hljs-keyword">if</span>(x&gt;=<span class="hljs-number">7</span>&amp;&amp;x&lt;=<span class="hljs-number">9</span>){
+		<span class="hljs-keyword">if</span>(y&gt;=<span class="hljs-number">1</span>&amp;&amp;y&lt;=<span class="hljs-number">3</span>)  	<span class="hljs-keyword">return</span> <span class="hljs-number">7</span>;
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(y&gt;=<span class="hljs-number">4</span>&amp;&amp;y&lt;=<span class="hljs-number">6</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">8</span>;
+		<span class="hljs-keyword">else</span>    			<span class="hljs-keyword">return</span> <span class="hljs-number">9</span>;
+	}
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">get_c</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> y)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(x==<span class="hljs-number">1</span>||y==<span class="hljs-number">1</span>||x==<span class="hljs-number">9</span>||y==<span class="hljs-number">9</span>)   		<span class="hljs-keyword">return</span> <span class="hljs-number">6</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">2</span>||y==<span class="hljs-number">2</span>||x==<span class="hljs-number">8</span>||y==<span class="hljs-number">8</span>)     <span class="hljs-keyword">return</span> <span class="hljs-number">7</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">3</span>||y==<span class="hljs-number">3</span>||x==<span class="hljs-number">7</span>||y==<span class="hljs-number">7</span>)   	<span class="hljs-keyword">return</span> <span class="hljs-number">8</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">4</span>||y==<span class="hljs-number">4</span>||x==<span class="hljs-number">6</span>||y==<span class="hljs-number">6</span>)   	<span class="hljs-keyword">return</span> <span class="hljs-number">9</span>;
+    <span class="hljs-keyword">else</span>								<span class="hljs-keyword">return</span> <span class="hljs-number">10</span>;
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">calc</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> res=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">9</span>;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">9</span>;j++)
+		res+=ans[i][j]*<span class="hljs-built_in">get_c</span>(i,j);
+	}
+	<span class="hljs-keyword">return</span> res;
+}
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-type">int</span> now)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(now==<span class="hljs-number">82</span>)
+	{
+		flag=<span class="hljs-literal">true</span>;
+		sol=<span class="hljs-built_in">max</span>(sol,<span class="hljs-built_in">calc</span>());
+		<span class="hljs-keyword">return</span> ; 
+	}
+	<span class="hljs-type">int</span> x=s[now].x;
+	<span class="hljs-type">int</span> y=s[now].y;
+	<span class="hljs-keyword">if</span>(a[x][y]==<span class="hljs-number">0</span>)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">9</span>;i++)
+		{
+			<span class="hljs-type">int</span> pos=<span class="hljs-built_in">get_g</span>(x,y);
+			<span class="hljs-keyword">if</span>(!f[x][i]&amp;&amp;!g[y][i]&amp;&amp;!h[pos][i])
+			{
+				ans[x][y]=i;
+				f[x][i]=g[y][i]=h[pos][i]=<span class="hljs-literal">true</span>;
+				<span class="hljs-built_in">dfs</span>(now<span class="hljs-number">+1</span>);
+				f[x][i]=g[y][i]=h[pos][i]=<span class="hljs-literal">false</span>;
+			}
+		}
+	}
+	<span class="hljs-keyword">else</span> <span class="hljs-built_in">dfs</span>(now<span class="hljs-number">+1</span>);
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">9</span>;i++)
+	{
+		<span class="hljs-type">int</span> cnt=<span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">9</span>;j++)
+		{
+			cin&gt;&gt;a[i][j];
+			<span class="hljs-keyword">if</span>(a[i][j]==<span class="hljs-number">0</span>) cnt++;
+			<span class="hljs-keyword">else</span>
+			{
+				<span class="hljs-type">int</span> val=a[i][j];
+				<span class="hljs-type">int</span> pos=<span class="hljs-built_in">get_g</span>(i,j);
+				ans[i][j]=val;
+				f[i][val]=<span class="hljs-literal">true</span>;
+				g[j][val]=<span class="hljs-literal">true</span>;
+				h[pos][val]=<span class="hljs-literal">true</span>;
+			}
+		}
+		row[i].id=i;
+		row[i].lcnt=cnt;
+	}
+	<span class="hljs-built_in">sort</span>(row<span class="hljs-number">+1</span>,row<span class="hljs-number">+1</span><span class="hljs-number">+9</span>,cmp);
+	<span class="hljs-type">int</span> tot=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">9</span>;i++)
+	{
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">1</span>;j&lt;=<span class="hljs-number">9</span>;j++)
+		{
+			s[++tot].x=row[i].id;
+			s[tot].y=j;
+		}
+	}
+	<span class="hljs-built_in">dfs</span>(<span class="hljs-number">1</span>);
+	<span class="hljs-keyword">if</span>(flag)
+	cout&lt;&lt;sol&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">else</span>
+	cout&lt;&lt;<span class="hljs-number">-1</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="125.html"><small>← 上一张委托</small><span>No.125 【解题报告】洛谷P1312 Mayan游戏</span></a>
+          <a class="next" href="127.html"><small>下一张委托 →</small><span>No.127 【解题报告】洛谷P1433 吃奶酪</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p1074-靶形数独">【解题报告】洛谷P1074 靶形数独</a></li><li class="l4"><a href="#题目链接">题目链接</a></li><li class="l4"><a href="#思路">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/15/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7P1074-%E9%9D%B6%E5%BD%A2%E6%95%B0%E7%8B%AC/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

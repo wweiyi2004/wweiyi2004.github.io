@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>【解题报告】洛谷P3275 糖果 · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="原题链接 https://www.luogu.com.cn/problem/P3275 思路 在这样天气寒冷的日子里，怎么能不做题呢！ 天气阴凉，我怀着激动的心情打开了这道题目 题意大概满足一堆要求，让你求一个满足要求的所有的变量的和 自己">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="100" data-line="4" data-minutes="1">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.100</span><a class="writ__line" href="../index.html?line=4"></a><span><a href="../index.html?cat=OI%E6%97%B6%E6%9C%9F%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A">OI时期解题报告</a></span></p>
+        <h1 class="writ__title">【解题报告】洛谷P3275 糖果</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2021-10-06T02:15:00.000Z">2021.10.06</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">341 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 1 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%A2%98%E8%A7%A3">#题解</a></li><li><a href="../index.html?tag=%E6%B4%9B%E8%B0%B7">#洛谷</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="解题报告洛谷p3275-糖果">【解题报告】洛谷P3275 糖果</h1>
+<h3 id="原题链接">原题链接</h3>
+<p><a href="https://www.luogu.com.cn/problem/P3275" target="_blank" rel="noopener">https://www.luogu.com.cn/problem/P3275</a></p>
+<h3 id="思路">思路</h3>
+<blockquote>
+<p>在这样天气寒冷的日子里，怎么能不做题呢~！</p>
+</blockquote>
+<p>天气阴凉，我怀着激动的心情打开了这道题目</p>
+<p>题意大概满足一堆要求，让你求一个满足要求的所有的变量的和</p>
+<p>自己看去吧</p>
+<p>然后我们读题发现，这不就是一个差分约束吗？</p>
+<p>待会？</p>
+<p>差分约束满足的形式是这样的<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>x</mi><msup><mi>i</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></msub><mo>≤</mo><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">x_i-x_{i&#x27;} \le y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.786em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><br>
+所以题目中不少于不多于的都非常好搞，直接连边就可以了</p>
+<p>那剩下的怎么搞呢？</p>
+<p>首先等于，等于的话我们可以双向连边，一个不大于，一个不小于，不就是等于了吗？</p>
+<p>然后后面呢？</p>
+<p>我们实际上可以他们变成  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>≤</mo><mi>B</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">A \le B-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> , <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>≤</mo><mi>A</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">B \le A-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.136em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> 之类的，这样就可以实现小于了，具体这样做的原因是因为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo separator="true">,</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A,B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span> 只能是整数啊喂</p>
+<p>然后我们用一个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>P</mi><mi>F</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">SPFA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">SPF</span><span class="mord mathnormal">A</span></span></span></span> 跑就可以了</p>
+<p>有一个玄学的东西，就是我们在跑的时候要对于超级源点从大边向小边连边，不然会被卡掉，或者连边的同时把连得边都  <code>push</code> 一下也可以似乎？</p>
+<p>我不知道为啥，但是我过了</p>
+<p>别人也不知道为啥，我就写在了这里qaq</p>
+<p>std</p>
+<div class="code"><div class="code__bar"><span>cpp</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> int long long</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> maxn=<span class="hljs-number">300005</span>;
+<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> x=<span class="hljs-number">0</span>,f=<span class="hljs-number">1</span>;
+	<span class="hljs-type">char</span> c=<span class="hljs-built_in">getchar</span>();
+	<span class="hljs-keyword">while</span>(c&lt;<span class="hljs-string">&#x27;0&#x27;</span>||c&gt;<span class="hljs-string">&#x27;9&#x27;</span>)
+	{
+		<span class="hljs-keyword">if</span>(c==<span class="hljs-string">&#x27;-&#x27;</span>)
+		f=<span class="hljs-number">-1</span>;
+		c=<span class="hljs-built_in">getchar</span>();
+	}
+	<span class="hljs-keyword">while</span>(c&gt;=<span class="hljs-string">&#x27;0&#x27;</span>&amp;&amp;c&lt;=<span class="hljs-string">&#x27;9&#x27;</span>)
+	{
+		x=(x&lt;&lt;<span class="hljs-number">1</span>)+(x&lt;&lt;<span class="hljs-number">3</span>)+c-<span class="hljs-string">&#x27;0&#x27;</span>;
+		c=<span class="hljs-built_in">getchar</span>();
+	}
+	<span class="hljs-keyword">return</span> x*f;
+}
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">edge</span>{
+	<span class="hljs-type">int</span> e,next,val;
+}ed[maxn&lt;&lt;<span class="hljs-number">1</span>];
+<span class="hljs-type">int</span> en,first[maxn];
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-type">int</span> s,<span class="hljs-type">int</span> e,<span class="hljs-type">int</span> val)</span>
+</span>{
+	en++;
+	ed[en].next=first[s];
+	first[s]=en;
+	ed[en].e=e;
+	ed[en].val=val;
+}
+<span class="hljs-type">int</span> n,k;
+<span class="hljs-type">int</span> d[maxn],num[maxn];
+<span class="hljs-type">bool</span> vis[maxn];
+queue &lt;<span class="hljs-type">int</span>&gt; q;
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">spfa</span><span class="hljs-params">(<span class="hljs-type">int</span> s)</span>
+</span>{
+	d[s]=<span class="hljs-number">0</span>;
+	vis[s]=<span class="hljs-literal">true</span>;
+	q.<span class="hljs-built_in">push</span>(s);
+	num[s]++;
+	<span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())
+	{
+		<span class="hljs-type">int</span> x=q.<span class="hljs-built_in">front</span>();
+		q.<span class="hljs-built_in">pop</span>();
+		vis[x]=<span class="hljs-literal">false</span>;
+		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=first[x];i;i=ed[i].next)
+		{
+			<span class="hljs-type">int</span> e=ed[i].e;
+			<span class="hljs-type">int</span> val=ed[i].val;
+			<span class="hljs-keyword">if</span>(d[e]&lt;d[x]+val)
+			{
+				d[e]=d[x]+val;
+				<span class="hljs-keyword">if</span>(!vis[e])
+				{
+					vis[e]=<span class="hljs-literal">true</span>;
+					q.<span class="hljs-built_in">push</span>(e);
+					num[e]++;
+					<span class="hljs-keyword">if</span>(num[e]==n<span class="hljs-number">+1</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+				}
+			}
+		}
+	}
+	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+}
+<span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-built_in">memset</span>(d,<span class="hljs-number">-0x3f3f3f</span>,<span class="hljs-built_in">sizeof</span>(d));
+	n=<span class="hljs-built_in">read</span>(),k=<span class="hljs-built_in">read</span>();
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=k;i++)
+	{
+		<span class="hljs-type">int</span> x=<span class="hljs-built_in">read</span>(),a=<span class="hljs-built_in">read</span>(),b=<span class="hljs-built_in">read</span>();
+		<span class="hljs-keyword">if</span>(x==<span class="hljs-number">1</span>)
+		{
+			<span class="hljs-built_in">add_edge</span>(b,a,<span class="hljs-number">0</span>);<span class="hljs-comment">//a&lt;=b</span>
+			<span class="hljs-built_in">add_edge</span>(a,b,<span class="hljs-number">0</span>);<span class="hljs-comment">//a&gt;=b;</span>
+		}
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">2</span>)
+		{
+			<span class="hljs-keyword">if</span>(a==b)
+			{
+				cout&lt;&lt;<span class="hljs-number">-1</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+				<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+			}
+			<span class="hljs-built_in">add_edge</span>(a,b,<span class="hljs-number">1</span>);<span class="hljs-comment">//a&lt;b</span>
+		}
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">3</span>)
+		{
+			<span class="hljs-built_in">add_edge</span>(b,a,<span class="hljs-number">0</span>);<span class="hljs-comment">//a&gt;=b</span>
+		}
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">4</span>)
+		{
+			<span class="hljs-keyword">if</span>(a==b)
+			{
+				cout&lt;&lt;<span class="hljs-number">-1</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+				<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+			}
+			<span class="hljs-built_in">add_edge</span>(b,a,<span class="hljs-number">1</span>);<span class="hljs-comment">//a&gt;b</span>
+		}
+		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(x==<span class="hljs-number">5</span>)
+		{
+			<span class="hljs-built_in">add_edge</span>(a,b,<span class="hljs-number">0</span>);<span class="hljs-comment">//a&lt;=b</span>
+		}
+	}
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=n;i&gt;=<span class="hljs-number">1</span>;i--)
+	<span class="hljs-built_in">add_edge</span>(<span class="hljs-number">0</span>,i,<span class="hljs-number">1</span>);<span class="hljs-comment">//q.push(i);</span>
+	<span class="hljs-keyword">if</span>(!<span class="hljs-built_in">spfa</span>(<span class="hljs-number">0</span>))
+	{
+		cout&lt;&lt;<span class="hljs-number">-1</span>&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	}
+	<span class="hljs-type">int</span> ans=<span class="hljs-number">0</span>;
+	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)
+	ans+=d[i];
+	cout&lt;&lt;ans&lt;&lt;<span class="hljs-string">&#x27;\n&#x27;</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}</code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="99.html"><small>← 上一张委托</small><span>No.99 【CSP-S刷题班】Day3</span></a>
+          <a class="next" href="101.html"><small>下一张委托 →</small><span>No.101 【解题报告】洛谷 P4753 River Jumping</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#解题报告洛谷p3275-糖果">【解题报告】洛谷P3275 糖果</a></li><li class="l4"><a href="#原题链接">原题链接</a></li><li class="l4"><a href="#思路">思路</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2021/10/06/%E3%80%90%E8%A7%A3%E9%A2%98%E6%8A%A5%E5%91%8A%E3%80%91%E6%B4%9B%E8%B0%B7P3275-%E7%B3%96%E6%9E%9C/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

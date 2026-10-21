@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{var t=localStorage.getItem('guild-theme')}catch(e){}document.documentElement.dataset.theme=t||(matchMedia('(prefers-color-scheme: light)').matches?'day':'night')</script>
+  <title>学习笔记 简单的amob A%B Problem · 阿克塞尔冒险者公会</title>
+  <meta name="description" content="【基础题目】A%B Problem 题目描述 C--语言是一种C的简化版，它仅有的三种运算符为++，--和==（没有=，+，-，，/，%， 等任何其他运算符），也没有循环及goto语句，除此之外与C相同。使用C--编写一个函数int mod">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700;900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  
+  <link rel="icon" href="../../favicon.ico" sizes="48x48">
+  <link rel="icon" type="image/png" href="../../img/favicon.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="../../img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/guild.css">
+</head>
+<body data-base="../" data-page="quest">
+  <div class="progress" aria-hidden="true"></div>
+  <header class="hall"></header>
+
+  <div class="quest-page">
+    <article class="writ" data-no="4" data-line="3" data-minutes="2">
+      <header class="writ__head">
+        <p class="writ__kicker"><span class="sheet__no">委托 No.4</span><a class="writ__line" href="../index.html?line=3"></a><span><a href="../index.html?cat=%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a></span></p>
+        <h1 class="writ__title">学习笔记 简单的amob A%B Problem</h1>
+        <dl class="writ__meta">
+          <div><dt>发布</dt><dd><time datetime="2019-07-27T19:29:00.000Z">2019.07.28</time></dd></div>
+          
+          <div><dt>报酬</dt><dd class="reward">591 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 2 分钟</dd></div>
+          <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
+        </dl>
+        <ul class="writ__tags"><li><a href="../index.html?tag=%E9%80%92%E6%8E%A8">#递推</a></li></ul>
+      </header>
+
+      
+      <div class="prose">
+<h1 id="基础题目ab-problem">【基础题目】A%B Problem</h1>
+<h4 id="题目描述">题目描述</h4>
+<blockquote>
+<p>C–语言是一种C的简化版，它仅有的三种运算符为++，–和==（没有=，+，-，*，/，%，&lt;,&gt;等任何其他运算符），也没有循环及goto语句，除此之外与C相同。使用C–编写一个函数int<br>
+mod(int a,int b)，计算a除以b的余数。</p>
+<p>——来自wweiyi暑假集训</p>
+</blockquote>
+<p><strong>题意简述</strong>：只用++,–,==运算符和C++的其他功能来完成a%b的功能</p>
+<p>提示：允许调用其他函数</p>
+<p>这是一道神奇的题目，我想了大半天才想出来，甚至引来了老师的批评，接下来我说一说我的思路</p>
+<p>这道题我们需要只用++,–,==和C++的其他功能来实现模运算，这个看起开似乎无法实现，因为不能够使用循环，因此，这道题的阴影加深了。</p>
+<h4 id="递归循环的后裔">递归！循环的后裔！</h4>
+<p>这里我们不能用循环，也就是我们需要使用类似循环的一个过程，递归来解决问题，递归是一种很常用的解决问题的方法，将一个大问题转换成一个子问题也许模运算就可以这样解决了。</p>
+<h4 id="三运算符三符成虎">++，–，==三运算符！三符成虎！</h4>
+<p>我们要解决模运算首先要解决减法运算的问题，因为a%b，就是a一直减b，减到a小于b为止，因此，我们可以先解决减法运算。</p>
+<p>代码如下</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">jian</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> a;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">jian</span>(--a,--b);
+}</code></pre></div><p>这样就解决了减法运算；</p>
+<p>但是顺便说一句，加法和乘法运算实际上也很简单，让我来把代码贴出来！</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> a;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">add</span>(++a,--b);
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">cheng</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>
+</span>{
+    <span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> a;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">add</span>(a,<span class="hljs-built_in">cheng</span>(a,--b));
+}</code></pre></div><p>我们可以轻松地解决减法，乘法和加法，但是模运算我们还是不知道，怎么办呢？</p>
+<h4 id="判断事情的转机">判断！事情的转机？</h4>
+<p>我们再次理清一下思路，我们需要a一直减b，一直减到a小于b为止，也就是mod(a,b)=mod(a-b,b)，这就是神奇的递归式，就可以解决一部分问题，另一部分问题就是判断a小于b，我们可以a，b同时递减，看谁先到0，但由于这个问题的特殊性，当a=b时，需要特殊判断一下，因为一个数mod它的因数等于0，所以我们的思路就出来了，代码也就写出来了。</p>
+<p>代码如下</p>
+<div class="code"><div class="code__bar"><span>c++</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pd</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(a==b)
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">if</span>(a==<span class="hljs-number">0</span>)
+	<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">pd</span>(--a,--b);
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">jian</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(b==<span class="hljs-number">0</span>)
+	<span class="hljs-keyword">return</span> a;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">jian</span>(--a,--b);
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">mod</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span>
+</span>{
+	<span class="hljs-keyword">if</span>(<span class="hljs-built_in">pd</span>(a,b)==<span class="hljs-number">1</span>)
+	<span class="hljs-keyword">return</span> a;
+	<span class="hljs-keyword">return</span> <span class="hljs-built_in">mod</span>(<span class="hljs-built_in">jian</span>(a,b),b);
+}
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>{
+	<span class="hljs-type">int</span> a,b;
+	cin&gt;&gt;a&gt;&gt;b;
+	cout&lt;&lt;<span class="hljs-built_in">mod</span>(a,b)&lt;&lt;endl;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+<span class="hljs-comment">//wweiyi费时3小时智造</span></code></pre></div>
+      </div>
+
+      <footer class="writ__end">
+        <div class="writ__done" aria-hidden="true"><span>委托</span><span>达成</span></div>
+        <p>— 本委托已结案，报酬请至柜台领取 —</p>
+        <nav class="nextprev" aria-label="相邻委托">
+          <a class="prev" href="3.html"><small>← 上一张委托</small><span>No.3 最大公约数的故事</span></a>
+          <a class="next" href="5.html"><small>下一张委托 →</small><span>No.5 学习笔记 简单的amodb A%B Problem</span></a>
+        </nav>
+      </footer>
+    </article>
+
+    <aside class="dossier" aria-label="冒险者档案">
+      <div class="dossier__board"><div class="dossier__sheet" id="dossier"></div></div>
+    </aside>
+
+    <aside class="toc" aria-label="委托要点">
+      <h2>委托要点</h2>
+      <ol><li class="l2"><a href="#基础题目ab-problem">【基础题目】A%B Problem</a></li><li class="l5"><a href="#题目描述">题目描述</a></li><li class="l5"><a href="#递归循环的后裔">递归！循环的后裔！</a></li><li class="l5"><a href="#三运算符三符成虎">++，–，==三运算符！三符成虎！</a></li><li class="l5"><a href="#判断事情的转机">判断！事情的转机？</a></li></ol>
+    </aside>
+  </div>
+
+  <section class="comments" aria-label="冒险者留言">
+    <div class="comments__inner">
+      <h2>冒险者留言</h2>
+      <div class="giscus" data-term="2019/07/28/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E7%AE%80%E5%8D%95%E7%9A%84amob-A%25B-Problem/"></div>
+    </div>
+  </section>
+
+  <footer class="floor"></footer>
+
+  <script src="../../js/glyphs.js"></script>
+  <script src="../../js/profile.js"></script>
+  <script src="../js/friends.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/quest.js"></script>
+</body>
+</html>

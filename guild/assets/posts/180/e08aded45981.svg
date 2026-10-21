@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" role="img" aria-labelledby="title desc">
+<title id="title">06 / Embedding 在检索与 RAG 中做什么</title><desc id="desc">文档向量可离线计算；用户提问时只需编码问题并检索候选</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#6c82a2" stroke-width="1.5"/></marker></defs>
+<rect width="1200" height="740" rx="22" fill="#f5f8fc"/>
+<g font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif">
+<text x="48" y="59" fill="#172b4d" font-size="32" text-anchor="start" font-weight="700">06 / Embedding 在检索与 RAG 中做什么</text>
+<text x="48" y="98" fill="#50647e" font-size="20" text-anchor="start" font-weight="400">文档向量可离线计算；用户提问时只需编码问题并检索候选</text>
+<path d="M48,120 L1152,120" stroke="#d5deeb" stroke-width="2.5" fill="none"/>
+<rect x="48" y="178" width="330" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="218" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">原始文档</text>
+<text x="70" y="256" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">清洗与切块</text>
+<text x="70" y="289" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">保留来源 / 权限</text>
+<rect x="434" y="178" width="330" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="456" y="218" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">文档编码</text>
+<text x="456" y="256" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">相同模型版本</text>
+<text x="456" y="289" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">按约定 pooling</text>
+<rect x="820" y="178" width="330" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="842" y="218" fill="#3264d5" font-size="25" text-anchor="start" font-weight="700">向量索引</text>
+<text x="842" y="256" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">向量 + chunk ID</text>
+<text x="842" y="289" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">关联原文与元数据</text>
+<path d="M390,250 L419,250" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M776,250 L805,250" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<text x="48" y="158" fill="#3264d5" font-size="22" text-anchor="start" font-weight="700">离线入库</text>
+<rect x="48" y="438" width="330" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="70" y="478" fill="#148071" font-size="25" text-anchor="start" font-weight="700">用户问题</text>
+<text x="70" y="516" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">query 指令（如需）</text>
+<text x="70" y="549" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">编码并归一化</text>
+<rect x="434" y="438" width="330" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="456" y="478" fill="#148071" font-size="25" text-anchor="start" font-weight="700">召回与精排</text>
+<text x="456" y="516" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">相似度 Top-k / 混合检索</text>
+<text x="456" y="549" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">可选 reranker</text>
+<rect x="820" y="438" width="330" height="148" rx="16" fill="white" stroke="#d5deeb" stroke-width="2"/>
+<text x="842" y="478" fill="#148071" font-size="25" text-anchor="start" font-weight="700">返回原文 / 生成回答</text>
+<text x="842" y="516" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">普通搜索：展示候选</text>
+<text x="842" y="549" fill="#50647e" font-size="21" text-anchor="start" font-weight="400">RAG：原文作为 LLM 上下文</text>
+<text x="48" y="417" fill="#148071" font-size="22" text-anchor="start" font-weight="700">在线查询</text>
+<path d="M390,510 L419,510" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M776,510 L805,510" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<path d="M985,341 L985,372 L599,372 L599,423" stroke="#6c82a2" stroke-width="2.5" fill="none" marker-end="url(#arrow)"/>
+<text x="48" y="662" fill="#cb7028" font-size="24" text-anchor="start" font-weight="400">Embedding 负责表示，索引负责查找；生成模型依据检索到的原文组织答案。</text>
+<text x="48" y="716" fill="#50647e" font-size="17" text-anchor="start" font-weight="400">原创示意图 · 用于解释机制，不代表真实模型的测量结果</text>
+</g></svg>
