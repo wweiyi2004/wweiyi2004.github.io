@@ -1,6 +1,6 @@
 // The back of the adventurer's card: a plain academic homepage (content in
-// js/academic.js). The brass button in the corner flips between the two sides;
-// index.html#about opens straight onto the back. Only the back has the language
+// js/academic.js). The page opens on this side; the brass button in the corner
+// flips to the card, and index.html#card (or ?read) opens straight onto the card. Only the back has the language
 // and day/night switches — the card itself always follows the stored theme.
 (function () {
   'use strict';
@@ -239,7 +239,7 @@
   menu.addEventListener('click', (e) => {
     const a = e.target.closest('a[data-key]');
     if (!a) return;
-    // the page's own hash stays #about, which is what keeps the back showing
+    // the page's own hash stays as it is, which is what keeps the back showing
     e.preventDefault();
     const sec = document.getElementById(`about-${a.dataset.key}`);
     pinned = a.dataset.key;
@@ -294,7 +294,7 @@
   });
 
   // ---------- the flip: the card turns edge-on, then the back turns into view ----------
-  const cardTitle = document.title;
+  const cardTitle = '冒险者卡片';
   let busy = false;
   const turn = (el, from, to, easing) => (reduce
     ? Promise.resolve()
@@ -326,14 +326,16 @@
     await turn(back ? stage : about, 0, back ? -90 : 90, 'ease-in');
     show(back);
     await turn(back ? about : stage, back ? 90 : -90, 0, 'ease-out');
-    history.replaceState(null, '', back ? '#about' : location.pathname + location.search);
+    history.replaceState(null, '', back ? location.pathname : '#card');
     if (back) about.scrollTop = 0;
     busy = false;
   }
   flipBtn.addEventListener('click', flip);
-  addEventListener('hashchange', () => { if ((location.hash === '#about') !== isBack()) show(location.hash === '#about'); });
+  // the back is the default; only #card (or ?read, the card with its spell cast) shows the card
+  const wantsBack = () => location.hash !== '#card' && !(location.hash === '' && new URLSearchParams(location.search).has('read'));
+  addEventListener('hashchange', () => { if (wantsBack() !== isBack()) show(wantsBack()); });
 
-  show(location.hash === '#about');
+  show(wantsBack());
 
   // until the visitor has flipped once, the button gives a little shake now and then
   let flipped = false;

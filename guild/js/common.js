@@ -106,7 +106,7 @@
         <span class="sign__title">冒险者公会 · 委托告示板</span>
         <span class="sign__sub" aria-hidden="true">${sub}</span>
       </a>
-      <nav class="nav" aria-label="公会">${nav}<a class="tag tag--back" href="${BASE}../index.html">← 冒险者卡片</a></nav>`;
+      <nav class="nav" aria-label="公会">${nav}<a class="tag tag--back" href="${BASE}../index.html#card">← 冒险者卡片</a></nav>`;
   }
 
   function footer() {
