@@ -1,237 +1,116 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 730" width="1080" height="730" role="img" aria-label="LightGlue 端到端架构总览图">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="980" height="400">
+
   <defs>
     <style>
-      .bg { fill: #FFFFFF; }
-      .font-main { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
       .title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .subtitle { font-size: 12.5px; fill: #4B5563; }
-      .stage-title { font-size: 13px; font-weight: 700; fill: #374151; }
-      .box-title { font-size: 13.5px; font-weight: 700; }
-      .box-sub { font-size: 11.5px; }
-      .tensor { font-size: 11px; font-family: Consolas, "Courier New", "Microsoft YaHei", monospace; font-weight: 600; }
-      .note-text { font-size: 11.5px; fill: #4B5563; }
-      .badge-text { font-size: 11px; font-weight: 700; }
-
-      .node-data { fill: #F3F4F6; stroke: #9CA3AF; stroke-width: 1.5; }
-      .text-data { fill: #111827; }
-
-      .node-enc { fill: #E5F2FC; stroke: #2783DE; stroke-width: 1.5; }
-      .text-enc { fill: #153B60; }
-
-      .node-attn { fill: #E8F1EC; stroke: #46A171; stroke-width: 1.5; }
-      .text-attn { fill: #1F5138; }
-
-      .node-hi { fill: #FBEBDE; stroke: #D5803B; stroke-width: 1.6; }
-      .text-hi { fill: #70401C; }
-
-      .node-out { fill: #EDE9FE; stroke: #8B5CF6; stroke-width: 1.5; }
-      .text-out { fill: #422578; }
-
-      .container-loop { fill: #FAFDFB; stroke: #46A171; stroke-width: 1.6; stroke-dasharray: 7 4; }
-      .container-head { fill: #FAF9FF; stroke: #8B5CF6; stroke-width: 1.4; stroke-dasharray: 6 4; }
-
-      .arrow { stroke: #4B5563; stroke-width: 1.7; fill: none; }
-      .arrow-blue { stroke: #2783DE; stroke-width: 1.6; fill: none; stroke-dasharray: 5 3; }
-      .arrow-green { stroke: #46A171; stroke-width: 1.8; fill: none; }
-      .arrow-orange { stroke: #D5803B; stroke-width: 1.8; fill: none; }
-      .arrow-purple { stroke: #8B5CF6; stroke-width: 1.8; fill: none; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
-
-    <marker id="arr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563" />
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE" />
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171" />
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B" />
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
     </marker>
-    <marker id="arr-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8B5CF6" />
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
     </marker>
   </defs>
 
-  <!-- Pure White Background -->
-  <rect class="bg" x="0" y="0" width="1080" height="730" />
+  <rect width="980" height="400" fill="#FFFFFF" rx="12"/>
 
-  <!-- Title Header -->
-  <text class="font-main title" x="540" y="36" text-anchor="middle">LightGlue 整体端到端架构总览</text>
-  <text class="font-main subtitle" x="540" y="58" text-anchor="middle">默认配置：L = 9 层 Transformer · h = 4 头 · 特征维度 d = 256 · 自适应早停 (α = 95%) 与动态点剪枝 (β = 0.01)</text>
-  <line x1="28" y1="72" x2="1052" y2="72" stroke="#E5E7EB" stroke-width="1.2" />
+  <text x="490" y="38" text-anchor="middle" class="title">图 1：LightGlue 整体工作流程（宏观全景）</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">输入两张图的关键点与描述子 → 多层交替注意力（简单图提前退出）→ 一步输出一对一匹配</text>
 
-  <!-- Column Stage Headers -->
-  <text class="font-main stage-title" x="128" y="96" text-anchor="middle">① 局部特征输入与位置编码</text>
-  <text class="font-main stage-title" x="455" y="96" text-anchor="middle">② 自适应深度 / 宽度 Transformer 交互主干（循环 L = 9 层）</text>
-  <text class="font-main stage-title" x="780" y="96" text-anchor="middle">③ 轻量级解耦匹配头</text>
-  <text class="font-main stage-title" x="980" y="96" text-anchor="middle">④ 筛选与输出</text>
+  <!-- Stage 1: Input -->
+  <rect x="28" y="95" width="185" height="245" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="120" y="122" text-anchor="middle" class="h" fill="#1E293B">① 输入局部特征</text>
+  <!-- Mini Image A -->
+  <rect x="48" y="138" width="145" height="82" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="120" y="158" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">图 A（M 个点）</text>
+  <circle cx="76" cy="176" r="6" fill="#2563EB"/><circle cx="115" cy="172" r="6" fill="#16A34A"/>
+  <circle cx="152" cy="190" r="6" fill="#7C3AED"/><circle cx="92" cy="192" r="6" fill="#94A3B8"/>
+  <text x="120" y="213" text-anchor="middle" class="s">位置 p + 描述子 d</text>
+  <!-- Mini Image B -->
+  <rect x="48" y="236" width="145" height="82" rx="8" fill="#F0FDF4" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="120" y="256" text-anchor="middle" class="b" fill="#15803D" font-weight="700">图 B（N 个点）</text>
+  <circle cx="82" cy="278" r="6" fill="#2563EB"/><circle cx="122" cy="274" r="6" fill="#16A34A"/>
+  <circle cx="158" cy="292" r="6" fill="#7C3AED"/><circle cx="164" cy="264" r="6" fill="#94A3B8"/>
+  <text x="120" y="311" text-anchor="middle" class="s">位置 p + 描述子 d</text>
 
-  <!-- ================= COLUMN 1: INPUT & ENCODING ================= -->
-  <!-- Image A features -->
-  <rect class="node-data" x="28" y="114" width="200" height="86" rx="10" />
-  <text class="font-main box-title text-data" x="128" y="138" text-anchor="middle">图像 A 局部特征</text>
-  <text class="font-main box-sub text-data" x="128" y="159" text-anchor="middle">2D 关键点坐标 pᴬ</text>
-  <text class="tensor text-data" x="128" y="176" text-anchor="middle">[M, 2]  归一化至 [-1, 1]</text>
-  <text class="tensor text-data" x="128" y="192" text-anchor="middle">描述子 dᴬ: [M, D_in]</text>
+  <!-- Arrow 1->2 -->
+  <line x1="213" y1="218" x2="255" y2="218" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
 
-  <!-- Image B features -->
-  <rect class="node-data" x="28" y="216" width="200" height="86" rx="10" />
-  <text class="font-main box-title text-data" x="128" y="240" text-anchor="middle">图像 B 局部特征</text>
-  <text class="font-main box-sub text-data" x="128" y="261" text-anchor="middle">2D 关键点坐标 pᴮ</text>
-  <text class="tensor text-data" x="128" y="278" text-anchor="middle">[N, 2]  归一化至 [-1, 1]</text>
-  <text class="tensor text-data" x="128" y="294" text-anchor="middle">描述子 dᴮ: [N, D_in]</text>
+  <!-- Stage 2: Stacked Layers -->
+  <rect x="260" y="95" width="250" height="245" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="385" y="122" text-anchor="middle" class="h" fill="#1E3A8A">② L 层轻量注意力（L = 9）</text>
+  <rect x="282" y="140" width="206" height="58" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="385" y="164" text-anchor="middle" class="h" fill="#1D4ED8">图内自注意力 + 2D RoPE</text>
+  <text x="385" y="185" text-anchor="middle" class="s">看清点与点之间的相对几何位置</text>
 
-  <!-- Descriptor Init -->
-  <rect class="node-enc" x="28" y="330" width="200" height="104" rx="10" />
-  <text class="font-main box-title text-enc" x="128" y="354" text-anchor="middle">特征投影与状态初始化</text>
-  <text class="font-main box-sub text-enc" x="128" y="375" text-anchor="middle">SuperPoint (256) 直接作为初态</text>
-  <text class="font-main box-sub text-enc" x="128" y="393" text-anchor="middle">SIFT / DISK (128) → Linear 升维</text>
-  <text class="tensor text-enc" x="128" y="413" text-anchor="middle">Xᴬ: [M, 256]  |  Xᴮ: [N, 256]</text>
-  <text class="font-main box-sub text-enc" x="128" y="428" text-anchor="middle">(不混入绝对位置编码)</text>
+  <line x1="385" y1="198" x2="385" y2="218" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
 
-  <!-- 2D RoPE Cache -->
-  <rect class="node-enc" x="28" y="460" width="200" height="114" rx="10" />
-  <text class="font-main box-title text-enc" x="128" y="484" text-anchor="middle">2D 旋转位置编码缓存</text>
-  <text class="font-main box-sub text-enc" x="128" y="505" text-anchor="middle">线性投影 W_p ∈ R^(2 × d/2h)</text>
-  <text class="font-main box-sub text-enc" x="128" y="524" text-anchor="middle">将 2D 坐标映射为旋转角 θ</text>
-  <text class="tensor text-enc" x="128" y="544" text-anchor="middle">cos / sin 缓存: [M/N, 32]</text>
-  <text class="font-main box-sub text-enc" x="128" y="563" text-anchor="middle">仅计算一次，供 9 层自注意力复用</text>
+  <rect x="282" y="222" width="206" height="58" rx="8" fill="#FFFFFF" stroke="#34D399" stroke-width="1.8"/>
+  <text x="385" y="246" text-anchor="middle" class="h" fill="#047857">双向交叉注意力（算力减半）</text>
+  <text x="385" y="267" text-anchor="middle" class="s">两张图共享一份相似度矩阵互查</text>
 
-  <!-- Arrows within Column 1 -->
-  <path class="arrow" d="M 128 200 L 128 214" marker-end="url(#arr-gray)" />
-  <path class="arrow" d="M 128 302 L 128 328" marker-end="url(#arr-gray)" />
-  <!-- pA, pB to RoPE cache (routed cleanly along left gutter) -->
-  <path class="arrow-blue" d="M 28 157 L 14 157 L 14 517 L 26 517" marker-end="url(#arr-blue)" />
-  <path class="arrow-blue" d="M 28 259 L 14 259" />
+  <rect x="275" y="294" width="220" height="32" rx="16" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="385" y="315" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">每层动态剪掉遮挡废点 + 判断早停</text>
 
-  <!-- ================= COLUMN 2: TRANSFORMER BACKBONE LOOP ================= -->
-  <rect class="container-loop" x="256" y="110" width="398" height="492" rx="14" />
-  <rect x="274" y="122" width="362" height="26" rx="6" fill="#E8F1EC" />
-  <text class="font-main badge-text text-attn" x="455" y="139" text-anchor="middle">第 ℓ 层交互块 (ℓ = 1 … 9) · 当前活跃点数：M_ℓ / N_ℓ</text>
+  <!-- Early Exit curved arrow -->
+  <path d="M 495 310 Q 538 310 538 260 L 538 235" fill="none" stroke="#EA580C" stroke-width="2.2" stroke-dasharray="6,4" marker-end="url(#arr-orange)"/>
+  <text x="538" y="352" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">够自信就提前退出！</text>
 
-  <!-- Unit 1: Self-Attention + 2D RoPE -->
-  <rect class="node-attn" x="276" y="160" width="358" height="108" rx="10" />
-  <text class="font-main box-title text-attn" x="455" y="182" text-anchor="middle">1. 图内自注意力（Self-Attention + 2D RoPE）</text>
-  <text class="font-main box-sub text-attn" x="455" y="202" text-anchor="middle">图 A、B 各自在图内聚合上下文（4 头 × 64 维）</text>
-  <text class="tensor text-attn" x="455" y="221" text-anchor="middle">a_ij = (R(p_i) q_i)ᵀ (R(p_j) k_j)  (不旋转 V)</text>
-  <text class="font-main box-sub text-attn" x="455" y="240" text-anchor="middle">残差更新：x ← x + MLP([x | m])，隐层 2d=512 (LN+GeLU)</text>
-  <text class="tensor text-attn" x="455" y="258" text-anchor="middle">输出状态: Xᴬ [M_ℓ, 256]  |  Xᴮ [N_ℓ, 256]</text>
+  <!-- Arrow 2->3 -->
+  <line x1="510" y1="218" x2="555" y2="218" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
 
-  <!-- Unit 2: Bidirectional Cross-Attention -->
-  <rect class="node-attn" x="276" y="288" width="358" height="106" rx="10" />
-  <text class="font-main box-title text-attn" x="455" y="310" text-anchor="middle">2. 图间双向交叉注意力（Bidirectional Cross-Attn）</text>
-  <text class="font-main box-sub text-attn" x="455" y="330" text-anchor="middle">共享 Q/K 投影矩阵，不加位置编码，相似度矩阵只算一次</text>
-  <text class="tensor text-attn" x="455" y="349" text-anchor="middle">a_ij^(AB) = (k_iᴬ)ᵀ k_jᴮ = a_ji^(BA)  →  [M_ℓ, N_ℓ]</text>
-  <text class="font-main box-sub text-attn" x="455" y="368" text-anchor="middle">按行 / 按列 Softmax 双向复用，跨图计算量直接减半</text>
-  <text class="tensor text-attn" x="455" y="385" text-anchor="middle">残差更新后: Xᴬ [M_ℓ, 256]  |  Xᴮ [N_ℓ, 256]</text>
+  <!-- Stage 3: Matching Head -->
+  <rect x="560" y="128" width="165" height="180" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <text x="642" y="158" text-anchor="middle" class="h" fill="#065F46">③ 解耦匹配头</text>
+  <rect x="578" y="176" width="129" height="44" rx="7" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.5"/>
+  <text x="642" y="196" text-anchor="middle" class="b" fill="#065F46" font-weight="700">双向 Softmax</text>
+  <text x="642" y="213" text-anchor="middle" class="s">选“谁最像”</text>
+  <text x="642" y="238" text-anchor="middle" class="h" fill="#059669">×</text>
+  <rect x="578" y="246" width="129" height="44" rx="7" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.5"/>
+  <text x="642" y="266" text-anchor="middle" class="b" fill="#065F46" font-weight="700">可匹配度 σ</text>
+  <text x="642" y="283" text-anchor="middle" class="s">判“在不在对面”</text>
 
-  <!-- Unit 3: Adaptive Depth & Width -->
-  <rect class="node-hi" x="276" y="416" width="358" height="132" rx="10" />
-  <text class="font-main box-title text-hi" x="455" y="438" text-anchor="middle">3. 置信度自省 · 自适应早停 &amp; 动态点剪枝</text>
-  <text class="tensor text-hi" x="455" y="458" text-anchor="middle">置信度 c_i^ℓ = Sigmoid(Linear(x_i^ℓ)) ∈ [0, 1]</text>
-  <text class="font-main box-sub text-hi" x="455" y="478" text-anchor="middle">动态阈值 λ_ℓ = 0.8 + 0.1·exp(-4ℓ/L)，判别 c_i^ℓ &gt; λ_ℓ</text>
-  <line x1="292" y1="488" x2="618" y2="488" stroke="#E5B993" stroke-width="1" />
-  <text class="font-main box-sub text-hi" x="455" y="506" text-anchor="middle">▶ 自适应深度（早停）：若高置信点占比 &gt; α (95%) 或 ℓ=9 → 立即退出</text>
-  <text class="font-main box-sub text-hi" x="455" y="525" text-anchor="middle">▶ 自适应宽度（剪枝）：若继续，剔除 (c_i^ℓ &gt; λ_ℓ) ∧ (σ_i^ℓ &lt; 0.01) 的点</text>
-  <text class="tensor text-hi" x="455" y="542" text-anchor="middle">剪枝后活跃点: M_{ℓ+1} ≤ M_ℓ ,  N_{ℓ+1} ≤ N_ℓ</text>
+  <!-- Arrow 3->4 -->
+  <line x1="725" y1="218" x2="765" y2="218" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
 
-  <!-- Loopback Arrow inside Column 2 -->
-  <path class="arrow-orange" d="M 455 548 L 455 584 L 266 584 L 266 214 L 274 214" marker-end="url(#arr-orange)" />
-  <rect x="330" y="572" width="248" height="22" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1" />
-  <text class="font-main badge-text text-hi" x="454" y="587" text-anchor="middle">未早停：剪枝后送入第 ℓ + 1 层继续交互</text>
+  <!-- Stage 4: Output -->
+  <rect x="770" y="95" width="182" height="245" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="861" y="122" text-anchor="middle" class="h" fill="#5B21B6">④ 输出精准匹配</text>
+  <!-- Top & bottom mini frames with match lines -->
+  <rect x="790" y="142" width="142" height="62" rx="7" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <rect x="790" y="236" width="142" height="62" rx="7" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <!-- Match lines -->
+  <line x1="815" y1="175" x2="822" y2="266" stroke="#2563EB" stroke-width="2.2"/>
+  <line x1="855" y1="168" x2="862" y2="262" stroke="#16A34A" stroke-width="2.2"/>
+  <line x1="895" y1="184" x2="900" y2="275" stroke="#7C3AED" stroke-width="2.2"/>
+  <!-- Points -->
+  <circle cx="815" cy="175" r="5.5" fill="#2563EB"/><circle cx="822" cy="266" r="5.5" fill="#2563EB"/>
+  <circle cx="855" cy="168" r="5.5" fill="#16A34A"/><circle cx="862" cy="262" r="5.5" fill="#16A34A"/>
+  <circle cx="895" cy="184" r="5.5" fill="#7C3AED"/><circle cx="900" cy="275" r="5.5" fill="#7C3AED"/>
+  <!-- Crossed out unmatched points -->
+  <circle cx="918" cy="158" r="5" fill="#CBD5E1"/>
+  <line x1="913" y1="153" x2="923" y2="163" stroke="#EF4444" stroke-width="2"/>
+  <line x1="923" y1="153" x2="913" y2="163" stroke="#EF4444" stroke-width="2"/>
+  <circle cx="806" cy="283" r="5" fill="#CBD5E1"/>
+  <line x1="801" y1="278" x2="811" y2="288" stroke="#EF4444" stroke-width="2"/>
+  <line x1="811" y1="278" x2="801" y2="288" stroke="#EF4444" stroke-width="2"/>
+  <text x="861" y="322" text-anchor="middle" class="s" fill="#5B21B6">一对一连线 · 剔除遮挡点</text>
 
-  <!-- Internal arrows in Column 2 -->
-  <path class="arrow-green" d="M 455 268 L 455 286" marker-end="url(#arr-green)" />
-  <path class="arrow-green" d="M 455 394 L 455 414" marker-end="url(#arr-green)" />
+  <text x="490" y="376" text-anchor="middle" class="s">对比 SuperGlue：砍掉 100 步 Sinkhorn 迭代，改用 2D RoPE + 双向共享相似度 + 看难易自动早停</text>
 
-  <!-- Connections from Column 1 to Column 2 -->
-  <path class="arrow" d="M 228 382 L 244 382 L 244 196 L 274 196" marker-end="url(#arr-gray)" />
-  <!-- RoPE injection arrow to Self-Attention -->
-  <path class="arrow-blue" d="M 228 517 L 250 517 L 250 232 L 274 232" marker-end="url(#arr-blue)" />
-
-  <!-- ================= COLUMN 3: LIGHTWEIGHT MATCHING HEAD ================= -->
-  <rect class="container-head" x="684" y="138" width="194" height="394" rx="14" />
-  <text class="font-main badge-text text-out" x="781" y="160" text-anchor="middle">在退出层 ℓ* 执行一次</text>
-  <text class="font-main box-sub text-out" x="781" y="176" text-anchor="middle">(训练时每层均计算以深度监督)</text>
-
-  <!-- Branch A: Pairwise Similarity -->
-  <rect class="node-attn" x="698" y="194" width="166" height="102" rx="10" />
-  <text class="font-main box-title text-attn" x="781" y="216" text-anchor="middle">成对相似度矩阵 S</text>
-  <text class="tensor text-attn" x="781" y="236" text-anchor="middle">Linear(xᴬ)ᵀ Linear(xᴮ)</text>
-  <text class="tensor text-attn" x="781" y="254" text-anchor="middle">形状: [M_ℓ*, N_ℓ*]</text>
-  <text class="font-main box-sub text-attn" x="781" y="274" text-anchor="middle">行 / 列双向 Softmax</text>
-  <text class="font-main box-sub text-attn" x="781" y="289" text-anchor="middle">(Dual-Softmax 竞争)</text>
-
-  <!-- Branch B: Unary Matchability -->
-  <rect class="node-hi" x="698" y="314" width="166" height="90" rx="10" />
-  <text class="font-main box-title text-hi" x="781" y="336" text-anchor="middle">一元可匹配度 σ</text>
-  <text class="tensor text-hi" x="781" y="356" text-anchor="middle">σ_i = Sigmoid(Lin(x_i))</text>
-  <text class="tensor text-hi" x="781" y="374" text-anchor="middle">σᴬ:[M_ℓ*]  σᴮ:[N_ℓ*]</text>
-  <text class="font-main box-sub text-hi" x="781" y="394" text-anchor="middle">判别遮挡 / 非共视点</text>
-
-  <!-- Soft Partial Assignment P -->
-  <rect class="node-attn" x="698" y="424" width="166" height="94" rx="10" />
-  <text class="font-main box-title text-attn" x="781" y="446" text-anchor="middle">软部分分配矩阵 P</text>
-  <text class="tensor text-attn" x="781" y="466" text-anchor="middle">P_ij = σ_iᴬ σ_jᴮ ·</text>
-  <text class="tensor text-attn" x="781" y="482" text-anchor="middle">Softmax_r · Softmax_c</text>
-  <text class="tensor text-attn" x="781" y="500" text-anchor="middle">形状: [M_ℓ*, N_ℓ*]</text>
-  <text class="font-main box-sub text-attn" x="781" y="513" text-anchor="middle">免 Sinkhorn 迭代</text>
-
-  <!-- Arrows from Column 2 exit to Column 3 -->
-  <path class="arrow-purple" d="M 634 482 L 668 482 L 668 245 L 696 245" marker-end="url(#arr-purple)" />
-  <path class="arrow-purple" d="M 668 359 L 696 359" marker-end="url(#arr-purple)" />
-  <rect x="639" y="454" width="46" height="20" rx="4" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1" />
-  <text class="font-main badge-text text-out" x="662" y="468" text-anchor="middle">早停!</text>
-
-  <!-- Arrows inside Column 3 -->
-  <path class="arrow-green" d="M 781 296 L 781 312" marker-end="url(#arr-green)" />
-  <path class="arrow-orange" d="M 781 404 L 781 422" marker-end="url(#arr-orange)" />
-
-  <!-- ================= COLUMN 4: FILTER & OUTPUT ================= -->
-  <rect class="node-out" x="904" y="250" width="152" height="114" rx="10" />
-  <text class="font-main box-title text-out" x="980" y="274" text-anchor="middle">互近邻与阈值筛选</text>
-  <text class="font-main box-sub text-out" x="980" y="296" text-anchor="middle">1. 行、列同时最大</text>
-  <text class="font-main box-sub text-out" x="980" y="314" text-anchor="middle">(Mutual Check)</text>
-  <text class="font-main box-sub text-out" x="980" y="335" text-anchor="middle">2. 置信度过滤</text>
-  <text class="tensor text-out" x="980" y="352" text-anchor="middle">P_ij &gt; τ (τ = 0.1)</text>
-
-  <rect class="node-out" x="904" y="402" width="152" height="116" rx="10" />
-  <text class="font-main box-title text-out" x="980" y="426" text-anchor="middle">稀疏对应点对 M</text>
-  <text class="tensor text-out" x="980" y="447" text-anchor="middle">M = {(i, j)} ⊂ A × B</text>
-  <text class="font-main box-sub text-out" x="980" y="470" text-anchor="middle">直接送入下游几何求解</text>
-  <text class="font-main box-sub text-out" x="980" y="489" text-anchor="middle">RANSAC / LO-RANSAC</text>
-  <text class="font-main box-sub text-out" x="980" y="506" text-anchor="middle">加权 DLT / SfM / SLAM</text>
-
-  <!-- Arrow from Column 3 P to Column 4 -->
-  <path class="arrow-purple" d="M 864 471 L 888 471 L 888 307 L 902 307" marker-end="url(#arr-purple)" />
-  <path class="arrow-purple" d="M 980 364 L 980 400" marker-end="url(#arr-purple)" />
-
-  <!-- ================= BOTTOM LEGEND & TRAINING NOTE ================= -->
-  <rect x="28" y="622" width="1028" height="86" rx="10" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.2" />
-
-  <!-- Color Legend Row -->
-  <rect class="node-data" x="48" y="638" width="18" height="14" rx="3" />
-  <text class="font-main note-text" x="72" y="649">输入 / 局部特征数据</text>
-
-  <rect class="node-enc" x="214" y="638" width="18" height="14" rx="3" />
-  <text class="font-main note-text" x="238" y="649">投影与 2D RoPE 编码</text>
-
-  <rect class="node-attn" x="390" y="638" width="18" height="14" rx="3" />
-  <text class="font-main note-text" x="414" y="649">注意力与匹配核心模块</text>
-
-  <rect class="node-hi" x="572" y="638" width="18" height="14" rx="3" />
-  <text class="font-main note-text" x="596" y="649">自适应机制与关键高亮</text>
-
-  <rect class="node-out" x="756" y="638" width="18" height="14" rx="3" />
-  <text class="font-main note-text" x="780" y="649">匹配后处理与最终输出</text>
-
-  <line x1="48" y1="664" x2="1036" y2="664" stroke="#E5E7EB" stroke-width="1" />
-  <text class="font-main note-text" x="48" y="683">
-    <tspan font-weight="700" fill="#1F5138">训练 vs 推理关键差异：</tspan>训练采用两阶段——阶段一在全部 9 层均计算匹配头并施加深度监督（Deep Supervision），不做早停与剪枝；阶段二冻结主干特征梯度，
-  </text>
-  <text class="font-main note-text" x="48" y="700">
-    仅用二元交叉熵训练第 1～8 层置信度分类器。推理时开启自适应早停与动态点剪枝，仅在触发退出的单层 ℓ* 计算一次匹配头即可。
-  </text>
 </svg>

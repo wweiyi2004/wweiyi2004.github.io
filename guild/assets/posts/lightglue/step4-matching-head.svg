@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 396" width="980" height="396">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="396" fill="#FFFFFF" rx="12"/>
+
+  <text x="490" y="38" text-anchor="middle" class="title">图 4：解耦匹配头——一步乘法取代 100 次 Sinkhorn</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">用具体 4×4 数值例子看懂：即使两个遮挡点（A4*, B4*）长得像，也会被可匹配度 σ 一票否决</text>
+
+  <!-- Step headers -->
+  <text x="180" y="98" text-anchor="middle" class="h" fill="#1D4ED8">① 双向 Softmax（选“谁最像”）</text>
+  <text x="500" y="98" text-anchor="middle" class="h" fill="#15803D">② 一元可匹配度（判“存不存在”）</text>
+  <text x="815" y="98" text-anchor="middle" class="h" fill="#6D28D9">③ 最终分配矩阵 P</text>
+
+  <text x="99.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+<text x="153.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+<text x="207.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B3</text>
+<text x="261.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B4*</text>
+<text x="62" y="158.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+<rect x="74" y="134" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.91</text>
+<rect x="128" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.03</text>
+<rect x="182" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<rect x="236" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<text x="62" y="200.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+<rect x="74" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<rect x="128" y="176" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.88</text>
+<rect x="182" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.06</text>
+<rect x="236" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<text x="62" y="242.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A3</text>
+<rect x="74" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<rect x="128" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.04</text>
+<rect x="182" y="218" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.85</text>
+<rect x="236" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<text x="62" y="284.0" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A4*</text>
+<rect x="74" y="260" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<rect x="128" y="260" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<rect x="182" y="260" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.03</text>
+<rect x="236" y="260" width="50" height="38" rx="6" fill="#EA580C" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.79</text>
+
+  <text x="322" y="222" text-anchor="middle" font-size="26" font-weight="700" fill="#475569">×</text>
+
+  <text x="387" y="122" text-anchor="middle" class="b" fill="#166534" font-weight="700">σ^A</text><rect x="362" y="134" width="50" height="38" rx="6" fill="#16A34A"/><text x="387" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.98</text><rect x="362" y="176" width="50" height="38" rx="6" fill="#16A34A"/><text x="387" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.95</text><rect x="362" y="218" width="50" height="38" rx="6" fill="#16A34A"/><text x="387" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.96</text><rect x="362" y="260" width="50" height="38" rx="6" fill="#EA580C"/><text x="387" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.02</text><text x="434" y="220" text-anchor="middle" font-size="22" font-weight="700" fill="#16A34A">⊗</text><text x="546" y="182" text-anchor="middle" class="b" fill="#166534" font-weight="700">σ^B（转置）</text><rect x="458" y="192" width="42" height="38" rx="6" fill="#16A34A"/><text x="479" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.97</text><rect x="504" y="192" width="42" height="38" rx="6" fill="#16A34A"/><text x="525" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.96</text><rect x="550" y="192" width="42" height="38" rx="6" fill="#16A34A"/><text x="571" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.94</text><rect x="596" y="192" width="42" height="38" rx="6" fill="#EA580C"/><text x="617" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.01</text>
+
+  <text x="668" y="222" text-anchor="middle" font-size="26" font-weight="700" fill="#475569">=</text>
+
+  <text x="733.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+<text x="787.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+<text x="841.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B3</text>
+<text x="895.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B4*</text>
+<text x="696" y="158.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+<rect x="708" y="134" width="50" height="38" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.87</text>
+<rect x="762" y="134" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.03</text>
+<rect x="816" y="134" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+<rect x="870" y="134" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<text x="696" y="200.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+<rect x="708" y="176" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+<rect x="762" y="176" width="50" height="38" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.80</text>
+<rect x="816" y="176" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.05</text>
+<rect x="870" y="176" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<text x="696" y="242.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A3</text>
+<rect x="708" y="218" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.01</text>
+<rect x="762" y="218" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.04</text>
+<rect x="816" y="218" width="50" height="38" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.77</text>
+<rect x="870" y="218" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<text x="696" y="284.0" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A4*</text>
+<rect x="708" y="260" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<rect x="762" y="260" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<rect x="816" y="260" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<rect x="870" y="260" width="50" height="38" rx="6" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="284.0" text-anchor="middle" class="mono" font-size="11.5" fill="#475569">0.0002</text>
+
+  <!-- Bottom crisp callout -->
+  <rect x="44" y="324" width="892" height="52" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="490" y="347" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">看右下角 A4* 与 B4*（被遮挡的假匹配）：虽然双向 Softmax 给了 0.79 高分，</text>
+  <text x="490" y="367" text-anchor="middle" class="b" fill="#9A3412">但两者可匹配度分别是 0.02 和 0.01，一乘直接压成 0.0002（彻底剔除，无需任何 Sinkhorn 循环！）</text>
+
+</svg>

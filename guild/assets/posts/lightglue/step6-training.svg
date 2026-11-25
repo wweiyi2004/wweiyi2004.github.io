@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 350" width="940" height="350">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="350" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 6：为什么要分“两阶段训练”？早停标签从哪来？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">先让每一层都学会匹配，再冻结主干单独教“自信度头”什么时候可以提前收工</text>
+
+  <!-- Stage 1 -->
+  <rect x="28" y="88" width="424" height="234" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="240" y="118" text-anchor="middle" class="h" fill="#1E3A8A">阶段一：全层深度监督训匹配主干</text>
+
+  <rect x="52" y="142" width="84" height="54" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="94" y="174" text-anchor="middle" class="h" fill="#1D4ED8">Layer 1</text>
+  <line x1="136" y1="169" x2="160" y2="169" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="166" y="142" width="84" height="54" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="208" y="174" text-anchor="middle" class="h" fill="#1D4ED8">Layer 2</text>
+  <line x1="250" y1="169" x2="274" y2="169" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+  <text x="292" y="174" text-anchor="middle" class="h" fill="#64748B">···</text>
+  <line x1="312" y1="169" x2="334" y2="169" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="340" y="142" width="84" height="54" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="382" y="174" text-anchor="middle" class="h" fill="#1D4ED8">Layer 9</text>
+
+  <!-- Down arrows to loss -->
+  <line x1="94" y1="196" x2="94" y2="232" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
+  <line x1="208" y1="196" x2="208" y2="232" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
+  <line x1="382" y1="196" x2="382" y2="232" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
+
+  <rect x="52" y="238" width="372" height="58" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.8"/>
+  <text x="238" y="263" text-anchor="middle" class="h" fill="#9A3412">每层都挂真值匹配损失（L_1 + L_2 + ··· + L_9）</text>
+  <text x="238" y="285" text-anchor="middle" class="s" fill="#C2410C">强迫浅层尽早输出准确预测，为后续早停打好基础</text>
+
+  <!-- Arrow between Stage 1 and Stage 2 -->
+  <line x1="452" y1="205" x2="482" y2="205" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
+
+  <!-- Stage 2 -->
+  <rect x="488" y="88" width="424" height="234" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="700" y="118" text-anchor="middle" class="h" fill="#166534">阶段二：冻结主干，只训“自信度分类器”</text>
+
+  <rect x="514" y="142" width="166" height="58" rx="8" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.8"/>
+  <text x="597" y="167" text-anchor="middle" class="h" fill="#475569">🔒 冻结第 ℓ 层主干</text>
+  <text x="597" y="188" text-anchor="middle" class="s">输出当前层预测 m^(ℓ)</text>
+
+  <text x="700" y="176" text-anchor="middle" class="h" fill="#16A34A">对比</text>
+
+  <rect x="720" y="142" width="166" height="58" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.8"/>
+  <text x="803" y="167" text-anchor="middle" class="h" fill="#14532D">第 9 层最终预测</text>
+  <text x="803" y="188" text-anchor="middle" class="s">当作“老师答案” m^(9)</text>
+
+  <line x1="700" y1="204" x2="700" y2="232" stroke="#16A34A" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <rect x="514" y="238" width="372" height="58" rx="8" fill="#FFFFFF" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="700" y="263" text-anchor="middle" class="h" fill="#166534">m^(ℓ) == m^(9) → 标签 1（稳了，可早停）</text>
+  <text x="700" y="285" text-anchor="middle" class="s" fill="#475569">m^(ℓ) != m^(9) → 标签 0（继续算） · 不干扰主干精度！</text>
+
+</svg>

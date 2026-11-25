@@ -1,392 +1,133 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 820" width="1080" height="820" role="img" aria-label="LightGlue 核心机制图解：解耦匹配头与自适应深度宽度加速">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 396" width="980" height="396">
+
   <defs>
     <style>
-      .bg { fill: #FFFFFF; }
-      .font-main { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
       .title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .subtitle { font-size: 12.5px; fill: #4B5563; }
-      .sec-title { font-size: 15px; font-weight: 700; fill: #111827; }
-      .box-title { font-size: 13px; font-weight: 700; }
-      .box-sub { font-size: 11.5px; }
-      .small-label { font-size: 10.5px; fill: #374151; }
-      .mono { font-size: 11px; font-family: Consolas, "Courier New", "Microsoft YaHei", monospace; font-weight: 600; }
-
-      .panel { fill: #FAFAFA; stroke: #E5E7EB; stroke-width: 1.4; }
-      .node-data { fill: #F3F4F6; stroke: #9CA3AF; stroke-width: 1.4; }
-      .text-data { fill: #111827; }
-      .node-enc { fill: #E5F2FC; stroke: #2783DE; stroke-width: 1.4; }
-      .text-enc { fill: #153B60; }
-      .node-attn { fill: #E8F1EC; stroke: #46A171; stroke-width: 1.4; }
-      .text-attn { fill: #1F5138; }
-      .node-hi { fill: #FBEBDE; stroke: #D5803B; stroke-width: 1.5; }
-      .text-hi { fill: #70401C; }
-      .node-out { fill: #EDE9FE; stroke: #8B5CF6; stroke-width: 1.5; }
-      .text-out { fill: #422578; }
-
-      .cell-border { stroke: #FFFFFF; stroke-width: 1.5; }
-      .arrow { stroke: #4B5563; stroke-width: 1.7; fill: none; }
-      .arrow-green { stroke: #46A171; stroke-width: 1.8; fill: none; }
-      .arrow-orange { stroke: #D5803B; stroke-width: 1.8; fill: none; }
-      .arrow-purple { stroke: #8B5CF6; stroke-width: 1.8; fill: none; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
-
-    <marker id="arr-g" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563" />
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-grn" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171" />
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arr-org" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B" />
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arr-pur" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8B5CF6" />
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
     </marker>
   </defs>
 
-  <!-- Background -->
-  <rect class="bg" x="0" y="0" width="1080" height="820" />
+  <rect width="980" height="396" fill="#FFFFFF" rx="12"/>
 
-  <!-- Title -->
-  <text class="font-main title" x="540" y="36" text-anchor="middle">LightGlue 两大核心创新机制连环图解</text>
-  <text class="font-main subtitle" x="540" y="56" text-anchor="middle">机制一：解耦双 Softmax 与可匹配度（取代 Sinkhorn + Dustbin）  |  机制二：自适应深度早停与自适应宽度点剪枝</text>
+  <text x="490" y="38" text-anchor="middle" class="title">图 4：解耦匹配头——一步乘法取代 100 次 Sinkhorn</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">用具体 4×4 数值例子看懂：即使两个遮挡点（A4*, B4*）长得像，也会被可匹配度 σ 一票否决</text>
 
-  <!-- ====================================================================== -->
-  <!-- PANEL A: DISENTANGLED MATCHING HEAD VS SUPERGLUE SINKHORN              -->
-  <!-- ====================================================================== -->
-  <rect class="panel" x="24" y="74" width="1032" height="328" rx="14" />
-  <rect x="40" y="88" width="28" height="24" rx="6" fill="#46A171" />
-  <text class="font-main" x="54" y="105" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="700">1</text>
-  <text class="font-main sec-title" x="78" y="106">机制一：解耦匹配头（相似度 × 可匹配度）如何优雅干掉昂贵的 Sinkhorn + Dustbin？</text>
+  <!-- Step headers -->
+  <text x="180" y="98" text-anchor="middle" class="h" fill="#1D4ED8">① 双向 Softmax（选“谁最像”）</text>
+  <text x="500" y="98" text-anchor="middle" class="h" fill="#15803D">② 一元可匹配度（判“存不存在”）</text>
+  <text x="815" y="98" text-anchor="middle" class="h" fill="#6D28D9">③ 最终分配矩阵 P</text>
 
-  <!-- Left Comparison Box: SuperGlue Pain Point -->
-  <rect class="node-data" x="42" y="124" width="246" height="258" rx="10" />
-  <text class="font-main box-title text-data" x="165" y="148" text-anchor="middle">前代 SuperGlue：Sinkhorn + Dustbin</text>
-  <text class="font-main small-label" x="165" y="166" text-anchor="middle">4×4 相似度拼 1 行 1 列“垃圾桶”</text>
+  <text x="99.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+<text x="153.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+<text x="207.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B3</text>
+<text x="261.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B4*</text>
+<text x="62" y="158.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+<rect x="74" y="134" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.91</text>
+<rect x="128" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.03</text>
+<rect x="182" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<rect x="236" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<text x="62" y="200.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+<rect x="74" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<rect x="128" y="176" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.88</text>
+<rect x="182" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.06</text>
+<rect x="236" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<text x="62" y="242.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A3</text>
+<rect x="74" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<rect x="128" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.04</text>
+<rect x="182" y="218" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.85</text>
+<rect x="236" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<text x="62" y="284.0" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A4*</text>
+<rect x="74" y="260" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="99.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.01</text>
+<rect x="128" y="260" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="153.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+<rect x="182" y="260" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+<text x="207.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.03</text>
+<rect x="236" y="260" width="50" height="38" rx="6" fill="#EA580C" stroke="#CBD5E1" stroke-width="1"/>
+<text x="261.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.79</text>
 
-  <!-- 5x5 Dustbin Matrix -->
-  <g transform="translate(86, 178)">
-    <!-- 4x4 core -->
-    <rect x="0" y="0" width="28" height="24" fill="#93C5FD" class="cell-border" />
-    <rect x="28" y="0" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="56" y="0" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="84" y="0" width="28" height="24" fill="#E5E7EB" class="cell-border" />
+  <text x="322" y="222" text-anchor="middle" font-size="26" font-weight="700" fill="#475569">×</text>
 
-    <rect x="0" y="24" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="28" y="24" width="28" height="24" fill="#93C5FD" class="cell-border" />
-    <rect x="56" y="24" width="28" height="24" fill="#BFDBFE" class="cell-border" />
-    <rect x="84" y="24" width="28" height="24" fill="#E5E7EB" class="cell-border" />
+  <text x="387" y="122" text-anchor="middle" class="b" fill="#166534" font-weight="700">σ^A</text><rect x="362" y="134" width="50" height="38" rx="6" fill="#16A34A"/><text x="387" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.98</text><rect x="362" y="176" width="50" height="38" rx="6" fill="#16A34A"/><text x="387" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.95</text><rect x="362" y="218" width="50" height="38" rx="6" fill="#16A34A"/><text x="387" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.96</text><rect x="362" y="260" width="50" height="38" rx="6" fill="#EA580C"/><text x="387" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.02</text><text x="434" y="220" text-anchor="middle" font-size="22" font-weight="700" fill="#16A34A">⊗</text><text x="546" y="182" text-anchor="middle" class="b" fill="#166534" font-weight="700">σ^B（转置）</text><rect x="458" y="192" width="42" height="38" rx="6" fill="#16A34A"/><text x="479" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.97</text><rect x="504" y="192" width="42" height="38" rx="6" fill="#16A34A"/><text x="525" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.96</text><rect x="550" y="192" width="42" height="38" rx="6" fill="#16A34A"/><text x="571" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.94</text><rect x="596" y="192" width="42" height="38" rx="6" fill="#EA580C"/><text x="617" y="216" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">0.01</text>
 
-    <rect x="0" y="48" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="28" y="48" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="56" y="48" width="28" height="24" fill="#93C5FD" class="cell-border" />
-    <rect x="84" y="48" width="28" height="24" fill="#E5E7EB" class="cell-border" />
+  <text x="668" y="222" text-anchor="middle" font-size="26" font-weight="700" fill="#475569">=</text>
 
-    <rect x="0" y="72" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="28" y="72" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="56" y="72" width="28" height="24" fill="#E5E7EB" class="cell-border" />
-    <rect x="84" y="72" width="28" height="24" fill="#FCA5A5" class="cell-border" />
+  <text x="733.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+<text x="787.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+<text x="841.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B3</text>
+<text x="895.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B4*</text>
+<text x="696" y="158.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+<rect x="708" y="134" width="50" height="38" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.87</text>
+<rect x="762" y="134" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.03</text>
+<rect x="816" y="134" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+<rect x="870" y="134" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<text x="696" y="200.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+<rect x="708" y="176" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+<rect x="762" y="176" width="50" height="38" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.80</text>
+<rect x="816" y="176" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.05</text>
+<rect x="870" y="176" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<text x="696" y="242.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A3</text>
+<rect x="708" y="218" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.01</text>
+<rect x="762" y="218" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.04</text>
+<rect x="816" y="218" width="50" height="38" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.77</text>
+<rect x="870" y="218" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<text x="696" y="284.0" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A4*</text>
+<rect x="708" y="260" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="733.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<rect x="762" y="260" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="787.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<rect x="816" y="260" width="50" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+<text x="841.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#CBD5E1">0.00</text>
+<rect x="870" y="260" width="50" height="38" rx="6" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1"/>
+<text x="895.0" y="284.0" text-anchor="middle" class="mono" font-size="11.5" fill="#475569">0.0002</text>
 
-    <!-- Dustbin column & row -->
-    <rect x="116" y="0" width="32" height="24" fill="#FDE68A" class="cell-border" />
-    <rect x="116" y="24" width="32" height="24" fill="#FDE68A" class="cell-border" />
-    <rect x="116" y="48" width="32" height="24" fill="#FDE68A" class="cell-border" />
-    <rect x="116" y="72" width="32" height="24" fill="#F59E0B" class="cell-border" />
+  <!-- Bottom crisp callout -->
+  <rect x="44" y="324" width="892" height="52" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="490" y="347" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">看右下角 A4* 与 B4*（被遮挡的假匹配）：虽然双向 Softmax 给了 0.79 高分，</text>
+  <text x="490" y="367" text-anchor="middle" class="b" fill="#9A3412">但两者可匹配度分别是 0.02 和 0.01，一乘直接压成 0.0002（彻底剔除，无需任何 Sinkhorn 循环！）</text>
 
-    <rect x="0" y="100" width="28" height="24" fill="#FDE68A" class="cell-border" />
-    <rect x="28" y="100" width="28" height="24" fill="#FDE68A" class="cell-border" />
-    <rect x="56" y="100" width="28" height="24" fill="#FDE68A" class="cell-border" />
-    <rect x="84" y="100" width="28" height="24" fill="#F59E0B" class="cell-border" />
-    <rect x="116" y="100" width="32" height="24" fill="#D1D5DB" class="cell-border" />
-
-    <text class="font-main" x="132" y="116" text-anchor="middle" font-size="9.5" fill="#70401C" font-weight="700">Bin</text>
-  </g>
-
-  <text class="font-main box-sub text-data" x="165" y="324" text-anchor="middle">✗ 需迭代 100 次行列归一化，显存与耗时高</text>
-  <text class="font-main box-sub text-data" x="165" y="343" text-anchor="middle">✗ Dustbin 与所有点分数耦合，梯度纠缠</text>
-  <text class="font-main box-sub text-data" x="165" y="362" text-anchor="middle">✗ 太重，只能在最后 1 层挂载监督</text>
-
-  <!-- VS Arrow -->
-  <text class="font-main" x="314" y="236" text-anchor="middle" font-size="15" font-weight="700" fill="#D5803B">VS</text>
-  <path class="arrow-orange" d="M 294 252 L 334 252" marker-end="url(#arr-org)" />
-
-  <!-- Right Panel: LightGlue 3-Step Disentangled Head -->
-  <rect fill="#FFFFFF" stroke="#46A171" stroke-width="1.4" x="342" y="124" width="698" height="258" rx="10" />
-  <text class="font-main box-title text-attn" x="691" y="147" text-anchor="middle">LightGlue 解耦设计：三步轻量运算 = 双 Softmax 选“谁最像” × 可匹配度判“存不存在”</text>
-
-  <!-- Step 1: Dual-Softmax Matrix -->
-  <g transform="translate(362, 166)">
-    <text class="font-main box-title text-enc" x="80" y="14" text-anchor="middle">① 成对双向竞争 (Dual-Softmax)</text>
-    <text class="font-main small-label" x="80" y="31" text-anchor="middle">Softmax_row(S) ⊙ Softmax_col(S)</text>
-
-    <!-- Column headers B1..B4 -->
-    <text class="mono text-enc" x="32" y="50" text-anchor="middle">B1</text>
-    <text class="mono text-enc" x="64" y="50" text-anchor="middle">B2</text>
-    <text class="mono text-enc" x="96" y="50" text-anchor="middle">B3</text>
-    <text class="mono text-hi" x="128" y="50" text-anchor="middle">B4*</text>
-
-    <!-- Row headers A1..A4 -->
-    <text class="mono text-enc" x="6" y="72" text-anchor="middle">A1</text>
-    <text class="mono text-enc" x="6" y="100" text-anchor="middle">A2</text>
-    <text class="mono text-enc" x="6" y="128" text-anchor="middle">A3</text>
-    <text class="mono text-hi" x="6" y="156" text-anchor="middle">A4*</text>
-
-    <!-- 4x4 Dual-Softmax Grid -->
-    <g transform="translate(18, 56)">
-      <!-- Row 1 -->
-      <rect x="0" y="0" width="32" height="26" fill="#2783DE" class="cell-border" />
-      <text class="mono" x="16" y="17" text-anchor="middle" fill="#FFFFFF">0.91</text>
-      <rect x="32" y="0" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="48" y="17" text-anchor="middle" fill="#6B7280">0.03</text>
-      <rect x="64" y="0" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="80" y="17" text-anchor="middle" fill="#6B7280">0.02</text>
-      <rect x="96" y="0" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="112" y="17" text-anchor="middle" fill="#6B7280">0.01</text>
-
-      <!-- Row 2 -->
-      <rect x="0" y="26" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="16" y="43" text-anchor="middle" fill="#6B7280">0.02</text>
-      <rect x="32" y="26" width="32" height="26" fill="#2783DE" class="cell-border" />
-      <text class="mono" x="48" y="43" text-anchor="middle" fill="#FFFFFF">0.88</text>
-      <rect x="64" y="26" width="32" height="26" fill="#DBEAFE" class="cell-border" />
-      <text class="mono" x="80" y="43" text-anchor="middle" fill="#1E40AF">0.06</text>
-      <rect x="96" y="26" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="112" y="43" text-anchor="middle" fill="#6B7280">0.01</text>
-
-      <!-- Row 3 -->
-      <rect x="0" y="52" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="16" y="69" text-anchor="middle" fill="#6B7280">0.01</text>
-      <rect x="32" y="52" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="48" y="69" text-anchor="middle" fill="#6B7280">0.04</text>
-      <rect x="64" y="52" width="32" height="26" fill="#2783DE" class="cell-border" />
-      <text class="mono" x="80" y="69" text-anchor="middle" fill="#FFFFFF">0.85</text>
-      <rect x="96" y="52" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="112" y="69" text-anchor="middle" fill="#6B7280">0.02</text>
-
-      <!-- Row 4: Occluded / repeated false match high score! -->
-      <rect x="0" y="78" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="16" y="95" text-anchor="middle" fill="#6B7280">0.01</text>
-      <rect x="32" y="78" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="48" y="95" text-anchor="middle" fill="#6B7280">0.02</text>
-      <rect x="64" y="78" width="32" height="26" fill="#EFF6FF" class="cell-border" />
-      <text class="mono" x="80" y="95" text-anchor="middle" fill="#6B7280">0.03</text>
-      <rect x="96" y="78" width="32" height="26" fill="#F97316" class="cell-border" />
-      <text class="mono" x="112" y="95" text-anchor="middle" fill="#FFFFFF">0.79</text>
-    </g>
-    <text class="font-main small-label" x="80" y="180" text-anchor="middle" fill="#9A3412">⚠ A4*、B4* 虽被遮挡/误检，</text>
-    <text class="font-main small-label" x="80" y="196" text-anchor="middle" fill="#9A3412">但因纹理相似仍拿了 0.79 高分</text>
-  </g>
-
-  <!-- Multiply symbol -->
-  <text class="font-main" x="546" y="274" text-anchor="middle" font-size="22" font-weight="700" fill="#46A171">×</text>
-
-  <!-- Step 2: Unary Matchability -->
-  <g transform="translate(568, 166)">
-    <text class="font-main box-title text-hi" x="96" y="14" text-anchor="middle">② 一元可匹配度 σ_iᴬ · σ_jᴮ</text>
-    <text class="font-main small-label" x="96" y="31" text-anchor="middle">独立预测每点在另一图“是否存在”</text>
-
-    <!-- Sigma A column -->
-    <text class="mono text-hi" x="34" y="50" text-anchor="middle">σᴬ</text>
-    <g transform="translate(12, 56)">
-      <rect x="0" y="0" width="44" height="26" fill="#46A171" class="cell-border" />
-      <text class="mono" x="22" y="17" text-anchor="middle" fill="#FFFFFF">0.98</text>
-      <rect x="0" y="26" width="44" height="26" fill="#46A171" class="cell-border" />
-      <text class="mono" x="22" y="43" text-anchor="middle" fill="#FFFFFF">0.95</text>
-      <rect x="0" y="52" width="44" height="26" fill="#46A171" class="cell-border" />
-      <text class="mono" x="22" y="69" text-anchor="middle" fill="#FFFFFF">0.96</text>
-      <rect x="0" y="78" width="44" height="26" fill="#D5803B" class="cell-border" />
-      <text class="mono" x="22" y="95" text-anchor="middle" fill="#FFFFFF">0.02</text>
-    </g>
-
-    <text class="font-main" x="76" y="108" text-anchor="middle" font-size="16" font-weight="700" fill="#D5803B">⊗</text>
-
-    <!-- Sigma B row -->
-    <text class="mono text-hi" x="142" y="84" text-anchor="middle">σᴮ (转置)</text>
-    <g transform="translate(92, 92)">
-      <rect x="0" y="0" width="26" height="30" fill="#46A171" class="cell-border" />
-      <text class="mono" x="13" y="19" text-anchor="middle" fill="#FFFFFF" font-size="9.5">.97</text>
-      <rect x="26" y="0" width="26" height="30" fill="#46A171" class="cell-border" />
-      <text class="mono" x="39" y="19" text-anchor="middle" fill="#FFFFFF" font-size="9.5">.96</text>
-      <rect x="52" y="0" width="26" height="30" fill="#46A171" class="cell-border" />
-      <text class="mono" x="65" y="19" text-anchor="middle" fill="#FFFFFF" font-size="9.5">.94</text>
-      <rect x="78" y="0" width="26" height="30" fill="#D5803B" class="cell-border" />
-      <text class="mono" x="91" y="19" text-anchor="middle" fill="#FFFFFF" font-size="9.5">.01</text>
-    </g>
-
-    <text class="font-main small-label" x="96" y="180" text-anchor="middle" fill="#1F5138">✓ 共视可靠点：σ → 1 (放行)</text>
-    <text class="font-main small-label" x="96" y="196" text-anchor="middle" fill="#70401C">✓ 遮挡/非共视点：σ → 0 (一票否决)</text>
-  </g>
-
-  <!-- Equals symbol -->
-  <text class="font-main" x="786" y="274" text-anchor="middle" font-size="22" font-weight="700" fill="#8B5CF6">=</text>
-
-  <!-- Step 3: Final Soft Assignment P -->
-  <g transform="translate(808, 166)">
-    <text class="font-main box-title text-out" x="108" y="14" text-anchor="middle">③ 软分配矩阵 P (过滤后输出)</text>
-    <text class="font-main small-label" x="108" y="31" text-anchor="middle">互近邻 + 阈值 P_ij &gt; 0.1</text>
-
-    <!-- Column headers -->
-    <text class="mono text-out" x="48" y="50" text-anchor="middle">B1</text>
-    <text class="mono text-out" x="84" y="50" text-anchor="middle">B2</text>
-    <text class="mono text-out" x="120" y="50" text-anchor="middle">B3</text>
-    <text class="mono text-data" x="156" y="50" text-anchor="middle">B4*</text>
-
-    <!-- Row headers -->
-    <text class="mono text-out" x="18" y="72" text-anchor="middle">A1</text>
-    <text class="mono text-out" x="18" y="100" text-anchor="middle">A2</text>
-    <text class="mono text-out" x="18" y="128" text-anchor="middle">A3</text>
-    <text class="mono text-data" x="18" y="156" text-anchor="middle">A4*</text>
-
-    <g transform="translate(30, 56)">
-      <rect x="0" y="0" width="36" height="26" fill="#8B5CF6" class="cell-border" />
-      <text class="mono" x="18" y="17" text-anchor="middle" fill="#FFFFFF">0.87</text>
-      <rect x="36" y="0" width="36" height="26" fill="#F5F3FF" class="cell-border" />
-      <text class="mono" x="54" y="17" text-anchor="middle" fill="#9CA3AF">0.03</text>
-      <rect x="72" y="0" width="36" height="26" fill="#F5F3FF" class="cell-border" />
-      <text class="mono" x="90" y="17" text-anchor="middle" fill="#9CA3AF">0.02</text>
-      <rect x="108" y="0" width="36" height="26" fill="#F3F4F6" class="cell-border" />
-      <text class="mono" x="126" y="17" text-anchor="middle" fill="#9CA3AF">0.00</text>
-
-      <rect x="0" y="26" width="36" height="26" fill="#F5F3FF" class="cell-border" />
-      <text class="mono" x="18" y="43" text-anchor="middle" fill="#9CA3AF">0.02</text>
-      <rect x="36" y="26" width="36" height="26" fill="#8B5CF6" class="cell-border" />
-      <text class="mono" x="54" y="43" text-anchor="middle" fill="#FFFFFF">0.80</text>
-      <rect x="72" y="26" width="36" height="26" fill="#F5F3FF" class="cell-border" />
-      <text class="mono" x="90" y="43" text-anchor="middle" fill="#9CA3AF">0.05</text>
-      <rect x="108" y="26" width="36" height="26" fill="#F3F4F6" class="cell-border" />
-      <text class="mono" x="126" y="43" text-anchor="middle" fill="#9CA3AF">0.00</text>
-
-      <rect x="0" y="52" width="36" height="26" fill="#F5F3FF" class="cell-border" />
-      <text class="mono" x="18" y="69" text-anchor="middle" fill="#9CA3AF">0.01</text>
-      <rect x="36" y="52" width="36" height="26" fill="#F5F3FF" class="cell-border" />
-      <text class="mono" x="54" y="69" text-anchor="middle" fill="#9CA3AF">0.04</text>
-      <rect x="72" y="52" width="36" height="26" fill="#8B5CF6" class="cell-border" />
-      <text class="mono" x="90" y="69" text-anchor="middle" fill="#FFFFFF">0.77</text>
-      <rect x="108" y="52" width="36" height="26" fill="#F3F4F6" class="cell-border" />
-      <text class="mono" x="126" y="69" text-anchor="middle" fill="#9CA3AF">0.00</text>
-
-      <rect x="0" y="78" width="36" height="26" fill="#F3F4F6" class="cell-border" />
-      <text class="mono" x="18" y="95" text-anchor="middle" fill="#9CA3AF">0.00</text>
-      <rect x="36" y="78" width="36" height="26" fill="#F3F4F6" class="cell-border" />
-      <text class="mono" x="54" y="95" text-anchor="middle" fill="#9CA3AF">0.00</text>
-      <rect x="72" y="78" width="36" height="26" fill="#F3F4F6" class="cell-border" />
-      <text class="mono" x="90" y="95" text-anchor="middle" fill="#9CA3AF">0.00</text>
-      <rect x="108" y="78" width="36" height="26" fill="#E5E7EB" class="cell-border" />
-      <text class="mono" x="126" y="95" text-anchor="middle" fill="#6B7280">0.0002</text>
-    </g>
-
-    <text class="font-main small-label" x="108" y="180" text-anchor="middle" fill="#422578" font-weight="700">✓ 伪匹配 (A4*,B4*) 被瞬间压成 ~0</text>
-    <text class="font-main small-label" x="108" y="196" text-anchor="middle" fill="#422578">✓ 梯度干净，支持 9 层深度监督！</text>
-  </g>
-
-  <!-- ====================================================================== -->
-  <!-- PANEL B: ADAPTIVE DEPTH (EARLY EXIT) & ADAPTIVE WIDTH (POINT PRUNING)  -->
-  <!-- ====================================================================== -->
-  <rect class="panel" x="24" y="418" width="1032" height="382" rx="14" />
-  <rect x="40" y="432" width="28" height="24" rx="6" fill="#D5803B" />
-  <text class="font-main" x="54" y="449" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="700">2</text>
-  <text class="font-main sec-title" x="78" y="450">机制二：自适应深度（早停）+ 自适应宽度（动态点剪枝）双维度按需分配算力</text>
-
-  <!-- Track 1: EASY PAIR (Depth Adaptivity) -->
-  <rect fill="#FFFFFF" stroke="#46A171" stroke-width="1.3" x="42" y="468" width="996" height="106" rx="10" />
-  <rect fill="#E8F1EC" x="54" y="482" width="136" height="78" rx="8" />
-  <text class="font-main box-title text-attn" x="122" y="507" text-anchor="middle">场景 A：简单图像对</text>
-  <text class="font-main small-label" x="122" y="526" text-anchor="middle">高重叠 / 小视角变化</text>
-  <text class="font-main small-label" x="122" y="544" text-anchor="middle">（如视频相邻帧）</text>
-
-  <!-- Easy Layers 1, 2, 3 -> EXIT! -->
-  <rect class="node-enc" x="210" y="486" width="104" height="70" rx="8" />
-  <text class="font-main box-title text-enc" x="262" y="507" text-anchor="middle">Layer 1</text>
-  <text class="mono text-enc" x="262" y="525" text-anchor="middle">2048 点</text>
-  <text class="font-main small-label" x="262" y="544" text-anchor="middle">高置信: 42%</text>
-
-  <path class="arrow-green" d="M 314 521 L 340 521" marker-end="url(#arr-grn)" />
-
-  <rect class="node-enc" x="342" y="486" width="104" height="70" rx="8" />
-  <text class="font-main box-title text-enc" x="394" y="507" text-anchor="middle">Layer 2</text>
-  <text class="mono text-enc" x="394" y="525" text-anchor="middle">1920 点</text>
-  <text class="font-main small-label" x="394" y="544" text-anchor="middle">高置信: 79%</text>
-
-  <path class="arrow-green" d="M 446 521 L 472 521" marker-end="url(#arr-grn)" />
-
-  <rect class="node-attn" x="474" y="486" width="122" height="70" rx="8" stroke-width="2" />
-  <text class="font-main box-title text-attn" x="535" y="507" text-anchor="middle">Layer 3 ★</text>
-  <text class="mono text-attn" x="535" y="525" text-anchor="middle">1850 点</text>
-  <text class="font-main small-label" x="535" y="544" text-anchor="middle" fill="#1F5138" font-weight="700">高置信: 96% &gt; 95%</text>
-
-  <path class="arrow-purple" d="M 596 521 L 634 521" marker-end="url(#arr-pur)" />
-
-  <rect class="node-out" x="636" y="486" width="150" height="70" rx="8" />
-  <text class="font-main box-title text-out" x="711" y="509" text-anchor="middle">触发早停 (Early Exit)</text>
-  <text class="font-main small-label" x="711" y="528" text-anchor="middle">直接送入匹配头输出</text>
-  <text class="mono text-out" x="711" y="546" text-anchor="middle">平均提速 1.86×</text>
-
-  <!-- Skipped layers 4..9 -->
-  <rect x="806" y="486" width="218" height="70" rx="8" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.3" stroke-dasharray="5 4" />
-  <text class="font-main box-title" x="915" y="512" text-anchor="middle" fill="#9CA3AF">Layer 4 ～ Layer 9</text>
-  <text class="font-main small-label" x="915" y="532" text-anchor="middle" fill="#9CA3AF">全部跳过，零计算开销</text>
-  <text class="font-main small-label" x="915" y="548" text-anchor="middle" fill="#6B7280">（如图 2 示例仅需 16.9 ms）</text>
-
-  <!-- Track 2: HARD PAIR (Width Adaptivity / Point Pruning) -->
-  <rect fill="#FFFFFF" stroke="#D5803B" stroke-width="1.3" x="42" y="586" width="996" height="128" rx="10" />
-  <rect fill="#FBEBDE" x="54" y="600" width="136" height="100" rx="8" />
-  <text class="font-main box-title text-hi" x="122" y="628" text-anchor="middle">场景 B：困难图像对</text>
-  <text class="font-main small-label" x="122" y="648" text-anchor="middle">低重叠 / 强遮挡</text>
-  <text class="font-main small-label" x="122" y="666" text-anchor="middle">大视角 / 昼夜变化</text>
-  <text class="font-main small-label" x="122" y="684" text-anchor="middle">（需更深层推理）</text>
-
-  <!-- Hard Layer 1 -->
-  <rect class="node-enc" x="210" y="600" width="114" height="96" rx="8" />
-  <text class="font-main box-title text-enc" x="267" y="620" text-anchor="middle">Layer 1</text>
-  <text class="mono text-enc" x="267" y="637" text-anchor="middle">M = 2048 点</text>
-  <!-- Visual dot bar showing full width -->
-  <rect x="222" y="646" width="90" height="12" rx="3" fill="#2783DE" />
-  <text class="font-main small-label" x="267" y="675" text-anchor="middle">识别出非共视区</text>
-  <text class="font-main small-label" x="267" y="690" text-anchor="middle" fill="#C2410C">剔除 ~20% 废点</text>
-
-  <path class="arrow-orange" d="M 324 648 L 348 648" marker-end="url(#arr-org)" />
-
-  <!-- Hard Layer 3 -->
-  <rect class="node-enc" x="350" y="605" width="114" height="86" rx="8" />
-  <text class="font-main box-title text-enc" x="407" y="625" text-anchor="middle">Layer 3</text>
-  <text class="mono text-enc" x="407" y="642" text-anchor="middle">M ≈ 1500 点</text>
-  <rect x="362" y="650" width="66" height="12" rx="3" fill="#2783DE" />
-  <rect x="428" y="650" width="24" height="12" rx="3" fill="#FED7AA" />
-  <text class="font-main small-label" x="407" y="679" text-anchor="middle" fill="#C2410C">继续剪除遮挡点</text>
-
-  <path class="arrow-orange" d="M 464 648 L 488 648" marker-end="url(#arr-org)" />
-
-  <!-- Hard Layer 5 -->
-  <rect class="node-enc" x="490" y="611" width="114" height="74" rx="8" />
-  <text class="font-main box-title text-enc" x="547" y="631" text-anchor="middle">Layer 5</text>
-  <text class="mono text-enc" x="547" y="648" text-anchor="middle">M ≈ 1250 点</text>
-  <rect x="502" y="656" width="52" height="12" rx="3" fill="#2783DE" />
-  <rect x="554" y="656" width="38" height="12" rx="3" fill="#FED7AA" />
-
-  <path class="arrow-orange" d="M 604 648 L 628 648" marker-end="url(#arr-org)" />
-
-  <!-- Hard Layer 7/8 -->
-  <rect class="node-hi" x="630" y="614" width="150" height="68" rx="8" />
-  <text class="font-main box-title text-hi" x="705" y="635" text-anchor="middle">Layer 7 ～ 8</text>
-  <text class="mono text-hi" x="705" y="653" text-anchor="middle">聚焦共视核心区</text>
-  <text class="font-main small-label" x="705" y="672" text-anchor="middle">平均剔除 27.9% 废点</text>
-
-  <path class="arrow-purple" d="M 780 648 L 806 648" marker-end="url(#arr-pur)" />
-
-  <!-- Hard Output -->
-  <rect class="node-out" x="808" y="608" width="216" height="80" rx="8" />
-  <text class="font-main box-title text-out" x="916" y="631" text-anchor="middle">高纯度核心区匹配输出</text>
-  <text class="font-main small-label" x="916" y="651" text-anchor="middle">因注意力复杂度为 O(M² + N² + MN)</text>
-  <text class="font-main small-label" x="916" y="669" text-anchor="middle">越早丢弃废点，后续层算力呈平方级下降</text>
-
-  <!-- Bottom Formula Strip -->
-  <rect x="42" y="728" width="996" height="58" rx="8" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.2" />
-  <text class="font-main box-sub text-data" x="60" y="751">
-    <tspan font-weight="700" fill="#70401C">核心判据公式：</tspan>
-    <tspan class="mono" fill="#153B60">① 指数衰减阈值 λ_ℓ = 0.8 + 0.1·e^(-4ℓ/L)</tspan>（前期更严防误判，后期放宽）
-    <tspan dx="16" class="mono" fill="#1F5138">② 早停：(高置信点总数 / (M+N)) &gt; α (95%)</tspan>
-  </text>
-  <text class="font-main box-sub text-data" x="60" y="773">
-    <tspan class="mono" fill="#70401C">③ 剪枝：unmatchable(i) = (c_i^ℓ &gt; λ_ℓ) ∧ (σ_i^ℓ &lt; β)</tspan>（β = 0.01，既“确信结果已定”又“确认不可匹配”的点立即踢出后续注意力）
-  </text>
 </svg>

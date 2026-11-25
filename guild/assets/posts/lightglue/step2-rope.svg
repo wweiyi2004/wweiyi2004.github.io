@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 380" width="940" height="380">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="380" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 2：为什么 2D RoPE 只加在自注意力，绝不加在交叉注意力？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">图内看的是“相对几何排布”，而两张图之间的绝对像素坐标系毫无关系</text>
+
+  <!-- Left Panel: Self-Attention (YES) -->
+  <rect x="28" y="88" width="428" height="264" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="242" y="118" text-anchor="middle" class="h" fill="#166534">✓ 图内自注意力（Self-Attention）：必须加 2D RoPE</text>
+
+  <!-- Single image box -->
+  <rect x="58" y="136" width="200" height="145" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.8"/>
+  <text x="158" y="158" text-anchor="middle" class="s" fill="#15803D" font-weight="700">同一张图像 A</text>
+  <!-- Two points with relative vector -->
+  <circle cx="105" cy="235" r="9" fill="#2563EB"/>
+  <text x="105" y="239" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">i</text>
+  <circle cx="212" cy="185" r="9" fill="#16A34A"/>
+  <text x="212" y="189" text-anchor="middle" fill="#FFF" font-size="12" font-weight="700">j</text>
+  <line x1="114" y1="231" x2="200" y2="190" stroke="#EA580C" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <text x="172" y="232" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">相对位移 p_j − p_i</text>
+
+  <!-- Formula intuition box -->
+  <rect x="268" y="148" width="176" height="120" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="356" y="176" text-anchor="middle" class="b" fill="#166534" font-weight="700">向量旋转后再点积</text>
+  <text x="356" y="205" text-anchor="middle" class="mono" font-size="11.5" fill="#1D4ED8">(R(p_i)q_i)ᵀ (R(p_j)k_j)</text>
+  <text x="356" y="226" text-anchor="middle" class="h" fill="#16A34A">=</text>
+  <text x="356" y="250" text-anchor="middle" class="mono" font-size="12" fill="#C2410C">q_iᵀ R(p_j − p_i) k_j</text>
+
+  <text x="242" y="308" text-anchor="middle" class="b" fill="#14532D">• 每一层都直接感知相对位置，深层绝不遗忘几何结构</text>
+  <text x="242" y="332" text-anchor="middle" class="b" fill="#14532D">• 整张图平移后相对差不变，天然具备平移不变性</text>
+
+  <!-- Right Panel: Cross-Attention (NO) -->
+  <rect x="484" y="88" width="428" height="264" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="698" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 跨图交叉注意力（Cross-Attention）：绝不加位置编码</text>
+
+  <!-- Image A & B shifted -->
+  <rect x="510" y="138" width="168" height="140" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.8"/>
+  <text x="594" y="158" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">图 A（相机靠左）</text>
+  <!-- House icon left -->
+  <polygon points="535,205 562,182 589,205" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+  <rect x="542" y="205" width="40" height="35" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+  <circle cx="562" cy="182" r="6" fill="#EF4444"/>
+  <text x="594" y="264" text-anchor="middle" class="s" fill="#B91C1C">屋顶坐标 (0.2, 0.3)</text>
+
+  <rect x="718" y="138" width="168" height="140" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.8"/>
+  <text x="802" y="158" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">图 B（相机右移）</text>
+  <!-- House icon right -->
+  <polygon points="815,222 842,199 869,222" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+  <rect x="822" y="222" width="40" height="35" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+  <circle cx="842" cy="199" r="6" fill="#EF4444"/>
+  <text x="802" y="268" text-anchor="middle" class="s" fill="#B91C1C">同一屋顶 (0.8, 0.6)</text>
+
+  <!-- Crossed link -->
+  <line x1="680" y1="208" x2="716" y2="208" stroke="#EF4444" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="698" y="200" text-anchor="middle" class="h" fill="#DC2626">≠</text>
+
+  <text x="698" y="308" text-anchor="middle" class="b" fill="#7F1D1D">• 同一个物理角点在两张图里的绝对坐标完全不同</text>
+  <text x="698" y="332" text-anchor="middle" class="b" fill="#7F1D1D">• 跨图只靠特征语义比对，强行混入坐标反而会误导匹配</text>
+
+</svg>

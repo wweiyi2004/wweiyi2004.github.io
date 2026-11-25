@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 390" width="940" height="390">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="390" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 3：双向交叉注意力——怎么把跨图矩阵乘法直接砍半？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">A 看 B 与 B 看 A 本质上是同一张相似度表，只需要算一次转置复用</text>
+
+  <!-- Top Row: SuperGlue (2x) -->
+  <rect x="28" y="86" width="884" height="122" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="48" y="114" class="h" fill="#475569">前代 SuperGlue：各算各的，重复做两次 M×N 矩阵乘法</text>
+
+  <rect x="52" y="130" width="130" height="58" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="117" y="155" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">图 A 查图 B</text>
+  <text x="117" y="175" text-anchor="middle" class="mono" font-size="12" fill="#1E40AF">Q_A × K_Bᵀ</text>
+  <line x1="182" y1="159" x2="220" y2="159" stroke="#64748B" stroke-width="2" marker-end="url(#arr-gray)"/>
+  <rect x="224" y="130" width="150" height="58" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="299" y="155" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">相似度表 S_AB</text>
+  <text x="299" y="175" text-anchor="middle" class="s">尺寸 [M × N]</text>
+
+  <text x="424" y="165" text-anchor="middle" class="h" fill="#94A3B8">+</text>
+
+  <rect x="470" y="130" width="130" height="58" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="535" y="155" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">图 B 查图 A</text>
+  <text x="535" y="175" text-anchor="middle" class="mono" font-size="12" fill="#9A3412">Q_B × K_Aᵀ</text>
+  <line x1="600" y1="159" x2="638" y2="159" stroke="#64748B" stroke-width="2" marker-end="url(#arr-gray)"/>
+  <rect x="642" y="130" width="150" height="58" rx="8" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+  <text x="717" y="155" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">相似度表 S_BA</text>
+  <text x="717" y="175" text-anchor="middle" class="s">尺寸 [N × M]</text>
+
+  <text x="852" y="155" text-anchor="middle" class="h" fill="#DC2626">算两遍</text>
+  <text x="852" y="176" text-anchor="middle" class="s" fill="#DC2626">2 × O(MN)</text>
+
+  <!-- Bottom Row: LightGlue (1x shared) -->
+  <rect x="28" y="226" width="884" height="142" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="48" y="254" class="h" fill="#166534">LightGlue 双向交叉注意力：只算 1 份共享相似度表 S，行列各做一次 Softmax！</text>
+
+  <rect x="52" y="274" width="165" height="68" rx="8" fill="#FFFFFF" stroke="#34D399" stroke-width="1.8"/>
+  <text x="134" y="302" text-anchor="middle" class="b" fill="#065F46" font-weight="700">用同一套 Key 投影</text>
+  <text x="134" y="325" text-anchor="middle" class="mono" font-size="13" fill="#047857">S = K_A × K_Bᵀ</text>
+
+  <line x1="217" y1="308" x2="262" y2="308" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
+
+  <!-- Shared 4x4 colored grid matrix -->
+  <rect x="268" y="266" width="144" height="84" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/>
+  <text x="340" y="294" text-anchor="middle" class="h" fill="#14532D">唯一一份矩阵 S</text>
+  <text x="340" y="316" text-anchor="middle" class="b" fill="#166534">尺寸 [M × N]</text>
+  <text x="340" y="336" text-anchor="middle" class="s" fill="#15803D">对称衡量两两相似度</text>
+
+  <!-- Branch A (row softmax) -->
+  <path d="M 412 292 L 486 292" fill="none" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <rect x="492" y="268" width="278" height="40" rx="7" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="631" y="293" text-anchor="middle" class="b" fill="#1E40AF" font-weight="700">按行 Softmax(S) × V_B → 更新图 A 特征</text>
+
+  <!-- Branch B (col softmax) -->
+  <path d="M 412 326 L 486 326" fill="none" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+  <rect x="492" y="314" width="278" height="40" rx="7" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="631" y="339" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">按列 Softmax(Sᵀ) × V_A → 更新图 B 特征</text>
+
+  <text x="844" y="302" text-anchor="middle" class="h" fill="#15803D">算力砍半</text>
+  <text x="844" y="324" text-anchor="middle" class="s" fill="#15803D">1 × O(MN)</text>
+
+</svg>
