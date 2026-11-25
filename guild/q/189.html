@@ -21,15 +21,15 @@
   <header class="hall"></header>
 
   <div class="quest-page">
-    <article class="writ" data-no="189" data-line="1" data-minutes="10">
+    <article class="writ" data-no="189" data-line="1" data-minutes="11">
       <header class="writ__head">
         <p class="writ__kicker"><span class="sheet__no">委托 No.189</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD">人工智能</a> · <a href="../index.html?cat=%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a></span></p>
         <h1 class="writ__title">【学习笔记】图像匹配专题（六）：无描述子 2D-3D 匹配与视觉重定位（DGC-GNN、A2-GNN）</h1>
         <dl class="writ__meta">
           <div><dt>发布</dt><dd><time datetime="2026-11-25T03:35:00.000Z">2026.11.25</time></dd></div>
           
-          <div><dt>报酬</dt><dd class="reward">3,656 艾莉丝</dd></div>
-          <div><dt>讨伐耗时</dt><dd>约 10 分钟</dd></div>
+          <div><dt>报酬</dt><dd class="reward">3,782 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 11 分钟</dd></div>
           <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
         </dl>
         <ul class="writ__tags"><li><a href="../index.html?tag=%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89">#计算机视觉</a></li><li><a href="../index.html?tag=%E5%9B%BE%E5%83%8F%E5%8C%B9%E9%85%8D">#图像匹配</a></li><li><a href="../index.html?tag=%E8%A7%86%E8%A7%89%E5%AE%9A%E4%BD%8D">#视觉定位</a></li><li><a href="../index.html?tag=%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">#图神经网络</a></li><li><a href="../index.html?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">#深度学习</a></li></ul>
@@ -57,8 +57,34 @@
 <li><strong>版本锁死、维护极难</strong>：今天你拿 SuperPoint 建好了一座商场的 3D 地图，明年想把手机端升级成 ALIKED 或 XFeat，整座商场的 3D 地图描述子库全都得推倒重算。</li>
 </ol>
 <p>于是，<strong>无视觉描述子 2D-3D 匹配（Visual Descriptor-Free 2D-3D Matching）</strong> 应运而生：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">传统有描述子定位：  2D (坐标 + 256维描述子)  ◄──比外观──►  3D (坐标 + 256维描述子)  → 存储大、泄隐私、难升级
-无描述子定位：      2D (仅坐标/视线 + 可选RGB) ◄──比结构──►  3D (仅坐标 + 可选RGB)      → 极轻量、护隐私、跨检测器！</code></pre></div><h3 id="先看清核心输入表示2d-点和-3d-点怎么放进同一个数学语言里">先看清核心输入表示：2D 点和 3D 点怎么放进同一个数学语言里？</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>路线</th>
+<th>2D 查询输入</th>
+<th>3D 地图存储</th>
+<th>核心比对依据</th>
+<th>优劣特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>传统有描述子定位</strong></td>
+<td>2D 坐标 + 256 维描述子</td>
+<td>3D 坐标 + 256 维描述子库</td>
+<td>局部视觉外观相似度</td>
+<td>精度高，但存储大、有隐私反演风险、难升级检测器</td>
+</tr>
+<tr>
+<td><strong>无描述子 2D-3D 定位</strong></td>
+<td>2D 视线向量（+ 可选 RGB）</td>
+<td>3D 坐标（+ 可选 3 字节 RGB）</td>
+<td>点集空间几何排布结构</td>
+<td>极轻量、保护隐私、跨特征检测器解耦</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="先看清核心输入表示2d-点和-3d-点怎么放进同一个数学语言里">先看清核心输入表示：2D 点和 3D 点怎么放进同一个数学语言里？</h3>
 <p>面对跨维度匹配（左边是 2D 像素，右边是 3D 点云），第一步都要先把两边的输入规范化：</p>
 <ul>
 <li><strong>2D 查询点</strong>（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 个）：利用已知的相机内参矩阵 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>，把每个 2D 关键点齐次坐标 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover accent="true"><mi mathvariant="bold">u</mi><mo>~</mo></mover><mi>i</mi></msub><mo>=</mo><mo stretchy="false">(</mo><msub><mi>u</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>v</mi><mi>i</mi></msub><mo separator="true">,</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mi mathvariant="normal">⊤</mi></msup></mrow><annotation encoding="application/x-tex">\tilde{\mathbf{u}}_i = (u_i, v_i, 1)^\top</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8313em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6813em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathbf">u</span></span><span style="top:-3.3634em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.2222em;"><span class="mord">~</span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span></span></span></span> 反投影成一条从相机光心出发的<strong>单位视线向量（Bearing Vector）</strong>：<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="bold">b</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><msup><mi>K</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mover accent="true"><mi mathvariant="bold">u</mi><mo>~</mo></mover><mi>i</mi></msub></mrow><mrow><mi mathvariant="normal">∥</mi><msup><mi>K</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mover accent="true"><mi mathvariant="bold">u</mi><mo>~</mo></mover><mi>i</mi></msub><msub><mi mathvariant="normal">∥</mi><mn>2</mn></msub></mrow></mfrac><mo>∈</mo><msup><mi mathvariant="double-struck">S</mi><mn>2</mn></msup><mo>⊂</mo><msup><mi mathvariant="double-struck">R</mi><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">\mathbf{b}_i = \frac{K^{-1}\tilde{\mathbf{u}}_i}{\|K^{-1}\tilde{\mathbf{u}}_i\|_2} \in \mathbb{S}^2 \subset \mathbb{R}^3
@@ -111,23 +137,9 @@
 </ul>
 <h3 id="12-整体架构与数据流追踪">1.2 整体架构与数据流追踪</h3>
 <p>假设查询图像有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 个 2D 关键点（视线向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="bold">b</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{b}_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> + 颜色 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="bold">c</mi><mi>i</mi><mrow><mn>2</mn><mi>D</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\mathbf{c}_i^{2D}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1em;vertical-align:-0.2587em;"></span><span class="mord"><span class="mord mathbf">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4413em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2587em;"><span></span></span></span></span></span></span></span></span></span>），候选 3D 子地图有 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 个 3D 点（坐标 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="bold">p</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{p}_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7305em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathbf">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> + 颜色 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="bold">c</mi><mi>j</mi><mrow><mn>3</mn><mi>D</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\mathbf{c}_j^{3D}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2361em;vertical-align:-0.3948em;"></span><span class="mord"><span class="mord mathbf">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.4413em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3948em;"><span></span></span></span></span></span></span></span></span></span>）：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">2D 查询点: 视线向量 b_i [M, 3] + 颜色 c_i^{2D} [M, 3]       3D 地图点: 坐标 p_j [N, 3] + 颜色 c_j^{3D} [N, 3]
-               │                                                          │
-               ▼  第一步：几何编码器 &amp; 颜色编码器【分开编码再融合】           ▼
-        节点特征 F^{2D} [M, D]                                     节点特征 F^{3D} [N, D]
-               │                                                          │
-               ▼  第二步：聚类分组（Clustering）构造“粗层全局簇图”           ▼
-      K₁ 个 2D 视线簇（粗节点）                                  K₂ 个 3D 空间簇（粗节点）
-               │                                                          │
-               └────────────────────────────┬─────────────────────────────┘
-                                            ▼  第三步：粗层 Global GNN（带显式欧氏距离 + 角度几何嵌入！）
-                              在粗簇之间做 Self/Cross 注意力交互，先对齐全局大格局
-                                            │
-                                            ▼  第四步：细层 Local GNN（信息反传回细点 + 局部交互）
-                              结合粗层引导与局部邻域细节，精细打磨每个点的跨维度特征
-                                            │
-                                            ▼  第五步：匹配头（相似度矩阵 + Optimal Transport / Dual-Softmax）
-                              输出 2D-3D 对应点对 ──▶ PnP + RANSAC ──▶ 6-DoF 相机位姿 (R, t)</code></pre></div><h3 id="13-四个核心细节拆解">1.3 四个核心细节拆解</h3>
+<p><a href="../assets/posts/dgc-gnn/architecture.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/dgc-gnn/architecture.svg" alt="DGC-GNN 整体分层图网络架构" style="max-height: none; height: auto;"></a></p>
+<p><a href="../assets/posts/dgc-gnn/core-mechanism.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/dgc-gnn/core-mechanism.svg" alt="DGC-GNN 几何+颜色编码与欧氏距离/角度嵌入机制" style="max-height: none; height: auto;"></a></p>
+<h3 id="13-四个核心细节拆解">1.3 四个核心细节拆解</h3>
 <p><strong>细节一：为什么“位置编码器”和“颜色编码器”要分开，而不是直接拼成 6 维 <code>[x, y, z, r, g, b]</code> 喂一个 MLP？</strong></p>
 <p>因为几何空间和颜色空间的物理性质完全不同，而且真实定位里经常遇到<strong>光照变化</strong>（白天和傍晚 RGB 会飘，但几何骨架不变！）。分开编码再融合，可以让网络灵活学会在不同光照下动态权衡几何与颜色的比重，避免颜色抖动直接破坏几何特征。</p>
 <p><strong>细节二：聚类分组（Clustering）——既省算力，又天然长出“多尺度骨架”</strong></p>
@@ -153,20 +165,9 @@
 <p>在无描述子 2D-3D 匹配里，一个节点能不能在 3D 地图里准确认出自己，很大程度上取决于<strong>它的局部邻域几何“指纹”够不够独特</strong>。</p>
 <p>以往做法对中心点 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span> 的 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 个近邻往往是“一锅端”地一起做平均或最大池化——这有个明显问题：<strong>离中心很近的贴身邻居和离中心较远的外圈邻居全混在一起了，空间上的径向层次感全丢了！</strong></p>
 <p>A2-GNN 提出了一个非常直观的几何编码方式——<strong>角度-环形特征提取（Angle-Annular Feature Extraction）</strong>：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">以当前关键点 p 为圆心，按距离远近把它的局部邻域切成多个“同心圆环”（Annular Rings）：
-
-              ·   ★   ·          ← 外环（Ring 3）：较远邻域的骨架轮廓
-          ·   ★       ★   ·
-        ★   ·   ●   ●   ·   ★    ← 中环（Ring 2）：中距离邻域分布
-          ·   ●  (p)  ●   ·      ← 内环（Ring 1）：贴身紧邻的局部角点结构
-        ★   ·   ●   ●   ·   ★
-          ·   ★       ★   ·
-              ·   ★   ·
-
-对每一个圆环里的邻居点 q：
-  ① 计算它相对中心 p 的【相对距离信息】
-  ② 计算它与环内/局部参考方向之间的【相对角度信息】
-  ③ 每个圆环独立聚合特征，再把内环、中环、外环的表示拼在一起！</code></pre></div><h3 id="22-一步步看-a2-gnn-的三步紧凑流程">2.2 一步步看 A2-GNN 的三步紧凑流程</h3>
+<p><a href="../assets/posts/a2-gnn/architecture.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/a2-gnn/architecture.svg" alt="A2-GNN 整体网络架构图" style="max-height: none; height: auto;"></a></p>
+<p><a href="../assets/posts/a2-gnn/core-mechanism.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/a2-gnn/core-mechanism.svg" alt="A2-GNN 角度-环形局部几何特征提取机制" style="max-height: none; height: auto;"></a></p>
+<h3 id="22-一步步看-a2-gnn-的三步紧凑流程">2.2 一步步看 A2-GNN 的三步紧凑流程</h3>
 <p><strong>第一步：局部邻域聚类 + 同心圆环分桶</strong></p>
 <p>先在 2D 视线空间和 3D 点云空间里为每个点找出局部邻域聚类，并按相对距离把邻居有序分进若干个**同心圆环（Annular Regions）**中。这样从内到外的空间层次结构就被干净利落地保留了下来。</p>
 <p><strong>第二步：显式嵌入“相对距离 + 角度”构成局部结构指纹</strong></p>
