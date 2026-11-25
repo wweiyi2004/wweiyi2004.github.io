@@ -242,6 +242,218 @@
     }
   }
 
+  // interactive lightbox for all prose images & vector SVGs (wheel zoom, drag pan, dblclick)
+  const IMG_EXT = /\.(?:svg|png|jpe?g|webp|gif|avif|bmp)(?:[?#].*)?$/i;
+  let lb = null;
+
+  function ensureLightbox() {
+    if (lb) return lb;
+    const root = document.createElement('div');
+    root.className = 'lightbox';
+    root.setAttribute('role', 'dialog');
+    root.setAttribute('aria-modal', 'true');
+    root.setAttribute('aria-label', '图片放大预览');
+    root.hidden = true;
+    root.innerHTML =
+      '<div class="lightbox__bar">' +
+        '<span class="lightbox__caption"></span>' +
+        '<div class="lightbox__actions">' +
+          '<button type="button" class="lightbox__btn" data-act="out" title="缩小 (-)">−</button>' +
+          '<button type="button" class="lightbox__btn lightbox__pct" data-act="reset" title="适应窗口 (0)">100%</button>' +
+          '<button type="button" class="lightbox__btn" data-act="in" title="放大 (+)">+</button>' +
+          '<a class="lightbox__btn lightbox__raw" target="_blank" rel="noopener" title="在新标签页打开原图">原图 ↗</a>' +
+          '<button type="button" class="lightbox__btn lightbox__close" data-act="close" title="关闭 (Esc)">✕</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="lightbox__stage"><img class="lightbox__img" alt="" draggable="false"></div>' +
+      '<div class="lightbox__hint">滚轮缩放 · 拖拽平移 · 双击放大/还原 · Esc 关闭</div>';
+    document.body.append(root);
+
+    const stage = root.querySelector('.lightbox__stage');
+    const img = root.querySelector('.lightbox__img');
+    const caption = root.querySelector('.lightbox__caption');
+    const pct = root.querySelector('.lightbox__pct');
+    const rawLink = root.querySelector('.lightbox__raw');
+
+    const S = { scale: 1, tx: 0, ty: 0, dragging: false, moved: false, sx: 0, sy: 0, ox: 0, oy: 0, pinchDist: 0, pinchScale: 1 };
+    const MIN = 0.5;
+    const MAX = 6;
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+    const apply = () => {
+      img.style.transform = `translate3d(${S.tx.toFixed(1)}px, ${S.ty.toFixed(1)}px, 0) scale(${S.scale.toFixed(4)})`;
+      pct.textContent = `${Math.round(S.scale * 100)}%`;
+      stage.classList.toggle('is-zoomed', S.scale > 1.01);
+    };
+
+    const reset = () => {
+      S.scale = 1;
+      S.tx = 0;
+      S.ty = 0;
+      apply();
+    };
+
+    const zoomAt = (nextScale, clientX, clientY) => {
+      const target = clamp(nextScale, MIN, MAX);
+      if (Math.abs(target - S.scale) < 1e-4) return;
+      const rect = stage.getBoundingClientRect();
+      const cx = clientX - (rect.left + rect.width / 2);
+      const cy = clientY - (rect.top + rect.height / 2);
+      const ratio = target / S.scale;
+      S.tx = cx - (cx - S.tx) * ratio;
+      S.ty = cy - (cy - S.ty) * ratio;
+      S.scale = target;
+      if (S.scale <= 1.001) {
+        S.tx = 0;
+        S.ty = 0;
+      }
+      apply();
+    };
+
+    const open = (src, alt) => {
+      img.src = src;
+      img.alt = alt || '';
+      caption.textContent = alt || '';
+      rawLink.href = src;
+      reset();
+      root.hidden = false;
+      document.documentElement.classList.add('has-lightbox');
+    };
+
+    const close = () => {
+      if (root.hidden) return;
+      root.hidden = true;
+      document.documentElement.classList.remove('has-lightbox');
+      img.removeAttribute('src');
+    };
+
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-act]');
+      if (btn) {
+        const act = btn.dataset.act;
+        const r = stage.getBoundingClientRect();
+        const midX = r.left + r.width / 2;
+        const midY = r.top + r.height / 2;
+        if (act === 'in') zoomAt(S.scale * 1.35, midX, midY);
+        else if (act === 'out') zoomAt(S.scale / 1.35, midX, midY);
+        else if (act === 'reset') reset();
+        else if (act === 'close') close();
+        return;
+      }
+      if (e.target === stage && !S.moved) close();
+    });
+
+    stage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.18 : 1 / 1.18;
+      zoomAt(S.scale * factor, e.clientX, e.clientY);
+    }, { passive: false });
+
+    stage.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      if (S.scale > 1.15) reset();
+      else zoomAt(2.4, e.clientX, e.clientY);
+    });
+
+    stage.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || e.pointerType === 'touch') return;
+      S.dragging = true;
+      S.moved = false;
+      S.sx = e.clientX;
+      S.sy = e.clientY;
+      S.ox = S.tx;
+      S.oy = S.ty;
+      stage.classList.add('is-dragging');
+      stage.setPointerCapture(e.pointerId);
+    });
+
+    stage.addEventListener('pointermove', (e) => {
+      if (!S.dragging) return;
+      const dx = e.clientX - S.sx;
+      const dy = e.clientY - S.sy;
+      if (Math.hypot(dx, dy) > 4) S.moved = true;
+      S.tx = S.ox + dx;
+      S.ty = S.oy + dy;
+      apply();
+    });
+
+    const endDrag = () => {
+      if (!S.dragging) return;
+      S.dragging = false;
+      stage.classList.remove('is-dragging');
+      setTimeout(() => { S.moved = false; }, 0);
+    };
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    // touch drag & pinch-to-zoom
+    stage.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        S.dragging = true;
+        S.sx = e.touches[0].clientX;
+        S.sy = e.touches[0].clientY;
+        S.ox = S.tx;
+        S.oy = S.ty;
+      } else if (e.touches.length === 2) {
+        S.dragging = false;
+        const [a, b] = e.touches;
+        S.pinchDist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+        S.pinchScale = S.scale;
+      }
+    }, { passive: true });
+
+    stage.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1 && S.dragging) {
+        e.preventDefault();
+        S.tx = S.ox + (e.touches[0].clientX - S.sx);
+        S.ty = S.oy + (e.touches[0].clientY - S.sy);
+        apply();
+      } else if (e.touches.length === 2 && S.pinchDist > 0) {
+        e.preventDefault();
+        const [a, b] = e.touches;
+        const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+        zoomAt(S.pinchScale * (dist / S.pinchDist), (a.clientX + b.clientX) / 2, (a.clientY + b.clientY) / 2);
+      }
+    }, { passive: false });
+
+    stage.addEventListener('touchend', () => {
+      S.dragging = false;
+      S.pinchDist = 0;
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (root.hidden) return;
+      const r = stage.getBoundingClientRect();
+      const midX = r.left + r.width / 2;
+      const midY = r.top + r.height / 2;
+      if (e.key === 'Escape') close();
+      else if (e.key === '+' || e.key === '=') zoomAt(S.scale * 1.3, midX, midY);
+      else if (e.key === '-') zoomAt(S.scale / 1.3, midX, midY);
+      else if (e.key === '0') reset();
+    });
+
+    lb = { open, close };
+    return lb;
+  }
+
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('.prose img');
+    if (!img || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const link = img.closest('a[href]');
+    let targetSrc = img.currentSrc || img.src;
+    if (link) {
+      const href = link.getAttribute('href') || '';
+      // If the image is wrapped in a link to an image/SVG (or the same src), open lightbox instead of navigating away
+      if (IMG_EXT.test(href) || link.href === img.src || link.href === img.currentSrc) {
+        e.preventDefault();
+        targetSrc = link.href || targetSrc;
+      } else {
+        return; // genuine external hyperlink image
+      }
+    }
+    ensureLightbox().open(targetSrc, img.alt || (link && link.title) || '');
+  });
+
   // copy a code block
   document.addEventListener('click', async (e) => {
     const btn = e.target.closest('.code__copy');
