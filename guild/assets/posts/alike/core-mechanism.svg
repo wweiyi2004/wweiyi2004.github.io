@@ -1,0 +1,285 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" width="1080" height="760">
+  <defs>
+    <style>
+      text {
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 12.5px; fill: #4B5563; }
+      .sec-title { font-size: 14.5px; font-weight: 700; fill: #111827; }
+      .step-title { font-size: 13px; font-weight: 700; }
+      .body { font-size: 11.4px; fill: #374151; }
+      .small { font-size: 10.4px; }
+      .mono { font-size: 11px; font-family: Consolas, "Courier New", monospace; font-weight: 600; }
+      .cell-txt { font-size: 9.8px; font-family: Consolas, "Courier New", monospace; font-weight: 600; }
+    </style>
+    <marker id="arr-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE"/>
+    </marker>
+  </defs>
+
+  <!-- White Background -->
+  <rect x="0" y="0" width="1080" height="760" fill="#FFFFFF"/>
+
+  <!-- Main Title -->
+  <text x="540" y="34" text-anchor="middle" class="title">ALIKE 核心机制拆解：可微检测 DKD、离散峰值损失与稠密 NRE 约束</text>
+  <text x="540" y="55" text-anchor="middle" class="subtitle">上部：DKD 如何让原本不可微的“选点”导通梯度并输出亚像素坐标；下部：空间加权峰值约束与全局描述子训练的直觉对比</text>
+
+  <!-- ==================== PART A: DKD COMIC STRIP ==================== -->
+  <rect x="20" y="70" width="1040" height="332" rx="12" fill="#FAFCFF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="38" y="95" class="sec-title" fill="#153B60">机制一：局部可微关键点检测（DKD）连环画 — 以 5×5 局部窗口（N=5, t_det=0.1）为例</text>
+
+  <!-- STEP 1 -->
+  <rect x="36" y="110" width="226" height="248" rx="9" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.3"/>
+  <rect x="36" y="110" width="226" height="30" rx="9" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+  <text x="149" y="130" text-anchor="middle" class="step-title" fill="#153B60">① NMS 粗定位（不可微）</text>
+
+  <!-- 5x5 Score Patch Grid (cell size 30x24 -> 150x120, centered at x=74, y=152) -->
+  <g transform="translate(74, 150)">
+    <!-- Row 0 -->
+    <rect x="0" y="0" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="15" y="15" text-anchor="middle" class="cell-txt" fill="#475569">.08</text>
+    <rect x="30" y="0" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="45" y="15" text-anchor="middle" class="cell-txt" fill="#475569">.12</text>
+    <rect x="60" y="0" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="75" y="15" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.21</text>
+    <rect x="90" y="0" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="105" y="15" text-anchor="middle" class="cell-txt" fill="#475569">.15</text>
+    <rect x="120" y="0" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="135" y="15" text-anchor="middle" class="cell-txt" fill="#475569">.07</text>
+    <!-- Row 1 -->
+    <rect x="0" y="24" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="15" y="39" text-anchor="middle" class="cell-txt" fill="#475569">.11</text>
+    <rect x="30" y="24" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="45" y="39" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.32</text>
+    <rect x="60" y="24" width="30" height="24" fill="#93C5FD" stroke="#CBD5E1"/><text x="75" y="39" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.58</text>
+    <rect x="90" y="24" width="30" height="24" fill="#BFDBFE" stroke="#CBD5E1"/><text x="105" y="39" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.46</text>
+    <rect x="120" y="24" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="135" y="39" text-anchor="middle" class="cell-txt" fill="#475569">.14</text>
+    <!-- Row 2 (center max = .85, right = .78) -->
+    <rect x="0" y="48" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="15" y="63" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.18</text>
+    <rect x="30" y="48" width="30" height="24" fill="#BFDBFE" stroke="#CBD5E1"/><text x="45" y="63" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.45</text>
+    <rect x="60" y="48" width="30" height="24" fill="#FDBA74" stroke="#D5803B" stroke-width="2"/><text x="75" y="63" text-anchor="middle" class="cell-txt" fill="#7C2D12">.85</text>
+    <rect x="90" y="48" width="30" height="24" fill="#FED7AA" stroke="#CBD5E1"/><text x="105" y="63" text-anchor="middle" class="cell-txt" fill="#7C2D12">.78</text>
+    <rect x="120" y="48" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="135" y="63" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.28</text>
+    <!-- Row 3 -->
+    <rect x="0" y="72" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="15" y="87" text-anchor="middle" class="cell-txt" fill="#475569">.09</text>
+    <rect x="30" y="72" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="45" y="87" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.25</text>
+    <rect x="60" y="72" width="30" height="24" fill="#93C5FD" stroke="#CBD5E1"/><text x="75" y="87" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.63</text>
+    <rect x="90" y="72" width="30" height="24" fill="#93C5FD" stroke="#CBD5E1"/><text x="105" y="87" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.60</text>
+    <rect x="120" y="72" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="135" y="87" text-anchor="middle" class="cell-txt" fill="#475569">.19</text>
+    <!-- Row 4 -->
+    <rect x="0" y="96" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="15" y="111" text-anchor="middle" class="cell-txt" fill="#475569">.05</text>
+    <rect x="30" y="96" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="45" y="111" text-anchor="middle" class="cell-txt" fill="#475569">.10</text>
+    <rect x="60" y="96" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="75" y="111" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.22</text>
+    <rect x="90" y="96" width="30" height="24" fill="#DBEAFE" stroke="#CBD5E1"/><text x="105" y="111" text-anchor="middle" class="cell-txt" fill="#1E3A8A">.20</text>
+    <rect x="120" y="96" width="30" height="24" fill="#EFF6FF" stroke="#CBD5E1"/><text x="135" y="111" text-anchor="middle" class="cell-txt" fill="#475569">.08</text>
+  </g>
+  <text x="149" y="290" text-anchor="middle" class="body">挑出局部极大值 s_max = 0.85</text>
+  <text x="149" y="308" text-anchor="middle" class="mono" fill="#153B60">得整像素中心 [u, v]_NMS</text>
+  <rect x="52" y="319" width="194" height="28" rx="5" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="149" y="337" text-anchor="middle" class="small" fill="#B91C1C">传统做法到此为止：梯度无法回传</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="262" y1="234" x2="288" y2="234" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <!-- STEP 2 -->
+  <rect x="292" y="110" width="226" height="248" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
+  <rect x="292" y="110" width="226" height="30" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="405" y="130" text-anchor="middle" class="step-title" fill="#1F5138">② 温度 Softmax 归一化</text>
+
+  <rect x="308" y="152" width="194" height="38" rx="6" fill="#F3F4F6" stroke="#D1D5DB"/>
+  <text x="405" y="175" text-anchor="middle" class="mono" fill="#111827">s'(i,j) = softmax((s - s_max)/t_det)</text>
+
+  <!-- Softmax Probability Grid (simplified 3x3 inner focus inside 5x5) -->
+  <g transform="translate(330, 200)">
+    <rect x="0" y="0" width="150" height="84" rx="5" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <!-- 3x3 highlighted core -->
+    <rect x="18" y="8" width="38" height="22" fill="#ECFDF5" stroke="#A7F3D0"/><text x="37" y="22" text-anchor="middle" class="cell-txt" fill="#065F46">.003</text>
+    <rect x="56" y="8" width="38" height="22" fill="#D1FAE5" stroke="#6EE7B7"/><text x="75" y="22" text-anchor="middle" class="cell-txt" fill="#065F46">.037</text>
+    <rect x="94" y="8" width="38" height="22" fill="#ECFDF5" stroke="#A7F3D0"/><text x="113" y="22" text-anchor="middle" class="cell-txt" fill="#065F46">.011</text>
+
+    <rect x="18" y="30" width="38" height="22" fill="#ECFDF5" stroke="#A7F3D0"/><text x="37" y="44" text-anchor="middle" class="cell-txt" fill="#065F46">.010</text>
+    <rect x="56" y="30" width="38" height="22" fill="#34D399" stroke="#059669" stroke-width="1.5"/><text x="75" y="44" text-anchor="middle" class="cell-txt" fill="#064E3B">.552</text>
+    <rect x="94" y="30" width="38" height="22" fill="#6EE7B7" stroke="#059669"/><text x="113" y="44" text-anchor="middle" class="cell-txt" fill="#064E3B">.274</text>
+
+    <rect x="18" y="52" width="38" height="22" fill="#ECFDF5" stroke="#A7F3D0"/><text x="37" y="66" text-anchor="middle" class="cell-txt" fill="#065F46">.001</text>
+    <rect x="56" y="52" width="38" height="22" fill="#A7F3D0" stroke="#34D399"/><text x="75" y="66" text-anchor="middle" class="cell-txt" fill="#065F46">.061</text>
+    <rect x="94" y="52" width="38" height="22" fill="#A7F3D0" stroke="#34D399"/><text x="113" y="66" text-anchor="middle" class="cell-txt" fill="#065F46">.045</text>
+  </g>
+  <text x="405" y="303" text-anchor="middle" class="body">右邻(.78)与下邻(.63)分到显著权重</text>
+  <text x="405" y="321" text-anchor="middle" class="body">所有 25 格概率和 Σ s'(i,j) = 1</text>
+  <text x="405" y="340" text-anchor="middle" class="small" fill="#1F5138">★ 温度 t_det 越小，分布越尖锐</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <line x1="518" y1="234" x2="544" y2="234" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <!-- STEP 3 -->
+  <rect x="548" y="110" width="234" height="248" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
+  <rect x="548" y="110" width="234" height="30" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="665" y="130" text-anchor="middle" class="step-title" fill="#1F5138">③ 积分回归得亚像素坐标</text>
+
+  <rect x="562" y="152" width="206" height="38" rx="6" fill="#F3F4F6" stroke="#D1D5DB"/>
+  <text x="665" y="175" text-anchor="middle" class="mono" fill="#111827">[i,j]_soft = Σ s'(i,j) · [i, j]^T</text>
+
+  <!-- Sub-pixel visual box -->
+  <g transform="translate(595, 200)">
+    <rect x="0" y="0" width="140" height="84" rx="5" fill="#F8FAFC" stroke="#94A3B8"/>
+    <!-- Grid lines -->
+    <line x1="46" y1="0" x2="46" y2="84" stroke="#CBD5E1" stroke-dasharray="3,2"/>
+    <line x1="94" y1="0" x2="94" y2="84" stroke="#CBD5E1" stroke-dasharray="3,2"/>
+    <line x1="0" y1="28" x2="140" y2="28" stroke="#CBD5E1" stroke-dasharray="3,2"/>
+    <line x1="0" y1="56" x2="140" y2="56" stroke="#CBD5E1" stroke-dasharray="3,2"/>
+    <!-- NMS integer center -->
+    <circle cx="70" cy="42" r="4.5" fill="#2783DE"/>
+    <text x="34" y="46" class="small" fill="#153B60">(0,0)</text>
+    <!-- Offset vector -->
+    <line x1="70" y1="42" x2="90" y2="49" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
+    <!-- Subpixel point -->
+    <circle cx="93" cy="50" r="5" fill="#DC2626"/>
+    <text x="115" y="68" text-anchor="middle" class="cell-txt" fill="#B91C1C">(+0.32,+0.06)</text>
+  </g>
+  <text x="665" y="303" text-anchor="middle" class="mono" fill="#422578">p = [u, v]_NMS + [i, j]_soft</text>
+  <text x="665" y="322" text-anchor="middle" class="body">蓝点：整像素中心；红点：亚像素质心</text>
+  <text x="665" y="340" text-anchor="middle" class="small" fill="#1F5138">局部斜坡信息直接转化为亚像素偏移</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <line x1="782" y1="234" x2="808" y2="234" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-dark)"/>
+
+  <!-- STEP 4 -->
+  <rect x="812" y="110" width="232" height="248" rx="9" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5"/>
+  <rect x="812" y="110" width="232" height="30" rx="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+  <text x="928" y="130" text-anchor="middle" class="step-title" fill="#70401C">④ 梯度回传与局部更新</text>
+
+  <rect x="828" y="152" width="200" height="58" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
+  <text x="928" y="172" text-anchor="middle" class="step-title" fill="#422578">重投影损失 L_rp</text>
+  <text x="928" y="191" text-anchor="middle" class="small" fill="#422578">发现 p_AB 与 p_B 差 0.4 像素</text>
+  <text x="928" y="204" text-anchor="middle" class="small" fill="#422578">计算 ∂L_rp / ∂p_soft</text>
+
+  <line x1="928" y1="210" x2="928" y2="232" stroke="#D5803B" stroke-width="1.8" stroke-dasharray="4,2" marker-end="url(#arr-orange)"/>
+
+  <rect x="828" y="236" width="200" height="58" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="928" y="256" text-anchor="middle" class="step-title" fill="#70401C">链式法则穿过 Softargmax</text>
+  <text x="928" y="274" text-anchor="middle" class="mono" fill="#9A3412">∂L/∂s(i,j) = (∂L/∂p)·(∂p/∂s)</text>
+  <text x="928" y="288" text-anchor="middle" class="small" fill="#70401C">同时叠加离散峰值损失 L_pk</text>
+
+  <rect x="828" y="304" width="200" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="928" y="322" text-anchor="middle" class="small" fill="#1F5138" font-weight="700">结论：局部可微（Partially Diff.）</text>
+  <text x="928" y="338" text-anchor="middle" class="small" fill="#1F5138">窗口内 25 个分数稀疏接收精确梯度</text>
+
+  <!-- Bottom Backprop Long Return Arrow across Part A -->
+  <path d="M 928 358 L 928 386 L 405 386 L 405 362" fill="none" stroke="#D5803B" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr-orange)"/>
+  <rect x="550" y="374" width="268" height="22" rx="4" fill="#FFF7ED" stroke="#FDBA74"/>
+  <text x="684" y="389" text-anchor="middle" class="small" fill="#9A3412" font-weight="700">反向传播：梯度绕过 NMS，沿局部窗口回传至分数图 S</text>
+
+  <!-- ==================== PART B-LEFT: DISPERSITY PEAK LOSS ==================== -->
+  <rect x="20" y="418" width="510" height="324" rx="12" fill="#FFFDF9" stroke="#FDBA74" stroke-width="1.5"/>
+  <text x="38" y="443" class="sec-title" fill="#70401C">机制二：离散峰值损失 L_pk（空间分布 vs 数值统计）</text>
+  <text x="38" y="462" class="small" fill="#6B7280">复刻论文 Fig. 5 一维直观示意：窗口范围 [-1, 1]，亚像素关键点位于 x = 0.5</text>
+
+  <!-- Chart area (x=68..490 -> width 422, y=482..642 -> height 160) -->
+  <!-- x mapping: -1 -> 74, -0.5 -> 174, 0 -> 274, 0.5 -> 374, 1 -> 474 (scale: 200px per 1.0 unit) -->
+  <!-- y mapping (score 0..2): 0 -> 634, 1 -> 564, 2 -> 494 (scale: 70px per 1.0 unit) -->
+  <g>
+    <!-- Axes -->
+    <line x1="74" y1="634" x2="480" y2="634" stroke="#374151" stroke-width="1.4"/>
+    <line x1="74" y1="484" x2="74" y2="634" stroke="#374151" stroke-width="1.4"/>
+    <line x1="474" y1="484" x2="474" y2="634" stroke="#2783DE" stroke-width="1.2" stroke-dasharray="3,2"/>
+
+    <!-- X ticks -->
+    <text x="74" y="650" text-anchor="middle" class="small" fill="#374151">-1.0</text>
+    <text x="174" y="650" text-anchor="middle" class="small" fill="#374151">-0.5</text>
+    <text x="274" y="650" text-anchor="middle" class="small" fill="#374151">0</text>
+    <text x="374" y="650" text-anchor="middle" class="small" fill="#B91C1C" font-weight="700">+0.5(关键点)</text>
+    <text x="474" y="650" text-anchor="middle" class="small" fill="#374151">+1.0</text>
+
+    <!-- Y labels -->
+    <text x="64" y="638" text-anchor="end" class="small" fill="#374151">0</text>
+    <text x="64" y="568" text-anchor="end" class="small" fill="#374151">1.0</text>
+    <text x="64" y="498" text-anchor="end" class="small" fill="#374151">2.0</text>
+    <text x="48" y="555" text-anchor="middle" class="small" fill="#374151" transform="rotate(-90 48 555)">分数分布 s'</text>
+    <text x="498" y="555" text-anchor="middle" class="small" fill="#2783DE" transform="rotate(90 498 555)">距离 d(x)=|x-0.5|</text>
+
+    <!-- Distance curve d(x) = |x - 0.5| (max 1.5 at x=-1 -> y=494; 0 at x=0.5 -> y=634; 0.5 at x=1 -> y=587) -->
+    <polyline points="74,494 374,634 474,587" fill="none" stroke="#2783DE" stroke-width="2" stroke-dasharray="5,4"/>
+    <text x="128" y="514" class="small" fill="#2783DE" font-weight="700">距离权重 d(x)</text>
+
+    <!-- Red distribution (shifted away: [-0.8, -0.3] -> x=114..214, height 1.8 -> y=508) -->
+    <rect x="114" y="508" width="100" height="126" fill="#FEE2E2" fill-opacity="0.45" stroke="#DC2626" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="164" y="500" text-anchor="middle" class="cell-txt" fill="#B91C1C">L_pk = 0.5075 (重罚)</text>
+
+    <!-- Orange distribution (wide around keypoint: [0.0, 1.0] -> x=274..474, height 1.0 -> y=564) -->
+    <rect x="274" y="564" width="200" height="70" fill="#FEF3C7" fill-opacity="0.4" stroke="#D5803B" stroke-width="1.8" stroke-dasharray="4,3"/>
+    <text x="315" y="557" text-anchor="middle" class="cell-txt" fill="#9A3412">宽峰: 0.0995</text>
+
+    <!-- Green distribution (sharp at keypoint: [0.25, 0.75] -> x=324..424, height 1.8 -> y=508) -->
+    <rect x="324" y="508" width="100" height="126" fill="#D1FAE5" fill-opacity="0.55" stroke="#059669" stroke-width="2.2"/>
+    <text x="374" y="500" text-anchor="middle" class="cell-txt" fill="#065F46">L_pk = 0.0647 (最优尖峰)</text>
+
+    <!-- Keypoint dot -->
+    <circle cx="374" cy="634" r="4.5" fill="#DC2626"/>
+  </g>
+
+  <!-- Explanation box -->
+  <rect x="38" y="662" width="474" height="66" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+  <text x="50" y="681" class="body" fill="#70401C" font-weight="700">核心洞察：L_pk = (1/N²) Σ d(i,j) · s'(i,j)</text>
+  <text x="50" y="700" class="small" fill="#70401C">• 红框与绿框的 (max - mean) 统计量完全相同，传统 Peak Loss 根本分不清谁好谁坏；</text>
+  <text x="50" y="717" class="small" fill="#70401C">• 引入空间距离 d(i,j) 后，只有紧贴关键点的窄尖峰（绿框）损失最低，迫使峰值与坐标严格对齐。</text>
+
+  <!-- ==================== PART B-RIGHT: TRIPLET vs NRE ==================== -->
+  <rect x="548" y="418" width="512" height="324" rx="12" fill="#F6FBF8" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="566" y="443" class="sec-title" fill="#1F5138">机制三：描述子训练对比 — Triplet Loss vs. 稠密 NRE Loss</text>
+  <text x="566" y="462" class="small" fill="#6B7280">为什么亚像素关键点配 Triplet 会崩盘，而 NRE 能稳定收敛？</text>
+
+  <!-- Top Box: Triplet Loss -->
+  <rect x="566" y="476" width="476" height="110" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.4"/>
+  <rect x="566" y="476" width="120" height="24" rx="6" fill="#FEE2E2"/>
+  <text x="626" y="492" text-anchor="middle" class="small" fill="#B91C1C" font-weight="700">传统 Triplet Loss</text>
+  <text x="700" y="492" class="small" fill="#B91C1C" font-weight="700">稀疏点对点约束 → 易陷入局部极小塌缩</text>
+
+  <!-- Mini diagram for Triplet -->
+  <rect x="582" y="510" width="84" height="62" rx="5" fill="#F3F4F6" stroke="#9CA3AF"/>
+  <text x="624" y="525" text-anchor="middle" class="small" fill="#374151">图 A 描述子</text>
+  <circle cx="624" cy="548" r="5" fill="#059669"/>
+  <text x="624" y="566" text-anchor="middle" class="cell-txt" fill="#065F46">锚点 d(p_A)</text>
+
+  <line x1="666" y1="538" x2="704" y2="538" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arr-dark)"/>
+
+  <rect x="708" y="510" width="96" height="62" rx="5" fill="#F3F4F6" stroke="#9CA3AF"/>
+  <text x="756" y="524" text-anchor="middle" class="small" fill="#374151">图 B（仅取 2 点）</text>
+  <circle cx="734" cy="544" r="4.5" fill="#059669"/><text x="734" y="563" text-anchor="middle" class="small" fill="#065F46">正 p_AB</text>
+  <circle cx="780" cy="544" r="4.5" fill="#D97706"/><text x="780" y="563" text-anchor="middle" class="small" fill="#92400E">最难负</text>
+
+  <text x="816" y="527" class="small" fill="#374151">• 其余 H×W - 2 个像素无监督</text>
+  <text x="816" y="546" class="small" fill="#374151">• Loss 卡在 margin=0.5 附近</text>
+  <text x="816" y="565" class="small" fill="#B91C1C" font-weight="700">• 消融实验 MMA@3 暴跌至 39.38%</text>
+
+  <!-- Bottom Box: NRE Loss -->
+  <rect x="566" y="598" width="476" height="130" rx="8" fill="#FFFFFF" stroke="#46A171" stroke-width="1.6"/>
+  <rect x="566" y="598" width="128" height="24" rx="6" fill="#E8F1EC"/>
+  <text x="630" y="614" text-anchor="middle" class="small" fill="#1F5138" font-weight="700">ALIKE 稠密 NRE Loss</text>
+  <text x="706" y="614" class="small" fill="#1F5138" font-weight="700">稀疏到稠密全局约束 → 稳定收敛</text>
+
+  <!-- Pipeline inside NRE box -->
+  <rect x="580" y="634" width="102" height="54" rx="6" fill="#E5F2FC" stroke="#2783DE"/>
+  <text x="631" y="654" text-anchor="middle" class="cell-txt" fill="#153B60">C = D_B · d(p_A)</text>
+  <text x="631" y="670" text-anchor="middle" class="small" fill="#153B60">全图相似度 H×W</text>
+  <text x="631" y="683" text-anchor="middle" class="small" fill="#153B60">+ 1 个 out 离群类</text>
+
+  <line x1="682" y1="661" x2="706" y2="661" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)"/>
+
+  <rect x="710" y="634" width="114" height="54" rx="6" fill="#E8F1EC" stroke="#46A171"/>
+  <text x="767" y="653" text-anchor="middle" class="cell-txt" fill="#1F5138">匹配概率图 q_m</text>
+  <text x="767" y="669" text-anchor="middle" class="small" fill="#1F5138">Softmax((C-1)/t_des)</text>
+  <text x="767" y="683" text-anchor="middle" class="small" fill="#1F5138">t_des = 0.02</text>
+
+  <line x1="824" y1="661" x2="848" y2="661" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arr-orange)"/>
+
+  <rect x="852" y="634" width="176" height="54" rx="6" fill="#FBEBDE" stroke="#D5803B"/>
+  <text x="940" y="653" text-anchor="middle" class="cell-txt" fill="#70401C">交叉熵 CE(q_r || q_m)</text>
+  <text x="940" y="669" text-anchor="middle" class="small" fill="#70401C">q_r: p_AB 双线性真值分布</text>
+  <text x="940" y="683" text-anchor="middle" class="small" fill="#9A3412">等价于 -ln q_m(p_AB)</text>
+
+  <text x="580" y="714" class="small" fill="#1F5138" font-weight="700">✓ 每次更新同时监督整张稠密描述子图 D_B（H×W+1 维），MMA@3 稳达 70.78%，且顺带复用 C 计算可靠度损失 L_rl</text>
+</svg>

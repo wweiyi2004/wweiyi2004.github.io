@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 690" width="1080" height="690" style="background-color: #FFFFFF;">
+  <defs>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 12.5px; fill: #6B7280; }
+      .section-tag { font-size: 12px; font-weight: 700; }
+      .box-title { font-size: 13.5px; font-weight: 700; }
+      .box-sub { font-size: 11.5px; }
+      .tensor-tag { font-size: 11px; font-weight: 700; }
+      .edge-label { font-size: 11px; fill: #374151; }
+    </style>
+  </defs>
+
+  <!-- White Canvas -->
+  <rect x="0" y="0" width="1080" height="690" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="540" y="34" text-anchor="middle" class="title">OANet（Order-Aware Network）端到端整体架构与张量尺寸流转</text>
+  <text x="540" y="55" text-anchor="middle" class="subtitle">两层 U 型层级网络（无序节点空间 Level-1 ↔ 规范有序聚类空间 Level-2）+ 可微加权八点法</text>
+
+  <!-- Color Legend -->
+  <g transform="translate(225, 68)">
+    <rect x="0" y="0" width="12" height="12" rx="2" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+    <text x="18" y="10.5" font-size="11" fill="#374151">输入 / 数据</text>
+
+    <rect x="102" y="0" width="12" height="12" rx="2" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+    <text x="120" y="10.5" font-size="11" fill="#374151">PointCN 逐点编解码</text>
+
+    <rect x="248" y="0" width="12" height="12" rx="2" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="266" y="10.5" font-size="11" fill="#374151">顺序感知核心模块</text>
+
+    <rect x="380" y="0" width="12" height="12" rx="2" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="398" y="10.5" font-size="11" fill="#374151">融合 / 几何计算 / 损失</text>
+
+    <rect x="536" y="0" width="12" height="12" rx="2" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="554" y="10.5" font-size="11" fill="#374151">最终预测输出</text>
+  </g>
+
+  <!-- ==================== LEFT: INPUT ==================== -->
+  <g transform="translate(20, 128)">
+    <rect x="0" y="0" width="144" height="116" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.6"/>
+    <text x="72" y="27" text-anchor="middle" class="box-title" fill="#111827">候选对应点集合 C</text>
+    <text x="72" y="48" text-anchor="middle" class="box-sub" fill="#374151">SIFT / SuperPoint</text>
+    <text x="72" y="66" text-anchor="middle" class="box-sub" fill="#374151">最近邻匹配 + 内参归一化</text>
+    <rect x="14" y="79" width="116" height="24" rx="5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="72" y="95" text-anchor="middle" class="tensor-tag" fill="#111827">[N, 4] (默认 N=2000)</text>
+  </g>
+
+  <!-- ==================== CENTER: OANet BACKBONE ==================== -->
+  <!-- Outer container -->
+  <rect x="190" y="96" width="656" height="414" rx="12" fill="#FAFAFA" stroke="#CBD5E1" stroke-width="1.4" stroke-dasharray="6,4"/>
+  <text x="206" y="116" class="section-tag" fill="#475569">Order-Aware Network 主干 f_φ(C)（置换等变网络，通道维 D = 128）</text>
+
+  <!-- Level-1 Band -->
+  <rect x="204" y="126" width="628" height="132" rx="8" fill="#F0F7FE" fill-opacity="0.55" stroke="#BFDBFE" stroke-width="1.2"/>
+  <text x="216" y="144" class="section-tag" fill="#1D4ED8">Level-1：无序对应点空间（节点数 N 可变）</text>
+
+  <!-- Level-1 Left: 6x PointCN Encoder -->
+  <g transform="translate(218, 156)">
+    <rect x="0" y="0" width="166" height="86" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+    <text x="83" y="25" text-anchor="middle" class="box-title" fill="#153B60">6 × PointCN 残差块</text>
+    <text x="83" y="45" text-anchor="middle" class="box-sub" fill="#1E4E79">CN + BN/ReLU + 共享 MLP</text>
+    <rect x="15" y="55" width="136" height="22" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+    <text x="83" y="70" text-anchor="middle" class="tensor-tag" fill="#153B60">输出 X₁：[N, 128]</text>
+  </g>
+
+  <!-- Concat Node -->
+  <g transform="translate(556, 179)">
+    <circle cx="20" cy="20" r="20" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.8"/>
+    <text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#70401C">Cat</text>
+  </g>
+  <text x="576" y="170" text-anchor="middle" class="tensor-tag" fill="#9A3412">[N, 256]</text>
+
+  <!-- Level-1 Right: 6x PointCN Decoder -->
+  <g transform="translate(640, 156)">
+    <rect x="0" y="0" width="176" height="86" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+    <text x="88" y="25" text-anchor="middle" class="box-title" fill="#153B60">6 × PointCN 残差块</text>
+    <text x="88" y="45" text-anchor="middle" class="box-sub" fill="#1E4E79">融合浅层与上下文特征 + 分类头</text>
+    <rect x="12" y="55" width="152" height="22" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+    <text x="88" y="70" text-anchor="middle" class="tensor-tag" fill="#153B60">[N, 256] → [N, 128] → [N, 1]</text>
+  </g>
+
+  <!-- Middle Transition Band: DiffPool & Order-Aware DiffUnpool -->
+  <!-- DiffPool -->
+  <g transform="translate(218, 286)">
+    <rect x="0" y="0" width="218" height="86" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+    <text x="109" y="23" text-anchor="middle" class="box-title" fill="#1F5138">DiffPool 可微软池化</text>
+    <text x="109" y="42" text-anchor="middle" class="box-sub" fill="#276345">S_pool = softmax(h_pool(X₁)) ∈ [N, M]</text>
+    <text x="109" y="59" text-anchor="middle" class="box-sub" fill="#276345">X₂ = S_poolᵀ X₁（置换不变）</text>
+    <text x="109" y="76" text-anchor="middle" class="tensor-tag" fill="#1F5138">[N, 128] → [M, 128] (M=500)</text>
+  </g>
+
+  <!-- Order-Aware DiffUnpool -->
+  <g transform="translate(596, 286)">
+    <rect x="0" y="0" width="222" height="86" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+    <text x="111" y="23" text-anchor="middle" class="box-title" fill="#1F5138">Order-Aware DiffUnpool</text>
+    <text x="111" y="42" text-anchor="middle" class="box-sub" fill="#276345">S_unpool = softmax(h_unpool(X₁)) ∈ [N, M]</text>
+    <text x="111" y="59" text-anchor="middle" class="box-sub" fill="#276345">X₁' = S_unpool X₂'（顺序精准对齐）</text>
+    <text x="111" y="76" text-anchor="middle" class="tensor-tag" fill="#1F5138">[M, 128] → [N, 128]</text>
+  </g>
+
+  <!-- Level-2 Band -->
+  <rect x="204" y="394" width="628" height="104" rx="8" fill="#ECFDF5" fill-opacity="0.65" stroke="#A7F3D0" stroke-width="1.2"/>
+  <text x="216" y="413" class="section-tag" fill="#047857">Level-2：规范有序聚类空间（固定 M = 500 个聚类，具备稳定全局顺序）</text>
+
+  <!-- 6x Order-Aware Filtering Blocks -->
+  <g transform="translate(268, 422)">
+    <rect x="0" y="0" width="500" height="66" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
+    <text x="250" y="23" text-anchor="middle" class="box-title" fill="#1F5138">6 × Order-Aware Filtering 块（全局上下文交互）</text>
+    <text x="250" y="42" text-anchor="middle" class="box-sub" fill="#276345">PointCN（通道维 D=128 混合）+ Spatial Correlation（空间聚类维 M=500 混合）</text>
+    <text x="250" y="58" text-anchor="middle" class="tensor-tag" fill="#1F5138">输入 X₂：[500, 128]  →  输出 X₂'：[500, 128]</text>
+  </g>
+
+  <!-- ==================== RIGHT: OUTPUT & GEOMETRY ==================== -->
+  <!-- Output 1: Logits & Weights -->
+  <g transform="translate(882, 128)">
+    <rect x="0" y="0" width="176" height="108" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+    <text x="88" y="25" text-anchor="middle" class="box-title" fill="#422578">内点概率与权重</text>
+    <text x="88" y="46" text-anchor="middle" class="box-sub" fill="#5B21B6">分类 Logits：z ∈ [N, 1]</text>
+    <text x="88" y="65" text-anchor="middle" class="box-sub" fill="#5B21B6">w = tanh(ReLU(z)) ∈ [0, 1)</text>
+    <rect x="16" y="76" width="144" height="22" rx="4" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1"/>
+    <text x="88" y="91" text-anchor="middle" class="tensor-tag" fill="#422578">w_i = 0 直接滤除外点</text>
+  </g>
+
+  <!-- Geometry: Weighted 8-Point -->
+  <g transform="translate(882, 268)">
+    <rect x="0" y="0" width="176" height="108" rx="10" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+    <text x="88" y="25" text-anchor="middle" class="box-title" fill="#70401C">可微加权八点法</text>
+    <text x="88" y="45" text-anchor="middle" class="box-sub" fill="#92400E">g(w, C)：闭式解 + 端到端可微</text>
+    <text x="88" y="64" text-anchor="middle" class="box-sub" fill="#92400E">构造 X ∈ [N, 9]</text>
+    <rect x="10" y="75" width="156" height="23" rx="4" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1"/>
+    <text x="88" y="90.5" text-anchor="middle" class="tensor-tag" fill="#70401C">min ‖Xᵀ diag(w) X Vec(E)‖</text>
+  </g>
+
+  <!-- Output 2: Essential Matrix -->
+  <g transform="translate(882, 408)">
+    <rect x="0" y="0" width="176" height="102" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+    <text x="88" y="26" text-anchor="middle" class="box-title" fill="#422578">本质矩阵 Ê &amp; 相对位姿</text>
+    <text x="88" y="48" text-anchor="middle" class="box-sub" fill="#5B21B6">回归输出：Ê ∈ [3, 3]</text>
+    <text x="88" y="67" text-anchor="middle" class="box-sub" fill="#5B21B6">SVD 分解得相对旋转 R、平移 t</text>
+    <rect x="14" y="75" width="148" height="20" rx="4" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1"/>
+    <text x="88" y="89" text-anchor="middle" class="tensor-tag" fill="#422578">推理可选 RANSAC 精修</text>
+  </g>
+
+  <!-- ==================== ARROWS ==================== -->
+  <!-- Input -> 6x PointCN Enc -->
+  <path d="M 164 198 L 214 198" fill="none" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arrow-gray)"/>
+
+  <!-- 6x PointCN Enc -> Concat (skip connection) -->
+  <path d="M 384 199 L 552 199" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+  <text x="468" y="191" text-anchor="middle" class="edge-label">浅层特征跳跃连接 X₁</text>
+
+  <!-- 6x PointCN Enc -> DiffPool -->
+  <path d="M 301 242 L 301 282" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="275" y="268" text-anchor="end" class="edge-label">X₁</text>
+
+  <!-- X₁ Order-Aware Guidance Arrow -> Order-Aware DiffUnpool -->
+  <path d="M 468 199 L 468 329 L 592 329" fill="none" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
+  <rect x="475" y="303" width="113" height="22" rx="4" fill="#FFF7ED" stroke="#FDBA74" stroke-width="0.9"/>
+  <text x="531" y="318" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9A3412">传入 X₁ 保留原始顺序</text>
+
+  <!-- DiffPool -> 6x OA Filtering -->
+  <path d="M 327 372 L 327 418" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="336" y="400" class="edge-label">X₂ [500, 128]</text>
+
+  <!-- 6x OA Filtering -> Order-Aware DiffUnpool -->
+  <path d="M 707 422 L 707 376" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="716" y="405" class="edge-label">X₂' [500, 128]</text>
+
+  <!-- Order-Aware DiffUnpool -> Concat -->
+  <path d="M 624 286 L 624 236 L 576 236 L 576 223" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="615" y="274" text-anchor="end" class="edge-label">X₁' [N, 128]</text>
+
+  <!-- Concat -> 6x PointCN Dec -->
+  <path d="M 596 199 L 636 199" fill="none" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+
+  <!-- 6x PointCN Dec -> Logits & Weights -->
+  <path d="M 816 198 L 878 198" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <text x="850" y="190" text-anchor="middle" class="edge-label">z</text>
+
+  <!-- Logits & Weights -> Weighted 8-Point -->
+  <path d="M 970 236 L 970 264" fill="none" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arrow-orange)"/>
+  <text x="980" y="255" class="edge-label">w</text>
+
+  <!-- Input C direct bypass to Weighted 8-Point (routed neatly along bottom of main backbone) -->
+  <path d="M 92 244 L 92 522 L 864 522 L 864 322 L 878 322" fill="none" stroke="#6B7280" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#arrow-gray)"/>
+  <text x="172" y="516" class="edge-label">原始归一化坐标 C [N, 4] 直接送入加权八点法构造方程矩阵 X</text>
+
+  <!-- Weighted 8-Point -> Essential Matrix -->
+  <path d="M 970 376 L 970 404" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <text x="980" y="395" class="edge-label">Ê</text>
+
+  <!-- ==================== BOTTOM: TRAINING LOSS & ITERATIVE EXTENSION ==================== -->
+  <!-- Left Bottom: Loss Box -->
+  <g transform="translate(20, 544)">
+    <rect x="0" y="0" width="510" height="124" rx="10" fill="#FFF7ED" stroke="#D5803B" stroke-width="1.5"/>
+    <text x="16" y="24" class="box-title" fill="#70401C">训练联合损失（端到端监督分类 + 本质矩阵回归）</text>
+    <text x="16" y="48" class="box-sub" fill="#7C2D12">总损失：loss = l_cls(z, s) + α · l_ess(Ê, E)</text>
+    <text x="16" y="69" class="box-sub" fill="#92400E">• 分类项 l_cls：二元交叉熵（弱监督标签 s 由真值 E 的对称极线误差 &lt; 10⁻⁴ 生成）</text>
+    <text x="16" y="90" class="box-sub" fill="#92400E">• 几何项 l_ess：L2 损失 min{‖Ê ± E‖}（Ours）或 Gold Standard 几何损失（Ours++，截断 0.1）</text>
+    <text x="16" y="110" class="box-sub" fill="#92400E">• 调度策略：前 20k 步 α = 0（先学分类），后 480k 步 α = 0.1（L2）或 α = 0.5（Geo）</text>
+  </g>
+
+  <!-- Right Bottom: Iterative Ours++ Box -->
+  <g transform="translate(550, 544)">
+    <rect x="0" y="0" width="510" height="124" rx="10" fill="#F0F9FF" stroke="#2783DE" stroke-width="1.5"/>
+    <text x="16" y="24" class="box-title" fill="#153B60">进阶版 Ours++：两阶段迭代精修（参数量近似不变）</text>
+    <!-- Mini pipeline inside -->
+    <rect x="16" y="38" width="138" height="44" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+    <text x="85" y="57" text-anchor="middle" font-size="11.5" font-weight="700" fill="#153B60">Stage 1 初始化网络</text>
+    <text x="85" y="73" text-anchor="middle" font-size="10.5" fill="#1E4E79">6×PointCN + 3×OA</text>
+
+    <path d="M 154 60 L 182 60" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+
+    <rect x="186" y="38" width="132" height="44" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="252" y="56" text-anchor="middle" font-size="11" font-weight="700" fill="#70401C">残差 + 权重拼接</text>
+    <text x="252" y="73" text-anchor="middle" font-size="10.5" fill="#92400E">梯度截断 (detach)</text>
+
+    <path d="M 318 60 L 346 60" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+
+    <rect x="350" y="38" width="144" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="422" y="57" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F5138">Stage 2 精修网络</text>
+    <text x="422" y="73" text-anchor="middle" font-size="10.5" fill="#276345">6×PointCN + 3×OA</text>
+
+    <text x="16" y="106" class="box-sub" fill="#1E3A5F">结合几何损失 + 迭代引导，YFCC100M 未知场景无 RANSAC mAP5° 由 32.55% → 39.33%</text>
+  </g>
+</svg>

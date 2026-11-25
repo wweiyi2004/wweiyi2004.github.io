@@ -1,0 +1,295 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 770" width="1060" height="770">
+  <defs>
+    <style>
+      text {
+        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 12.5px; fill: #4B5563; }
+      .panel-title { font-size: 14px; font-weight: 700; }
+      .box-title { font-size: 12.5px; font-weight: 700; }
+      .box-text { font-size: 11.5px; }
+      .mono { font-size: 11px; font-weight: 600; }
+      .badge-text { font-size: 11px; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#46A171"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <!-- White Background -->
+  <rect x="0" y="0" width="1060" height="770" fill="#FFFFFF"/>
+
+  <!-- Main Header -->
+  <text x="530" y="32" text-anchor="middle" class="title">XFeat 两大核心加速机制图解：算力重分配与无高分图偏移精修</text>
+  <text x="530" y="54" text-anchor="middle" class="subtitle">直观拆解 XFeat 如何在“保留高分辨率输入”的前提下做到比同类深度学习快 5×，并实现轻量半稠密匹配</text>
+
+  <!-- ==================== PANEL A (TOP): CHANNEL STRATEGY + PARALLEL KEYPOINT ==================== -->
+  <!-- Panel A1 (Left): Channel Reallocation -->
+  <rect x="20" y="72" width="495" height="296" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="38" y="96" class="panel-title" fill="#153B60">机制 1A：早窄晚宽的通道重分配（破解高分辨率算力瓶颈）</text>
+
+  <!-- Formula Banner -->
+  <rect x="38" y="108" width="459" height="32" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="267" y="129" text-anchor="middle" class="mono" fill="#70401C">单层卷积计算量: Fops = Hi · Wi · Ci · Ci+1 · k²（早期高分辨率 Hi·Wi 最大！）</text>
+
+  <!-- Comparison Row 1: Traditional VGG / SuperPoint -->
+  <text x="42" y="164" class="box-title" fill="#4B5563">传统 VGG 风格（早期通道宽、逐级 2× 增长）</text>
+  <rect x="42" y="174" width="150" height="44" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
+  <text x="117" y="193" text-anchor="middle" class="mono" fill="#70401C">H×W · C=64</text>
+  <text x="117" y="210" text-anchor="middle" class="box-text" fill="#9A3412">早期算力爆炸！</text>
+
+  <path d="M 192 196 L 210 196" fill="none" stroke="#64748B" stroke-width="1.4" marker-end="url(#arr-gray)"/>
+
+  <rect x="214" y="178" width="110" height="36" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
+  <text x="269" y="194" text-anchor="middle" class="mono" fill="#111827">H/2 · C=64</text>
+  <text x="269" y="209" text-anchor="middle" class="box-text" fill="#4B5563">算力仍偏高</text>
+
+  <path d="M 324 196 L 342 196" fill="none" stroke="#64748B" stroke-width="1.4" marker-end="url(#arr-gray)"/>
+
+  <rect x="346" y="180" width="146" height="32" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
+  <text x="419" y="200" text-anchor="middle" class="mono" fill="#111827">H/4→H/8 · C=128</text>
+
+  <!-- Comparison Row 2: XFeat -->
+  <text x="42" y="244" class="box-title" fill="#153B60">XFeat 策略（早期极浅 C=4，随分辨率减半约 3× 递增）</text>
+
+  <rect x="42" y="254" width="66" height="44" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+  <text x="75" y="273" text-anchor="middle" class="mono" fill="#153B60">H×W</text>
+  <text x="75" y="290" text-anchor="middle" class="mono" fill="#1E40AF">C=4</text>
+
+  <path d="M 108 276 L 122 276" fill="none" stroke="#2783DE" stroke-width="1.4" marker-end="url(#arr-blue)"/>
+
+  <rect x="126" y="254" width="66" height="44" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+  <text x="159" y="273" text-anchor="middle" class="mono" fill="#153B60">H/2</text>
+  <text x="159" y="290" text-anchor="middle" class="mono" fill="#1E40AF">C=8</text>
+
+  <path d="M 192 276 L 206 276" fill="none" stroke="#2783DE" stroke-width="1.4" marker-end="url(#arr-blue)"/>
+
+  <rect x="210" y="254" width="72" height="44" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+  <text x="246" y="273" text-anchor="middle" class="mono" fill="#153B60">H/4</text>
+  <text x="246" y="290" text-anchor="middle" class="mono" fill="#1E40AF">C=24 (3×)</text>
+
+  <path d="M 282 276 L 296 276" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <rect x="300" y="254" width="84" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+  <text x="342" y="273" text-anchor="middle" class="mono" fill="#1F5138">H/8 &amp; H/16</text>
+  <text x="342" y="290" text-anchor="middle" class="mono" fill="#166534">C=64</text>
+
+  <path d="M 384 276 L 398 276" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+  <rect x="402" y="254" width="90" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+  <text x="447" y="273" text-anchor="middle" class="mono" fill="#1F5138">H/32</text>
+  <text x="447" y="290" text-anchor="middle" class="mono" fill="#166534">C=128</text>
+
+  <!-- Summary pill A1 -->
+  <rect x="42" y="314" width="450" height="40" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="267" y="331" text-anchor="middle" class="box-text" fill="#1F5138">核心直觉：把算力从高分辨率浅层省下来，集中投给低分辨率深层（1/8~1/32）</text>
+  <text x="267" y="347" text-anchor="middle" class="box-text" fill="#1F5138">既保住强视角/光照不变性，又避免全网一刀切剪枝导致掉点</text>
+
+  <!-- Panel A2 (Right): Parallel Keypoint Branch -->
+  <rect x="535" y="72" width="505" height="296" rx="12" fill="#F7FBFF" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="553" y="96" class="panel-title" fill="#153B60">机制 1B：极简独立关键点分支（8×8 空间转通道 + 蒸馏）</text>
+
+  <!-- Step 1: 8x8 pixel block visual -->
+  <text x="605" y="122" text-anchor="middle" class="box-title" fill="#111827">① 切分 8×8 像素块</text>
+  <g transform="translate(565, 132)">
+    <rect x="0" y="0" width="80" height="80" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <!-- 4x4 visual grid representing 8x8 cells -->
+    <line x1="20" y1="0" x2="20" y2="80" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="40" y1="0" x2="40" y2="80" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="60" y1="0" x2="60" y2="80" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="0" y1="20" x2="80" y2="20" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="0" y1="40" x2="80" y2="40" stroke="#CBD5E1" stroke-width="1"/>
+    <line x1="0" y1="60" x2="80" y2="60" stroke="#CBD5E1" stroke-width="1"/>
+    <!-- Highlight corner pixel -->
+    <rect x="40" y="20" width="20" height="20" fill="#D5803B" opacity="0.85"/>
+    <text x="50" y="34" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">★</text>
+  </g>
+  <text x="605" y="229" text-anchor="middle" class="box-text" fill="#4B5563">每块含 64 像素</text>
+  <text x="605" y="245" text-anchor="middle" class="box-text" fill="#4B5563">感受野 = 8×8</text>
+
+  <path d="M 654 172 L 682 172" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arr-blue)"/>
+  <text x="668" y="164" text-anchor="middle" class="mono" fill="#153B60">Unfold</text>
+
+  <!-- Step 2: 64-D vector -> 1x1 conv -> 65 logits -->
+  <text x="768" y="122" text-anchor="middle" class="box-title" fill="#153B60">② 4 层 1×1 卷积分类</text>
+  <rect x="692" y="132" width="152" height="80" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="768" y="155" text-anchor="middle" class="mono" fill="#153B60">输入: 64 通道 (H/8×W/8)</text>
+  <text x="768" y="175" text-anchor="middle" class="mono" fill="#1E40AF">↓ 1×1 Conv (×4)</text>
+  <text x="768" y="196" text-anchor="middle" class="mono" fill="#153B60">输出: 64 位置 + 1 Dustbin</text>
+  <text x="768" y="229" text-anchor="middle" class="box-text" fill="#153B60">标签: tidx = tx + ty × 8</text>
+  <text x="768" y="245" text-anchor="middle" class="box-text" fill="#70401C">教师: ALIKE-Tiny 蒸馏</text>
+
+  <path d="M 844 172 L 872 172" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arr-purple)"/>
+  <text x="858" y="164" text-anchor="middle" class="mono" fill="#422578">Fold</text>
+
+  <!-- Step 3: Output Heatmap -->
+  <text x="952" y="122" text-anchor="middle" class="box-title" fill="#422578">③ 还原热力图 K</text>
+  <rect x="880" y="132" width="144" height="80" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="952" y="157" text-anchor="middle" class="mono" fill="#422578">去第 65 类 Dustbin</text>
+  <text x="952" y="178" text-anchor="middle" class="mono" fill="#5B21B6">重排回 H × W</text>
+  <text x="952" y="199" text-anchor="middle" class="box-text" fill="#422578">像素级关键点响应</text>
+  <text x="952" y="229" text-anchor="middle" class="box-text" fill="#4B5563">无 3×3 高分卷积</text>
+  <text x="952" y="245" text-anchor="middle" class="box-text" fill="#4B5563">极速解耦提取</text>
+
+  <!-- Why decoupled callout -->
+  <rect x="553" y="264" width="469" height="90" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="569" y="285" class="box-title" fill="#70401C">为什么要把关键点分支从主干中“拆出来”单独跑？</text>
+  <text x="569" y="306" class="box-text" fill="#70401C">• 论文消融 (iii) 证实：若像 SuperPoint 那样共用小主干，稀疏 XFeat 仅 +0.3 分，</text>
+  <text x="569" y="324" class="box-text" fill="#70401C">  但半稠密 XFeat* 会从 50.2 暴跌至 39.7（-10.5 分）！</text>
+  <text x="569" y="343" class="box-text" fill="#70401C">• 原因：轻量主干容量有限，联合训练会让粗特征过度偏向角点，削弱非角点区域精修能力。</text>
+
+  <!-- ==================== PANEL B (BOTTOM): MATCH REFINEMENT MODULE ==================== -->
+  <rect x="20" y="388" width="1020" height="362" rx="12" fill="#FFFBF5" stroke="#FDBA74" stroke-width="1.6"/>
+  <text x="38" y="414" class="panel-title" fill="#70401C">机制 2：无高分辨率特征图的半稠密粗到精匹配（Match Refinement Module · MLP 像素偏移精修）</text>
+
+  <!-- Contrast Strip -->
+  <rect x="38" y="426" width="478" height="30" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+  <text x="277" y="445" text-anchor="middle" class="box-text" fill="#374151">传统半稠密 (LoFTR 等)：需额外维护 H/2×W/2 高分辨率特征图 → 显存与耗时高</text>
+
+  <rect x="530" y="426" width="492" height="30" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+  <text x="776" y="445" text-anchor="middle" class="box-text" fill="#1F5138">XFeat* 方案：只吃 1/8 粗描述子对 (fa, fb) → 端到端把亚像素细节压进 64 维向量！</text>
+
+  <!-- STEP 1 -->
+  <rect x="38" y="472" width="218" height="206" rx="10" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+  <rect x="38" y="472" width="218" height="28" rx="10" fill="#E5F2FC"/>
+  <text x="147" y="491" text-anchor="middle" class="box-title" fill="#153B60">Step 1 · 1/8 粗网格 MNN 匹配</text>
+
+  <!-- Two mini 4x4 grids for F1 and F2 -->
+  <text x="86" y="518" text-anchor="middle" class="mono" fill="#153B60">图 1 粗图 F₁</text>
+  <g transform="translate(54, 524)">
+    <rect x="0" y="0" width="64" height="64" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+    <line x1="16" y1="0" x2="16" y2="64" stroke="#CBD5E1"/>
+    <line x1="32" y1="0" x2="32" y2="64" stroke="#CBD5E1"/>
+    <line x1="48" y1="0" x2="48" y2="64" stroke="#CBD5E1"/>
+    <line x1="0" y1="16" x2="64" y2="16" stroke="#CBD5E1"/>
+    <line x1="0" y1="32" x2="64" y2="32" stroke="#CBD5E1"/>
+    <line x1="0" y1="48" x2="64" y2="48" stroke="#CBD5E1"/>
+    <rect x="16" y="32" width="16" height="16" fill="#2783DE"/>
+    <text x="24" y="44" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">fa</text>
+  </g>
+
+  <text x="206" y="518" text-anchor="middle" class="mono" fill="#1F5138">图 2 粗图 F₂</text>
+  <g transform="translate(174, 524)">
+    <rect x="0" y="0" width="64" height="64" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+    <line x1="16" y1="0" x2="16" y2="64" stroke="#CBD5E1"/>
+    <line x1="32" y1="0" x2="32" y2="64" stroke="#CBD5E1"/>
+    <line x1="48" y1="0" x2="48" y2="64" stroke="#CBD5E1"/>
+    <line x1="0" y1="16" x2="64" y2="16" stroke="#CBD5E1"/>
+    <line x1="0" y1="32" x2="64" y2="32" stroke="#CBD5E1"/>
+    <line x1="0" y1="48" x2="64" y2="48" stroke="#CBD5E1"/>
+    <rect x="32" y="16" width="16" height="16" fill="#46A171"/>
+    <text x="40" y="28" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">fb</text>
+  </g>
+
+  <!-- Curved match line between fa and fb -->
+  <path d="M 86 564 Q 146 530 206 548" fill="none" stroke="#D5803B" stroke-width="2" stroke-dasharray="3,2"/>
+  <text x="147" y="610" text-anchor="middle" class="box-text" fill="#374151">按可靠性 R 筛 Top-10k</text>
+  <text x="147" y="628" text-anchor="middle" class="box-text" fill="#374151">做 MNN 互近邻配对 (fa, fb)</text>
+  <text x="147" y="652" text-anchor="middle" class="mono" fill="#9A3412">痛点：此时仅粗到 8×8 网格</text>
+
+  <path d="M 256 575 L 280 575" fill="none" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
+
+  <!-- STEP 2 -->
+  <rect x="284" y="472" width="206" height="206" rx="10" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <rect x="284" y="472" width="206" height="28" rx="10" fill="#E8F1EC"/>
+  <text x="387" y="491" text-anchor="middle" class="box-title" fill="#1F5138">Step 2 · 拼接粗描述子对</text>
+
+  <!-- fa vector bar -->
+  <rect x="304" y="520" width="166" height="24" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
+  <text x="387" y="536" text-anchor="middle" class="mono" fill="#153B60">fa ∈ R⁶⁴（图 1 粗特征）</text>
+
+  <!-- fb vector bar -->
+  <rect x="304" y="554" width="166" height="24" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.4"/>
+  <text x="387" y="570" text-anchor="middle" class="mono" fill="#1F5138">fb ∈ R⁶⁴（图 2 粗特征）</text>
+
+  <text x="387" y="596" text-anchor="middle" class="mono" fill="#64748B">↓ concat 沿通道拼接</text>
+
+  <!-- concat 128-D bar -->
+  <rect x="304" y="606" width="83" height="26" rx="4" fill="#2783DE" opacity="0.22" stroke="#2783DE" stroke-width="1.4"/>
+  <rect x="387" y="606" width="83" height="26" rx="4" fill="#46A171" opacity="0.22" stroke="#46A171" stroke-width="1.4"/>
+  <text x="387" y="623" text-anchor="middle" class="mono" fill="#111827">[fa ; fb] ∈ R¹²⁸</text>
+
+  <text x="387" y="655" text-anchor="middle" class="box-text" fill="#4B5563">条件化预测：缩小搜索空间</text>
+
+  <path d="M 490 575 L 514 575" fill="none" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
+
+  <!-- STEP 3 -->
+  <rect x="518" y="472" width="236" height="206" rx="10" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.6"/>
+  <rect x="518" y="472" width="236" height="28" rx="10" fill="#FBEBDE"/>
+  <text x="636" y="491" text-anchor="middle" class="box-title" fill="#70401C">Step 3 · 轻量 MLP 预测偏移</text>
+
+  <!-- Mini MLP Box -->
+  <rect x="534" y="528" width="76" height="68" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+  <text x="572" y="556" text-anchor="middle" class="box-title" fill="#70401C">MLP</text>
+  <text x="572" y="576" text-anchor="middle" class="mono" fill="#9A3412">128 → 64</text>
+
+  <path d="M 610 562 L 638 562" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arr-orange)"/>
+  <text x="624" y="553" text-anchor="middle" class="mono" fill="#70401C">重排</text>
+
+  <!-- 8x8 logits grid o(i,j) -->
+  <g transform="translate(644, 518)">
+    <rect x="0" y="0" width="88" height="88" fill="#FFF7ED" stroke="#D5803B" stroke-width="1.4"/>
+    <!-- 8x8 grid lines (step 11px) -->
+    <line x1="11" y1="0" x2="11" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="22" y1="0" x2="22" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="33" y1="0" x2="33" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="44" y1="0" x2="44" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="55" y1="0" x2="55" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="66" y1="0" x2="66" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="77" y1="0" x2="77" y2="88" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="11" x2="88" y2="11" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="22" x2="88" y2="22" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="33" x2="88" y2="33" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="44" x2="88" y2="44" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="55" x2="88" y2="55" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="66" x2="88" y2="66" stroke="#FED7AA" stroke-width="0.9"/>
+    <line x1="0" y1="77" x2="88" y2="77" stroke="#FED7AA" stroke-width="0.9"/>
+    <!-- Probability distribution glow around (5,2) -->
+    <rect x="44" y="11" width="33" height="33" fill="#FDBA74" opacity="0.35"/>
+    <rect x="55" y="11" width="11" height="11" fill="#FB923C" opacity="0.6"/>
+    <rect x="44" y="22" width="11" height="11" fill="#FB923C" opacity="0.6"/>
+    <rect x="66" y="22" width="11" height="11" fill="#FB923C" opacity="0.6"/>
+    <rect x="55" y="33" width="11" height="11" fill="#FB923C" opacity="0.6"/>
+    <!-- Peak cell -->
+    <rect x="55" y="22" width="11" height="11" fill="#C2410C"/>
+  </g>
+  <text x="688" y="622" text-anchor="middle" class="mono" fill="#70401C">o ∈ R⁸ˣ⁸（64 类分布）</text>
+  <text x="636" y="646" text-anchor="middle" class="box-text" fill="#4B5563">端到端 NLL 损失 L_fine 监督</text>
+  <text x="636" y="664" text-anchor="middle" class="box-text" fill="#4B5563">迫使 64 维粗特征记住细粒度位置</text>
+
+  <path d="M 754 575 L 778 575" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+  <!-- STEP 4 -->
+  <rect x="782" y="472" width="240" height="206" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.6"/>
+  <rect x="782" y="472" width="240" height="28" rx="10" fill="#EDE9FE"/>
+  <text x="902" y="491" text-anchor="middle" class="box-title" fill="#422578">Step 4 · 像素级坐标与滤波</text>
+
+  <rect x="798" y="514" width="208" height="52" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.4"/>
+  <text x="902" y="535" text-anchor="middle" class="mono" fill="#422578">(x, y) = argmax o(i, j)</text>
+  <text x="902" y="555" text-anchor="middle" class="box-text" fill="#5B21B6">在原图 8×8 窗口内精确定位</text>
+
+  <rect x="798" y="578" width="208" height="44" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+  <text x="902" y="597" text-anchor="middle" class="mono" fill="#1F5138">置信度过滤: prob &gt; 0.2</text>
+  <text x="902" y="614" text-anchor="middle" class="box-text" fill="#1F5138">剔除模糊或不可靠的粗匹配</text>
+
+  <text x="902" y="644" text-anchor="middle" class="box-title" fill="#70401C">精度与速度双赢：</text>
+  <text x="902" y="663" text-anchor="middle" class="mono" fill="#9A3412">AUC@5° 38.6 → 50.2 (+11.6)</text>
+
+  <!-- Bottom Highlight Strip -->
+  <rect x="38" y="694" width="984" height="42" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.4"/>
+  <text x="530" y="712" text-anchor="middle" class="box-title" fill="#422578">实测效率总结（MegaDepth-1500 · Intel i5-1135G7 CPU · VGA 分辨率）</text>
+  <text x="530" y="729" text-anchor="middle" class="box-text" fill="#422578">对于平均 10,000 个描述子，MLP 偏移精修仅增加 +11% 推理耗时；XFeat* 以 19.2 FPS 实现对重型模型 DISK* (1.2 FPS) 16× 加速！</text>
+</svg>

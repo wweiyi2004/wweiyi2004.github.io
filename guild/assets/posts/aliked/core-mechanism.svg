@@ -1,0 +1,288 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 840" width="1080" height="840">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2783DE"/>
+    </marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .main-title { font-size: 19px; font-weight: 700; fill: #111827; }
+      .sec-title { font-size: 14.5px; font-weight: 700; }
+      .step-num { font-size: 12px; font-weight: 700; fill: #FFFFFF; }
+      .box-title { font-size: 13px; font-weight: 700; }
+      .body { font-size: 11.5px; }
+      .small { font-size: 10.5px; }
+      .formula { font-size: 11.5px; font-weight: 700; font-family: "Consolas", "Microsoft YaHei", monospace; }
+    </style>
+  </defs>
+
+  <!-- Pure White Background -->
+  <rect x="0" y="0" width="1080" height="840" fill="#FFFFFF"/>
+
+  <!-- Main Header -->
+  <text x="540" y="30" text-anchor="middle" class="main-title">ALIKED 两大核心创新机制分步图解</text>
+
+  <!-- ====================================================================== -->
+  <!-- PART 1: SDDH FOUR-STEP COMIC                                           -->
+  <!-- ====================================================================== -->
+  <rect x="18" y="46" width="1044" height="430" rx="12" fill="#F6FBF8" stroke="#B3CFC0" stroke-width="1.4"/>
+  <text x="36" y="72" class="sec-title" fill="#1F5138">核心机制一：SDDH 稀疏可变形描述头（单个关键点 p 的四步“变形取特征”连环画）</text>
+  <text x="36" y="91" class="small" fill="#374151">对比：传统 DMH 先对整张 H×W 特征图做全图卷积再采样，99% 像素没有关键点却白算；SDDH 只在检出的 N 个关键点附近，自适应找 M 个支撑点聚合描述子。</text>
+
+  <!-- Step 1 Card -->
+  <rect x="34" y="106" width="232" height="296" rx="9" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.5"/>
+  <rect x="34" y="106" width="232" height="30" rx="9" fill="#E5F2FC"/>
+  <rect x="34" y="126" width="232" height="10" fill="#E5F2FC"/>
+  <circle cx="54" cy="121" r="10" fill="#2783DE"/>
+  <text x="54" y="125" text-anchor="middle" class="step-num">1</text>
+  <text x="72" y="126" class="box-title" fill="#153B60">裁取 K×K 局部特征块</text>
+
+  <!-- Feature map grid illustration in Step 1 -->
+  <g transform="translate(64, 150)">
+    <!-- 7x7 background grid representing F -->
+    <rect x="0" y="0" width="140" height="140" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+    <line x1="20" y1="0" x2="20" y2="140" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="40" y1="0" x2="40" y2="140" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="60" y1="0" x2="60" y2="140" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="80" y1="0" x2="80" y2="140" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="100" y1="0" x2="100" y2="140" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="120" y1="0" x2="120" y2="140" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="0" y1="20" x2="140" y2="20" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="0" y1="40" x2="140" y2="40" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="0" y1="60" x2="140" y2="60" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="0" y1="80" x2="140" y2="80" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="0" y1="100" x2="140" y2="100" stroke="#D1D5DB" stroke-width="0.8"/>
+    <line x1="0" y1="120" x2="140" y2="120" stroke="#D1D5DB" stroke-width="0.8"/>
+    <!-- Highlighted KxK (3x3) patch centered at (70,70) -->
+    <rect x="40" y="40" width="60" height="60" fill="#E5F2FC" fill-opacity="0.82" stroke="#2783DE" stroke-width="2.2"/>
+    <line x1="60" y1="40" x2="60" y2="100" stroke="#2783DE" stroke-width="0.9"/>
+    <line x1="80" y1="40" x2="80" y2="100" stroke="#2783DE" stroke-width="0.9"/>
+    <line x1="40" y1="60" x2="100" y2="60" stroke="#2783DE" stroke-width="0.9"/>
+    <line x1="40" y1="80" x2="100" y2="80" stroke="#2783DE" stroke-width="0.9"/>
+    <!-- Center keypoint p -->
+    <circle cx="70" cy="70" r="5" fill="#D5803B" stroke="#FFFFFF" stroke-width="1.5"/>
+    <text x="79" y="74" class="small" font-weight="700" fill="#70401C">p</text>
+  </g>
+  <text x="150" y="308" text-anchor="middle" class="small" fill="#4B5563">聚合特征图 F（H×W×dim）</text>
+  <rect x="48" y="320" width="204" height="68" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="150" y="339" text-anchor="middle" class="body" fill="#111827">以关键点 p 为中心抠出局部块</text>
+  <text x="150" y="357" text-anchor="middle" class="formula" fill="#153B60">F_{K×K} ∈ R^{K×K×dim}</text>
+  <text x="150" y="376" text-anchor="middle" class="small" fill="#6B7280">默认 K = 3（图解示意亦常用 K=5）</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="266" y1="254" x2="290" y2="254" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <!-- Step 2 Card -->
+  <rect x="294" y="106" width="232" height="296" rx="9" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5"/>
+  <rect x="294" y="106" width="232" height="30" rx="9" fill="#FBEBDE"/>
+  <rect x="294" y="126" width="232" height="10" fill="#FBEBDE"/>
+  <circle cx="314" cy="121" r="10" fill="#D5803B"/>
+  <text x="314" y="125" text-anchor="middle" class="step-num">2</text>
+  <text x="332" y="126" class="box-title" fill="#70401C">预测 M 个可变形偏移 pˢ</text>
+
+  <!-- Mini network layers in Step 2 -->
+  <rect x="314" y="150" width="192" height="34" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="410" y="166" text-anchor="middle" class="body" font-weight="700" fill="#70401C">ConvKxK（无 padding）</text>
+  <text x="410" y="180" text-anchor="middle" class="small" fill="#70401C">K×K×dim → 1×1×2M</text>
+
+  <line x1="410" y1="184" x2="410" y2="198" stroke="#D5803B" stroke-width="1.4" marker-end="url(#arr-orange)"/>
+
+  <rect x="314" y="201" width="192" height="28" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="410" y="219" text-anchor="middle" class="body" font-weight="700" fill="#70401C">SELU 激活 + Conv1×1 (2M)</text>
+
+  <line x1="410" y1="229" x2="410" y2="243" stroke="#D5803B" stroke-width="1.4" marker-end="url(#arr-orange)"/>
+
+  <rect x="314" y="246" width="192" height="44" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.4"/>
+  <text x="410" y="264" text-anchor="middle" class="body" font-weight="700" fill="#422578">Reshape → 偏移集合 pˢ</text>
+  <text x="410" y="281" text-anchor="middle" class="small" font-weight="700" fill="#6D28D9">pˢ ∈ R^{M×2}（M 组 Δx, Δy）</text>
+
+  <rect x="308" y="306" width="204" height="82" rx="6" fill="#FFFBEB" stroke="#F59E0B" stroke-width="1"/>
+  <text x="410" y="325" text-anchor="middle" class="body" font-weight="700" fill="#70401C">比 DCN 更自由的关键：</text>
+  <text x="410" y="344" text-anchor="middle" class="small" fill="#70401C">• 摆脱 K×K 固定卷积网格限制</text>
+  <text x="410" y="361" text-anchor="middle" class="small" fill="#70401C">• M 可取任意正整数（如 8/16/32）</text>
+  <text x="410" y="378" text-anchor="middle" class="small" fill="#70401C">• 自由度 = 2M，覆盖任意局部形变</text>
+
+  <!-- Arrow 2 -> 3 -->
+  <line x1="526" y1="254" x2="550" y2="254" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <!-- Step 3 Card -->
+  <rect x="554" y="106" width="232" height="296" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
+  <rect x="554" y="106" width="232" height="30" rx="9" fill="#E8F1EC"/>
+  <rect x="554" y="126" width="232" height="10" fill="#E8F1EC"/>
+  <circle cx="574" cy="121" r="10" fill="#46A171"/>
+  <text x="574" y="125" text-anchor="middle" class="step-num">3</text>
+  <text x="592" y="126" class="box-title" fill="#1F5138">双线性采样 M 个支撑特征</text>
+
+  <!-- Deformable sampling scatter illustration in Step 3 -->
+  <g transform="translate(590, 150)">
+    <rect x="0" y="0" width="160" height="140" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+    <!-- Tilted object edge curve showing why deformable matters -->
+    <path d="M 15 120 Q 75 72 142 22" fill="none" stroke="#93C5FD" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+    <path d="M 15 120 Q 75 72 142 22" fill="none" stroke="#2783DE" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <!-- Center keypoint p -->
+    <circle cx="80" cy="70" r="5" fill="#D5803B" stroke="#FFFFFF" stroke-width="1.5"/>
+    <!-- Arrows & deformable sample dots p + p^s_i -->
+    <line x1="80" y1="70" x2="34" y2="104" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <line x1="80" y1="70" x2="52" y2="88" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <line x1="80" y1="70" x2="62" y2="52" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <line x1="80" y1="70" x2="105" y2="48" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <line x1="80" y1="70" x2="128" y2="32" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <line x1="80" y1="70" x2="108" y2="85" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <line x1="80" y1="70" x2="54" y2="112" stroke="#46A171" stroke-width="1.1" stroke-dasharray="2,2"/>
+    <!-- Sample positions -->
+    <circle cx="34" cy="104" r="4" fill="#46A171"/>
+    <circle cx="52" cy="88" r="4" fill="#46A171"/>
+    <circle cx="62" cy="52" r="4" fill="#46A171"/>
+    <circle cx="105" cy="48" r="4" fill="#46A171"/>
+    <circle cx="128" cy="32" r="4" fill="#46A171"/>
+    <circle cx="108" cy="85" r="4" fill="#46A171"/>
+    <circle cx="54" cy="112" r="4" fill="#46A171"/>
+    <text x="12" y="16" class="small" fill="#153B60">沿倾斜结构自适应分布</text>
+  </g>
+  <text x="670" y="308" text-anchor="middle" class="small" fill="#4B5563">绿点 = 采样位置 p + pˢᵢ（双线性插值）</text>
+  <rect x="568" y="320" width="204" height="68" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
+  <text x="670" y="339" text-anchor="middle" class="body" fill="#1F5138">从 F 中读出 M 个支撑特征向量</text>
+  <text x="670" y="357" text-anchor="middle" class="formula" fill="#1F5138">F(p + pˢᵢ) → [1, M, dim]</text>
+  <text x="670" y="376" text-anchor="middle" class="small" fill="#1F5138">采样可微，偏移 pˢ 可端到端反传学习</text>
+
+  <!-- Arrow 3 -> 4 -->
+  <line x1="786" y1="254" x2="810" y2="254" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arr)"/>
+
+  <!-- Step 4 Card -->
+  <rect x="814" y="106" width="232" height="296" rx="9" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.5"/>
+  <rect x="814" y="106" width="232" height="30" rx="9" fill="#EDE9FE"/>
+  <rect x="814" y="126" width="232" height="10" fill="#EDE9FE"/>
+  <circle cx="834" cy="121" r="10" fill="#8B5CF6"/>
+  <text x="834" y="125" text-anchor="middle" class="step-num">4</text>
+  <text x="852" y="126" class="box-title" fill="#422578">编码并加权聚合描述子</text>
+
+  <!-- Mini bars representing M supporting features -->
+  <rect x="834" y="150" width="192" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+  <text x="930" y="168" text-anchor="middle" class="body" font-weight="700" fill="#1F5138">逐点编码 Φ(x)</text>
+  <text x="930" y="185" text-anchor="middle" class="small" fill="#1F5138">Conv1×1 + SELU → [1, M, dim]</text>
+
+  <line x1="930" y1="194" x2="930" y2="210" stroke="#46A171" stroke-width="1.4" marker-end="url(#arr-green)"/>
+
+  <rect x="834" y="213" width="192" height="48" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+  <text x="930" y="232" text-anchor="middle" class="body" font-weight="700" fill="#1F5138">ConvM 跨位置加权聚合</text>
+  <text x="930" y="249" text-anchor="middle" class="small" fill="#1F5138">对 M 个灵活位置按权重 w_M 求和</text>
+
+  <line x1="930" y1="261" x2="930" y2="277" stroke="#8B5CF6" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <rect x="834" y="280" width="192" height="40" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="930" y="298" text-anchor="middle" class="box-title" fill="#422578">可变形描述子 d ∈ R^{dim}</text>
+  <text x="930" y="313" text-anchor="middle" class="small" fill="#6D28D9">N 个点批量输出 [N, dim]</text>
+
+  <rect x="828" y="330" width="204" height="58" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="930" y="348" text-anchor="middle" class="small" fill="#4B5563">核心公式 (Eq. 5)：</text>
+  <text x="930" y="366" text-anchor="middle" class="small" font-weight="700" fill="#111827">d = Σ w_M(pᵢ)·Φ(F(p + pˢᵢ))</text>
+  <text x="930" y="382" text-anchor="middle" class="small" fill="#6B7280">复杂度 2NMC²（仅与 N, M 相关）</text>
+
+  <!-- Bottom note inside Part 1 -->
+  <rect x="34" y="416" width="1012" height="46" rx="7" fill="#FFFFFF" stroke="#46A171" stroke-width="1.2"/>
+  <text x="540" y="436" text-anchor="middle" class="body" font-weight="700" fill="#1F5138">实测效率对比（480×640×128，RTX 2060，Table III）：</text>
+  <text x="540" y="454" text-anchor="middle" class="small" fill="#374151">K=3, N=1000 时：传统 DMH 需 50.33 G 运算 / 14.70 ms；SDDH 总计仅需 0.32 G 运算 / 1.25 ms（提速 11.8 倍，且具备局部几何变形不变性！）</text>
+
+  <!-- ====================================================================== -->
+  <!-- PART 2: DENSE NRE -> SPARSE NRE RELAXATION                             -->
+  <!-- ====================================================================== -->
+  <rect x="18" y="494" width="1044" height="328" rx="12" fill="#FFFDF9" stroke="#F0C6A0" stroke-width="1.4"/>
+  <text x="36" y="520" class="sec-title" fill="#70401C">核心机制二：从 Dense NRE 到 Sparse NRE 的损失松弛（解决 SDDH 无稠密描述图的训练难题）</text>
+
+  <!-- Left Panel: Dense NRE -->
+  <rect x="34" y="536" width="430" height="268" rx="9" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.4"/>
+  <rect x="34" y="536" width="430" height="30" rx="9" fill="#F3F4F6"/>
+  <rect x="34" y="556" width="430" height="10" fill="#F3F4F6"/>
+  <text x="249" y="556" text-anchor="middle" class="box-title" fill="#111827">传统 Dense NRE（ALIKE 等基于 DMH 的方法）</text>
+
+  <!-- Dense map visual -->
+  <g transform="translate(56, 582)">
+    <rect x="0" y="0" width="96" height="84" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+    <text x="48" y="34" text-anchor="middle" class="small" font-weight="700" fill="#153B60">图 B 稠密描述图</text>
+    <text x="48" y="52" text-anchor="middle" class="small" fill="#153B60">[H × W × dim]</text>
+    <text x="48" y="70" text-anchor="middle" class="small" fill="#DC2626">SDDH 没有它！</text>
+  </g>
+  <line x1="154" y1="624" x2="188" y2="624" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="171" y="616" text-anchor="middle" class="small" fill="#4B5563">d_A 点积</text>
+
+  <g transform="translate(192, 582)">
+    <rect x="0" y="0" width="110" height="84" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="55" y="28" text-anchor="middle" class="small" font-weight="700" fill="#70401C">稠密匹配概率图</text>
+    <text x="55" y="47" text-anchor="middle" class="small" fill="#70401C">尺寸 H × W</text>
+    <text x="55" y="68" text-anchor="middle" class="small" fill="#70401C">每个像素都算一遍</text>
+  </g>
+
+  <text x="316" y="628" text-anchor="middle" class="body" font-weight="700" fill="#4B5563">CE</text>
+
+  <g transform="translate(332, 582)">
+    <rect x="0" y="0" width="112" height="84" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+    <text x="56" y="28" text-anchor="middle" class="small" font-weight="700" fill="#111827">稠密重投影真值图</text>
+    <text x="56" y="47" text-anchor="middle" class="small" fill="#4B5563">尺寸 H × W</text>
+    <text x="56" y="68" text-anchor="middle" class="small" fill="#4B5563">仅 p_AB 处为 1</text>
+  </g>
+
+  <rect x="52" y="684" width="394" height="104" rx="7" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+  <text x="68" y="706" class="body" font-weight="700" fill="#991B1B">两大瓶颈：</text>
+  <text x="68" y="726" class="small" fill="#7F1D1D">1. SDDH 只生成稀疏描述子 D_B [N_B, dim]，根本无法构造稠密概率图。</text>
+  <text x="68" y="745" class="small" fill="#7F1D1D">2. 对每个关键点都和全图 H×W 像素算相似度与 Softmax，显存爆炸：</text>
+  <text x="68" y="766" class="small" font-weight="700" fill="#991B1B">   480×480、batch=1 即占 11.1 GB 显存，难以升到高分辨率训练！</text>
+
+  <!-- Center Transition Arrow -->
+  <g transform="translate(470, 646)">
+    <line x1="4" y1="16" x2="66" y2="16" stroke="#D5803B" stroke-width="2.6" marker-end="url(#arr-orange)"/>
+    <text x="35" y="5" text-anchor="middle" class="small" font-weight="700" fill="#70401C">稠密 → 稀疏</text>
+    <text x="35" y="34" text-anchor="middle" class="small" font-weight="700" fill="#70401C">松弛为 1D 向量</text>
+  </g>
+
+  <!-- Right Panel: Sparse NRE -->
+  <rect x="546" y="536" width="500" height="268" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.6"/>
+  <rect x="546" y="536" width="500" height="30" rx="9" fill="#E8F1EC"/>
+  <rect x="546" y="556" width="500" height="10" fill="#E8F1EC"/>
+  <text x="796" y="556" text-anchor="middle" class="box-title" fill="#1F5138">ALIKED Sparse NRE（直接在 N_B 个稀疏点上做交叉熵）</text>
+
+  <!-- Step A: Similarity vector -->
+  <text x="564" y="588" class="body" font-weight="700" fill="#1F5138">① 点积计算稀疏相似度：sim(d_A, D_B) = D_B · d_A（长度仅 N_B）</text>
+
+  <!-- Vector 1: q_r (ground truth one-hot) -->
+  <text x="560" y="616" class="small" font-weight="700" fill="#153B60">真值重投影 q_r(p_A, P_B)：</text>
+  <g transform="translate(722, 600)">
+    <rect x="0" y="0" width="38" height="24" fill="#F3F4F6" stroke="#9CA3AF"/><text x="19" y="16" text-anchor="middle" class="small" fill="#4B5563">0</text>
+    <rect x="38" y="0" width="38" height="24" fill="#F3F4F6" stroke="#9CA3AF"/><text x="57" y="16" text-anchor="middle" class="small" fill="#4B5563">0</text>
+    <rect x="76" y="0" width="38" height="24" fill="#F3F4F6" stroke="#9CA3AF"/><text x="95" y="16" text-anchor="middle" class="small" fill="#4B5563">…</text>
+    <rect x="114" y="0" width="48" height="24" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.8"/><text x="138" y="16" text-anchor="middle" class="small" font-weight="700" fill="#153B60">1 (p_B)</text>
+    <rect x="162" y="0" width="38" height="24" fill="#F3F4F6" stroke="#9CA3AF"/><text x="181" y="16" text-anchor="middle" class="small" fill="#4B5563">…</text>
+    <rect x="200" y="0" width="38" height="24" fill="#F3F4F6" stroke="#9CA3AF"/><text x="219" y="16" text-anchor="middle" class="small" fill="#4B5563">0</text>
+    <text x="248" y="16" class="small" fill="#6B7280">共 N_B 维</text>
+  </g>
+
+  <!-- Vector 2: q_m (matching probability) -->
+  <text x="560" y="652" class="small" font-weight="700" fill="#1F5138">匹配概率 q_m(d_A, D_B)：</text>
+  <g transform="translate(722, 636)">
+    <rect x="0" y="0" width="38" height="24" fill="#E8F1EC" stroke="#46A171"/><text x="19" y="16" text-anchor="middle" class="small" fill="#1F5138">0.01</text>
+    <rect x="38" y="0" width="38" height="24" fill="#E8F1EC" stroke="#46A171"/><text x="57" y="16" text-anchor="middle" class="small" fill="#1F5138">0.02</text>
+    <rect x="76" y="0" width="38" height="24" fill="#E8F1EC" stroke="#46A171"/><text x="95" y="16" text-anchor="middle" class="small" fill="#1F5138">…</text>
+    <rect x="114" y="0" width="48" height="24" fill="#D1FAE5" stroke="#059669" stroke-width="1.8"/><text x="138" y="16" text-anchor="middle" class="small" font-weight="700" fill="#065F46">0.89</text>
+    <rect x="162" y="0" width="38" height="24" fill="#E8F1EC" stroke="#46A171"/><text x="181" y="16" text-anchor="middle" class="small" fill="#1F5138">…</text>
+    <rect x="200" y="0" width="38" height="24" fill="#E8F1EC" stroke="#46A171"/><text x="219" y="16" text-anchor="middle" class="small" fill="#1F5138">0.01</text>
+    <text x="248" y="16" class="small" fill="#6B7280">t_des=0.1</text>
+  </g>
+
+  <!-- Formula box -->
+  <rect x="560" y="672" width="472" height="44" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
+  <text x="796" y="690" text-anchor="middle" class="formula" fill="#422578">q_m = softmax((D_B · d_A - 1) / t_des)</text>
+  <text x="796" y="708" text-anchor="middle" class="formula" fill="#422578">L_ds(p_A, I_B) = CE(q_r || q_m) = -ln(q_m(d_A, d_B))</text>
+
+  <!-- Benefits box -->
+  <rect x="560" y="726" width="472" height="66" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="576" y="746" class="body" font-weight="700" fill="#1F5138">松弛收益（Table VIII 实测）：</text>
+  <text x="576" y="766" class="small" fill="#1F5138">• 480×480 显存从 11.1 GB → 3.2 GB（直降 71%），训练无需稠密描述图；</text>
+  <text x="576" y="784" class="small" fill="#1F5138">• 省下显存后把分辨率提到 800×800（7.2 GB），一举补回松弛精度损失！</text>
+</svg>

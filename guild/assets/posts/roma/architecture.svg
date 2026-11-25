@@ -1,0 +1,261 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 910" width="1080" height="910" role="img" aria-label="RoMa 端到端整体架构与张量尺寸流转图">
+  <defs>
+    <style>
+      .title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 13px; fill: #4B5563; }
+      .section-title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 14px; font-weight: 700; }
+      .node-title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 13.5px; font-weight: 700; }
+      .node-sub { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 11.5px; }
+      .tensor { font-family: Consolas, "Courier New", "Microsoft YaHei", monospace; font-size: 11.5px; font-weight: 600; }
+      .badge-text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 10.5px; font-weight: 700; }
+      .arrow-label { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 11px; fill: #374151; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8B5CF6" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1080" height="910" fill="#FFFFFF" />
+
+  <!-- Header -->
+  <text x="540" y="34" text-anchor="middle" class="title">RoMa 端到端整体架构与张量流转图</text>
+  <text x="540" y="55" text-anchor="middle" class="subtitle">以最终训练分辨率 560 × 560 为例（粗特征步幅 14 → 40 × 40；精细特征步幅 {8, 4, 2, 1} → 70² / 140² / 280² / 560²）</text>
+
+  <!-- Stage 0: Input Images -->
+  <rect x="330" y="72" width="420" height="54" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" />
+  <text x="540" y="95" text-anchor="middle" class="node-title" fill="#111827">输入图像对：I^A , I^B（双视图 RGB 图像）</text>
+  <text x="540" y="114" text-anchor="middle" class="tensor" fill="#374151">形状：各 [B, 3, 560, 560]（通用：[B, 3, H, W]）</text>
+
+  <!-- Branch arrows from Input -->
+  <path d="M 430 126 L 430 144 L 270 144 L 270 162" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+  <path d="M 650 126 L 650 144 L 820 144 L 820 162" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+
+  <!-- Stage 1A: Coarse Encoder Container -->
+  <rect x="30" y="164" width="490" height="142" rx="10" fill="#F8FBFF" stroke="#B5CFE9" stroke-width="1.4" stroke-dasharray="6 4" />
+  <text x="48" y="185" class="section-title" fill="#153B60">阶段 1A：粗特征编码器 F_coarse（只负责全局语义与强鲁棒性）</text>
+
+  <rect x="48" y="198" width="236" height="92" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
+  <text x="166" y="220" text-anchor="middle" class="node-title" fill="#153B60">DINOv2 (ViT-L-14)</text>
+  <text x="166" y="239" text-anchor="middle" class="node-sub" fill="#153B60">仅取 Patch Token（不用 [CLS]）</text>
+  <text x="166" y="257" text-anchor="middle" class="tensor" fill="#153B60">步幅 14 → [B, 1024, 40, 40]</text>
+  <!-- Frozen badge -->
+  <rect x="92" y="266" width="148" height="19" rx="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1" />
+  <text x="166" y="279" text-anchor="middle" class="badge-text" fill="#70401C">全程冻结 · 防止过拟合</text>
+
+  <path d="M 284 244 L 314 244" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)" />
+
+  <rect x="318" y="206" width="184" height="76" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
+  <text x="410" y="228" text-anchor="middle" class="node-title" fill="#153B60">线性投影 + BN</text>
+  <text x="410" y="248" text-anchor="middle" class="node-sub" fill="#153B60">1024 维 → 512 维</text>
+  <text x="410" y="268" text-anchor="middle" class="tensor" fill="#153B60">φ_coarse: [B, 512, 40, 40]</text>
+
+  <!-- Stage 1B: Fine Encoder Container -->
+  <rect x="550" y="164" width="500" height="142" rx="10" fill="#F8FBFF" stroke="#B5CFE9" stroke-width="1.4" stroke-dasharray="6 4" />
+  <text x="568" y="185" class="section-title" fill="#153B60">阶段 1B：精细特征编码器 F_fine（独立专门化，不共享权重）</text>
+
+  <rect x="568" y="198" width="185" height="92" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
+  <text x="660" y="221" text-anchor="middle" class="node-title" fill="#153B60">VGG19 卷积主干</text>
+  <text x="660" y="241" text-anchor="middle" class="node-sub" fill="#153B60">取各 2×2 MaxPool 前输出</text>
+  <text x="660" y="259" text-anchor="middle" class="node-sub" fill="#153B60">再经 Linear + BN 降维投影</text>
+  <rect x="596" y="266" width="128" height="19" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1" />
+  <text x="660" y="279" text-anchor="middle" class="badge-text" fill="#1F5138">端到端可训练 (5e-6)</text>
+
+  <path d="M 753 244 L 777 244" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)" />
+
+  <!-- Fine Pyramid Box -->
+  <rect x="781" y="196" width="252" height="98" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3" />
+  <text x="907" y="213" text-anchor="middle" class="node-title" fill="#111827">4 级精细特征金字塔 φ_fine</text>
+  <text x="793" y="232" class="tensor" fill="#153B60">s=8 (i=3): [B, 512,  70,  70] (512→512)</text>
+  <text x="793" y="250" class="tensor" fill="#153B60">s=4 (i=2): [B, 256, 140, 140] (256→256)</text>
+  <text x="793" y="268" class="tensor" fill="#153B60">s=2 (i=1): [B,  64, 280, 280] (128→64)</text>
+  <text x="793" y="286" class="tensor" fill="#153B60">s=1 (i=0): [B,   9, 560, 560] ( 64→9)</text>
+
+  <!-- Stage 2: Global Coarse Matcher Container -->
+  <rect x="30" y="328" width="760" height="192" rx="10" fill="#F5FBF7" stroke="#9FCBB3" stroke-width="1.5" />
+  <text x="48" y="350" class="section-title" fill="#1F5138">阶段 2：全局粗匹配器 G_θ = D_θ(E_θ(φ^A_coarse, φ^B_coarse))（步幅 14，空间网格 40 × 40）</text>
+
+  <!-- Arrow from Stage 1A into GP and Concat -->
+  <path d="M 410 282 L 410 314 L 135 314 L 135 366" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
+  <path d="M 410 314 L 270 314 L 270 366" fill="none" stroke="#46A171" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow-green)" />
+  <text x="342" y="310" text-anchor="middle" class="arrow-label">φ^A_coarse (512维) 直连拼接</text>
+
+  <!-- GP Match Encoder -->
+  <rect x="48" y="368" width="174" height="132" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
+  <text x="135" y="392" text-anchor="middle" class="node-title" fill="#1F5138">匹配编码器 E_θ</text>
+  <text x="135" y="411" text-anchor="middle" class="node-sub" fill="#1F5138">高斯过程 (GP)</text>
+  <text x="135" y="429" text-anchor="middle" class="node-sub" fill="#1F5138">指数余弦核 · 逆温度=10</text>
+  <text x="135" y="447" text-anchor="middle" class="node-sub" fill="#1F5138">估计 I^B 坐标嵌入后验</text>
+  <text x="135" y="472" text-anchor="middle" class="tensor" fill="#1F5138">输出：[B, 512, 40, 40]</text>
+  <text x="135" y="490" text-anchor="middle" class="node-sub" fill="#374151">（沿用 DKM 模块）</text>
+
+  <path d="M 222 434 L 243 434" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)" />
+
+  <!-- Concat -->
+  <rect x="247" y="370" width="54" height="128" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4" />
+  <text x="274" y="408" text-anchor="middle" class="node-title" fill="#111827">拼接</text>
+  <text x="274" y="429" text-anchor="middle" class="tensor" fill="#111827">512</text>
+  <text x="274" y="445" text-anchor="middle" class="tensor" fill="#111827">+</text>
+  <text x="274" y="461" text-anchor="middle" class="tensor" fill="#111827">512</text>
+  <text x="274" y="481" text-anchor="middle" class="tensor" fill="#1F5138">=1024</text>
+
+  <path d="M 301 434 L 322 434" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)" />
+
+  <!-- Transformer Match Decoder -->
+  <rect x="326" y="368" width="234" height="132" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8" />
+  <text x="443" y="391" text-anchor="middle" class="node-title" fill="#1F5138">Transformer 匹配解码器 D_θ</text>
+  <text x="443" y="411" text-anchor="middle" class="node-sub" fill="#1F5138">5 层 ViT · 8 注意力头 · D=1024</text>
+  <text x="443" y="429" text-anchor="middle" class="node-sub" fill="#1F5138">MLP 维度 = 4096 · 序列长 1600</text>
+  <rect x="358" y="438" width="170" height="20" rx="10" fill="#FBEBDE" stroke="#D5803B" stroke-width="1" />
+  <text x="443" y="452" text-anchor="middle" class="badge-text" fill="#70401C">无位置编码（仅靠特征相似性）</text>
+  <text x="443" y="476" text-anchor="middle" class="tensor" fill="#1F5138">[B, 40, 40, 4096 + 1]</text>
+  <text x="443" y="492" text-anchor="middle" class="node-sub" fill="#374151">K=64×64 锚点概率 + 1 置信度</text>
+
+  <path d="M 560 434 L 582 434" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)" />
+
+  <!-- ToWarp -->
+  <rect x="586" y="368" width="188" height="132" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
+  <text x="680" y="392" text-anchor="middle" class="node-title" fill="#1F5138">锚点解码 ToWarp</text>
+  <text x="680" y="412" text-anchor="middle" class="node-sub" fill="#1F5138">① k* = argmax_k π_k</text>
+  <text x="680" y="431" text-anchor="middle" class="node-sub" fill="#1F5138">② N_4(k*) 局部 Softargmax</text>
+  <text x="680" y="450" text-anchor="middle" class="node-sub" fill="#1F5138">离散多模态 → 确定粗形变场</text>
+  <text x="680" y="473" text-anchor="middle" class="tensor" fill="#1F5138">Ŵ_coarse: [B, 2, 40, 40]</text>
+  <text x="680" y="491" text-anchor="middle" class="tensor" fill="#1F5138">p_coarse: [B, 1, 40, 40]</text>
+
+  <!-- Coarse Loss Box (Right of Stage 2) -->
+  <path d="M 443 368 L 443 338 L 820 338 L 820 398 L 832 398" fill="none" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="5 3" marker-end="url(#arrow-orange)" />
+  <rect x="836" y="346" width="214" height="148" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6" />
+  <text x="943" y="370" text-anchor="middle" class="node-title" fill="#70401C">粗匹配损失 L_coarse（训练）</text>
+  <text x="943" y="393" text-anchor="middle" class="node-sub" fill="#70401C">范式：以分类实现回归</text>
+  <text x="943" y="413" text-anchor="middle" class="node-sub" fill="#70401C">• 4096 类锚点交叉熵 (KL 散度)</text>
+  <text x="943" y="432" text-anchor="middle" class="node-sub" fill="#70401C">• λ · 可匹配性二元交叉熵 BCE</text>
+  <text x="943" y="455" text-anchor="middle" class="node-sub" fill="#70401C">监督真值：MVS 深度 / RGB-D</text>
+  <text x="943" y="476" text-anchor="middle" class="badge-text" fill="#70401C">允许同时表达多个候选峰值</text>
+
+  <!-- Gradient Stop Divider -->
+  <line x1="30" y1="542" x2="1050" y2="542" stroke="#D5803B" stroke-width="1.8" stroke-dasharray="8 5" />
+  <rect x="330" y="530" width="420" height="24" rx="12" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" />
+  <text x="540" y="546" text-anchor="middle" class="badge-text" fill="#70401C">梯度截断 (Stop Gradient) — 粗、精阶段解耦，总损失 L = L_coarse + L_fine</text>
+
+  <!-- Arrow from ToWarp down to Stride-14 Refiner -->
+  <path d="M 680 500 L 680 520 L 128 520 L 128 594" fill="none" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arrow-orange)" />
+
+  <!-- Arrow from VGG19 Fine Pyramid down into Refiners 8,4,2,1 -->
+  <path d="M 907 294 L 907 320 L 1064 320 L 1064 568 L 326 568 L 326 594" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+  <path d="M 524 568 L 524 594" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+  <path d="M 722 568 L 722 594" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+  <path d="M 920 568 L 920 594" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+  <text x="645" y="564" text-anchor="middle" class="arrow-label" fill="#153B60">分别注入对应步幅的 VGG19 精细特征金字塔 φ_i^A, φ_i^B</text>
+
+  <!-- Stage 3: Multi-Scale ConvNet Refiners -->
+  <rect x="30" y="578" width="1020" height="172" rx="10" fill="#FFFBF7" stroke="#EBC19B" stroke-width="1.5" />
+  <text x="48" y="598" class="section-title" fill="#70401C">阶段 3：5 级多尺度卷积形变场细化器 R_θ（每级 8 个卷积模块；输入：堆叠特征 + 局部相关体 + 上级形变场编码）</text>
+
+  <!-- Refiner 14 -->
+  <rect x="44" y="610" width="168" height="110" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" />
+  <text x="128" y="630" text-anchor="middle" class="node-title" fill="#70401C">细化器 s=14</text>
+  <text x="128" y="649" text-anchor="middle" class="tensor" fill="#70401C">40 × 40 · D=1377</text>
+  <text x="128" y="667" text-anchor="middle" class="node-sub" fill="#70401C">局部相关窗：15 × 15</text>
+  <text x="128" y="685" text-anchor="middle" class="node-sub" fill="#70401C">预测残差 ΔW + Δlogit</text>
+  <text x="128" y="706" text-anchor="middle" class="tensor" fill="#70401C">[B, 40, 40, 2+1]</text>
+
+  <path d="M 212 665 L 238 665" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)" />
+  <text x="225" y="656" text-anchor="middle" class="badge-text" fill="#70401C">↑2x</text>
+
+  <!-- Refiner 8 -->
+  <rect x="242" y="610" width="168" height="110" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" />
+  <text x="326" y="630" text-anchor="middle" class="node-title" fill="#70401C">细化器 s=8 (i=3)</text>
+  <text x="326" y="649" text-anchor="middle" class="tensor" fill="#70401C">70 × 70 · D=1137</text>
+  <text x="326" y="667" text-anchor="middle" class="node-sub" fill="#70401C">局部相关窗：7 × 7</text>
+  <text x="326" y="685" text-anchor="middle" class="node-sub" fill="#70401C">结合 VGG19(512维)</text>
+  <text x="326" y="706" text-anchor="middle" class="tensor" fill="#70401C">[B, 70, 70, 2+1]</text>
+
+  <path d="M 410 665 L 436 665" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)" />
+  <text x="423" y="656" text-anchor="middle" class="badge-text" fill="#70401C">↑2x</text>
+
+  <!-- Refiner 4 -->
+  <rect x="440" y="610" width="168" height="110" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" />
+  <text x="524" y="630" text-anchor="middle" class="node-title" fill="#70401C">细化器 s=4 (i=2)</text>
+  <text x="524" y="649" text-anchor="middle" class="tensor" fill="#70401C">140 × 140 · D=569</text>
+  <text x="524" y="667" text-anchor="middle" class="node-sub" fill="#70401C">局部相关窗：5 × 5</text>
+  <text x="524" y="685" text-anchor="middle" class="node-sub" fill="#70401C">结合 VGG19(256维)</text>
+  <text x="524" y="706" text-anchor="middle" class="tensor" fill="#70401C">[B, 140, 140, 2+1]</text>
+
+  <path d="M 608 665 L 634 665" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)" />
+  <text x="621" y="656" text-anchor="middle" class="badge-text" fill="#70401C">↑2x</text>
+
+  <!-- Refiner 2 -->
+  <rect x="638" y="610" width="168" height="110" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" />
+  <text x="722" y="630" text-anchor="middle" class="node-title" fill="#70401C">细化器 s=2 (i=1)</text>
+  <text x="722" y="649" text-anchor="middle" class="tensor" fill="#70401C">280 × 280 · D=144</text>
+  <text x="722" y="667" text-anchor="middle" class="node-sub" fill="#70401C">无局部相关（窗=0）</text>
+  <text x="722" y="685" text-anchor="middle" class="node-sub" fill="#70401C">结合 VGG19(64维)</text>
+  <text x="722" y="706" text-anchor="middle" class="tensor" fill="#70401C">[B, 280, 280, 2+1]</text>
+
+  <path d="M 806 665 L 832 665" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)" />
+  <text x="819" y="656" text-anchor="middle" class="badge-text" fill="#70401C">↑2x</text>
+
+  <!-- Refiner 1 -->
+  <rect x="836" y="610" width="196" height="110" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.8" />
+  <text x="934" y="630" text-anchor="middle" class="node-title" fill="#70401C">细化器 s=1 (i=0, 全分辨)</text>
+  <text x="934" y="649" text-anchor="middle" class="tensor" fill="#70401C">560 × 560 · D=24</text>
+  <text x="934" y="667" text-anchor="middle" class="node-sub" fill="#70401C">无局部相关（窗=0）</text>
+  <text x="934" y="685" text-anchor="middle" class="node-sub" fill="#70401C">结合 VGG19(9维)</text>
+  <text x="934" y="706" text-anchor="middle" class="tensor" fill="#70401C">[B, 560, 560, 2+1]</text>
+
+  <text x="540" y="741" text-anchor="middle" class="arrow-label">各细化器之间均执行：双线性上采样 + 梯度截断；训练时每个尺度均计算 精细损失 L_fine（广义 Charbonnier α=0.5 鲁棒回归 + BCE，s=2^i·0.03）</text>
+
+  <!-- Arrows down to Stage 4 Output -->
+  <path d="M 934 720 L 934 762 L 245 762 L 245 782" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)" />
+
+  <!-- Stage 4: Output & Downstream -->
+  <rect x="30" y="784" width="430" height="74" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6" />
+  <text x="245" y="809" text-anchor="middle" class="node-title" fill="#422578">最终全分辨率稠密输出</text>
+  <text x="245" y="830" text-anchor="middle" class="tensor" fill="#422578">稠密形变场 Ŵ^(A→B): [B, 2, 560, 560]</text>
+  <text x="245" y="848" text-anchor="middle" class="tensor" fill="#422578">逐像素可匹配性置信度 p_θ^A: [B, 1, 560, 560]</text>
+
+  <path d="M 460 821 L 516 821" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)" />
+  <text x="488" y="813" text-anchor="middle" class="arrow-label">推理后处理</text>
+
+  <rect x="520" y="784" width="248" height="74" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
+  <text x="644" y="808" text-anchor="middle" class="node-title" fill="#1F5138">均衡采样（KDE 逆密度加权）</text>
+  <text x="644" y="828" text-anchor="middle" class="node-sub" fill="#1F5138">对 p_θ(x^A, x^B) 估计密度并反比加权</text>
+  <text x="644" y="846" text-anchor="middle" class="node-sub" fill="#1F5138">提升低置信/稀疏区域采样覆盖率</text>
+
+  <path d="M 768 821 L 802 821" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)" />
+
+  <rect x="806" y="784" width="244" height="74" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6" />
+  <text x="928" y="808" text-anchor="middle" class="node-title" fill="#422578">下游几何估计</text>
+  <text x="928" y="828" text-anchor="middle" class="tensor" fill="#422578">10,000 组稀疏对应点对</text>
+  <text x="928" y="846" text-anchor="middle" class="node-sub" fill="#422578">RANSAC / MAGSAC++ / HLoc</text>
+
+  <!-- Legend -->
+  <g transform="translate(150, 876)">
+    <rect x="0" y="0" width="16" height="16" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2" />
+    <text x="22" y="13" class="node-sub" fill="#374151">输入 / 数据张量</text>
+
+    <rect x="145" y="0" width="16" height="16" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2" />
+    <text x="167" y="13" class="node-sub" fill="#374151">特征编码模块</text>
+
+    <rect x="285" y="0" width="16" height="16" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2" />
+    <text x="307" y="13" class="node-sub" fill="#374151">核心匹配 / 采样算法</text>
+
+    <rect x="455" y="0" width="16" height="16" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" />
+    <text x="477" y="13" class="node-sub" fill="#374151">细化器 / 损失 / 关键设计</text>
+
+    <rect x="655" y="0" width="16" height="16" rx="3" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2" />
+    <text x="677" y="13" class="node-sub" fill="#374151">最终输出与下游任务</text>
+  </g>
+</svg>

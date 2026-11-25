@@ -1,0 +1,310 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 715" width="1080" height="715" style="background-color:#FFFFFF;font-family:'Microsoft YaHei','PingFang SC',Arial,sans-serif;">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#46A171"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#8B5CF6"/>
+    </marker>
+    <filter id="card-shadow" x="-4%" y="-4%" width="108%" height="112%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#111827" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Pure white canvas -->
+  <rect x="0" y="0" width="1080" height="715" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="540" y="33" text-anchor="middle" font-size="20" font-weight="700" fill="#111827">ConvMatch 端到端网络架构总览（AAAI 2023）</text>
+  <text x="540" y="54" text-anchor="middle" font-size="12.5" fill="#6B7280">默认配置：候选对应点数 N ≤ 2000，特征通道 C = 128，规则网格 K × K = 16 × 16，堆叠层数 L = 6</text>
+
+  <!-- Legend -->
+  <g transform="translate(192, 66)" font-size="11.5">
+    <rect x="0" y="0" width="14" height="14" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+    <text x="20" y="11" fill="#374151">输入/数据</text>
+
+    <rect x="102" y="0" width="14" height="14" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+    <text x="122" y="11" fill="#153B60">嵌入 / CNN 骨干</text>
+
+    <rect x="242" y="0" width="14" height="14" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="262" y="11" fill="#1F5138">GAT 隐式场互转</text>
+
+    <rect x="380" y="0" width="14" height="14" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="400" y="11" fill="#70401C">残差判别 / 监督损失</text>
+
+    <rect x="542" y="0" width="14" height="14" rx="3" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="562" y="11" fill="#422578">分类输出 / 几何估计</text>
+  </g>
+
+  <!-- ==================== LEFT COLUMN: INPUT & INITIALIZATION ==================== -->
+  <rect x="20" y="96" width="218" height="398" rx="12" fill="#FAFAFB" stroke="#E5E7EB" stroke-width="1.2"/>
+  <text x="129" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">① 输入与高维初始化</text>
+
+  <!-- Grid Coordinates (Top-Left to keep all wiring planar!) -->
+  <rect x="34" y="130" width="190" height="64" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="129" y="151" text-anchor="middle" font-size="13" font-weight="700" fill="#111827">规则网格中心坐标 x_grid</text>
+  <text x="129" y="169" text-anchor="middle" font-size="11.2" fill="#374151">[-1, 1]² 均分 K×K 网格中心</text>
+  <text x="129" y="186" text-anchor="middle" font-size="11" font-weight="600" fill="#4B5563">张量：[K², 2]（默认 256×2）</text>
+
+  <line x1="129" y1="194" x2="129" y2="216" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+  <!-- Grid Embedding -->
+  <rect x="34" y="218" width="190" height="66" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="129" y="239" text-anchor="middle" font-size="13" font-weight="700" fill="#153B60">Grid Embedding</text>
+  <text x="129" y="257" text-anchor="middle" font-size="11.2" fill="#153B60">轻量 MLP：Up(x_grid) → X_grid</text>
+  <text x="129" y="274" text-anchor="middle" font-size="11" font-weight="600" fill="#2783DE">输出：[B, 256, 128]（各层复用）</text>
+
+  <!-- Putative motion vectors -->
+  <rect x="34" y="314" width="190" height="72" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="129" y="335" text-anchor="middle" font-size="13" font-weight="700" fill="#111827">候选运动向量 {mᵢ}</text>
+  <text x="129" y="354" text-anchor="middle" font-size="11.2" fill="#374151">mᵢ = (xᵢ, dᵢ), dᵢ = yᵢ - xᵢ</text>
+  <text x="129" y="373" text-anchor="middle" font-size="11" font-weight="600" fill="#4B5563">张量：[B, N, 4]（归一化 [-1, 1]）</text>
+
+  <line x1="129" y1="386" x2="129" y2="408" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+  <!-- Motion Vector Embedding -->
+  <rect x="34" y="410" width="190" height="68" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" filter="url(#card-shadow)"/>
+  <text x="129" y="431" text-anchor="middle" font-size="13" font-weight="700" fill="#153B60">Motion Vector Embedding</text>
+  <text x="129" y="450" text-anchor="middle" font-size="11.2" fill="#153B60">位置编码升维 ℰ(mᵢ) → F⁽⁰⁾</text>
+  <text x="129" y="468" text-anchor="middle" font-size="11" font-weight="600" fill="#2783DE">输出：[B, N, 128]</text>
+
+  <!-- ==================== CENTER CONTAINER: RECTIFYING CONV LAYER x L ==================== -->
+  <rect x="262" y="96" width="564" height="398" rx="14" fill="#F8FAFC" stroke="#46A171" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="482" y="121" text-anchor="middle" font-size="14" font-weight="700" fill="#1F5138">② Rectifying Conv Layer（第 ℓ 层，ℓ = 0, …, L-1）</text>
+  <rect x="698" y="104" width="114" height="24" rx="12" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="755" y="120" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1F5138">堆叠 × L（L = 6）</text>
+
+  <!-- Step 1: Regularize -->
+  <rect x="298" y="152" width="140" height="114" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6" filter="url(#card-shadow)"/>
+  <text x="368" y="174" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1F5138">Regularize</text>
+  <text x="368" y="191" text-anchor="middle" font-size="11" font-weight="600" fill="#1F5138">无序 → 规则网格</text>
+  <line x1="312" y1="200" x2="424" y2="200" stroke="#B7DFC9" stroke-width="1"/>
+  <text x="368" y="218" text-anchor="middle" font-size="10.8" fill="#1F5138">GAT 交叉注意力</text>
+  <text x="368" y="235" text-anchor="middle" font-size="10.8" fill="#1F5138">𝒢(F⁽ℓ⁾, X_grid)</text>
+  <text x="368" y="254" text-anchor="middle" font-size="10.5" font-weight="600" fill="#15803D">隐式估计场 ℱ⁽ℓ⁾ 并采样</text>
+
+  <!-- Arrow Regularize -> Rectify -->
+  <line x1="438" y1="209" x2="480" y2="209" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="459" y="197" text-anchor="middle" font-size="10" font-weight="600" fill="#1F5138">Reshape</text>
+  <text x="459" y="225" text-anchor="middle" font-size="9.5" fill="#4B5563">16×16×128</text>
+
+  <!-- Step 2: Rectify (CNN) -->
+  <rect x="482" y="152" width="140" height="114" rx="10" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6" filter="url(#card-shadow)"/>
+  <text x="552" y="174" text-anchor="middle" font-size="13.5" font-weight="700" fill="#153B60">Rectify (CNN)</text>
+  <text x="552" y="191" text-anchor="middle" font-size="11" font-weight="600" fill="#153B60">空间卷积平滑去噪</text>
+  <line x1="496" y1="200" x2="608" y2="200" stroke="#B7D9F7" stroke-width="1"/>
+  <text x="552" y="218" text-anchor="middle" font-size="10.8" fill="#153B60">3 × ResBlock (3×3)</text>
+  <text x="552" y="235" text-anchor="middle" font-size="10.8" fill="#153B60">+ 自适应 Scale</text>
+  <text x="552" y="254" text-anchor="middle" font-size="10.5" font-weight="600" fill="#2783DE">输出 Ĩ⁽ℓ⁾ [B,128,16,16]</text>
+
+  <!-- Arrow Rectify -> Recover -->
+  <line x1="622" y1="209" x2="664" y2="209" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+  <text x="643" y="197" text-anchor="middle" font-size="10" font-weight="600" fill="#153B60">Flatten</text>
+  <text x="643" y="225" text-anchor="middle" font-size="9.5" fill="#4B5563">256×128</text>
+
+  <!-- Step 3: Recover -->
+  <rect x="666" y="152" width="142" height="114" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6" filter="url(#card-shadow)"/>
+  <text x="737" y="174" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1F5138">Recover</text>
+  <text x="737" y="191" text-anchor="middle" font-size="11" font-weight="600" fill="#1F5138">规则网格 → 无序</text>
+  <line x1="680" y1="200" x2="794" y2="200" stroke="#B7DFC9" stroke-width="1"/>
+  <text x="737" y="218" text-anchor="middle" font-size="10.8" fill="#1F5138">GAT 交叉注意力</text>
+  <text x="737" y="235" text-anchor="middle" font-size="10.8" fill="#1F5138">𝒢(F̃_grid⁽ℓ⁾, F⁽ℓ⁾)</text>
+  <text x="737" y="254" text-anchor="middle" font-size="10.5" font-weight="600" fill="#15803D">输出 F⁽ℓ⁺¹⁾ = F̃⁽ℓ⁾</text>
+
+  <!-- Planar Routing: X_grid -> Regularize (Top-left entry) -->
+  <path d="M 224 251 L 248 251 L 248 184 L 296 184" fill="none" stroke="#2783DE" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arrow-blue)"/>
+  <text x="272" y="176" text-anchor="middle" font-size="10.5" font-weight="600" fill="#153B60">X_grid</text>
+
+  <!-- Planar Routing: F^(l) entry at bottom-left, splitting cleanly to Regularize, Recover, and (-) -->
+  <path d="M 224 444 L 280 444 L 280 236 L 296 236" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+  <text x="252" y="436" text-anchor="middle" font-size="11" font-weight="700" fill="#153B60">F⁽ℓ⁾</text>
+
+  <!-- Split 1: F^(l) -> Recover bottom (y=310) -->
+  <circle cx="280" cy="310" r="3.5" fill="#46A171"/>
+  <path d="M 280 310 L 722 310 L 722 268" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+  <rect x="382" y="298" width="256" height="22" rx="6" fill="#FFFFFF" stroke="#B7DFC9" stroke-width="1"/>
+  <text x="510" y="313" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1F5138">跨步复用 F⁽ℓ⁾ 作 Query（找回网格化可能丢失的位置）</text>
+
+  <!-- Split 2: F^(l) -> Diff circle (-) (y=424) -->
+  <circle cx="280" cy="424" r="3.5" fill="#D5803B"/>
+  <path d="M 280 424 L 366 424" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+  <text x="322" y="416" text-anchor="middle" font-size="10.5" font-weight="600" fill="#70401C">纠正前 F⁽ℓ⁾</text>
+
+  <!-- Recover bottom-right -> Diff circle (-) (y=354, planar, zero crossing!) -->
+  <path d="M 776 266 L 776 354 L 382 354 L 382 408" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+  <text x="580" y="346" text-anchor="middle" font-size="10.5" font-weight="600" fill="#70401C">纠正后 F̃⁽ℓ⁾ [B, N, 128]</text>
+
+  <!-- Difference Circle (-) -->
+  <circle cx="382" cy="424" r="14" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.8"/>
+  <text x="382" y="429" text-anchor="middle" font-size="17" font-weight="700" fill="#70401C">−</text>
+
+  <!-- Arrow (-) -> Inlier Predictor -->
+  <line x1="396" y1="424" x2="430" y2="424" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+
+  <!-- Inlier Predictor -->
+  <rect x="432" y="382" width="276" height="84" rx="10" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6" filter="url(#card-shadow)"/>
+  <text x="570" y="403" text-anchor="middle" font-size="13" font-weight="700" fill="#70401C">Inlier Predictor（内点预测头）</text>
+  <text x="570" y="422" text-anchor="middle" font-size="11" fill="#70401C">输入特征差：F̃⁽ℓ⁾ − F⁽ℓ⁾（[B, N, 128]）</text>
+  <text x="570" y="440" text-anchor="middle" font-size="10.8" fill="#70401C">逐级降维：128 → 64 → 16 → 4 → 1</text>
+  <text x="570" y="457" text-anchor="middle" font-size="10.5" font-weight="600" fill="#B45309">输出当前层 Logits ẑ⁽ℓ⁾ [B, N]</text>
+
+  <!-- Next Layer Feedback Hint (top-right inside Recover) -->
+  <path d="M 737 152 L 737 136 L 814 136 L 814 209 L 808 209" fill="none" stroke="none"/>
+  <path d="M 808 192 L 820 192 L 820 136 L 368 136 L 368 150" fill="none" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="3 3" marker-end="url(#arrow)"/>
+  <text x="580" y="132" text-anchor="middle" font-size="10" fill="#6B7280">F⁽ℓ⁺¹⁾ 送入下一层继续去噪（重复 L = 6 次）</text>
+
+  <!-- ==================== RIGHT COLUMN: OUTPUT, SUPERVISION & GEOMETRY ==================== -->
+  <rect x="852" y="96" width="208" height="398" rx="12" fill="#FAFAFB" stroke="#E5E7EB" stroke-width="1.2"/>
+  <text x="956" y="118" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">③ 监督损失与几何估计</text>
+
+  <!-- Box 1: Training Deep Supervision Loss -->
+  <rect x="866" y="132" width="180" height="102" rx="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="5 3" filter="url(#card-shadow)"/>
+  <text x="956" y="152" text-anchor="middle" font-size="12.5" font-weight="700" fill="#70401C">多层深度监督损失 ℒ</text>
+  <text x="956" y="169" text-anchor="middle" font-size="10.2" font-weight="600" fill="#B45309">（仅训练阶段启用）</text>
+  <line x1="880" y1="177" x2="1032" y2="177" stroke="#F0C7A1" stroke-width="1"/>
+  <text x="956" y="194" text-anchor="middle" font-size="10.5" fill="#70401C">Σ [ ℒ_cls(z, ẑ⁽ℓ⁾) + λ ℒ_reg ]</text>
+  <text x="956" y="211" text-anchor="middle" font-size="10.2" fill="#70401C">BCE 分类 + Sampson 回归</text>
+  <text x="956" y="226" text-anchor="middle" font-size="10" fill="#70401C">λ: 0 (前20k步) → 0.5</text>
+
+  <!-- Box 2: Output Logits -->
+  <rect x="866" y="264" width="180" height="84" rx="9" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6" filter="url(#card-shadow)"/>
+  <text x="956" y="285" text-anchor="middle" font-size="13" font-weight="700" fill="#422578">内点分类 Logits {ẑᵢ⁽ℓ⁾}</text>
+  <text x="956" y="304" text-anchor="middle" font-size="11" font-weight="600" fill="#6D28D9">张量：[B, N]</text>
+  <text x="956" y="322" text-anchor="middle" font-size="10.5" fill="#422578">训练：全部 6 层参与监督</text>
+  <text x="956" y="338" text-anchor="middle" font-size="10.5" fill="#422578">推理：仅保留末层 ẑᵢ⁽⁵⁾</text>
+
+  <!-- Box 3: Two-View Geometry Estimation -->
+  <rect x="866" y="378" width="180" height="100" rx="9" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6" filter="url(#card-shadow)"/>
+  <text x="956" y="399" text-anchor="middle" font-size="12.5" font-weight="700" fill="#422578">两视图几何关系估计</text>
+  <line x1="880" y1="408" x2="1032" y2="408" stroke="#D2C4FA" stroke-width="1"/>
+  <text x="956" y="425" text-anchor="middle" font-size="10.5" fill="#422578">判定规则：ẑᵢ &gt; 0 视为内点</text>
+  <text x="956" y="443" text-anchor="middle" font-size="10.5" fill="#422578">无 RANSAC：加权八点法求 Ê</text>
+  <text x="956" y="461" text-anchor="middle" font-size="10.5" fill="#422578">接 RANSAC：估相对位姿 / H</text>
+
+  <!-- Arrow from Inlier Predictor -> Logits (clean elbow, zero crossing) -->
+  <path d="M 708 424 L 838 424 L 838 306 L 864 306" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <text x="774" y="416" text-anchor="middle" font-size="10.5" font-weight="600" fill="#422578">{ẑᵢ⁽ℓ⁾}</text>
+
+  <!-- Arrows from Logits -> Loss (Up) and Geometry (Down) -->
+  <line x1="956" y1="264" x2="956" y2="236" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="4 2" marker-end="url(#arrow-orange)"/>
+  <text x="984" y="254" text-anchor="middle" font-size="10" font-weight="600" fill="#70401C">训练监督</text>
+
+  <line x1="956" y1="348" x2="956" y2="376" stroke="#8B5CF6" stroke-width="1.6" marker-end="url(#arrow-purple)"/>
+  <text x="984" y="366" text-anchor="middle" font-size="10" font-weight="600" fill="#422578">推理后处理</text>
+
+  <!-- ==================== BOTTOM DETAIL PANELS (FIG 3 & FIG 4) ==================== -->
+  <!-- Panel A: CNN Backbone Details -->
+  <rect x="20" y="514" width="512" height="180" rx="12" fill="#F8FBFF" stroke="#B7D9F7" stroke-width="1.4"/>
+  <text x="276" y="538" text-anchor="middle" font-size="13" font-weight="700" fill="#153B60">模块细节 A：Rectify 中的 CNN 骨干结构（原论文 Fig. 3）</text>
+
+  <!-- Input I^(l) -->
+  <rect x="34" y="566" width="66" height="54" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
+  <text x="67" y="589" text-anchor="middle" font-size="11.5" font-weight="700" fill="#111827">I⁽ℓ⁾</text>
+  <text x="67" y="608" text-anchor="middle" font-size="9.5" fill="#4B5563">128×16×16</text>
+
+  <line x1="100" y1="593" x2="122" y2="593" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- ResBlock x 3 container -->
+  <rect x="124" y="552" width="248" height="90" rx="9" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="248" y="635" text-anchor="middle" font-size="10.5" font-weight="700" fill="#2783DE">ResBlock × 3（共享通道 C = 128）</text>
+
+  <!-- Sub-blocks inside ResBlock -->
+  <rect x="134" y="574" width="68" height="38" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+  <text x="168" y="591" text-anchor="middle" font-size="10" font-weight="600" fill="#153B60">3×3 Conv</text>
+  <text x="168" y="605" text-anchor="middle" font-size="9.5" fill="#153B60">BN + ReLU</text>
+
+  <line x1="202" y1="593" x2="216" y2="593" stroke="#2783DE" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+
+  <rect x="218" y="574" width="68" height="38" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+  <text x="252" y="591" text-anchor="middle" font-size="10" font-weight="600" fill="#153B60">3×3 Conv</text>
+  <text x="252" y="605" text-anchor="middle" font-size="9.5" fill="#153B60">BN + ReLU</text>
+
+  <line x1="286" y1="593" x2="306" y2="593" stroke="#2783DE" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+
+  <!-- Residual Plus -->
+  <circle cx="318" cy="593" r="10" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
+  <text x="318" y="597" text-anchor="middle" font-size="13" font-weight="700" fill="#153B60">+</text>
+
+  <!-- Shortcut arc -->
+  <path d="M 128 593 L 128 562 L 318 562 L 318 581" fill="none" stroke="#2783DE" stroke-width="1.2" marker-end="url(#arrow-blue)"/>
+  <text x="223" y="559" text-anchor="middle" font-size="9" fill="#2783DE">Residual Shortcut</text>
+
+  <text x="348" y="597" text-anchor="middle" font-size="12" font-weight="700" fill="#2783DE">× 3</text>
+
+  <line x1="372" y1="593" x2="394" y2="593" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Scale -->
+  <rect x="396" y="572" width="46" height="42" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
+  <text x="419" y="597" text-anchor="middle" font-size="11" font-weight="700" fill="#153B60">Scale</text>
+
+  <line x1="442" y1="593" x2="458" y2="593" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Output I_tilde^(l) -->
+  <rect x="460" y="566" width="60" height="54" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
+  <text x="490" y="589" text-anchor="middle" font-size="11.5" font-weight="700" fill="#422578">Ĩ⁽ℓ⁾</text>
+  <text x="490" y="608" text-anchor="middle" font-size="9.5" fill="#422578">128×16×16</text>
+
+  <!-- Note A -->
+  <rect x="34" y="654" width="486" height="28" rx="6" fill="#E5F2FC" stroke="none"/>
+  <text x="277" y="672" text-anchor="middle" font-size="11" fill="#153B60">注意：CNN 骨干内不使用 Context Norm，仅靠 3×3 卷积与逐层扩大的感受野平滑外点</text>
+
+  <!-- Panel B: Inlier Predictor Details -->
+  <rect x="548" y="514" width="512" height="180" rx="12" fill="#FFFBF7" stroke="#F0C7A1" stroke-width="1.4"/>
+  <text x="804" y="538" text-anchor="middle" font-size="13" font-weight="700" fill="#70401C">模块细节 B：Inlier Predictor 结构（原论文 Fig. 4）</text>
+
+  <!-- Diff Input -->
+  <rect x="562" y="566" width="76" height="54" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
+  <text x="600" y="588" text-anchor="middle" font-size="11" font-weight="700" fill="#111827">F̃⁽ℓ⁾ − F⁽ℓ⁾</text>
+  <text x="600" y="608" text-anchor="middle" font-size="9.5" fill="#4B5563">[N × 128]</text>
+
+  <line x1="638" y1="593" x2="656" y2="593" stroke="#D5803B" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+
+  <!-- Proj Block 1 -->
+  <rect x="658" y="562" width="84" height="62" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="700" y="581" text-anchor="middle" font-size="10.5" font-weight="700" fill="#70401C">Proj Block 1</text>
+  <text x="700" y="597" text-anchor="middle" font-size="9.3" fill="#70401C">Proj+CN+BN+ReLU</text>
+  <text x="700" y="614" text-anchor="middle" font-size="9.8" font-weight="600" fill="#B45309">→ [N × 64]</text>
+
+  <line x1="742" y1="593" x2="758" y2="593" stroke="#D5803B" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+
+  <!-- Proj Block 2 -->
+  <rect x="760" y="562" width="78" height="62" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="799" y="581" text-anchor="middle" font-size="10.5" font-weight="700" fill="#70401C">Proj Block 2</text>
+  <text x="799" y="597" text-anchor="middle" font-size="9.3" fill="#70401C">CN+BN+ReLU</text>
+  <text x="799" y="614" text-anchor="middle" font-size="9.8" font-weight="600" fill="#B45309">→ [N × 16]</text>
+
+  <line x1="838" y1="593" x2="854" y2="593" stroke="#D5803B" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+
+  <!-- Proj Block 3 -->
+  <rect x="856" y="562" width="74" height="62" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="893" y="581" text-anchor="middle" font-size="10.5" font-weight="700" fill="#70401C">Proj Block 3</text>
+  <text x="893" y="597" text-anchor="middle" font-size="9.3" fill="#70401C">CN+BN+ReLU</text>
+  <text x="893" y="614" text-anchor="middle" font-size="9.8" font-weight="600" fill="#B45309">→ [N × 4]</text>
+
+  <line x1="930" y1="593" x2="946" y2="593" stroke="#D5803B" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+
+  <!-- Final Proj -->
+  <rect x="948" y="570" width="44" height="46" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="970" y="591" text-anchor="middle" font-size="10" font-weight="700" fill="#70401C">Proj</text>
+  <text x="970" y="606" text-anchor="middle" font-size="9" fill="#70401C">4→1</text>
+
+  <line x1="992" y1="593" x2="1004" y2="593" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- Output logit -->
+  <rect x="1006" y="568" width="42" height="50" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
+  <text x="1027" y="590" text-anchor="middle" font-size="11.5" font-weight="700" fill="#422578">ẑᵢ⁽ℓ⁾</text>
+  <text x="1027" y="608" text-anchor="middle" font-size="9" fill="#422578">[N×1]</text>
+
+  <!-- Note B -->
+  <rect x="562" y="654" width="486" height="28" rx="6" fill="#FBEBDE" stroke="none"/>
+  <text x="805" y="672" text-anchor="middle" font-size="11" fill="#70401C">关键直觉：内点纠正前后特征差极小、外点变化剧烈；用投影头替代欧氏距离更稳健</text>
+</svg>

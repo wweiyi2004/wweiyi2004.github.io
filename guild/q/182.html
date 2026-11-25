@@ -21,15 +21,15 @@
   <header class="hall"></header>
 
   <div class="quest-page">
-    <article class="writ" data-no="182" data-line="1" data-minutes="32">
+    <article class="writ" data-no="182" data-line="1" data-minutes="34">
       <header class="writ__head">
         <p class="writ__kicker"><span class="sheet__no">委托 No.182</span><a class="writ__line" href="../index.html?line=1"></a><span><a href="../index.html?cat=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD">人工智能</a> · <a href="../index.html?cat=%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0">学习笔记</a></span></p>
         <h1 class="writ__title">【学习笔记】SuperPoint</h1>
         <dl class="writ__meta">
           <div><dt>发布</dt><dd><time datetime="2026-10-23T03:10:10.000Z">2026.10.23</time></dd></div>
           
-          <div><dt>报酬</dt><dd class="reward">11,138 艾莉丝</dd></div>
-          <div><dt>讨伐耗时</dt><dd>约 32 分钟</dd></div>
+          <div><dt>报酬</dt><dd class="reward">12,038 艾莉丝</dd></div>
+          <div><dt>讨伐耗时</dt><dd>约 34 分钟</dd></div>
           <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
         </dl>
         <ul class="writ__tags"><li><a href="../index.html?tag=%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89">#计算机视觉</a></li><li><a href="../index.html?tag=%E5%9B%BE%E5%83%8F%E5%8C%B9%E9%85%8D">#图像匹配</a></li><li><a href="../index.html?tag=SuperPoint">#SuperPoint</a></li><li><a href="../index.html?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">#深度学习</a></li></ul>
@@ -37,31 +37,38 @@
 
       
       <div class="prose">
-<h2 id="背景">背景</h2>
-<p>图像匹配需要在两张照片里找到可重复识别的位置，再为这些位置生成可比较的局部描述子。传统流程通常把“找点”和“描述点”分开处理；而学习式方法还面临一个难题：真实照片里的兴趣点很难大量、统一地人工标注。</p>
-<p>SuperPoint 的思路是把<strong>兴趣点检测</strong>和<strong>描述子生成</strong>放进共享的全卷积网络中一起学习。它先用带有已知点位置的合成几何图案训练基础检测器，再通过对真实图像施加已知的单应变换、对齐并汇总多次检测结果，从而生成伪标签；描述子则利用图像间已知的几何对应关系来监督训练。这样就能减少对大量真实兴趣点人工标注的依赖。</p>
-<h2 id="系统框图">系统框图</h2>
-<h3 id="训练">训练</h3>
+<h2 id="前言与背景">前言与背景</h2>
+<p>做图像匹配的时候，我们通常要干两件事：先在两张照片里找到“能反复认出来的关键位置”，再给每个位置算出一串特征向量，方便两张图拿去比对。</p>
+<p>传统做法是把“找点”和“描述点”拆成两步来做；但换到深度学习里，马上就会遇到一个很头疼的问题：<strong>真实照片里的兴趣点太难标了</strong>——一张街景图里到底哪几个像素算“标准兴趣点”，靠人工很难大量、统一地标出来。</p>
+<p>SuperPoint 的想法很直接：它把<strong>兴趣点检测</strong>和<strong>描述子生成</strong>放进同一个全卷积网络里一起学。为了绕开“人工标点难”的问题，它分步来解决：</p>
+<ol>
+<li>先拿程序画出来的简单几何图形（这些图形的角点坐标程序天生就知道）训练一个基础检测器；</li>
+<li>再拿这个检测器去“多角度观察”真实照片，把多次结果对齐汇总，自动造出一批真实照片的伪标签；</li>
+<li>最后利用已知的图像几何变换关系，同时训练检测和描述两个分支。</li>
+</ol>
+<p>在本文中，我们试着把 SuperPoint 的<strong>训练流程、推理过程</strong>一步步拆开讲透，再结合我本地跑的<strong>从头训练、大角度微调、通道压缩以及 HPatches 实测结果</strong>，看看它到底表现如何、边界在哪里。</p>
+<h2 id="整体结构系统框图">整体结构（系统框图）</h2>
+<p>动手看细节之前，我们先看一眼 SuperPoint 的整体流程。下面两张图分别对应它的<strong>训练流程</strong>和<strong>推理流程</strong>。</p>
+<h3 id="训练流程">训练流程</h3>
 <p><a href="../assets/posts/superpoint/training-pipeline.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/superpoint/training-pipeline.svg" alt="SuperPoint训练流程" style="max-height: none; height: auto;"></a></p>
-<h3 id="推理">推理</h3>
+<h3 id="推理流程">推理流程</h3>
 <p><a href="../assets/posts/superpoint/inference-pipeline.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/superpoint/inference-pipeline.svg" alt="SuperPoint推理流程" style="max-height: none; height: auto;"></a></p>
-<h2 id="算法具体流程">算法具体流程</h2>
-<h3 id="训练-1">训练</h3>
-<p>SuperPoint的训练可以分为三个阶段</p>
-<p>1.在合成图像上学会找点</p>
-<p>2.用它给真实图像生成为标签</p>
-<p>3.在真实图像对上联合学习检测与描述</p>
-<p>理解训练流程时，要始终区分两个问题：</p>
+<p>可以看到，训练时链路比较长，需要准备合成图、做单应适应、构造图像对；而真正拿去用（推理）的时候就简单多了，<strong>输进去一张图，直接出点和描述子</strong>。下面我们就顺着这两张图，一块一块把细节拆开。</p>
+<h2 id="1-训练流程详解">1. 训练流程详解</h2>
+<p>SuperPoint 的训练大体分成三个阶段：</p>
+<ol>
+<li><strong>第一阶段</strong>：在合成几何图形上学会“找点”（得到 MagicPoint）；</li>
+<li><strong>第二阶段</strong>：用 MagicPoint 给真实照片自动生成伪标签（单应适应）；</li>
+<li><strong>第三阶段</strong>：在真实图像对上，联合训练检测和描述两个任务（得到 SuperPoint）。</li>
+</ol>
+<p>在往下看之前，我们要先在脑子里把这两个任务分清楚：</p>
 <ul>
-<li><strong>检测任务</strong>：哪些位置应该成为兴趣点？</li>
+<li><strong>检测任务</strong>：回答“图片里哪些位置应该被选成兴趣点？”（兴趣点 Interest Point 就是那种足够醒目、换张图也能再次找到的位置。）</li>
+<li><strong>描述任务</strong>：回答“两张图里，哪些位置的描述子应该长得像？”（描述子 Descriptor 就是用来刻画某个点周围长什么样的一串数值向量。）</li>
 </ul>
-<p>兴趣点（Interest Point）是图像中值得选出来、方便在另一张图里再次找到的位置。</p>
-<ul>
-<li><strong>描述任务</strong>：两张图中哪些位置的描述子应该相似？</li>
-</ul>
-<p>描述子（Descriptor）是描述某个位置附近图像外观的数值向量。</p>
-<p>它们使用不同的监督信号，但最终通过共享编码器联合优化。</p>
-<h4 id="一整体训练结构"><strong>一、整体训练结构</strong></h4>
+<p>这两个任务用的监督信号完全不同，但在网络里共用同一个编码器，最后一起优化。</p>
+<h3 id="11-整体训练一览">1.1 整体训练一览</h3>
+<p>先把三个阶段的输入输出放在一张表里，方便对照：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -74,32 +81,30 @@
 <tbody>
 <tr>
 <td>合成预训练</td>
-<td>合成几何图像与已知点标签</td>
+<td>合成几何图像 + 已知点标签</td>
 <td>训练编码器与检测头</td>
 <td>MagicPoint</td>
 </tr>
 <tr>
 <td>单应适应</td>
-<td>未标注真实图像与基础检测器</td>
+<td>未标注真实图像 + 基础检测器</td>
 <td>多视图检测、对齐、汇总</td>
 <td>真实图像兴趣点伪标签</td>
 </tr>
 <tr>
 <td>联合训练</td>
-<td>真实图像、伪标签、已知单应变换</td>
+<td>真实图像 + 伪标签 + 已知单应变换</td>
 <td>同时优化检测与描述损失</td>
 <td>SuperPoint</td>
 </tr>
 </tbody>
 </table></div>
-<p>需要注意：</p>
-<p>单应适应（让检测器从多个几何变换后的视图反复观察同一张图，再把检测结果对齐、汇总，生成更可靠的兴趣点伪标签。）主要用于生成训练标签，不是每次推理都执行的步骤，也不必在每个训练迭代中重新执行。这里的伪标签是训练MagicPoint后得到的模型在真实图像上预测得到的标签，因此并不一定完全正确。</p>
-<h4 id="二第一阶段合成图像预训练-magicpoint"><strong>二、第一阶段：合成图像预训练 MagicPoint</strong></h4>
-<ol>
-<li>生成合成几何图像</li>
-</ol>
-<p>真实照片中的“正确兴趣点”不容易统一标注，但程序生成图形时，可以直接知道其几何结构和坐标。</p>
-<p>例如，可以生成：</p>
+<p><strong>注意</strong>：单应适应（也就是让检测器从多个变换视角反复看同一张图，再把结果对齐汇总）主要是用来“造训练标签”的，<strong>推理时不会跑它，训练时也不需要每次迭代都重跑</strong>。另外，伪标签毕竟是 MagicPoint 自己预测出来的，并不保证 100% 正确。</p>
+<hr>
+<h3 id="12-第一阶段在合成图像上预训练-magicpoint">1.2 第一阶段：在合成图像上预训练 MagicPoint</h3>
+<p>第一阶段的思路非常直观：既然真实照片不好标角点，我们就先用代码画几何图形。</p>
+<p><strong>第一步：生成合成几何图像</strong></p>
+<p>程序在画图时，天然就知道每个顶点的精确坐标。常见的合成图形包括：</p>
 <ul>
 <li>三角形、四边形；</li>
 <li>棋盘格、规则网格；</li>
@@ -107,175 +112,67 @@
 <li>星形；</li>
 <li>立方体线框。</li>
 </ul>
-<p>程序在绘制三角形时，已经知道三个顶点的位置，因此可以同时生成：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">合成图像 I+已知兴趣点坐标 Y</code></pre></div><p>这些坐标就是检测任务的监督标签。</p>
-<p>还可以对图像施加几何变换，并同步变换标签坐标，增加样本多样性。</p>
-<p>论文中的合成数据采用动态生成方式，不需要提前固定保存所有训练图像。</p>
-<ol start="2">
-<li>将兴趣点坐标转换为65类标签</li>
-</ol>
-<p>SuperPoint 的编码器经过三次最大池化（中间有三次卷积），将空间尺寸缩小到原图的八分之一：</p>
+<p>比如画一个三角形，程序画完的同时就已经拿到了三个顶点的坐标，于是可以直接得到一对训练数据：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">合成图像 I + 已知兴趣点坐标 Y</code></pre></div><p>我们还可以对画好的图形做几何变换，同时把坐标 <code>Y</code> 一起跟着变，这样样本就更丰富了。（原论文里的合成图是边训练边动态生成的，不需要提前全部存到硬盘里。）</p>
+<p><strong>第二步：把点坐标转成 65 类分类标签</strong></p>
+<p>SuperPoint 的编码器里包含三次最大池化（中间穿插卷积），经过它之后，特征图的长宽会缩小到原图的八分之一：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">原图：H × W
-粗网格：H/8 × W/8</code></pre></div><p>一个粗网格位置对应原图中的一个不重叠的 <code>8×8</code> 像素区域。</p>
-<p>检测头为每个粗网格输出65个类别：</p>
+粗网格：H/8 × W/8</code></pre></div><p>你可以把粗网格上的每一个格子，看作原图里一块互不重叠的 <code>8×8</code> 像素小块。检测头要做的事情，就是给每一个 <code>8×8</code> 小块做一次 <strong>65 分类</strong>：</p>
 <ul>
-<li>64类：对应 <code>8×8</code> 区域中的64个像素位置；</li>
-<li>1类：该区域没有兴趣点，即 dustbin。</li>
+<li><strong>前 64 类</strong>：对应这个 <code>8×8</code> 小块里的 64 个像素位置；</li>
+<li><strong>第 65 类</strong>：表示这块区域里压根没有兴趣点（论文里叫 <strong>dustbin</strong>，可以理解成“垃圾桶/背景类”）。</li>
 </ul>
-<p>因此，每个区域需要一个分类标签：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">区域内有兴趣点：
-    标签 = 兴趣点在该区域中的像素位置类别
-区域内没有兴趣点：
-    标签 = dustbin</code></pre></div><p>如果同一个区域中存在多个标注点，论文中表示随机选择其中一个作为训练标签。</p>
+<p>所以每个小块的标签规则很简单：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">区域内有兴趣点：标签 = 兴趣点在这个 8×8 区域里的像素位置编号
+区域内没有兴趣点：标签 = dustbin</code></pre></div><p>如果碰巧同一个 <code>8×8</code> 小块里落进了好几个标注点，原论文的做法是随机选一个当训练标签。</p>
 <blockquote>
-<p>每个区域只有一个训练类别，不等于推理解码后每个区域只能输出一个点。</p>
+<p><strong>注意</strong>：训练时每个 <code>8×8</code> 区域只给一个分类标签，并不代表推理阶段解码后，每个区域就只能输出一个点。</p>
 </blockquote>
-<ol start="3">
-<li>输入网络，预测兴趣点类别</li>
-</ol>
-<p>这一阶段只使用共享编码器和检测头：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">合成图像
-   ↓
-共享 CNN 编码器
-   ↓
-检测头
-   ↓
-每个粗网格的65类预测</code></pre></div><p>检测头输出张量为：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">[B, 65, H/8, W/8]</code></pre></div><p>其中：</p>
-<ul>
-<li><code>B</code>：批次大小；</li>
-<li><code>H、W</code>：输入图像尺寸；</li>
-<li><code>65</code>：每个区域的类别数。</li>
-</ul>
-<ol start="4">
-<li>计算检测损失并更新参数</li>
-</ol>
-<p>将每个区域的65类预测与对应标签比较，计算交叉熵损失。</p>
-<p>直观目标是：</p>
-<ul>
-<li>存在兴趣点时，提高正确像素位置类别的概率；</li>
-<li>不存在兴趣点时，提高 dustbin 类别的概率。</li>
-</ul>
-<p>随后执行：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">清空梯度
-   ↓
-反向传播
-   ↓
-优化器更新编码器与检测头参数</code></pre></div><p>描述头不参与这一阶段。</p>
-<ol start="5">
-<li>得到 MagicPoint</li>
-</ol>
-<p>经过训练，得到基础兴趣点检测器 MagicPoint。</p>
-<p>它已经能识别一些角点、交点等结构，但仍有两个不足：</p>
+<p><strong>第三步：输入网络，得到预测</strong></p>
+<p>第一阶段只用<strong>共享编码器 + 检测头</strong>（描述头这时还不上场）：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">合成图像 → 共享 CNN 编码器 → 检测头 → 每个粗网格的 65 类预测</code></pre></div><p>检测头输出的张量形状是：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">[B, 65, H/8, W/8]</code></pre></div><p>其中 <code>B</code> 是批次大小，<code>H、W</code> 是原图高宽，<code>65</code> 就是上面说的 65 个类别。</p>
+<p><strong>第四步：算损失、更新参数，得到 MagicPoint</strong></p>
+<p>接下来把每个区域的 65 类预测和真实标签做交叉熵损失（有兴趣点就拉高对应像素位置的概率，没兴趣点就拉高 dustbin 的概率），然后走标准的反向传播流程：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">清空梯度 → 反向传播 → 优化器更新编码器与检测头参数</code></pre></div><p>训完之后，我们就拿到了基础检测器 <strong>MagicPoint</strong>。它已经能认出不少角点和交点了，但还有两个明显的短板：</p>
 <ol>
-<li>合成图像与真实照片之间存在分布差异；</li>
-<li>还没有训练完整的局部描述能力。</li>
+<li>合成图形和真实照片差距太大（存在分布差异）；</li>
+<li>它现在只会找点，还不会生成描述子。</li>
 </ol>
-<p>因此，需要继续利用真实图像训练。</p>
-<h4 id="三第二阶段通过单应适应生成真实图像伪标签"><strong>三、第二阶段：通过单应适应生成真实图像伪标签</strong></h4>
-<p>这一阶段的核心任务是：</p>
-<blockquote>
-<p>利用已有检测器，为没有人工标注的真实图像生成兴趣点标签。</p>
-</blockquote>
-<p>它主要是一个标签生成过程。执行检测与汇总时，检测器参数保持固定。</p>
-<ol>
-<li>读取一张未标注真实图像</li>
-</ol>
-<p>设真实图像为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span></span></p>
-<p>例如一张建筑照片。</p>
-<p>图像中可能存在窗户角、墙面交点等结构，但没有人工提供兴趣点坐标。</p>
-<ol start="2">
-<li>生成多个已知单应变换</li>
-</ol>
-<p>随机采样多个单应矩阵：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>H</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>H</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">H_1,H_2,\ldots,H_K
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
-<p>分别作用于原图：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>I</mi><mi>k</mi></msub><mo>=</mo><mi mathvariant="normal">warp</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>I</mi><mo separator="true">,</mo><msub><mi>H</mi><mi>k</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I_k=\operatorname{warp}(I,H_k)
+<p>所以接下来，我们要想办法把它搬到真实照片上。</p>
+<hr>
+<h3 id="13-第二阶段通过单应适应给真实图像造伪标签">1.3 第二阶段：通过单应适应给真实图像造伪标签</h3>
+<p>这一阶段的核心目标只有一句话：<strong>用刚才训好的 MagicPoint，给没有人工标注的真实照片自动生成尽量靠谱的兴趣点标签。</strong>（<strong>注意</strong>：这整个过程里检测器的权重是冻住的，只做推理和汇总，不更新参数。）</p>
+<p>下面我们拿一张建筑照片 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span>（比如有很多窗户角、墙面交点，但没有任何标注）为例，看看具体怎么操作：</p>
+<p><strong>第一步：给原图做一堆已知的单应变换</strong></p>
+<p>我们随机采样 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> 个单应矩阵 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>H</mi><mn>2</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>H</mi><mi>K</mi></msub></mrow><annotation encoding="application/x-tex">H_1, H_2, \ldots, H_K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，分别把原图 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span> 变换成 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> 张不同视角的图：</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>I</mi><mi>k</mi></msub><mo>=</mo><mi mathvariant="normal">warp</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>I</mi><mo separator="true">,</mo><msub><mi>H</mi><mi>k</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I_k = \operatorname{warp}(I, H_k)
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span class="mord mathrm">warp</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>得到同一图像的多个变换版本。</p>
-<p>变换可以包含：</p>
-<ul>
-<li>平移；</li>
-<li>缩放；</li>
-<li>平面内旋转；</li>
-<li>透视形变。</li>
-</ul>
-<p>因为变换由程序主动生成，所以原图与变换图之间的坐标关系是已知的。</p>
-<ol start="3">
-<li>分别预测各个视图的分数图</li>
-</ol>
-<p>把每张变换图像输入 MagicPoint（已经用基本图形训练好的检测器）：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">变换图像1 → MagicPoint → 分数图1
-变换图像2 → MagicPoint → 分数图2
-变换图像3 → MagicPoint → 分数图3
-……</code></pre></div><p>这里得到的是兴趣点分数图。</p>
-<p>同一个结构在不同尺度、方向和透视形变下，可能产生不同响应。</p>
-<p>多次检测的目的，是综合这些不同观察条件下的证据，而不是只相信某一次预测。</p>
-<ol start="4">
-<li>将分数图映射回原图坐标</li>
-</ol>
-<p>不同视图中的相同像素坐标，通常不对应相同图像内容。</p>
-<p>因此，不能直接把各张分数图逐像素相加。</p>
-<p>需要利用每次变换的逆映射，将分数图映回原图坐标系：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">变换图中的预测
-       ↓
-根据已知逆变换映回原图
-       ↓
-同一物理结构的预测落到相同参考位置</code></pre></div><p>注意：映回的是检测分数，不是描述子。</p>
-<ol start="5">
-<li>按有效观测汇总分数</li>
-</ol>
-<p>对齐后，对同一位置的有效预测进行汇总和平均。</p>
-<p>需要排除：</p>
-<ul>
-<li>变换后移出画面的区域；</li>
-<li>图像填充区域；</li>
-<li>没有有效来源的位置。</li>
-</ul>
-<p>例如，某个位置在三次变换中的结果为：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">第1次：0.9
-第2次：0.8
-第3次：移出画面，没有有效观测</code></pre></div><p>平均分数应为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mn>0.9</mn><mo>+</mo><mn>0.8</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>0.85</mn></mrow><annotation encoding="application/x-tex">\frac{0.9+0.8}{2}=0.85
+<p>这些变换里可以包含平移、缩放、平面内旋转和透视形变。因为变换矩阵是我们自己生成的，所以<strong>原图和每张变换图之间的像素对应关系是完全已知的</strong>。</p>
+<p><strong>第二步：每张变换图都跑一遍 MagicPoint</strong></p>
+<p>把这 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span> 张变换后的图依次送进 MagicPoint，各自得到一张兴趣点分数图：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">变换图像 1 → MagicPoint → 分数图 1
+变换图像 2 → MagicPoint → 分数图 2
+变换图像 3 → MagicPoint → 分数图 3
+……</code></pre></div><p>为什么要多看这么多遍？因为同一个窗户角，换个角度、缩个比例，检测器给出的响应可能忽高忽低。多变换几次再汇总，相当于听取多个视角的“集体投票”，比只信单次预测稳得多。</p>
+<p><strong>第三步：把分数图映回原图坐标系</strong></p>
+<p>不同变换图里同一个 <code>(x, y)</code> 坐标对应的早就不是原图里的同一个位置了，所以<strong>绝对不能直接把这些分数图直接相加</strong>。</p>
+<p>我们要用每次变换的逆矩阵，把每张分数图都投影回原图坐标系下：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">变换图中的预测 → 按已知逆变换映回原图 → 同一物理结构的分数落回同一个位置</code></pre></div><p>（注意这里映回去的是检测分数图，跟描述子没关系。）</p>
+<p><strong>第四步：只按“有效观测”求平均</strong></p>
+<p>对齐之后，就能把同一个位置上的分数做平均了。但这里有个很容易踩的坑——<strong>必须排除变换后移出画面、或者靠边界填充出来的无效区域</strong>。</p>
+<p>举个例子，假设某个角点在三次变换里的观测结果是：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">第 1 次：0.9
+第 2 次：0.8
+第 3 次：移出画面，没观测到</code></pre></div><p>那么它的平均分数应该是：</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mfrac><mrow><mn>0.9</mn><mo>+</mo><mn>0.8</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>0.85</mn></mrow><annotation encoding="application/x-tex">\frac{0.9 + 0.8}{2} = 0.85
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0.9</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.8</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.85</span></span></span></span></span></p>
-<p>而不是把第三次记成0，再除以3。</p>
-<blockquote>
-<p>没有观测到，不等于检测器判断那里不是兴趣点。</p>
-</blockquote>
-<p>实现时，可以利用有效区域掩码，记录每个位置有多少次有效观测。</p>
-<ol start="6">
-<li>将汇总分数图转换成点标签</li>
-</ol>
-<p>汇总后的结果仍是一张分数图，需要进一步处理：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">汇总分数图
-    ↓
-阈值筛选
-    ↓
-非极大值抑制 NMS
-    ↓
-保留兴趣点坐标</code></pre></div><p>最终得到：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">真实图像 I
-+
-兴趣点伪标签 Y</code></pre></div><p>这些标签称为“伪标签”，因为它们来自模型预测，而不是人工真值。</p>
-<p>多视图汇总可以减轻部分预测波动，但不能保证消除系统性错误。</p>
-<ol start="7">
-<li>可选：迭代生成更好的标签</li>
-</ol>
-<p>利用第一轮伪标签训练出新的检测器后，可以再次执行单应适应：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">MagicPoint
-    ↓
-第一轮伪标签
-    ↓
-训练适应真实图像的检测器
-    ↓
-重新执行单应适应
-    ↓
-新的伪标签</code></pre></div><p>论文实验使用了这种迭代方式。</p>
-<p>过程基本是</p>
-<p>整个过程是：</p>
+<p>而不是把第 3 次当成 0 再除以 3。**注意：没观测到，不等于检测器觉得这里不是兴趣点。**写代码时，通常是用一张有效区域掩码（mask）记下每个位置到底被有效看到了几次，再拿它当分母。</p>
+<p><strong>第五步：从汇总分数图里挑出点标签</strong></p>
+<p>汇总完得到的还是一张连续的分数图，我们再做两步后处理，就能抽出最终的点坐标：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">汇总分数图 → 阈值筛选 → 非极大值抑制（NMS） → 保留兴趣点坐标</code></pre></div><p>这样我们就拿到了真实图像 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span> 和对应的<strong>兴趣点伪标签 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span></strong>。（叫“伪标签”是因为它来自模型预测而不是人工真值；多视图汇总能压住一部分随机波动，但没法根除系统性错误。）</p>
+<p><strong>第六步（可选）：迭代几轮，让标签越来越好</strong></p>
+<p>拿第一轮伪标签训出一个适应了真实照片的新检测器之后，我们还可以用这个新检测器再跑一遍单应适应，生成质量更高的第二轮伪标签。原论文里就用了这种迭代套娃的方式：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">MagicPoint D₀
       ↓ 对真实图像执行单应适应
 第一轮伪标签 Y₀
@@ -285,169 +182,63 @@
 第二轮伪标签 Y₁
       ↓ 用图像 I 和标签 Y₁ 继续训练
 新检测器 D₂</code></pre></div><hr>
-<h4 id="四第三阶段联合训练检测头与描述头">四、第三阶段：联合训练检测头与描述头</h4>
-<p>现在已经有真实图像及其兴趣点伪标签。</p>
-<p>接下来，需要让网络同时学习：</p>
-<ol>
-<li>在真实图像中检测兴趣点；</li>
-<li>为对应位置生成可匹配的描述子。</li>
-</ol>
-<p>1.读取真实图像及其伪标签</p>
-<p>从训练集中取出：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo stretchy="false">(</mo><mi>I</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(I,Y)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span></span></p>
-<p>其中：</p>
-<ul>
-<li><code>I</code>：真实图像；</li>
-<li><code>Y</code>：提前生成的兴趣点伪标签。</li>
-</ul>
-<ol start="2">
-<li>采样单应变换，构造图像对</li>
-</ol>
-<p>随机采样一个单应矩阵 <code>H</code>，生成：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>I</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi mathvariant="normal">warp</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>I</mi><mo separator="true">,</mo><mi>H</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I&#x27;=\operatorname{warp}(I,H)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span class="mord mathrm">warp</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mclose">)</span></span></span></span></span></p>
-<p>同时对标签坐标进行相同变换：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi mathvariant="normal">warpPoints</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>Y</mi><mo separator="true">,</mo><mi>H</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Y&#x27;=\operatorname{warpPoints}(Y,H)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span class="mord mathrm">warpPoints</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mclose">)</span></span></span></span></span></p>
-<p>注意，标签通常表示为点坐标，因此需要对坐标进行几何变换，而不是简单地对离散标签图做普通图像插值。</p>
-<p>处理时还应排除越界点，并妥善处理变换产生的无效区域。</p>
-<p>此时，一个训练样本包含：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">原图 I
-原图检测标签 Y
-变换图 I′
-变换图检测标签 Y′
-已知单应关系 H</code></pre></div><p>还可以加入亮度变化、噪声、运动模糊等数据增强，改善网络鲁棒性。</p>
-<ol start="3">
-<li>两张图像经过同一套网络参数</li>
-</ol>
-<p>分别进行前向传播：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">I  → SuperPoint → 检测输出 X  + 描述图 D
-I′ → SuperPoint → 检测输出 X′ + 描述图 D′</code></pre></div><p>这里不是两个独立训练的网络。</p>
-<p>两张图像使用同一套编码器、检测头和描述头参数。</p>
-<p>如果输入尺寸为：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">240 × 320</code></pre></div><p>那么粗网格尺寸为：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">30 × 40</code></pre></div><p>对应输出为：</p>
+<h3 id="14-第三阶段联合训练检测头与描述头">1.4 第三阶段：联合训练检测头与描述头</h3>
+<p>现在我们手里已经有了真实图像 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span> 和它的兴趣点伪标签 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span>。接下来进入最核心的第三阶段：让网络在真实图像上<strong>同时学会找点和算描述子</strong>。</p>
+<p>我们顺着一个训练样本走一遍完整过程：</p>
+<p><strong>第一步：采样单应变换，造出一对图像</strong></p>
+<p>从训练集取出 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>I</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(I, Y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span> 后，随机生成一个单应矩阵 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>，把图像和点坐标一起变换过去：</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>I</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi mathvariant="normal">warp</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>I</mi><mo separator="true">,</mo><mi>H</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mspace width="2em"/><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi mathvariant="normal">warpPoints</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>Y</mi><mo separator="true">,</mo><mi>H</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I&#x27; = \operatorname{warp}(I, H), \qquad Y&#x27; = \operatorname{warpPoints}(Y, H)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mop"><span class="mord mathrm">warp</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop"><span class="mord mathrm">warpPoints</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mclose">)</span></span></span></span></span></p>
+<p>（<strong>注意</strong>：标签是离散的点坐标，要直接对坐标做几何变换，不能把标签画成图去做普通像素插值；变出画面边界的点也要及时删掉。）</p>
+<p>再加上亮度变化、噪声、运动模糊等数据增强，这一对样本就准备好了：手里同时有原图 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span>、变换图 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>I</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">I&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>、各自的检测标签 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">Y&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，以及它们之间已知的几何关系 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>。</p>
+<p><strong>第二步：两张图经过同一套网络参数</strong></p>
+<p>把 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi></mrow><annotation encoding="application/x-tex">I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>I</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">I&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> 分别送进同一个 SuperPoint 网络（注意不是两个独立的网络，而是<strong>共用同一套编码器、检测头和描述头权重</strong>）：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">I  → SuperPoint → 检测输出 X  + 粗描述图 D
+I′ → SuperPoint → 检测输出 X′ + 粗描述图 D′</code></pre></div><p>拿原论文的训练尺寸 <code>240×320</code> 举例，经过 8 倍下采样后，粗网格尺寸就是 <code>30×40</code>，对应的输出张量形状为：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">检测输出：[B, 65, 30, 40]
-粗描述图：[B, 256, 30, 40]</code></pre></div><ol start="4">
-<li>计算原图与变换图的检测损失</li>
-</ol>
-<p>使用原图标签 <code>Y</code> 监督检测输出 <code>X</code>：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_p(X,Y)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span></span></p>
-<p>使用变换后的标签 <code>Y′</code> 监督检测输出 <code>X′</code>：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><msup><mi>X</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_p(X&#x27;,Y&#x27;)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.088em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>两侧标签都需要转换为每个 <code>8×8</code> 区域一个65类标签的形式。</p>
-<p>检测损失为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>L</mi><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>=</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><msup><mi>X</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_{\mathrm{det}}
-=
-L_p(X,Y)+L_p(X&#x27;,Y&#x27;)
+粗描述图：[B, 256, 30, 40]</code></pre></div><p><strong>第三步：分别算两张图的检测损失</strong></p>
+<p>先把 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">Y&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> 都转成每个 <code>8×8</code> 区域一个 65 类标签的格式，然后分别监督两张图的检测输出：</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>L</mi><mrow><mi mathvariant="normal">d</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">t</mi></mrow></msub><mo>=</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><msup><mi>X</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_{\mathrm{det}} = L_p(X, Y) + L_p(X&#x27;, Y&#x27;)
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">det</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.088em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>这部分教网络：</p>
+<p>可以看到，检测分支并不是只要求两张图输出保持一致，而是<strong>两边各自拿对应的标签去监督</strong>——既教网络原图哪里该有点，也教它变换后的图哪里该有点。</p>
+<p><strong>第四步：用单应矩阵 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> 找出描述子的“正负对应”</strong></p>
+<p>描述头要学的是“同一处物理位置的特征要像，不同位置的特征要不像”。那怎么知道两张图里哪两个格子对应同一个位置？这时候前面保存的单应矩阵 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> 就派上用场了。</p>
+<p>设原图里某个粗描述网格中心对应的像素坐标是 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span>，用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> 把它投影到另一张图里：</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>p</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>π</mi><mo stretchy="false">(</mo><mi>H</mi><mover accent="true"><mi>p</mi><mo>~</mo></mover><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p&#x27; = \pi(H\tilde{p})
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9963em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">p</span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>（其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>p</mi><mo>~</mo></mover></mrow><annotation encoding="application/x-tex">\tilde{p}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">p</span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span></span></span></span> 是齐次坐标，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span> 表示除以最后一个坐标恢复成二维坐标。）</p>
+<p>接着算一算 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>p</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">p&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9463em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> 和第二张图里所有粗网格中心的像素距离：</p>
 <ul>
-<li>原图中哪里应该有点；</li>
-<li>变换后的图像中哪里应该有点。</li>
+<li>距离够近（论文用的阈值是 <strong>8 像素以内</strong>）：算<strong>正对应</strong>；</li>
+<li>距离较远：算<strong>负对应</strong>。</li>
 </ul>
 <blockquote>
-<p>检测训练并不是只要求两张图的输出一致，而是分别用标签监督两侧输出。</p>
+<p><strong>注意一个关键细节</strong>：原论文的描述损失是直接作用在<strong>两张粗描述图的所有网格单元对</strong>上的，并不是先做 NMS 挑出少数兴趣点，再只针对那几个点算描述损失。</p>
 </blockquote>
-<ol start="5">
-<li>利用单应矩阵构造描述对应关系</li>
-</ol>
-<p>描述头需要知道：两张图中哪些位置代表同一处图像内容。</p>
-<p>设原图某个粗描述网格中心对应的像素坐标为 <code>p</code>。</p>
-<p>通过单应矩阵，可计算其在另一张图中的位置：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>p</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mi>π</mi><mo stretchy="false">(</mo><mi>H</mi><mover accent="true"><mi>p</mi><mo>~</mo></mover><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p&#x27;=\pi(H\tilde p)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9963em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">p</span></span><span style="top:-3.35em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>其中：</p>
+<p><strong>第五步：计算描述损失（带间隔的 Hinge Loss）</strong></p>
+<p>取出任意一对归一化后的描述向量 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">d&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7519em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span>，用内积 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><msup><mi>d</mi><mi mathvariant="normal">⊤</mi></msup><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">q = d^\top d&#x27;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span> 衡量它们的相似度。我们希望正对应越像越好，负对应别太像。</p>
+<p>论文用的是带正负间隔（margin）的 Hinge Loss：</p>
 <ul>
-<li><code>p̃</code>：点的齐次坐标；</li>
-<li><code>π</code>：除以最后一个坐标，恢复二维位置。</li>
+<li>正对应损失：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">s</mi></mrow></msub><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><msub><mi>m</mi><mi>p</mi></msub><mo>−</mo><msup><mi>d</mi><mi mathvariant="normal">⊤</mi></msup><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\ell_{\mathrm{pos}} = \max(0, m_p - d^\top d&#x27;)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">pos</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+<li>负对应损失：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mrow><mi mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">g</mi></mrow></msub><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><msup><mi>d</mi><mi mathvariant="normal">⊤</mi></msup><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>−</mo><msub><mi>m</mi><mi>n</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\ell_{\mathrm{neg}} = \max(0, d^\top d&#x27; - m_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight" style="margin-right:0.01389em;">neg</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0991em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
 </ul>
-<p>随后，比较映射位置与第二张图中各粗网格中心的距离：</p>
-<ul>
-<li>距离足够近：正对应；</li>
-<li>距离较远：负对应。</li>
-</ul>
-<p>论文使用8像素的几何距离阈值构造对应关系。</p>
-<p>重要区别：</p>
-<p><strong>原始论文的描述损失作用于两张粗描述图中的网格单元对，不是先经过NMS，只挑少数兴趣点来训练描述子。</strong></p>
-<ol start="6">
-<li>计算描述损失</li>
-</ol>
-<p>设一对归一化后的描述向量为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>d</mi><mo separator="true">,</mo><mtext> </mtext><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">d,\ d&#x27;
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9963em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">d</span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
-<p>使用内积衡量相似度：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>q</mi><mo>=</mo><msup><mi>d</mi><mi mathvariant="normal">⊤</mi></msup><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">q=d^\top d&#x27;
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
-<p>目标是：</p>
-<ul>
-<li>正对应的描述向量足够相似；</li>
-<li>负对应的描述向量不要过于相似。</li>
-</ul>
-<p>论文采用带正负间隔的 hinge loss。</p>
-<p>正对应的损失为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">s</mi></mrow></msub><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><msub><mi>m</mi><mi>p</mi></msub><mo>−</mo><msup><mi>d</mi><mi mathvariant="normal">⊤</mi></msup><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\ell_{\mathrm{pos}}
-=
-\max(0,m_p-d^\top d&#x27;)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">pos</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1491em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>负对应的损失为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="normal">ℓ</mi><mrow><mi mathvariant="normal">n</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">g</mi></mrow></msub><mo>=</mo><mi>max</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><msup><mi>d</mi><mi mathvariant="normal">⊤</mi></msup><msup><mi>d</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>−</mo><msub><mi>m</mi><mi>n</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\ell_{\mathrm{neg}}
-=
-\max(0,d^\top d&#x27;-m_n)
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord">ℓ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight" style="margin-right:0.01389em;">neg</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1491em;vertical-align:-0.25em;"></span><span class="mop">max</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
-<p>其中：</p>
-<ul>
-<li><code>m_p</code>：正对应要求达到的相似度；</li>
-<li><code>m_n</code>：负对应允许的相似度上限。</li>
-</ul>
-<p>直观理解：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">正对应：
-相似度不够高 → 产生损失
-已经足够相似 → 不再处罚
-
-负对应：
-相似度过高   → 产生损失
-已经足够不同 → 不再处罚</code></pre></div><p>由于负对应数量远多于正对应，论文对正对应项增加权重，避免训练被大量负样本主导。</p>
-<ol start="7">
-<li>合并检测损失与描述损失</li>
-</ol>
-<p>总损失为：</p>
-<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>L</mi><mo>=</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><msup><mi>X</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>+</mo><mi>λ</mi><msub><mi>L</mi><mi>d</mi></msub><mo stretchy="false">(</mo><mi>D</mi><mo separator="true">,</mo><msup><mi>D</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><mi>S</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L
-=
-L_p(X,Y)
-+
-L_p(X&#x27;,Y&#x27;)
-+
-\lambda L_d(D,D&#x27;,S)
+<p>其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">m_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> 是正对应要求达到的相似度下限，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">m_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是负对应允许的相似度上限。用大白话理解就是：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">正对应：相似度还不够高 → 扣分（产生损失）；已经够像了 → 不再管它
+负对应：相似度太高了   → 扣分（产生损失）；已经够不像了 → 不再管它</code></pre></div><p>因为一张图里“不是同一个位置”的负样本比正样本多得多，为了不让大量负样本把梯度带偏，论文还专门给正对应项乘了一个较大的权重 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">\lambda_d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>。</p>
+<p><strong>第六步：合并总损失，反向传播</strong></p>
+<p>把两份检测损失和描述损失加在一起，就得到总损失：</p>
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>L</mi><mo>=</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>L</mi><mi>p</mi></msub><mo stretchy="false">(</mo><msup><mi>X</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><msup><mi>Y</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mo>+</mo><mi>λ</mi><msub><mi>L</mi><mi>d</mi></msub><mo stretchy="false">(</mo><mi>D</mi><mo separator="true">,</mo><msup><mi>D</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo separator="true">,</mo><mi>S</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L = L_p(X, Y) + L_p(X&#x27;, Y&#x27;) + \lambda L_d(D, D&#x27;, S)
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.088em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mord mathnormal">λ</span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mclose">)</span></span></span></span></span></p>
-<p>其中：</p>
-<ul>
-<li><code>X、X′</code>：两张图的检测输出；</li>
-<li><code>Y、Y′</code>：两张图的检测标签；</li>
-<li><code>D、D′</code>：两张图的粗描述图；</li>
-<li><code>S</code>：由单应关系生成的描述对应标签；</li>
-<li><code>λ</code>：检测与描述任务之间的平衡系数。</li>
-</ul>
-<ol start="8">
-<li>反向传播并更新参数</li>
-</ol>
-<p>梯度传播关系为：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">检测损失
-   ├─ 更新检测头
-   └─ 更新共享编码器
+<p>其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span> 是刚才由单应关系算出来的描述对应标签，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span> 用来平衡检测和描述两个任务的量级。</p>
+<p>反向传播时，梯度会兵分两路往回传：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">检测损失 ─┬─ 更新检测头
+          └─ 更新共享编码器
 
-描述损失
-   ├─ 更新描述头
-   └─ 更新共享编码器</code></pre></div><p>因此，共享编码器同时接收两类训练信号：</p>
-<ul>
-<li>哪些图像结构适合稳定检测；</li>
-<li>怎样的特征表示更有利于区分对应与非对应位置。</li>
-</ul>
-<p>优化器更新参数后，继续处理下一批样本。</p>
-<h4 id="五一次联合训练迭代的完整顺序">五、一次联合训练迭代的完整顺序</h4>
+描述损失 ─┬─ 更新描述头
+          └─ 更新共享编码器</code></pre></div><p>这样一来，共享编码器就能同时收到两份反馈：既知道什么样的局部结构好找点，也知道提什么样的特征更方便后续做区分。</p>
+<hr>
+<h3 id="15-一次联合训练迭代的完整清单">1.5 一次联合训练迭代的完整清单</h3>
+<p>把上面的步骤串起来，一次训练迭代其实就是下面这 13 步（注意伪标签 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span> 提前算好了，直接读就行）：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">1. 读取真实图像 I 和伪标签 Y
 2. 随机采样单应矩阵 H
 3. 生成变换图像 I′
@@ -460,9 +251,8 @@ L_p(X&#x27;,Y&#x27;)
 10. 计算描述损失
 11. 加权合并总损失
 12. 清空梯度 → 反向传播 → 优化器更新
-13. 进入下一批训练数据</code></pre></div><p>这里读取的兴趣点伪标签通常已经提前生成，不需要在每个迭代中重新执行整套单应适应。</p>
-<h4 id="六论文中的训练设置">六、论文中的训练设置</h4>
-<p>以下是原论文的实验配置，不是所有复现必须固定采用的参数。</p>
+13. 进入下一批训练数据</code></pre></div><h3 id="16-原论文里的训练参数参考">1.6 原论文里的训练参数参考</h3>
+<p>顺手把原论文的实验配置列在这里，方便对照（自己复现时不必死守完全一样的参数）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -472,8 +262,8 @@ L_p(X&#x27;,Y&#x27;)
 </thead>
 <tbody>
 <tr>
-<td>MagicPoint预训练</td>
-<td>200,000次迭代</td>
+<td>MagicPoint 预训练</td>
+<td>200,000 次迭代</td>
 </tr>
 <tr>
 <td>合成数据</td>
@@ -481,7 +271,7 @@ L_p(X&#x27;,Y&#x27;)
 </tr>
 <tr>
 <td>真实图像来源</td>
-<td>MS-COCO 2014训练集，约80,000张</td>
+<td>MS-COCO 2014 训练集，约 80,000 张</td>
 </tr>
 <tr>
 <td>真实图像训练尺寸</td>
@@ -489,7 +279,7 @@ L_p(X&#x27;,Y&#x27;)
 </tr>
 <tr>
 <td>单应适应变换次数</td>
-<td>每张图100次</td>
+<td>每张图 100 次</td>
 </tr>
 <tr>
 <td>描述子维度</td>
@@ -508,29 +298,39 @@ L_p(X&#x27;,Y&#x27;)
 <td>32</td>
 </tr>
 <tr>
-<td>总损失中的描述权重 λ</td>
+<td>总损失中的描述权重 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span></td>
 <td>0.0001</td>
 </tr>
 <tr>
-<td>描述损失内部的正对应权重 λ_d</td>
+<td>描述损失内部的正对应权重 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">\lambda_d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></td>
 <td>250</td>
 </tr>
 <tr>
-<td>正对应间隔 m_p</td>
+<td>正对应间隔 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>p</mi></msub></mrow><annotation encoding="application/x-tex">m_p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></td>
 <td>1</td>
 </tr>
 <tr>
-<td>负对应间隔 m_n</td>
+<td>负对应间隔 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>m</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">m_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></td>
 <td>0.2</td>
 </tr>
 </tbody>
 </table></div>
-<p>两个权重不要混淆：</p>
-<ul>
-<li><strong>λ</strong>：平衡检测损失与描述损失。</li>
-<li><strong>λ_d</strong>：平衡描述损失内部的正对应与负对应。</li>
-</ul>
-<h4 id="七训练与推理的区别">七、训练与推理的区别</h4>
+<p><strong>注意这两个权重别混了</strong>：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi></mrow><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">λ</span></span></span></span> 是平衡“检测损失”和“描述损失”的；<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">\lambda_d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">λ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是平衡描述损失内部“正样本”和“负样本”的。</p>
+<h3 id="17-训练部分最容易搞混的三个问题">1.7 训练部分最容易搞混的三个问题</h3>
+<p>总结一下训练阶段，有三个概念最容易绕晕：</p>
+<ol>
+<li><strong>“自监督”不等于“没标签”</strong>：SuperPoint 训练时全程都有明确的监督信号（合成图的程序坐标、真实图的单应伪标签、图像对之间的单应对应关系），它省掉的只是“大量人工逐张标点”的苦力活。</li>
+<li><strong>检测伪标签 ≠ 描述对应标签</strong>：检测伪标签回答“这里该不该有点”，描述对应标签回答“这两处特征该不该像”，两者的来源和用途完全分开。</li>
+<li><strong>单应变换在两个阶段干的活不一样</strong>：在<strong>单应适应阶段</strong>，它用来给同一张图造多视角、汇总伪标签；在<strong>联合训练阶段</strong>，它用来造训练图像对，并直接给出描述子的正负对应关系。</li>
+</ol>
+<hr>
+<h2 id="2-推理流程详解">2. 推理流程详解</h2>
+<p>刚刚已经把复杂的训练看完了，现在来看看实际推理。<strong>好消息是，推理阶段比训练简单得多</strong>——先给它定个位：</p>
+<blockquote>
+<p><strong>SuperPoint 本质上是一个“单张图的局部特征提取器”：给它一张图，它吐出兴趣点坐标、检测分数和对应的 256 维描述子。</strong></p>
+</blockquote>
+<p>它<strong>本身不负责做两张图的匹配</strong>。真要匹配两张图，得分别跑一遍 SuperPoint，再拿描述子去匹配和做几何验证。</p>
+<p>我们先用一张表把训练和推理的差别划清：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -546,22 +346,17 @@ L_p(X&#x27;,Y&#x27;)
 <td>单张图像</td>
 </tr>
 <tr>
-<td>检测标签</td>
+<td>检测标签 / 伪标签</td>
 <td>需要</td>
 <td>不需要</td>
 </tr>
 <tr>
 <td>单应关系</td>
-<td>用于构造训练样本与描述监督</td>
+<td>用来造样本和算描述监督</td>
 <td>不需要</td>
 </tr>
 <tr>
-<td>损失计算</td>
-<td>需要</td>
-<td>不需要</td>
-</tr>
-<tr>
-<td>参数更新</td>
+<td>损失计算与参数更新</td>
 <td>需要</td>
 <td>不需要</td>
 </tr>
@@ -572,133 +367,46 @@ L_p(X&#x27;,Y&#x27;)
 </tr>
 </tbody>
 </table></div>
-<p>推理时不再执行完整训练流程，而是：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">单张图像
-   ↓
-共享编码器
-   ├─ 检测头 → 分数图 → 筛选关键点
-   └─ 描述头 → 粗描述图
-                      ↓
-             按关键点位置插值采样
-                      ↓
-                 L2归一化
-                      ↓
-          关键点、分数与对应描述子</code></pre></div><hr>
-<h4 id="八最重要的三个理解点">八、最重要的三个理解点</h4>
-<ol>
-<li>自监督不等于没有标签</li>
-</ol>
-<p>SuperPoint 训练时有明确的监督信号：</p>
+<h3 id="21-输入是什么">2.1 输入是什么？</h3>
+<p>推理时只需要喂给网络<strong>一张灰度图</strong>，典型张量形状是 <code>[B, 1, H, W]</code>（单张推理时 <code>B=1</code>，<code>1</code> 表示单通道灰度），比如 <code>[1, 1, 480, 640]</code>。</p>
+<p>如果手头是普通 RGB 照片，先转灰度再按要求做归一化就行。因为编码器会做 8 倍下采样，实际使用时通常要求 <code>H</code> 和 <code>W</code> 能被 8 整除（不行就填充或裁剪一下）。<strong>另外，SuperPoint 是全卷积网络，并不要求死卡某一个固定输入尺寸。</strong></p>
+<p>推理时不需要第二张图、不需要标签、不需要单应矩阵，更不需要重新跑单应适应。</p>
+<h3 id="22-一步步看推理怎么跑">2.2 一步步看推理怎么跑</h3>
+<p>还是拿一张 <code>480×640</code> 的建筑照片举例，推理一共就 5 步：</p>
+<p><strong>第一步：共享编码器提特征</strong></p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">输入灰度图 [1, 1, 480, 640]
+        ↓ 卷积、激活、三次最大池化
+共享特征图（空间尺寸 60×80）</code></pre></div><p>注意，经过三次池化虽然长宽缩成了 <code>60×80</code>，但多通道里存的是网络学出来的结构特征，不是简单把原图缩小的模糊缩略图。</p>
+<p><strong>第二步：检测头解码出原图尺寸的分数图</strong></p>
+<p>检测头输出的形状是 <code>[1, 65, 60, 80]</code>（和训练时完全一样：每个粗网格预测 64 个像素位置 + 1 个 dustbin）。接下来按下面四步解码回原图大小：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">65 通道输出
+    ↓ 对 65 类做 Softmax
+    ↓ 扔掉 dustbin 通道（注意不重新归一化）
+    ↓ 把剩下的 64 个通道重排成 8×8 的像素块
+480×640 的兴趣点分数图</code></pre></div><p>这样一来，原图上每一个像素就都有了一个检测分数。</p>
+<p><strong>第三步：后处理筛选出最终关键点</strong></p>
+<p>对这张 <code>480×640</code> 的分数图做一轮清洗：</p>
 <ul>
-<li>合成图像的程序生成标签；</li>
-<li>真实图像的兴趣点伪标签；</li>
-<li>已知单应关系提供的描述对应标签。</li>
+<li><strong>NMS（非极大值抑制）</strong>：同一块角点附近只留响应最强的那个，避免扎堆；</li>
+<li><strong>阈值筛选</strong>：分数太低的直接丢掉；</li>
+<li><strong>去边界</strong>：贴着图像边缘的点通常不好用，顺手剔除；</li>
+<li><strong>可选 Top-K</strong>：如果点数太多，按分数从高到低截断。</li>
 </ul>
-<p>它主要减少的是对真实图像兴趣点人工标注的依赖。</p>
-<ol start="2">
-<li>检测伪标签不等于描述匹配标签</li>
-</ol>
-<p>检测伪标签回答：</p>
-<blockquote>
-<p>这里应不应该有兴趣点？</p>
-</blockquote>
-<p>描述对应标签回答：</p>
-<blockquote>
-<p>这两个位置的描述是否应该相似？</p>
-</blockquote>
-<p>二者来源和用途不同。</p>
-<ol start="3">
-<li>单应变换在两个阶段承担不同角色</li>
-</ol>
-<ul>
-<li><strong>单应适应阶段</strong>：让检测器多次观察同一张真实图像，汇总生成伪标签。</li>
-<li><strong>联合训练阶段</strong>：构造图像对，并提供已知的位置对应关系。</li>
-</ul>
-<h3 id="推理-1">推理</h3>
-<p><strong>SuperPoint 是一个“单张图像的局部特征提取器”：输入一张图，输出兴趣点坐标、检测分数，以及每个点对应的描述子。</strong></p>
-<p>它本身<strong>不直接完成两张图之间的匹配</strong>。如果要匹配两张图，需要分别提取特征，再进行描述子匹配和几何验证。</p>
-<p>下面从实际使用流程讲。</p>
-<h4 id="一输入是什么">一、输入是什么？</h4>
-<ol>
-<li>一张灰度图像</li>
-</ol>
-<p>典型输入张量是：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">[B, 1, H, W]</code></pre></div><ul>
-<li><code>B</code>：批次大小，单张推理时为1；</li>
-<li><code>1</code>：灰度通道；</li>
-<li><code>H、W</code>：图像高度与宽度。</li>
-</ul>
-<p>例如：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">[1, 1, 480, 640]</code></pre></div><p>如果原始数据是RGB照片，通常先转换为灰度图，再按实现要求进行数值归一化。</p>
-<p>由于编码器下采样8倍，实际实现通常要求图像尺寸可被8整除，或者通过填充、裁剪等方式处理。<strong>模型是全卷积结构，不是只能输入某一个固定尺寸。</strong></p>
-<ol start="2">
-<li>推理时不需要什么？</li>
-</ol>
-<p>不需要：</p>
-<ul>
-<li>兴趣点标签；</li>
-<li>伪标签；</li>
-<li>单应矩阵；</li>
-<li>第二张图像；</li>
-<li>再执行MagicPoint训练或单应适应。</li>
-</ul>
-<p>这些属于训练过程，不是普通单张图像推理的输入。</p>
-<h4 id="二具体推理流程">二、具体推理流程</h4>
-<p>以一张 <code>480×640</code> 的建筑照片为例。</p>
-<p>第一步：共享编码器提取特征</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">输入灰度图像
-[1, 1, 480, 640]
-        ↓
-卷积、激活、三次最大池化
-        ↓
-共享特征图
-空间尺寸为 60×80</code></pre></div><p>编码器把图像转换成多通道特征，供后面两个分支共同使用。</p>
-<p><strong>三次池化使空间尺寸变小，但通道中保存的是学习到的结构信息，不是简单缩小后的灰度照片。</strong></p>
-<p>第二步：检测头预测哪里有兴趣点</p>
-<p>检测头输出：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">[1, 65, 60, 80]</code></pre></div><p>每个粗网格位置预测65类：</p>
-<ul>
-<li>64类：原图对应 <code>8×8</code> 区域内的64个像素位置；</li>
-<li>1类：没有兴趣点，即dustbin。</li>
-</ul>
-<p>解码过程：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">65通道输出
-    ↓
-对65类做Softmax
-    ↓
-删除dustbin通道，不重新归一化
-    ↓
-将64个位置通道重排成8×8像素
-    ↓
-480×640的兴趣点分数图</code></pre></div><p>此时每个原图像素都有一个检测分数。</p>
-<p>第三步：筛选最终兴趣点</p>
-<p>对分数图进行后处理：</p>
-<ul>
-<li><strong>NMS</strong>：抑制同一局部结构附近的重复响应；</li>
-<li><strong>阈值筛选</strong>：去掉分数过低的候选；</li>
-<li><strong>去边界</strong>：去掉靠近边缘、不适合使用的位置；</li>
-<li><strong>可选Top-K</strong>：控制最终保留的点数。</li>
-</ul>
-<p>最终得到：</p>
+<p>最后得到 <code>N</code> 个关键点（<code>N</code> 不固定，取决于图像内容和阈值设置）：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">关键点坐标：[N, 2]
-关键点分数：[N]</code></pre></div><p>其中 <code>N</code> 不是固定值，会受图像内容、阈值、NMS范围和Top-K设置影响。</p>
-<p>第四步：描述头生成粗描述图</p>
-<p>与检测分支并行，描述头输出：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">[1, 256, 60, 80]</code></pre></div><p>可以理解为：</p>
-<blockquote>
-<p>一个60×80的空间网格，每个位置存着一个256维描述向量。</p>
-</blockquote>
-<p>此时描述向量位于粗网格上，而关键点坐标位于原图像素坐标系中，两者还没有一一对应。</p>
-<p>第五步：根据关键点位置采样描述子</p>
-<p>对最终保留的每个关键点：</p>
+关键点分数：[N]</code></pre></div><p><strong>第四步：描述头输出粗描述图</strong></p>
+<p>和检测头并行，描述头直接输出 <code>[1, 256, 60, 80]</code>。你可以把它看成一张 <code>60×80</code> 的网格地图，每个格子里塞着一个 256 维的向量。</p>
+<p><strong>第五步：按关键点位置插值取描述子</strong></p>
+<p>现在有个小问题：关键点坐标在 <code>480×640</code> 的原图坐标系里，而描述向量还躺在 <code>60×80</code> 的粗网格上，两边还没对上号。</p>
+<p>做法也很直接——对刚才保留下来的 <code>N</code> 个关键点逐个处理：</p>
 <ol>
-<li>将原图坐标换算到粗描述图对应位置；</li>
-<li>通过插值读取描述向量；</li>
-<li>进行L2归一化。</li>
+<li>把原图坐标换算到 <code>60×80</code> 粗描述图里的对应位置；</li>
+<li>用插值（原论文用的是双三次插值）读出该位置的 256 维向量；</li>
+<li>做一次 L2 归一化。</li>
 </ol>
-<p>得到：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">描述子：[N, 256]</code></pre></div><p>原论文使用双三次插值。实际使用时，不必真的生成完整的 <code>480×640×256</code> 描述图，可以只在保留的关键点位置采样，以减少开销。</p>
-<h4 id="三最终输出是什么">三、最终输出是什么？</h4>
+<p>这样就拿到了 <code>[N, 256]</code> 的描述子。（<strong>实战小技巧</strong>：完全没必要真的把整个 <code>480×640×256</code> 的稠密描述图全插值算出来，只在挑出来的 <code>N</code> 个点位置上采样就行，能省不少算力和显存。）</p>
+<h3 id="23-最终输出与后续匹配">2.3 最终输出与后续匹配</h3>
+<p>推理结束后，我们拿到下面三样东西：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -711,7 +419,7 @@ L_p(X&#x27;,Y&#x27;)
 <tr>
 <td>关键点坐标</td>
 <td><code>N×2</code></td>
-<td>每个点在原图中的位置，通常为<code>(x,y)</code></td>
+<td>每个点在原图里的坐标，通常是 <code>(x, y)</code></td>
 </tr>
 <tr>
 <td>检测分数</td>
@@ -721,45 +429,34 @@ L_p(X&#x27;,Y&#x27;)
 <tr>
 <td>描述子</td>
 <td><code>N×256</code></td>
-<td>用于与其他图像中的局部特征进行比较</td>
+<td>用来和其他图像做特征比对的向量</td>
 </tr>
 </tbody>
 </table></div>
-<p>例如：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">第17个关键点：
-坐标：(120, 80)
+<p>比如第 17 个关键点长这样：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">坐标：(120, 80)
 分数：0.92
-描述子：[0.03, -0.08, ..., 0.11]，共256维</code></pre></div><p>不同代码库可能把描述子保存成 <code>256×N</code>，因此使用时要核对接口。</p>
-<p>**检测分数不是“这个点一定能匹配成功的概率”。**一个点即使检测分数很高，也可能因为重复纹理而匹配错。</p>
-<p>两张图要怎样匹配？</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">图像A → SuperPoint → 点、分数、描述子
+描述子：[0.03, -0.08, ..., 0.11]（共 256 维）</code></pre></div><p>（不同代码库里描述子有时会存成 <code>256×N</code>，接接口时记得看一眼形状。）</p>
+<p><strong>注意：检测分数高，不代表这个点一定能匹配对。</strong> 比如一整面一模一样的玻璃幕墙，每个窗角检测分数都很高，但因为长得太像，照样容易配错。</p>
+<p>两张图要真正完成匹配，还得在 SuperPoint 后面接上匹配器和几何验证：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">图像 A → SuperPoint → 点、分数、描述子
                               ↕ 描述子匹配
-图像B → SuperPoint → 点、分数、描述子
+图像 B → SuperPoint → 点、分数、描述子
                               ↓
                         候选对应关系
                               ↓
-                  RANSAC等几何验证
+                   RANSAC 等几何验证
                               ↓
-                      保留可靠匹配</code></pre></div><p>匹配器和几何验证属于后续模块，不是SuperPoint本身的输出。</p>
-<h4 id="四有什么优点">四、有什么优点？</h4>
+                        保留可靠匹配</code></pre></div><h3 id="24-superpoint-的优缺点与适用场景">2.4 SuperPoint 的优缺点与适用场景</h3>
+<p>搞清楚了原理，我们顺手盘点一下它的长处和短板。</p>
+<p><strong>主要优点：</strong></p>
 <ol>
-<li>整图共享计算，效率较高</li>
+<li><strong>整图共享计算，速度快</strong>：不用先抠一堆图块再逐个跑 CNN，整张图过一遍共享编码器就齐活。（原论文在 Titan X、<code>480×640</code> 条件下报过约 70 FPS，不过换硬件和实现后速度肯定不同，别直接套用。）</li>
+<li><strong>检测与描述一起学</strong>：两个分支共用主干并联合优化，比“各干各的”复用了更多底层表示。</li>
+<li><strong>不靠人工大量标点</strong>：靠合成图 + 单应适应 + 几何对应把训练链路串起来，数据成本低很多。</li>
+<li><strong>对常见成像变化有一定抗性</strong>：训练里加了几何和光度增强，在 HPatches 上对常规视角、亮度、轻微模糊表现不错（但不是对所有极端变化都稳）。</li>
 </ol>
-<p>它不是为每个点单独裁剪图块、重复运行CNN，而是一次处理整张图，共享大部分计算。</p>
-<p>原论文报告在Titan X、<code>480×640</code>输入等特定条件下达到约70 FPS。<strong>这是论文实验结果，不代表任何设备和实现都能达到同样速度。</strong></p>
-<ol start="2">
-<li>同时提供检测和描述</li>
-</ol>
-<p>两个任务共享编码器，并在联合训练中共同优化，比“独立找点，再独立计算描述”具有更强的计算与表示复用能力。</p>
-<ol start="3">
-<li>不依赖大量真实兴趣点人工标注</li>
-</ol>
-<p>它利用合成标签、单应适应伪标签和已知几何关系进行训练，降低了构建训练数据的人工成本。</p>
-<ol start="4">
-<li>对一定程度的成像变化有鲁棒性</li>
-</ol>
-<p>训练中的几何与光度增强，使其能应对一定程度的视角、亮度和模糊变化。论文在HPatches上展示了有竞争力的匹配及单应估计效果，但<strong>不意味着对所有变化都稳定</strong>。</p>
-<h4 id="五有什么缺点">五、有什么缺点？</h4>
+<p><strong>主要短板：</strong></p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -769,87 +466,61 @@ L_p(X&#x27;,Y&#x27;)
 </thead>
 <tbody>
 <tr>
-<td>低纹理区域信息不足</td>
-<td>白墙、天空等区域难以提供稳定、可区分的局部特征</td>
+<td>低纹理区域抓瞎</td>
+<td>大片白墙、天空里本来就没什么稳定可区分的局部特征</td>
 </tr>
 <tr>
-<td>重复纹理容易混淆</td>
-<td>相似窗格、砖块、栅栏可能产生错误匹配</td>
+<td>重复纹理容易配错</td>
+<td>一模一样的窗格、砖墙、栅栏很容易让描述子混淆</td>
 </tr>
 <tr>
-<td>大幅变化仍有困难</td>
-<td>极端旋转、尺度变化、透视形变或严重模糊可能降低效果</td>
+<td>极端变化依然吃力</td>
+<td>大角度旋转、剧烈缩放、极端透视或严重模糊时效果会掉得很快</td>
 </tr>
 <tr>
-<td>下采样会压缩细节</td>
-<td>检测头重排、描述子插值不能完全消除空间信息损失</td>
+<td>下采样会损失细节</td>
+<td>8 倍下采样后靠通道重排和插值恢复，空间信息还是会有一定损耗</td>
 </tr>
 <tr>
 <td>存在训练域偏差</td>
-<td>自然图像上训练好的模型，不一定直接适合医学、红外等特殊图像</td>
+<td>在自然图像上训出来的权重，直接拿去跑医学、红外图未必好用</td>
 </tr>
 <tr>
-<td>单独使用不构成完整匹配系统</td>
-<td>仍需要匹配器、几何验证及其他下游模块</td>
+<td>不是端到端完整匹配系统</td>
+<td>后面必须自己配匹配器和 RANSAC 等几何验证模块</td>
 </tr>
 </tbody>
 </table></div>
-<p>其中，原论文明确展示了对训练中较少出现的极端平面内旋转的失败案例。另一方面，单应变换训练不能覆盖一般三维场景中的全部视差、遮挡与新区域显露。<strong>但这不代表它只能用于平面图像，而是说其训练变化范围有边界。</strong></p>
-<h4 id="六适合处理怎样的数据">六、适合处理怎样的数据？</h4>
-<p>比较适合</p>
-<p><strong>同一场景或物体在不同视图下的图像，并且有一定重叠、结构和纹理。</strong></p>
-<p>例如：</p>
+<p>比如原论文里就专门展示过：遇到训练中很少见到的<strong>极端平面内旋转</strong>时，SuperPoint 会直接翻车；另外，单应变换本身只能模拟平面投影，没法完全覆盖真实三维场景里的视差、遮挡和新生区域（当然，这不意味着它只能用于平面图，只是说明它的训练分布是有边界的）。</p>
+<p><strong>适合哪些场景？</strong></p>
 <ul>
-<li>建筑、室内场景照片；</li>
-<li>视频中相邻或间隔不太大的帧；</li>
-<li>有明显角点、交点和局部纹理的图像；</li>
-<li>需要局部对应关系的图像对。</li>
+<li><strong>比较适合</strong>：同一场景/物体在不同视角下拍的、有一定重叠和纹理的照片（比如建筑、室内照片、视频相邻帧），常用来做图像拼接/配准、视觉里程计/SLAM、三维重建（SfM）和相机定位的特征前端。</li>
+<li><strong>需要谨慎评估</strong>：大面积白墙或高度重复纹理、严重运动模糊/过曝/强噪声、视角跨度极大或遮挡严重、布料/生物组织这类大非刚性形变，以及红外/显微/医学等特殊领域图像。遇到这些情况，最好先在自己数据上实测，必要时微调或重训。</li>
 </ul>
-<p>可以作为以下任务的特征前端：</p>
-<ul>
-<li>图像配准、拼接；</li>
-<li>视觉里程计、SLAM；</li>
-<li>三维重建、SfM；</li>
-<li>基于局部特征的相机定位。</li>
-</ul>
-<p>这些任务仍需要各自的后续几何处理，不能仅靠SuperPoint完成。</p>
-<p>需要谨慎评估</p>
-<p>以下是根据其局部特征机制和训练范围给出的使用判断，不是说这些数据完全不能处理：</p>
-<ul>
-<li>大面积无纹理或高度重复纹理的图像；</li>
-<li>严重运动模糊、过曝、欠曝或强噪声图像；</li>
-<li>视角跨度极大、遮挡严重、重叠很少的图像对；</li>
-<li>明显非刚性形变的数据，例如大幅形变的布料或组织；</li>
-<li>与自然图像差异较大的红外、显微、医学等领域数据。</li>
-</ul>
-<p>这类场景应在自己的数据上验证，必要时重新训练或微调，而不是直接假设预训练模型足够可靠。</p>
-<h2 id="具体实验结果">具体实验结果</h2>
-<h4 id="一这次实验具体做了什么">一、这次实验具体做了什么？</h4>
-<p>整个实验分为两条路线：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">本地从头训练
-    ↓
-MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
-    ↓
-大角度匹配微调
-    ↓
-保留75%中间通道 → 恢复微调
+<hr>
+<h2 id="3-具体实验结果与复盘">3. 具体实验结果与复盘</h2>
+<p>光看论文原理还不够踏实，下面我们来看本地实测到底跑出了什么结果。</p>
+<h3 id="31-这次实验一共做了什么">3.1 这次实验一共做了什么？</h3>
+<p>整个实验分成两条主线，最后把所有权重拉到同一套 HPatches 真实图像协议下同台打分：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">路线一：本地从头训练
+    MagicPoint 合成预训练 → 两轮单应适应 → SuperPoint 联合训练
+        ↓
+    大角度匹配微调
+        ↓
+    保留 75% 中间通道 → 恢复微调
 
-官方预训练权重
-    ↓
-保留75%中间通道 → 使用官方模型作为教师恢复微调
+路线二：官方预训练权重
+    保留 75% 中间通道 → 用官方模型当教师做蒸馏恢复微调
 
-各组权重
-    ↓
-在统一协议下进行HPatches真实图像对测试</code></pre></div><p>需要先区分：</p>
+最终汇总：
+    以上各组权重 → 统一协议下跑 HPatches 真实图像对测试</code></pre></div><p>每一步想验证的问题都很明确：</p>
 <ul>
-<li><strong>从头训练</strong>：验证前面介绍的合成预训练、单应适应、联合训练流程。</li>
-<li><strong>大角度微调</strong>：观察增加旋转增强后，匹配能力怎样变化。</li>
-<li><strong>压缩与恢复</strong>：观察减少网络通道后，能否通过继续训练保留原有能力。</li>
-<li><strong>HPatches测试</strong>：用真实图像对检查这些变化能否推广到本地合成变换以外的数据。</li>
+<li><strong>从头训练</strong>：验证前面讲的“合成预训练 + 单应适应 + 联合训练”整套流程能不能跑通；</li>
+<li><strong>大角度微调</strong>：多加旋转增强后，大角度匹配能不能救起来；</li>
+<li><strong>压缩与恢复</strong>：把中间通道砍掉四分之一（保留 75%）后，模型还能不能保留原来的水平；</li>
+<li><strong>HPatches 测试</strong>：看看本地合成变换上看到的现象，到了真实图像对上到底站不站得住脚。</li>
 </ul>
-<ol>
-<li>实验环境与数据</li>
-</ol>
+<p>本次实验的硬件和数据配置如下：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -867,16 +538,16 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 <td>Python 3.10.11 / PyTorch 2.8.0+cu128</td>
 </tr>
 <tr>
-<td>CUDA运行时</td>
+<td>CUDA 运行时</td>
 <td>12.8</td>
 </tr>
 <tr>
 <td>真实训练图像</td>
-<td>COCO val2017，共5000张，重新划分为4500张训练、500张验证</td>
+<td>COCO <code>val2017</code>，共 5000 张，重新划为 4500 张训练、500 张验证</td>
 </tr>
 <tr>
 <td>本地训练与合成几何评估尺寸</td>
-<td><code>240×320</code>，高度×宽度</td>
+<td><code>240×320</code>（高×宽）</td>
 </tr>
 <tr>
 <td>原始网络参数量</td>
@@ -888,82 +559,80 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 <tr>
 <td>从头训练微批量与梯度累积</td>
-<td>微批量2，累积8次，相当于每次更新使用16个样本</td>
+<td>微批量 2，累积 8 次（等效每次更新 16 张样本）</td>
 </tr>
 <tr>
 <td>单应适应视图数</td>
-<td>每张图像32个视图</td>
+<td>每张图 32 个视图</td>
 </tr>
 <tr>
 <td>本地取点设置</td>
-<td>阈值0.015，NMS半径4，最多600个点</td>
+<td>阈值 0.015，NMS 半径 4，最多 600 个点</td>
 </tr>
 </tbody>
 </table></div>
-<p>这里的 <code>val2017</code> 是COCO原数据包的名称。本实验将其中图像重新划分用于训练和验证，不代表在COCO官方评测协议下取得了某项成绩。</p>
-<h4 id="二应该怎样理解实验指标">二、应该怎样理解实验指标？</h4>
-<p>前面已经区分了检测与描述，读实验结果时也要区分“找到点”“匹配正确”和“估计出正确几何关系”。</p>
+<p>（说明一下：<code>val2017</code> 只是 COCO 原数据包的名字，这里把它重新拆成了自己的训练集和验证集，并不代表在 COCO 官方评测协议下跑了成绩。）</p>
+<h3 id="32-先对齐几个指标的口径">3.2 先对齐几个指标的口径</h3>
+<p>前面我们区分了“找点”和“描述点”，看实验数字时也要把<strong>找到点、匹配对、几何算准</strong>三件事分开：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>指标</th>
 <th>回答的问题</th>
-<th>本节使用的含义</th>
+<th>本节的计算口径</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>检测精确率、召回率</td>
 <td>合成图形上的角点找得准不准、全不全？</td>
-<td>在3像素内与已知角点做一对一匹配</td>
+<td>在 3 像素内和已知角点做一对一匹配</td>
 </tr>
 <tr>
 <td>检测重复率</td>
-<td>图像变换后，同一位置还能不能被检测到？</td>
-<td>在共同可见区域内，统计3像素范围内可重复检测的点</td>
+<td>图像变换后，同一个位置还能不能再找到？</td>
+<td>在共同可见区域内，统计 3 像素范围内重复检出的比例</td>
 </tr>
 <tr>
 <td>匹配正确率</td>
-<td>描述子匹配得到的对应关系有多少是正确的？</td>
-<td>利用真实或已知单应矩阵，统计前向重投影误差不超过3像素的候选匹配比例</td>
+<td>描述子配出来的点对里，有多少是真的对的？</td>
+<td>用真实/已知单应矩阵投影，前向重投影误差不超过 3 像素的比例</td>
 </tr>
 <tr>
 <td>单应成功率@3px</td>
-<td>估计出来的单应矩阵是否足够准确？</td>
-<td>估计矩阵与真实矩阵对图像四角的投影平均误差不超过3像素</td>
+<td>算出来的单应矩阵准不准？</td>
+<td>估计矩阵和真实矩阵把图像四个角投影过去，四角平均误差不超过 3 像素</td>
 </tr>
 <tr>
-<td>RANSAC内点数</td>
-<td>有多少候选对应支持当前估计矩阵？</td>
-<td>衡量几何一致性，不等于独立真值下的正确匹配数</td>
+<td>RANSAC 内点数</td>
+<td>有多少候选点对支持当前算出的矩阵？</td>
+<td>只衡量几何一致性，不等于真实正确的匹配数</td>
 </tr>
 </tbody>
 </table></div>
-<p>下面的匹配正确率是<strong>先对每对图像计算比例，再对图像对取平均</strong>。HPatches中没有匹配的图像对按0计入。</p>
-<p>例如，一张容易的图像产生500对匹配，另一张困难图像只产生10对匹配，二者在这个平均值中权重相同。因此，它与“把全部正确匹配数相加，再除以全部匹配数”的结果不同。</p>
-<blockquote>
-<p>返回一个单应矩阵，不等于估计出了正确的单应矩阵。从头训练的初步评估只统计是否返回矩阵；后续微调和HPatches结果才按四角误差判断成功。两者不能直接比较。</p>
-</blockquote>
-<h4 id="三从头训练的结果">三、从头训练的结果</h4>
+<p><strong>注意两个容易误读的口径：</strong></p>
 <ol>
-<li>三个训练阶段均已完成</li>
+<li>下面的“匹配正确率”是<strong>先给每对图算自己的比例，再对所有图像对取平均</strong>（HPatches 里没配出点的图像对按 0 算）。也就是说，一张简单图配出 500 对、一张难题只配出 10 对，两者在平均值里权重是一样的，这和“把全部正确数加起来除以全部候选数”不是一个算法。</li>
+<li><strong>RANSAC 返回了一个单应矩阵，不等于它算对了</strong>。后面从头训练的初步检查只看“有没有返回矩阵”，而大角度微调和 HPatches 才是按“四角误差是否 ≤ 3 像素”判定成功，两者不能直接横向拿来比。</li>
 </ol>
-<p>正式训练完成了：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">合成图像预训练：20,000步
+<hr>
+<h3 id="33-从头训练跑得怎么样">3.3 从头训练跑得怎么样？</h3>
+<p>三个阶段全部按计划跑完了：</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">合成图像预训练（20,000 步）
         ↓
-第一轮单应适应：生成真实图像伪标签
+第一轮单应适应（生成真实图像伪标签）
         ↓
-真实图像检测适应：5,000步
+真实图像检测适应（5,000 步）
         ↓
-第二轮单应适应：更新伪标签
+第二轮单应适应（更新伪标签）
         ↓
-检测与描述联合训练：10,000步</code></pre></div><p>各阶段验证损失如下。每250步进行一次验证，因此“第250步”不是随机初始化时的损失。</p>
+检测与描述联合训练（10,000 步）</code></pre></div><p>每 250 步做一次验证（所以“第 250 步”不是刚初始化时的随机损失），各阶段验证损失如下：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>训练阶段</th>
 <th>完成步数</th>
-<th>第250步验证损失</th>
+<th>第 250 步验证损失</th>
 <th>末步验证损失</th>
 <th>最低验证损失所在步</th>
 <th>最低验证损失</th>
@@ -996,20 +665,17 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>联合训练的损失曲线：</p>
+<p>下面这张图是联合训练阶段的损失曲线：</p>
 <p><a href="../assets/posts/superpoint/joint-training-loss.png" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/superpoint/joint-training-loss.png" alt="SuperPoint联合训练损失与两个分支的验证损失"></a></p>
-<p>可以看到：</p>
+<p>从表格和曲线可以看到三件事：</p>
 <ul>
-<li>合成图像预训练的验证损失明显下降，基础角点检测任务已经学到。</li>
-<li>真实图像适应和联合训练仍有改善，但不能只凭损失下降判断匹配效果。</li>
-<li>联合训练中的检测损失与描述损失量级不同，而且描述损失还要乘权重。本次从头训练的描述损失权重为 <code>1e-4</code>，所以总损失的变化主要反映检测项。</li>
+<li>合成预训练的损失掉得非常明显（0.3355 → 0.0346），基础找角点的能力确实学进去了；</li>
+<li>真实图像适应和联合训练的损失也在稳步下降，但光看总损失还判断不了真实匹配到底行不行；</li>
+<li>因为描述损失乘了 <code>1e-4</code> 的权重，所以总损失曲线的变化主要反映的是检测项。</li>
 </ul>
-<p>联合训练末步的未加权描述验证损失为0.2210，正对应平均相似度为0.8111，负对应为0.0909。在另一组描述子诊断样本中，正对应平均相似度为0.7888，负对应为0.0869，说明在该诊断样本上，描述子已能区分对应与非对应位置。</p>
-<p>梯度检查还确认了描述头存在非零梯度，分块计算与完整配对计算一致。但这些检查只能证明计算和学习信号存在，不能代替真实匹配评估。</p>
-<ol start="2">
-<li>合成角点与伪标签结果</li>
-</ol>
-<p>在固定的8张合成验证图像上，按3像素阈值统计：</p>
+<p>那描述头到底有没有在好好学？我们单独拉出来检查了一下：联合训练最后一步，未加权的描述验证损失是 <code>0.2210</code>，正对应平均相似度达到 <code>0.8111</code>，负对应只有 <code>0.0909</code>；在另一组诊断样本上，正对应平均相似度 <code>0.7888</code>，负对应 <code>0.0869</code>。梯度检查也确认描述头有正常的非零梯度，而且分块计算和完整配对计算完全一致。这说明描述分支确实在拉大正负样本的差距（当然，真本事还得靠后面的匹配测试说话）。</p>
+<p>再来看看<strong>合成角点</strong>和<strong>两轮伪标签</strong>的情况：</p>
+<p>在固定的 8 张合成验证图上按 3 像素阈值统计：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1028,8 +694,8 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>这个结果说明模型能识别当前生成器产生的几何角点，但样本只有8张，不能据此推断它在真实照片上也有100%的召回率。</p>
-<p>两轮单应适应的伪标签统计为：</p>
+<p>（样本只有 8 张，只能说明它把当前生成器画的角点认得不错，千万别直接推论它在真实照片上也能 100% 召回。）</p>
+<p>两轮单应适应生成的伪标签点数统计如下：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1060,12 +726,8 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>两轮训练集均有1张图像没有伪标签，验证集均没有空标签图像。</p>
-<p>第二轮能够得到更多候选兴趣点，说明真实图像适应改变了检测响应。但<strong>伪标签数量增加，不等于标签准确率已经提高</strong>；这里没有真实兴趣点标注来直接验证每一个伪标签。</p>
-<ol start="3">
-<li>已知单应变换下的匹配结果</li>
-</ol>
-<p>从验证图像中取50张，每张生成一个已知单应变换后的视图，形成50对图像。</p>
+<p>（两轮训练集里都各有 1 张图没生成出伪标签，验证集里没有空标签。）可以看到第二轮每张图平均多找出了大约 50 个候选点，说明真实图像适应确实改变了检测器的响应——但<strong>注意：伪标签数量变多，不等于标签更准了</strong>，毕竟我们手里没有真实人工标注去逐个核对。</p>
+<p>最后在验证集里抽 50 张图，每张施加一次已知单应变换，看看 50 对图像上的初步匹配效果：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1076,7 +738,7 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 <tbody>
 <tr>
 <td>平均候选匹配数</td>
-<td>122.30对</td>
+<td>122.30 对</td>
 </tr>
 <tr>
 <td>平均匹配正确率@3px</td>
@@ -1087,23 +749,20 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 <td>87.87%</td>
 </tr>
 <tr>
-<td>RANSAC返回单应矩阵的比例</td>
+<td>RANSAC 返回单应矩阵的比例</td>
 <td>100.00%</td>
 </tr>
 <tr>
 <td>四角平均投影误差的中位数</td>
-<td>0.775像素</td>
+<td>0.775 像素</td>
 </tr>
 </tbody>
 </table></div>
-<p>这些结果说明，在本次生成的几何变化范围内，本地模型已经能够完成检测、描述和几何估计。</p>
-<p>这里的100%只表示50对图像都返回了矩阵，不能写成“50对图像的四角误差都不超过3像素”。同时，这些图像来自原有验证划分，结果属于本地验证，不能替代独立真实图像对测试。</p>
-<h4 id="四大角度微调有没有改善匹配">四、大角度微调有没有改善匹配？</h4>
-<ol>
-<li>为什么还要微调？</li>
-</ol>
-<p>前一组测试的整体结果较好，但不能说明模型已经适应大幅旋转。</p>
-<p>因此，本轮从本地联合训练的最佳权重出发，混合小角度旋转、最高约65°旋转和较强透视变化，复用第二轮检测伪标签，继续训练检测与描述。</p>
+<p>在常规已知几何变换下，本地从头训出来的模型已经能正常找点、匹配并算出单应矩阵了。（同样提醒一下：这里的 100% 只是 50 对都返回了矩阵，不等于 50 对四角误差全都在 3 像素以内；而且这批图来自验证划分，属于本地自测，不能代替后面的独立真实图像测试。）</p>
+<hr>
+<h3 id="34-大角度微调能不能救大旋转">3.4 大角度微调，能不能救大旋转？</h3>
+<p>常规视角能跑通，但一遇到大旋转呢？从本地联合训练的最佳权重出发，我又做了一轮大角度微调：在数据增强里混入小角度旋转、最高约 65° 的大旋转和更强的透视形变，继续复用第二轮伪标签，同时训练检测和描述。</p>
+<p>具体微调设置如下：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1130,27 +789,20 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 <tr>
 <td>选模图像数</td>
-<td>32张，每250步评估</td>
+<td>32 张，每 250 步评估一次</td>
 </tr>
 <tr>
 <td>本轮最终测试图像数</td>
-<td>64张，与本轮选模图像分开</td>
+<td>64 张（与本轮选模图分开）</td>
 </tr>
 <tr>
 <td>最终选用检查点</td>
-<td>第250步</td>
+<td><strong>第 250 步</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p>选模时，除了检查困难变换的几何指标，还要求10°小角度组的匹配正确率、重复率和单应成功率各自相对初始值的下降不超过5个百分点。</p>
-<p>第3000步在选模集上的困难变换指标继续改善，但没有通过小角度约束，因此最终使用第250步模型。</p>
-<blockquote>
-<p>“训练了3000步”和“使用第3000步权重”是两件事。下面的微调后结果对应第250步选中模型。</p>
-</blockquote>
-<ol start="2">
-<li>最终测试结果</li>
-</ol>
-<p>每张测试图像分别生成10°、30°、45°、60°旋转及透视变化，共5组、320对图像。旋转组也包含少量透视和平移扰动，并非只有纯旋转。</p>
+<p><strong>注意：“训了 3000 步”和“最后选的是第 250 步”是两回事。</strong> 选模的时候我加了一条硬约束：既要看大角度有没有进步，也要求 10° 小角度组的匹配正确率、重复率和单应成功率相对于初始值降幅都不能超过 5 个百分点。结果跑到了第 3000 步，大角度虽然还在涨，但小角度掉太多没过约束，所以最后拍板选用了第 250 步的权重。</p>
+<p>下面在 64 张本轮测试图上，分别生成 10°、30°、45°、60° 旋转和透视变化（共 5 组、320 对图像，旋转组里也带少量透视和平移扰动），对比微调前后的表现：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1200,26 +852,21 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tbody>
 </table></div>
 <p><a href="../assets/posts/superpoint/rotation-finetuning-comparison.png" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/superpoint/rotation-finetuning-comparison.png" alt="大角度微调前后的单应成功率"></a></p>
-<p>可以看到：</p>
+<p>从表和图里可以很清楚地看出几个现象：</p>
 <ol>
-<li><strong>30°旋转改善最明显。</strong> 单应成功率由37.50%提高到64.06%，增加26.56个百分点。</li>
-<li><strong>45°仍然比较困难。</strong> 匹配正确率从12.56%提高到18.93%，单应成功率仅为7.81%。</li>
-<li><strong>60°仍未解决。</strong> 虽然匹配正确率有所提高，但单应成功率仍为0。</li>
-<li><strong>小角度有回退。</strong> 10°组匹配正确率由87.08%降到83.21%，单应成功率由96.88%降到92.19%。</li>
-<li><strong>匹配正确率与几何成功率不一定同步。</strong> 透视组匹配正确率下降，但单应成功率提高，说明最终几何估计还受到正确匹配数量、空间分布等因素影响。</li>
+<li><strong>30° 旋转收益最大</strong>：单应成功率直接从 37.50% 蹦到了 64.06%（涨了 26.56 个百分点）；</li>
+<li><strong>45° 依然很吃力</strong>：匹配正确率虽然涨到 18.93%，但单应成功率只有 7.81%；</li>
+<li><strong>60° 还是没救回来</strong>：单应成功率依然是 0%；</li>
+<li><strong>小角度付出了代价</strong>：10° 组的匹配正确率从 87.08% 掉到 83.21%，单应成功率从 96.88% 掉到 92.19%；</li>
+<li><strong>匹配正确率和单应成功率不总是同涨同跌</strong>：透视组里匹配正确率降了一点，单应成功率反而从 87.50% 升到了 95.31%，说明最终几何估计还受正确点数量和空间分布的影响。</li>
 </ol>
-<p>这些结果支持“本轮微调改善了部分困难变换”，还不能说明模型已经具备稳定的大角度旋转能力。</p>
-<p>这里的最终测试集只与<strong>本轮</strong>训练和选模数据分开；图像仍取自最初的COCO验证划分，不应把它描述为整个开发过程完全未接触过的外部测试集。</p>
-<ol start="3">
-<li>改善主要发生在哪里？</li>
-</ol>
-<p>项目还做了固定关键点、交换网络模块的诊断。</p>
-<p>选中模型相对原模型的参数L2变化比例为：</p>
+<p>（同样注一句：这 64 张图虽然和本轮训练/选模分开了，但大来源还是最初的 COCO 验证划分，不能当成完全没接触过的外部测试集。）</p>
+<p><strong>那这波改善到底主要发生在网络的哪一块？</strong> 我做了个“固定关键点、逐个替换模块”的小诊断。先看微调前后各模块参数的 L2 相对变化：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>模块</th>
-<th>相对变化</th>
+<th>参数相对变化</th>
 </tr>
 </thead>
 <tbody>
@@ -1233,21 +880,19 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 <tr>
 <td>描述头</td>
-<td>7.362%</td>
+<td><strong>7.362%</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p>在12张选模图像、固定原模型关键点的45°测试中：原模型匹配正确率为13.55%，只换成微调后的描述头时为19.61%，只换编码器时为14.45%。</p>
-<p>这一小规模诊断提示，本轮改善更多体现在描述分支。它与“点还能找到，但大旋转后描述子难以正确对应”的现象一致；这仍是局部诊断，不能据此断言所有场景都只有描述头的问题。</p>
-<h4 id="五保留75通道后模型还能不能用">五、保留75%通道后，模型还能不能用？</h4>
-<ol>
-<li>“75%通道压缩”具体指什么？</li>
-</ol>
-<p>本次采用结构化通道裁剪：按卷积核权重的L1大小选择要保留的输出通道，并同步裁剪下一层的输入通道。</p>
-<p>这里的75%表示<strong>中间层保留原来75%的通道</strong>，不是删除75%，也不是把描述子缩短到75维。</p>
+<p>在 12 张选模图、固定原模型关键点的 45° 测试里：原模型匹配正确率是 <code>13.55%</code>；如果<strong>只把描述头换成微调后的</strong>，正确率立刻涨到 <code>19.61%</code>；如果只换编码器，则只有 <code>14.45%</code>。这说明本轮改善主要出在描述分支——大旋转时很多时候“点其实还找得到，主要是描述子转过头就认不出来了”（当然这只是小样本局部诊断，不能一概而论说所有场景都只怪描述头）。</p>
+<hr>
+<h3 id="35-保留-75-通道做压缩模型还能不能用">3.5 保留 75% 通道做压缩，模型还能不能用？</h3>
+<p>接下来试试模型瘦身。这里的“75% 通道压缩”采用结构化通道裁剪：按卷积核权重的 L1 范数挑出要留下的输出通道，再把下一层对应的输入通道一起裁掉。</p>
+<p><strong>注意别误会“75%”的意思</strong>：它是<strong>中间层保留原来 75% 的通道</strong>（不是裁掉 75%，也没有把描述子维度砍成 75 维）：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">中间通道：64 → 48，128 → 96，256 → 192
-检测输出：仍为65通道
-描述输出：仍为256维</code></pre></div><div class="table-wrap"><table>
+检测输出：仍然是 65 通道
+描述输出：仍然是 256 维</code></pre></div><p>因为大部分卷积层的输入和输出通道同时变少了，所以参数量下降的幅度远不止 25%，直接砍掉了 <strong>42.53%</strong>：</p>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>项目</th>
@@ -1267,9 +912,9 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 <td>42.53%</td>
 </tr>
 <tr>
-<td>FP32参数理论存储量</td>
-<td>5,203,460字节，约4.96 MiB</td>
-<td>2,990,532字节，约2.85 MiB</td>
+<td>FP32 参数理论存储量</td>
+<td>5,203,460 字节（约 4.96 MiB）</td>
+<td>2,990,532 字节（约 2.85 MiB）</td>
 </tr>
 <tr>
 <td>描述子维数</td>
@@ -1278,13 +923,10 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>大部分卷积的输入和输出通道都会减少，所以保留75%的通道后，参数量并不是简单保留75%。表中存储量仅按参数个数乘4字节计算，不包含文件封装、优化器状态或运行时特征图。</p>
-<p>本次结果验证了参数量减少；没有统一的推理耗时对照，不能直接写成“速度提高42.53%”。</p>
-<ol start="2">
-<li>压缩本地微调模型</li>
-</ol>
-<p>第一组以大角度微调选中的第250步模型为教师。裁剪后继续使用检测伪标签、几何描述监督，并加入教师输出蒸馏。</p>
-<p>恢复训练完成500步，最终选用第400步。使用16张图像选模，另取32张图像进行本轮最终测试，每种变化32对。</p>
+<p>（这里只按参数个数 × 4 字节算了理论存储，不包含文件封装和运行时显存；另外本次没做统一的推理耗时基准对照，<strong>不能直接写成“速度提升了 42.53%”</strong>。）</p>
+<p>我们分两组来测压缩和恢复的效果：</p>
+<h4 id="第一组压缩本地微调模型">第一组：压缩“本地微调模型”</h4>
+<p>拿刚才大角度微调选出的第 250 步模型当教师。裁剪之后，一边用原来的伪标签和几何描述监督，一边加上教师输出蒸馏，做 500 步恢复训练，最后选第 400 步（16 张图选模，另取 32 张图测最终结果，每组 32 对）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1339,19 +981,15 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>恢复训练后，多数组的匹配正确率回到教师附近。例如30°组由裁剪后的44.67%恢复到52.57%，教师为52.04%。</p>
-<p>不过，45°和60°仍然较弱，60°单应成功率仍为0。这说明恢复训练主要是在保留教师已有能力，不能假设压缩恢复会自动解决教师原有的大角度缺陷。</p>
-<ol start="3">
-<li>压缩官方预训练模型</li>
-</ol>
-<p>第二组改用官方预训练模型作为教师，采用相同的通道保留比例。</p>
-<p>这组恢复训练的目标不同：</p>
+<p>可以看到，恢复训练之后，几组数据的匹配正确率基本都拉回到了教师附近（比如 30° 组从裁剪后的 44.67% 恢复到了 52.57%，几乎和教师的 52.04% 持平）。不过教师本来搞不定的 60° 旋转，压缩恢复后照样是 0%，它只能尽量保住教师原有的水平，没法凭空变强。</p>
+<h4 id="第二组压缩官方预训练模型">第二组：压缩“官方预训练模型”</h4>
+<p>这一组和上一组的主要区别在于<strong>恢复训练的监督方式</strong>：我们直接冻结官方预训练模型当教师，完全不用本地伪标签，也不用几何 Hinge Loss，只做纯蒸馏：</p>
 <div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">固定官方教师
-    ├─ 检测概率 → 用KL散度约束学生的65类预测
-    └─ 描述向量 → 用余弦相似度约束学生的描述图
+    ├─ 检测概率 → 用 KL 散度约束学生的 65 类预测
+    └─ 描述向量 → 用余弦相似度约束学生的粗描述图
                      ↓
-              更新压缩后的学生网络</code></pre></div><p>恢复损失不使用本地伪标签监督或几何hinge损失。检查结果确认：教师保持冻结、官方原权重未被改变、改变伪标签不会改变恢复损失。HPatches不参与这轮训练和选模。</p>
-<p>这组同样完成500步，选用第400步，在32张本轮测试图像上得到：</p>
+              更新压缩后的学生网络</code></pre></div><p>（代码检查确认：教师权重全程冻结没变动，改伪标签不会影响恢复损失，且 HPatches 完全不参与训练和选模。）</p>
+<p>同样跑 500 步、选第 400 步，在 32 张测试图上结果如下：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1406,18 +1044,16 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p><strong>直接裁剪的官方模型在这组测试中没有产生候选匹配，单应成功率全部为0。</strong> 恢复训练后，小角度与透视变化的匹配能力明显恢复，但45°和60°仍有损失。</p>
-<p>这也说明，同样的裁剪比例作用于不同权重，影响可能完全不同。不能因为本地模型直接裁剪后仍能工作，就认为官方模型也可以直接裁剪后部署。</p>
-<h4 id="六在hpatches真实图像对上表现怎样">六、在HPatches真实图像对上表现怎样？</h4>
-<ol>
-<li>统一测试条件</li>
-</ol>
-<p>前面的图像对由单张照片施加已知变换得到。这里进一步使用HPatches真实图像对：</p>
+<p><strong>注意看中间那一列：直接裁剪后的官方模型直接“失明”了——候选匹配数为 0，单应成功率全为 0%。</strong> 经过 500 步蒸馏恢复后，小角度和透视变化基本被救回来了（10°、30°、透视都回到 90% 左右），不过 45° 和 60° 仍有明显折损。</p>
+<p>这也给我们提了个醒：同样的裁剪比例，作用在不同权重上的破坏程度完全不同。别因为本地模型直接裁完还能出点，就以为官方模型也能直接裁完上线，<strong>恢复训练是必不可少的一步</strong>。</p>
+<hr>
+<h3 id="36-终极考场hpatches-真实图像对表现怎样">3.6 终极考场：HPatches 真实图像对表现怎样？</h3>
+<p>前面测的都是“单张照片自己做几何变换”造出来的图像对，现在把所有模型拉到 <strong>HPatches 真实图像对</strong>上统一评测：</p>
 <ul>
-<li>116个场景、696张图像；</li>
-<li>每个场景以第1张图为参考，与其余5张匹配，共580对；</li>
-<li>光照变化57个场景、285对；视角变化59个场景、295对。</li>
+<li>一共 116 个场景、696 张真实照片；</li>
+<li>每个场景拿第 1 张当参考图，和剩下 5 张配对，总共 <strong>580 对</strong>（其中光照变化 57 个场景 / 285 对，视角变化 59 个场景 / 295 对）。</li>
 </ul>
+<p>为了保证公平对比，所有模型严格使用同一套协议（像素误差均在缩放后坐标系计算，用于本项目的横向对比，不能直接等同于原论文复现分数）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1428,35 +1064,31 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 <tbody>
 <tr>
 <td>图像预处理</td>
-<td>整图缩放至<code>480×640</code>，不裁剪，同步变换真实单应矩阵</td>
+<td>整图缩放到 <code>480×640</code>（不裁剪），同步变换真实单应矩阵</td>
 </tr>
 <tr>
 <td>取点</td>
-<td>检测阈值0.015，NMS半径4，最多1000个点</td>
+<td>检测阈值 0.015，NMS 半径 4，最多 1000 个点</td>
 </tr>
 <tr>
 <td>描述子匹配</td>
-<td>互为最近邻，加单向欧氏距离比率检验，阈值0.8</td>
+<td>互为最近邻 + 单向欧氏距离比率检验（阈值 0.8）</td>
 </tr>
 <tr>
 <td>几何验证</td>
-<td>OpenCV RANSAC，阈值3像素，最多5000次迭代，置信度0.999</td>
+<td>OpenCV RANSAC，阈值 3 像素，最多 5000 次迭代，置信度 0.999</td>
 </tr>
 <tr>
 <td>数值精度</td>
-<td>FP32，关闭AMP与TF32</td>
+<td>FP32，关闭 AMP 与 TF32</td>
 </tr>
 <tr>
 <td>单应成功判定</td>
-<td>四角平均投影误差不超过1、3或5像素；失败计为不成功</td>
+<td>四角平均投影误差不超过 1、3 或 5 像素；估不出来算失败</td>
 </tr>
 </tbody>
 </table></div>
-<p>像素误差均在缩放后的坐标系中计算。这个协议用于本项目各组权重的比较，不能将结果直接当作原论文复现分数。</p>
-<p>本地路线与官方压缩路线采用相同的官方基线和测试条件，结果放在同一张表中对照。</p>
-<ol start="2">
-<li>全部580对的结果</li>
-</ol>
+<h4 id="全部-580-对的总成绩单">全部 580 对的总成绩单</h4>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1526,23 +1158,20 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>官方压缩路线的可视化：</p>
+<p>官方压缩路线的前后对比可以看下面这张图：</p>
 <p><a href="../assets/posts/superpoint/official-compression-hpatches.png" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/superpoint/official-compression-hpatches.png" alt="官方原始、直接裁剪和恢复后的HPatches对比"></a></p>
-<p>这里有几个值得注意的结果。</p>
+<p>从这张总表里，我们能读出四个非常实在的结论：</p>
 <ol>
-<li><strong>本地训练已经学到匹配能力，但与官方权重仍有明显差距。</strong> 本地原始模型平均匹配正确率为55.15%，官方为85.45%；单应成功率@3px分别为65.17%和80.34%。</li>
-<li><strong>大角度微调没有带来HPatches整体提升。</strong> 相比本地原始模型，匹配正确率由55.15%降到48.65%，单应成功率@3px由65.17%降到63.45%。本地旋转测试上的改善没有自动转化成整体泛化能力提升。</li>
-<li><strong>本地模型压缩恢复后基本保留了微调教师的表现。</strong> 匹配正确率由48.65%变为48.59%，单应成功率@3px由63.45%变为65.34%。后者的点估计上升，不能直接据此断言压缩提升了精度。</li>
-<li><strong>官方模型需要恢复训练。</strong> 直接裁剪后，580对图像中所有单应估计都失败，平均候选匹配数仅约0.0017。恢复后匹配正确率达到83.61%，单应成功率@3px达到79.31%。</li>
+<li><strong>本地训练能用，但离官方权重还有不小距离</strong>：本地原始训练的匹配正确率是 55.15%，单应成功率@3px 是 65.17%；而官方原始权重分别高达 85.45% 和 80.34%。</li>
+<li><strong>大角度微调没有让 HPatches 整体变好</strong>：反倒让匹配正确率从 55.15% 降到了 48.65%，单应成功率@3px 也从 65.17% 降到了 63.45%。本地合成旋转上赚到的分，没有自动转化成真实场景的整体泛化。</li>
+<li><strong>本地模型压缩恢复基本保住了教师水平</strong>：匹配正确率 48.65% → 48.59%，单应成功率@3px 63.45% → 65.34%（后面那一点小幅上升只是点估计波动，不能说压缩让精度变高了）。</li>
+<li><strong>官方模型裁剪后必须恢复，恢复后性价比很高</strong>：直接裁剪在 580 对里全军覆没（平均候选匹配数仅约 0.0017）；但蒸馏恢复之后，整体表现非常接近原版：</li>
 </ol>
-<p>官方压缩恢复相对官方原模型：</p>
-<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">参数量：减少42.53%
-平均匹配正确率：85.45% → 83.61%，下降1.84个百分点
-单应成功率@3px：80.34% → 79.31%，下降1.03个百分点</code></pre></div><p>在本次协议下，这组结果体现了较好的参数量与匹配效果折中，但不是“完全无损压缩”。</p>
-<ol start="3">
-<li>光照变化和视角变化要分开看</li>
-</ol>
-<p>下表单应成功率均采用3像素阈值。</p>
+<div class="code"><div class="code__bar"><span>text</span><button class="code__copy" type="button">抄录</button></div><pre><code class="hljs language-text">参数量：减少 42.53%
+平均匹配正确率：85.45% → 83.61%（下降 1.84 个百分点）
+单应成功率@3px：80.34% → 79.31%（下降 1.03 个百分点）</code></pre></div><p>在本次测试协议下，这算是一笔挺划算的参数量与精度折中（当然，它有轻微掉点，不是“完全无损”）。</p>
+<h4 id="把光照变化和视角变化拆开看">把“光照变化”和“视角变化”拆开看</h4>
+<p>只看总分容易漏掉细节，我们把光照和视角两组拆开看（单应成功率均按 3 像素算）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1591,35 +1220,36 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>本地原始模型在光照变化下的单应成功率为88.77%，视角变化下只有42.37%；官方模型对应为92.63%和68.47%。两者在视角变化上的差距更大。</p>
-<p>官方压缩恢复后，光照组单应成功率的点估计略有上升，但视角组由68.47%降到65.42%。所以即使整体下降不大，也要检查损失主要发生在哪类场景。</p>
-<ol start="4">
-<li>怎样判断小幅升降？</li>
-</ol>
-<p>按场景进行bootstrap重采样，得到压缩恢复相对教师的差值区间，单位均为百分点：</p>
+<p>拆开一看就很明显了：<strong>真正的差距几乎全拉在视角变化上</strong>。本地原始模型在光照变化下其实不差（单应成功率 88.77%，只比官方的 92.63% 低一点），但一到视角变化就掉到了 42.37%（官方是 68.47%）。官方压缩恢复后，光照组基本没掉（甚至点估计略高了一点），损失主要也是出在视角组（68.47% → 65.42%）。</p>
+<h4 id="这些小幅升降靠谱吗统计检验与补充测试">这些小幅升降靠谱吗？（统计检验与补充测试）</h4>
+<p>面对 1～2 个百分点的小幅变动，我们不能拍脑袋下结论。按场景做 bootstrap 重采样，算出“压缩恢复 − 教师”的 95% 置信区间（单位：百分点）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>对比</th>
-<th>匹配正确率差值及95%区间</th>
-<th>单应成功率@3px差值及95%区间</th>
+<th>匹配正确率差值及 95% 区间</th>
+<th>单应成功率@3px 差值及 95% 区间</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>本地压缩恢复－本地微调教师</td>
-<td>-0.07，[-0.29, 0.15]</td>
-<td>+1.90，[-0.69, 4.66]</td>
+<td>本地压缩恢复 − 本地微调教师</td>
+<td>-0.07，<code>[-0.29, 0.15]</code></td>
+<td>+1.90，<code>[-0.69, 4.66]</code></td>
 </tr>
 <tr>
-<td>官方压缩恢复－官方教师</td>
-<td>-1.84，[-2.44, -1.27]</td>
-<td>-1.03，[-3.28, 1.21]</td>
+<td>官方压缩恢复 − 官方教师</td>
+<td>-1.84，<code>[-2.44, -1.27]</code></td>
+<td>-1.03，<code>[-3.28, 1.21]</code></td>
 </tr>
 </tbody>
 </table></div>
-<p>本地压缩的两个区间都跨过0，支持“结果接近教师”的描述，不能据此确认压缩带来了稳定提升。官方压缩的匹配正确率区间整体小于0，说明这项损失在当前评估中较明确；单应成功率差值区间跨过0，也不能反过来证明两者完全等效。</p>
-<p>排除8个指定场景后，108个场景、540对图像的补充测试结果如下：</p>
+<p>怎么读这个区间？很简单，看它有没有跨过 0：</p>
+<ul>
+<li><strong>本地压缩恢复</strong>的两个区间都跨过了 0，说明和教师“差不多”，不能据此宣称压缩带来了稳定提升；</li>
+<li><strong>官方压缩恢复</strong>的匹配正确率区间整个都在 0 以下，说明这 1.84 个百分点的轻微掉点是实打实的；而单应成功率区间跨过了 0，同样不能反过来硬说两者完全等效。</li>
+</ul>
+<p>另外，排除 8 个指定场景后，剩下 108 个场景、540 对图像的补充结果如下（前面主结论仍以完整 580 对为准，放这组是为了避免让人觉得在挑好看的子集）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -1656,15 +1286,15 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>本节主要使用完整580对，540对结果作为补充，避免在不同数据子集之间挑选更好看的数字。</p>
-<h4 id="七自己的书封面照片能说明什么">七、自己的书封面照片能说明什么？</h4>
-<p>项目还使用两张书封面照片做了演示。它们不参与这些正式训练和选模，但也没有独立标注的真实对应关系。</p>
+<hr>
+<h3 id="37-自己拍的两张书封面照片能说明什么">3.7 自己拍的两张书封面照片，能说明什么？</h3>
+<p>除了标准数据集，我还拿自己拍的两张书封面照片做了个小演示（它们不参与训练和选模，也没有人工标好的真实对应点）：</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
 <th>模型</th>
 <th>候选匹配数</th>
-<th>RANSAC内点数</th>
+<th>RANSAC 内点数</th>
 </tr>
 </thead>
 <tbody>
@@ -1705,30 +1335,22 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 </tr>
 </tbody>
 </table></div>
-<p>可以看到，本地微调和恢复后候选匹配更多，但不能把“29对匹配、7个内点”写成“7对真实正确匹配”，也不能据此认为本地模型优于官方模型。</p>
-<p>书封面中存在重复的西瓜图案，两张照片还有明显方向变化。相似纹理可能产生错误对应，而RANSAC是在这些候选中寻找一致关系，并没有额外的真值告诉它对应是否真实。</p>
-<p>官方路线的演示如下，图中绿色只表示当前估计下的RANSAC内点：</p>
+<p><strong>注意千万别看错这张表</strong>：虽然本地压缩恢复跑出了“29 对候选、7 个内点”，数字比官方的“8 对候选、4 个内点”大，但<strong>绝对不能说本地模型比官方强，也不能把 7 个内点当成 7 对真的匹配对了</strong>。</p>
+<p>原因很简单：书封面上有一堆重复的西瓜图案，而且两张照片旋转角度很大。长得一模一样的图案本来就容易让描述子配错，而 RANSAC 只负责在候选里找“几何上自圆其说”的一组点，它并不知道这些对应到底是不是真的。</p>
+<p>官方路线的对比效果如下（图里的绿线只代表当前估计出的 RANSAC 内点）：</p>
 <p><a href="../assets/posts/superpoint/book-matching-comparison.png" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/superpoint/book-matching-comparison.png" alt="书封面照片上的官方模型压缩与恢复演示"></a></p>
-<p>这组照片更适合帮助理解失败现象。模型之间的定量比较，应优先参考具有真实单应关系的HPatches结果。</p>
-<h4 id="八通过这些实验可以得到什么认识">八、通过这些实验可以得到什么认识？</h4>
+<p>所以，这组书封面照片更适合用来<strong>直观感受重复纹理和大旋转下的翻车现象</strong>；真要比模型谁更强，还是要以有真实单应真值的 HPatches 结果为准。</p>
+<hr>
+<h2 id="4-总结">4. 总结</h2>
+<p>把原理和实验串起来复盘一遍，这次学习下来最关键的 5 点认识是：</p>
 <ol>
-<li>
-<p><strong>训练流程跑通与达到官方模型效果是两个层次。</strong> 本地模型完成了合成预训练、单应适应和联合训练，在已知变换下已有较好结果，但HPatches仍显示明显差距。</p>
-</li>
-<li>
-<p><strong>检测稳定不代表描述匹配稳定。</strong> 微调前45°组检测重复率仍有83.83%，匹配正确率却只有12.56%。点可以反复找到，描述子仍可能对应错误。</p>
-</li>
-<li>
-<p><strong>增加困难增强会带来取舍。</strong> 本次微调改善了30°旋转，付出了部分小角度表现下降的代价；真实图像对的整体结果也没有同步提升。</p>
-</li>
-<li>
-<p><strong>压缩必须同时评估结构、恢复效果和真实任务指标。</strong> 保留75%的中间通道可减少42.53%的参数，但直接裁剪官方权重会严重破坏匹配能力；恢复训练是本次方案的重要组成部分。</p>
-</li>
-<li>
-<p><strong>指标口径决定结论能否成立。</strong> 参数量减少不等于同等比例加速，RANSAC返回矩阵不等于几何估计正确，内点更多也不等于真实准确率更高。</p>
-</li>
+<li><strong>“流程跑通”和“达到官方水平”是两码事</strong>：本地从头训的模型完整走完了合成预训练、单应适应和联合训练，在简单变换下也表现不错，但一上 HPatches 真实场景，和官方权重依然差着一截（尤其在视角变化上）。</li>
+<li><strong>找得到点，不代表配得对</strong>：微调前 45° 旋转组的检测重复率其实高达 <code>83.83%</code>，但匹配正确率只有 <code>12.56%</code>——点明明都找到了，卡脖子的是描述子旋转后认不出来。</li>
+<li><strong>硬加困难增强往往是有代价的</strong>：大角度微调把 30° 旋转拉高了不少，但也让 10° 小角度和 HPatches 整体表现出现了回退。</li>
+<li><strong>通道压缩必须连着“恢复训练 + 真实任务指标”一起看</strong>：保留 75% 中间通道能减掉 <code>42.53%</code> 的参数量，但直接裁剪官方权重会直接失效；靠蒸馏做恢复训练后，才真正拿到了 <code>83.61%</code> 的匹配正确率和 <code>79.31%</code> 的单应成功率@3px。</li>
+<li><strong>指标口径决定结论靠不靠谱</strong>：参数量少了 42.53% 不等于提速 42.53%，RANSAC 返回了矩阵不等于算准了，没有真值时的内点多也不等于准确率高。</li>
 </ol>
-<p>本次结果较明确地表明：官方权重经过75%通道保留和恢复训练后，在参数量减少42.53%的情况下，HPatches平均匹配正确率为83.61%，单应成功率@3px为79.31%；大角度旋转能力和书封面演示中的错误匹配仍需继续改进。</p>
+<p>整体来看，这次实验最明确的一条实用结论是：<strong>官方权重按 75% 通道裁剪并配合蒸馏恢复后，能在少掉 42.53% 参数的前提下，在 HPatches 上基本保住原版表现（匹配正确率 83.61%，单应成功率@3px 79.31%）</strong>；而大角度旋转能力和书封面这类重复纹理场景下的误匹配，后面还需要继续改进。</p>
 
       </div>
 
@@ -1748,7 +1370,7 @@ MagicPoint合成预训练 → 两轮单应适应 → SuperPoint联合训练
 
     <aside class="toc" aria-label="委托要点">
       <h2>委托要点</h2>
-      <ol><li class="l2"><a href="#背景">背景</a></li><li class="l2"><a href="#系统框图">系统框图</a></li><li class="l3"><a href="#训练">训练</a></li><li class="l3"><a href="#推理">推理</a></li><li class="l2"><a href="#算法具体流程">算法具体流程</a></li><li class="l3"><a href="#训练-1">训练</a></li><li class="l4"><a href="#一整体训练结构">一、整体训练结构</a></li><li class="l4"><a href="#二第一阶段合成图像预训练-magicpoint">二、第一阶段：合成图像预训练 MagicPoint</a></li><li class="l4"><a href="#三第二阶段通过单应适应生成真实图像伪标签">三、第二阶段：通过单应适应生成真实图像伪标签</a></li><li class="l4"><a href="#四第三阶段联合训练检测头与描述头">四、第三阶段：联合训练检测头与描述头</a></li><li class="l4"><a href="#五一次联合训练迭代的完整顺序">五、一次联合训练迭代的完整顺序</a></li><li class="l4"><a href="#六论文中的训练设置">六、论文中的训练设置</a></li><li class="l4"><a href="#七训练与推理的区别">七、训练与推理的区别</a></li><li class="l4"><a href="#八最重要的三个理解点">八、最重要的三个理解点</a></li><li class="l3"><a href="#推理-1">推理</a></li><li class="l4"><a href="#一输入是什么">一、输入是什么？</a></li><li class="l4"><a href="#二具体推理流程">二、具体推理流程</a></li><li class="l4"><a href="#三最终输出是什么">三、最终输出是什么？</a></li><li class="l4"><a href="#四有什么优点">四、有什么优点？</a></li><li class="l4"><a href="#五有什么缺点">五、有什么缺点？</a></li><li class="l4"><a href="#六适合处理怎样的数据">六、适合处理怎样的数据？</a></li><li class="l2"><a href="#具体实验结果">具体实验结果</a></li><li class="l4"><a href="#一这次实验具体做了什么">一、这次实验具体做了什么？</a></li><li class="l4"><a href="#二应该怎样理解实验指标">二、应该怎样理解实验指标？</a></li><li class="l4"><a href="#三从头训练的结果">三、从头训练的结果</a></li><li class="l4"><a href="#四大角度微调有没有改善匹配">四、大角度微调有没有改善匹配？</a></li><li class="l4"><a href="#五保留75通道后模型还能不能用">五、保留75%通道后，模型还能不能用？</a></li><li class="l4"><a href="#六在hpatches真实图像对上表现怎样">六、在HPatches真实图像对上表现怎样？</a></li><li class="l4"><a href="#七自己的书封面照片能说明什么">七、自己的书封面照片能说明什么？</a></li><li class="l4"><a href="#八通过这些实验可以得到什么认识">八、通过这些实验可以得到什么认识？</a></li></ol>
+      <ol><li class="l2"><a href="#前言与背景">前言与背景</a></li><li class="l2"><a href="#整体结构系统框图">整体结构（系统框图）</a></li><li class="l3"><a href="#训练流程">训练流程</a></li><li class="l3"><a href="#推理流程">推理流程</a></li><li class="l2"><a href="#1-训练流程详解">1. 训练流程详解</a></li><li class="l3"><a href="#11-整体训练一览">1.1 整体训练一览</a></li><li class="l3"><a href="#12-第一阶段在合成图像上预训练-magicpoint">1.2 第一阶段：在合成图像上预训练 MagicPoint</a></li><li class="l3"><a href="#13-第二阶段通过单应适应给真实图像造伪标签">1.3 第二阶段：通过单应适应给真实图像造伪标签</a></li><li class="l3"><a href="#14-第三阶段联合训练检测头与描述头">1.4 第三阶段：联合训练检测头与描述头</a></li><li class="l3"><a href="#15-一次联合训练迭代的完整清单">1.5 一次联合训练迭代的完整清单</a></li><li class="l3"><a href="#16-原论文里的训练参数参考">1.6 原论文里的训练参数参考</a></li><li class="l3"><a href="#17-训练部分最容易搞混的三个问题">1.7 训练部分最容易搞混的三个问题</a></li><li class="l2"><a href="#2-推理流程详解">2. 推理流程详解</a></li><li class="l3"><a href="#21-输入是什么">2.1 输入是什么？</a></li><li class="l3"><a href="#22-一步步看推理怎么跑">2.2 一步步看推理怎么跑</a></li><li class="l3"><a href="#23-最终输出与后续匹配">2.3 最终输出与后续匹配</a></li><li class="l3"><a href="#24-superpoint-的优缺点与适用场景">2.4 SuperPoint 的优缺点与适用场景</a></li><li class="l2"><a href="#3-具体实验结果与复盘">3. 具体实验结果与复盘</a></li><li class="l3"><a href="#31-这次实验一共做了什么">3.1 这次实验一共做了什么？</a></li><li class="l3"><a href="#32-先对齐几个指标的口径">3.2 先对齐几个指标的口径</a></li><li class="l3"><a href="#33-从头训练跑得怎么样">3.3 从头训练跑得怎么样？</a></li><li class="l3"><a href="#34-大角度微调能不能救大旋转">3.4 大角度微调，能不能救大旋转？</a></li><li class="l3"><a href="#35-保留-75-通道做压缩模型还能不能用">3.5 保留 75% 通道做压缩，模型还能不能用？</a></li><li class="l4"><a href="#第一组压缩本地微调模型">第一组：压缩“本地微调模型”</a></li><li class="l4"><a href="#第二组压缩官方预训练模型">第二组：压缩“官方预训练模型”</a></li><li class="l3"><a href="#36-终极考场hpatches-真实图像对表现怎样">3.6 终极考场：HPatches 真实图像对表现怎样？</a></li><li class="l4"><a href="#全部-580-对的总成绩单">全部 580 对的总成绩单</a></li><li class="l4"><a href="#把光照变化和视角变化拆开看">把“光照变化”和“视角变化”拆开看</a></li><li class="l4"><a href="#这些小幅升降靠谱吗统计检验与补充测试">这些小幅升降靠谱吗？（统计检验与补充测试）</a></li><li class="l3"><a href="#37-自己拍的两张书封面照片能说明什么">3.7 自己拍的两张书封面照片，能说明什么？</a></li><li class="l2"><a href="#4-总结">4. 总结</a></li></ol>
     </aside>
   </div>
 

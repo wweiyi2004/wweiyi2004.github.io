@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 860" width="1080" height="860" style="background-color: #FFFFFF;">
+  <defs>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .main-title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .main-sub { font-size: 12.5px; fill: #6B7280; }
+      .panel-title { font-size: 15px; font-weight: 700; }
+      .step-title { font-size: 13px; font-weight: 700; }
+      .body-text { font-size: 11.5px; }
+      .small-text { font-size: 10.5px; }
+      .cell-text { font-size: 11px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <!-- White background -->
+  <rect x="0" y="0" width="1080" height="860" fill="#FFFFFF"/>
+
+  <!-- Main Header -->
+  <text x="540" y="34" text-anchor="middle" class="main-title">OANet 两大核心机制图解：规范顺序聚类对齐 &amp; 空间-通道正交交互</text>
+  <text x="540" y="54" text-anchor="middle" class="main-sub">直觉拆解：为什么 DiffPool 能“自动排座”？为什么反池化必须借用浅层 X_l？以及 Spatial Correlation 为何只在 Level-2 生效？</text>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL A: DiffPool Permutation Invariance & Order-Aware DiffUnpool         -->
+  <!-- ========================================================================= -->
+  <rect x="20" y="68" width="1040" height="390" rx="12" fill="#FAFAFA" stroke="#CBD5E1" stroke-width="1.4"/>
+  <rect x="20" y="68" width="1040" height="34" rx="12" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+  <text x="36" y="90" class="panel-title" fill="#1F5138">机制一：DiffPool 把“乱序匹配点”排成“规范有序聚类”，再用 Order-Aware DiffUnpool 精准找回原顺序</text>
+
+  <!-- Step 1: Shuffled Input -->
+  <g transform="translate(36, 118)">
+    <rect x="0" y="0" width="206" height="322" rx="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.3"/>
+    <text x="103" y="23" text-anchor="middle" class="step-title" fill="#111827">① 无序输入（任意打乱 P）</text>
+    <text x="103" y="41" text-anchor="middle" class="small-text" fill="#6B7280">假设输入 4 条匹配点被随机重排</text>
+
+    <!-- Original order -->
+    <text x="16" y="66" class="small-text" font-weight="700" fill="#374151">原顺序 X_l [N×D]：</text>
+    <rect x="16" y="74" width="174" height="22" rx="4" fill="#DBEAFE" stroke="#2783DE"/>
+    <text x="103" y="89" text-anchor="middle" class="cell-text" fill="#153B60">行 1：点 c₁（左上建筑角）</text>
+    <rect x="16" y="100" width="174" height="22" rx="4" fill="#DCFCE7" stroke="#46A171"/>
+    <text x="103" y="115" text-anchor="middle" class="cell-text" fill="#1F5138">行 2：点 c₂（右下地面）</text>
+    <rect x="16" y="126" width="174" height="22" rx="4" fill="#FEF3C7" stroke="#D5803B"/>
+    <text x="103" y="141" text-anchor="middle" class="cell-text" fill="#70401C">行 3：点 c₃（误匹配外点）</text>
+    <rect x="16" y="152" width="174" height="22" rx="4" fill="#EDE9FE" stroke="#8B5CF6"/>
+    <text x="103" y="167" text-anchor="middle" class="cell-text" fill="#422578">行 4：点 c₄（左上屋檐）</text>
+
+    <text x="103" y="196" text-anchor="middle" class="small-text" font-weight="700" fill="#D5803B">↓ 施加置换矩阵 P（打乱行序）</text>
+
+    <!-- Permuted order -->
+    <text x="16" y="216" class="small-text" font-weight="700" fill="#374151">打乱后 P·X_l：</text>
+    <rect x="16" y="224" width="174" height="21" rx="4" fill="#FEF3C7" stroke="#D5803B"/>
+    <text x="103" y="238.5" text-anchor="middle" class="cell-text" fill="#70401C">行 1：c₃（外点）</text>
+    <rect x="16" y="248" width="174" height="21" rx="4" fill="#DBEAFE" stroke="#2783DE"/>
+    <text x="103" y="262.5" text-anchor="middle" class="cell-text" fill="#153B60">行 2：c₁（左上）</text>
+    <rect x="16" y="272" width="174" height="21" rx="4" fill="#EDE9FE" stroke="#8B5CF6"/>
+    <text x="103" y="286.5" text-anchor="middle" class="cell-text" fill="#422578">行 3：c₄（左上）</text>
+    <rect x="16" y="296" width="174" height="21" rx="4" fill="#DCFCE7" stroke="#46A171"/>
+    <text x="103" y="310.5" text-anchor="middle" class="cell-text" fill="#1F5138">行 4：c₂（右下）</text>
+  </g>
+
+  <!-- Arrow Step 1 -> Step 2 -->
+  <path d="M 244 278 L 274 278" fill="none" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <!-- Step 2: DiffPool Canonical Order -->
+  <g transform="translate(278, 118)">
+    <rect x="0" y="0" width="278" height="322" rx="8" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
+    <text x="139" y="23" text-anchor="middle" class="step-title" fill="#1F5138">② DiffPool：置换不变 → 规范顺序</text>
+    <text x="139" y="42" text-anchor="middle" class="small-text" fill="#276345">S_pool 随输入同步重排：S̃_pool = P · S_pool</text>
+
+    <!-- Math Proof Box -->
+    <rect x="14" y="54" width="250" height="62" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
+    <text x="139" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="#1F5138">X_{l+1} = S̃_poolᵀ (P X_l)</text>
+    <text x="139" y="92" text-anchor="middle" font-size="12" font-weight="700" fill="#1F5138">= S_poolᵀ (Pᵀ P) X_l = S_poolᵀ X_l</text>
+    <text x="139" y="109" text-anchor="middle" class="small-text" fill="#047857">Pᵀ P = I 自动抵消，输出与打乱无关！</text>
+
+    <!-- Canonical Cluster Slots -->
+    <text x="16" y="138" class="small-text" font-weight="700" fill="#374151">无论输入如何打乱，M 个聚类槽位永远固定：</text>
+
+    <rect x="16" y="148" width="246" height="36" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+    <text x="26" y="164" class="cell-text" fill="#153B60">簇 1（固定槽位）：汇总 c₁ + c₄</text>
+    <text x="26" y="179" class="small-text" fill="#1E4E79">语义：左上区域相似运动模式（局部上下文）</text>
+
+    <rect x="16" y="191" width="246" height="36" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="26" y="207" class="cell-text" fill="#1F5138">簇 2（固定槽位）：汇总 c₂ 等</text>
+    <text x="26" y="222" class="small-text" fill="#276345">语义：右下地面区域运动模式</text>
+
+    <rect x="16" y="234" width="246" height="36" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="26" y="250" class="cell-text" fill="#70401C">簇 M（固定槽位）：汇总 c₃ 等离群点</text>
+    <text x="26" y="265" class="small-text" fill="#92400E">经 6×OA Filtering 交互后得到 X'_{l+1}</text>
+
+    <rect x="16" y="280" width="246" height="32" rx="5" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1"/>
+    <text x="139" y="294" text-anchor="middle" class="small-text" font-weight="700" fill="#854D0E">副作用：X'_{l+1} 彻底“忘记”了原输入顺序</text>
+    <text x="139" y="308" text-anchor="middle" class="small-text" fill="#854D0E">不知道刚才传进来的是 [c₁,c₂,c₃,c₄] 还是 [c₃,c₁,c₄,c₂]</text>
+  </g>
+
+  <!-- Split Arrows Step 2 -> Step 3A and Step 3B -->
+  <path d="M 556 205 L 588 205" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arr-orange)"/>
+  <path d="M 556 355 L 588 355" fill="none" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <!-- Step 3A: Plain DiffUnpool (Bad) -->
+  <g transform="translate(592, 118)">
+    <rect x="0" y="0" width="452" height="148" rx="8" fill="#FFF7ED" stroke="#D5803B" stroke-width="1.5"/>
+    <text x="14" y="23" class="step-title" fill="#9A3412">③-A 朴素反池化 Plain DiffUnpool (UnA) —— 顺序错位！</text>
+    <text x="14" y="43" class="body-text" fill="#7C2D12">做法：直接拿 X'_{l+1} 预测 S_unpool ∈ [M, N]，算 X'_l = S_unpoolᵀ X'_{l+1}</text>
+
+    <!-- Visual mismatch -->
+    <rect x="14" y="54" width="188" height="78" rx="6" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1"/>
+    <text x="108" y="72" text-anchor="middle" class="small-text" font-weight="700" fill="#70401C">X'_l 输出行序（固定写死）</text>
+    <text x="108" y="90" text-anchor="middle" class="small-text" fill="#92400E">[位置1, 位置2, 位置3, 位置4]</text>
+    <text x="108" y="108" text-anchor="middle" class="small-text" fill="#DC2626">≠ 实际输入 [c₃, c₁, c₄, c₂]</text>
+    <text x="108" y="124" text-anchor="middle" class="small-text" fill="#DC2626">与浅层 P·X_l 拼接直接错位！</text>
+
+    <rect x="214" y="54" width="224" height="78" rx="6" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+    <text x="224" y="74" class="small-text" font-weight="700" fill="#991B1B">两大硬伤：</text>
+    <text x="224" y="93" class="small-text" fill="#7F1D1D">1. 丢失置换等变性，无法对齐原节点</text>
+    <text x="224" y="110" class="small-text" fill="#7F1D1D">2. 输出列数 N 写死在权重里，不支持变长</text>
+    <text x="224" y="126" class="small-text" font-weight="700" fill="#991B1B">消融实测：mAP5° 仅 +0.55%（几乎无效）</text>
+  </g>
+
+  <!-- Step 3B: Order-Aware DiffUnpool (Good) -->
+  <g transform="translate(592, 278)">
+    <rect x="0" y="0" width="452" height="162" rx="8" fill="#ECFDF5" stroke="#46A171" stroke-width="1.8"/>
+    <text x="14" y="23" class="step-title" fill="#1F5138">③-B 顺序感知反池化 Order-Aware DiffUnpool (UnB) —— 精准对齐！</text>
+    <text x="14" y="43" class="body-text" fill="#1F5138">做法：借用浅层 P·X_l 预测 S̃_unpool = P·S_unpool ∈ [N, M]，算 X'_l = S̃_unpool X'_{l+1}</text>
+
+    <!-- Visual match -->
+    <rect x="14" y="54" width="206" height="94" rx="6" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.2"/>
+    <text x="117" y="72" text-anchor="middle" class="small-text" font-weight="700" fill="#1F5138">每行对应原输入节点，精准查表：</text>
+    <text x="24" y="91" class="small-text" fill="#70401C">行 1 (c₃) → 去取 簇M 特征 → c'₃</text>
+    <text x="24" y="108" class="small-text" fill="#153B60">行 2 (c₁) → 去取 簇1 特征 → c'₁</text>
+    <text x="24" y="125" class="small-text" fill="#422578">行 3 (c₄) → 去取 簇1 特征 → c'₄</text>
+    <text x="24" y="142" class="small-text" fill="#1F5138">行 4 (c₂) → 去取 簇2 特征 → c'₂</text>
+
+    <rect x="232" y="54" width="206" height="94" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="242" y="74" class="small-text" font-weight="700" fill="#1F5138">两大核心优势：</text>
+    <text x="242" y="94" class="small-text" fill="#14532D">1. 严格恢复置换等变性：</text>
+    <text x="242" y="110" class="small-text" fill="#14532D">   (P·S_unpool) X'_{l+1} = P·X'_l</text>
+    <text x="242" y="127" class="small-text" fill="#14532D">2. 权重仅依赖固定 M=500，适配任意 N</text>
+    <text x="242" y="143" class="small-text" font-weight="700" fill="#047857">消融实测：mAP5° 直接 +5.23%！</text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- PANEL B: Order-Aware Filtering Block (Channel vs Spatial Mixing)          -->
+  <!-- ========================================================================= -->
+  <rect x="20" y="476" width="1040" height="366" rx="12" fill="#FAFAFA" stroke="#CBD5E1" stroke-width="1.4"/>
+  <rect x="20" y="476" width="1040" height="34" rx="12" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+  <text x="36" y="498" class="panel-title" fill="#153B60">机制二：Order-Aware Filtering 块内部结构 —— 通道维与空间聚类维的“正交交替混合”</text>
+
+  <!-- Outer ResNet Skip Line (Top) -->
+  <path d="M 52 630 L 52 532 L 1022 532 L 1022 618" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arr-blue)"/>
+  <rect x="445" y="520" width="180" height="22" rx="4" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
+  <text x="535" y="535" text-anchor="middle" class="small-text" font-weight="700" fill="#1D4ED8">外层残差连接（ResNet Skip）</text>
+
+  <!-- Input node X_2 -->
+  <g transform="translate(32, 634)">
+    <rect x="0" y="0" width="76" height="58" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+    <text x="38" y="25" text-anchor="middle" class="cell-text" fill="#111827">输入聚类</text>
+    <text x="38" y="45" text-anchor="middle" class="small-text" font-weight="700" fill="#374151">[M, D]</text>
+  </g>
+  <path d="M 108 663 L 130 663" fill="none" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arr-gray)"/>
+
+  <!-- Sub-block 1: PointCN Unit 1 -->
+  <g transform="translate(134, 560)">
+    <rect x="0" y="0" width="186" height="202" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+    <text x="93" y="23" text-anchor="middle" class="step-title" fill="#153B60">① PointCN 单元</text>
+    <text x="93" y="40" text-anchor="middle" class="small-text" fill="#1E4E79">Context Norm → BN/ReLU</text>
+    <text x="93" y="55" text-anchor="middle" class="small-text" fill="#1E4E79">→ Shared Perceptron (D→D)</text>
+
+    <!-- Mini matrix cartoon: row highlighted -->
+    <rect x="26" y="68" width="134" height="78" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+    <text x="93" y="82" text-anchor="middle" font-size="10" fill="#6B7280">D = 128（通道维）</text>
+    <!-- Grid rows -->
+    <rect x="38" y="88" width="110" height="11" rx="2" fill="#BFDBFE" stroke="#2783DE" stroke-width="1"/>
+    <rect x="38" y="102" width="110" height="11" rx="2" fill="#E2E8F0"/>
+    <rect x="38" y="116" width="110" height="11" rx="2" fill="#E2E8F0"/>
+    <rect x="38" y="130" width="110" height="11" rx="2" fill="#E2E8F0"/>
+    <text x="20" y="118" text-anchor="middle" font-size="9.5" fill="#6B7280">M</text>
+
+    <text x="93" y="166" text-anchor="middle" class="small-text" font-weight="700" fill="#153B60">沿通道维 D 逐行变换</text>
+    <text x="93" y="182" text-anchor="middle" class="small-text" fill="#1E4E79">各聚类独立，不直接跨行通信</text>
+    <text x="93" y="195" text-anchor="middle" class="small-text" fill="#1E4E79">权重在 M 个聚类间共享</text>
+  </g>
+
+  <path d="M 320 663 L 346 663" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
+
+  <!-- Sub-block 2: Spatial Correlation Layer (Center Highlight) -->
+  <g transform="translate(350, 550)">
+    <rect x="0" y="0" width="406" height="222" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="203" y="23" text-anchor="middle" class="step-title" fill="#1F5138">② Spatial Correlation 层（核心：跨聚类空间交互）</text>
+
+    <!-- Inner residual skip -->
+    <path d="M 18 113 L 18 46 L 388 46 L 388 101" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
+    <text x="203" y="42" text-anchor="middle" font-size="10.5" font-weight="700" fill="#047857">内层残差连接</text>
+
+    <!-- Transpose 1 -->
+    <rect x="28" y="84" width="66" height="58" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+    <text x="61" y="106" text-anchor="middle" class="cell-text" fill="#70401C">转置</text>
+    <text x="61" y="122" text-anchor="middle" font-size="10" fill="#92400E">M×D →</text>
+    <text x="61" y="135" text-anchor="middle" font-size="10" fill="#92400E">D×M</text>
+
+    <path d="M 94 113 L 112 113" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)"/>
+
+    <!-- Middle Spatial MLP -->
+    <rect x="116" y="62" width="174" height="114" rx="6" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
+    <text x="203" y="80" text-anchor="middle" class="cell-text" fill="#1F5138">BN + ReLU + 共享 MLP</text>
+    <text x="203" y="96" text-anchor="middle" class="small-text" fill="#276345">沿空间维 M 线性混合 (M→M)</text>
+    <!-- Matrix grid D x M with row (=all M clusters) highlighted -->
+    <rect x="136" y="104" width="134" height="12" rx="2" fill="#86EFAC" stroke="#16A34A" stroke-width="1"/>
+    <rect x="136" y="120" width="134" height="12" rx="2" fill="#E2E8F0"/>
+    <rect x="136" y="136" width="134" height="12" rx="2" fill="#E2E8F0"/>
+    <text x="203" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#047857">权重跨 D=128 通道共享，防过拟合</text>
+
+    <path d="M 290 113 L 308 113" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)"/>
+
+    <!-- Transpose 2 -->
+    <rect x="312" y="84" width="66" height="58" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+    <text x="345" y="106" text-anchor="middle" class="cell-text" fill="#70401C">转置回</text>
+    <text x="345" y="122" text-anchor="middle" font-size="10" fill="#92400E">D×M →</text>
+    <text x="345" y="135" text-anchor="middle" font-size="10" fill="#92400E">M×D</text>
+
+    <!-- Bottom explanation inside box -->
+    <text x="203" y="196" text-anchor="middle" class="small-text" font-weight="700" fill="#1F5138">相当于每个聚类都能“看见”其余全部 499 个聚类的状态</text>
+    <text x="203" y="212" text-anchor="middle" class="small-text" fill="#276345">仅需 M×M 参数（而非 (M·D)×(M·D) 全连接），结构类似 MLP-Mixer 的 Token Mixing</text>
+  </g>
+
+  <path d="M 756 663 L 782 663" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arr-blue)"/>
+
+  <!-- Sub-block 3: PointCN Unit 2 -->
+  <g transform="translate(786, 560)">
+    <rect x="0" y="0" width="186" height="202" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+    <text x="93" y="23" text-anchor="middle" class="step-title" fill="#153B60">③ PointCN 单元</text>
+    <text x="93" y="40" text-anchor="middle" class="small-text" fill="#1E4E79">Context Norm → BN/ReLU</text>
+    <text x="93" y="55" text-anchor="middle" class="small-text" fill="#1E4E79">→ Shared Perceptron (D→D)</text>
+
+    <!-- Mini matrix cartoon -->
+    <rect x="26" y="68" width="134" height="78" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+    <text x="93" y="82" text-anchor="middle" font-size="10" fill="#6B7280">D = 128（通道维）</text>
+    <rect x="38" y="88" width="110" height="11" rx="2" fill="#BFDBFE" stroke="#2783DE" stroke-width="1"/>
+    <rect x="38" y="102" width="110" height="11" rx="2" fill="#BFDBFE" stroke="#2783DE" stroke-width="1"/>
+    <rect x="38" y="116" width="110" height="11" rx="2" fill="#BFDBFE" stroke="#2783DE" stroke-width="1"/>
+    <rect x="38" y="130" width="110" height="11" rx="2" fill="#BFDBFE" stroke="#2783DE" stroke-width="1"/>
+
+    <text x="93" y="166" text-anchor="middle" class="small-text" font-weight="700" fill="#153B60">再次融合跨通道特征</text>
+    <text x="93" y="182" text-anchor="middle" class="small-text" fill="#1E4E79">与空间相关层正交互补</text>
+    <text x="93" y="195" text-anchor="middle" class="small-text" fill="#1E4E79">输出对齐 [M, D]</text>
+  </g>
+
+  <!-- Output Sum circle -->
+  <path d="M 972 663 L 1004 663" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arr-blue)"/>
+  <circle cx="1022" cy="663" r="15" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="1022" y="668" text-anchor="middle" font-size="16" font-weight="700" fill="#422578">+</text>
+
+  <!-- Bottom Key Takeaway Strip -->
+  <rect x="36" y="788" width="1008" height="40" rx="8" fill="#FFF7ED" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="540" y="812.5" text-anchor="middle" class="body-text" font-weight="700" fill="#70401C">
+    为什么不能在 Level-1 直接加 Spatial Correlation？—— Level-1 的 N 个点顺序是随机的，跨行加权毫无物理意义；只有经过 DiffPool 排成规范顺序的 M 个聚类后，跨行交互才成立（消融 +3.77%）！
+  </text>
+</svg>

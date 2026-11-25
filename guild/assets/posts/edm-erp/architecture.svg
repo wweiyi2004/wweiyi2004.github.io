@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 760" width="1060" height="760">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 12.5px; fill: #4B5563; }
+      .stage-title { font-size: 13.5px; font-weight: 700; }
+      .node-title { font-size: 13px; font-weight: 700; }
+      .node-sub { font-size: 11px; }
+      .dim-tag { font-size: 10.5px; font-family: Consolas, "Courier New", monospace; }
+      .edge-label { font-size: 10.5px; fill: #374151; }
+    </style>
+  </defs>
+
+  <!-- Pure White Background -->
+  <rect x="0" y="0" width="1060" height="760" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="530" y="32" text-anchor="middle" class="title">EDM（CVPR 2025）端到端全景稠密匹配整体架构</text>
+  <text x="530" y="53" text-anchor="middle" class="subtitle">输入 360° 等距柱状投影（ERP）图像对（示例分辨率 W=640, H=320）→ 多尺度特征提取 → SSAM 球面全局对齐 → 测地流多尺度精修</text>
+
+  <!-- ==================== STAGE 1: INPUT & MULTI-SCALE ENCODER ==================== -->
+  <rect x="20" y="72" width="265" height="290" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="34" y="95" class="stage-title" fill="#153B60">① 输入与多尺度特征提取</text>
+
+  <!-- Input Images -->
+  <rect x="38" y="108" width="229" height="58" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="152" y="129" text-anchor="middle" class="node-title" fill="#111827">ERP 全景图像对 I_A, I_B</text>
+  <text x="152" y="147" text-anchor="middle" class="dim-tag" fill="#374151">[B, 3, 320, 640]  (H=320, W=640)</text>
+  <text x="152" y="160" text-anchor="middle" class="node-sub" fill="#6B7280">经度 θ∈[-π,π], 纬度 φ∈[-π/2,π/2]</text>
+
+  <!-- Training Azimuth Aug Pill -->
+  <rect x="48" y="176" width="209" height="30" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" stroke-dasharray="4,2"/>
+  <text x="152" y="195" text-anchor="middle" class="node-sub" fill="#70401C">训练增强：随机方位角旋转 θ_aug∈[0,2π]</text>
+
+  <!-- Arrow Input -> Encoder -->
+  <line x1="152" y1="206" x2="152" y2="226" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ResNet50 Encoder -->
+  <rect x="38" y="230" width="229" height="62" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="152" y="251" text-anchor="middle" class="node-title" fill="#153B60">共享权重 ResNet50 编码器</text>
+  <text x="152" y="269" text-anchor="middle" class="node-sub" fill="#153B60">提取 L=6 级多尺度特征金字塔</text>
+  <text x="152" y="284" text-anchor="middle" class="dim-tag" fill="#1E40AF">步长 stride ∈ {32, 16, 8, 4, 2, 1}</text>
+
+  <!-- Split Outputs Box -->
+  <rect x="38" y="304" width="108" height="46" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+  <text x="92" y="322" text-anchor="middle" class="node-sub" font-weight="700" fill="#153B60">细尺度特征</text>
+  <text x="92" y="338" text-anchor="middle" class="dim-tag" fill="#153B60">stride 8→1</text>
+
+  <rect x="158" y="304" width="109" height="46" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+  <text x="212" y="322" text-anchor="middle" class="node-sub" font-weight="700" fill="#153B60">粗尺度特征</text>
+  <text x="212" y="338" text-anchor="middle" class="dim-tag" fill="#153B60">stride 32/16</text>
+
+  <line x1="110" y1="292" x2="92" y2="303" stroke="#2783DE" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+  <line x1="194" y1="292" x2="212" y2="303" stroke="#2783DE" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+
+  <!-- ==================== STAGE 2: SSAM (COARSE GLOBAL MATCHING) ==================== -->
+  <rect x="310" y="72" width="730" height="290" rx="10" fill="#F9FAFB" stroke="#46A171" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="326" y="95" class="stage-title" fill="#1F5138">② 球面空间对齐模块 SSAM（粗尺度全局匹配，H_c×W_c = 10×20 或 20×40）</text>
+
+  <!-- Arrow Coarse Features -> SSAM -->
+  <path d="M 267 327 L 292 327 L 292 162 L 328 162" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+
+  <!-- Kernel Computation -->
+  <rect x="330" y="114" width="195" height="92" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5"/>
+  <text x="427" y="136" text-anchor="middle" class="node-title" fill="#1F5138">共享 1×1 Conv &amp; 核矩阵</text>
+  <text x="427" y="155" text-anchor="middle" class="node-sub" fill="#1F5138">指数余弦核计算 K_AB, K_BB</text>
+  <text x="427" y="172" text-anchor="middle" class="dim-tag" fill="#1F5138">K_AB, K_BB: [B, HW, HW]</text>
+  <text x="427" y="191" text-anchor="middle" class="node-sub" fill="#374151">τ=5, ε=1e-6, σ_n=0.1</text>
+
+  <!-- Spherical Positional Embedding (Highlighted Orange) -->
+  <rect x="330" y="226" width="195" height="118" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.8"/>
+  <text x="427" y="248" text-anchor="middle" class="node-title" fill="#70401C">★ 3D 球面位置嵌入 (Eq.9)</text>
+  <text x="427" y="267" text-anchor="middle" class="node-sub" fill="#70401C">2D 特征网格 f_B^grid 经 π⁻¹</text>
+  <text x="427" y="284" text-anchor="middle" class="dim-tag" fill="#70401C">→ 单位球坐标 S_B: [HW, 3]</text>
+  <text x="427" y="303" text-anchor="middle" class="node-sub" fill="#70401C">χ_B = cos(W·S_B + b)</text>
+  <text x="427" y="321" text-anchor="middle" class="dim-tag" fill="#70401C">位置嵌入 χ_B: [HW, C']</text>
+  <text x="427" y="336" text-anchor="middle" class="node-sub" fill="#92400E">感知极点畸变 &amp; 消除左右割裂</text>
+
+  <!-- Arrows -> GP -->
+  <path d="M 525 160 L 548 160 L 548 212 L 566 212" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+  <path d="M 525 285 L 548 285 L 548 242 L 566 242" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+
+  <!-- GP Regression -->
+  <rect x="568" y="168" width="202" height="112" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+  <text x="669" y="191" text-anchor="middle" class="node-title" fill="#1F5138">高斯过程回归 GP(·)</text>
+  <text x="669" y="212" text-anchor="middle" class="node-sub" fill="#1F5138">计算后验均值 μ_{A|B} (Eq.3)</text>
+  <text x="669" y="232" text-anchor="middle" class="dim-tag" fill="#1F5138">K_AB(K_BB+σ_n²I)⁻¹ χ_B</text>
+  <text x="669" y="252" text-anchor="middle" class="dim-tag" fill="#1F5138">输出 μ_{A|B}: [B, HW, C']</text>
+  <text x="669" y="269" text-anchor="middle" class="node-sub" fill="#374151">重塑为 [B, C', H_c, W_c]</text>
+
+  <!-- Arrow GP -> Decoder -->
+  <line x1="770" y1="224" x2="806" y2="224" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+
+  <!-- Skip f_A coarse to Decoder -->
+  <path d="M 427 114 L 427 104 L 912 104 L 912 146" fill="none" stroke="#2783DE" stroke-width="1.3" stroke-dasharray="4,2" marker-end="url(#arrow-blue)"/>
+  <text x="670" y="100" text-anchor="middle" class="edge-label" fill="#153B60">拼接粗尺度特征 f_A^coarse [B, C, H_c, W_c]</text>
+
+  <!-- Embedding Decoder -->
+  <rect x="808" y="148" width="212" height="106" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="914" y="170" text-anchor="middle" class="node-title" fill="#153B60">CNN 嵌入解码器 (Eq.10)</text>
+  <text x="914" y="189" text-anchor="middle" class="node-sub" fill="#153B60">Decoder(μ_{A|B} ⊕ f_A^coarse)</text>
+  <text x="914" y="209" text-anchor="middle" class="dim-tag" fill="#153B60">粗匹配 Ŝ^coarse: [B, 3, H_c, W_c]</text>
+  <text x="914" y="227" text-anchor="middle" class="dim-tag" fill="#153B60">置信度 ĉ^coarse: [B, 1, H_c, W_c]</text>
+  <text x="914" y="244" text-anchor="middle" class="node-sub" fill="#374151">3 通道 = 单位球面 (S^x, S^y, S^z)</text>
+
+  <!-- Coarse Output Badge -->
+  <rect x="822" y="276" width="184" height="62" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="914" y="298" text-anchor="middle" class="node-title" fill="#422578">粗尺度球面全局匹配</text>
+  <text x="914" y="316" text-anchor="middle" class="dim-tag" fill="#422578">Ŝ_{A→B}^coarse &amp; ĉ_{A→B}^coarse</text>
+  <text x="914" y="330" text-anchor="middle" class="node-sub" fill="#5B21B6">（同时接受多尺度损失监督）</text>
+  <line x1="914" y1="254" x2="914" y2="274" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- ==================== STAGE 3: GEODESIC FLOW REFINEMENT ==================== -->
+  <rect x="20" y="395" width="710" height="295" rx="10" fill="#F9FAFB" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="36" y="418" class="stage-title" fill="#70401C">③ 测地流逐级精修 Geodesic Flow Refinement（逐级上采样循环：stride 16 → 8 → 4 → 2 → 1）</text>
+
+  <!-- Connection from Stage 2 Coarse Output to Stage 3 Step A -->
+  <path d="M 822 307 L 790 307 L 790 378 L 130 378 L 130 442" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <text x="460" y="373" text-anchor="middle" class="edge-label" fill="#422578">粗尺度单位球面匹配 Ŝ^{l+1} [B, 3, H_l, W_l] 与置信度 ĉ^{l+1} 上采样送入精修循环</text>
+
+  <!-- Connection from Stage 1 Fine Features to Stage 3 Refiner -->
+  <path d="M 92 350 L 92 388 L 372 388 L 372 442" fill="none" stroke="#2783DE" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-blue)"/>
+  <text x="236" y="385" text-anchor="middle" class="edge-label" fill="#153B60">跳连细尺度特征 f_A^l, f_B^l [B, C_l, H_l, W_l]</text>
+
+  <!-- Step A: Forward Projection pi -->
+  <rect x="38" y="445" width="184" height="122" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.7"/>
+  <text x="130" y="467" text-anchor="middle" class="node-title" fill="#70401C">Step A：正投影 π (Eq.11)</text>
+  <text x="130" y="486" text-anchor="middle" class="node-sub" fill="#70401C">3D 笛卡尔 → 2D 球面 ERP</text>
+  <text x="130" y="506" text-anchor="middle" class="dim-tag" fill="#70401C">û^{l+1} = π(Ŝ^{l+1})</text>
+  <text x="130" y="526" text-anchor="middle" class="dim-tag" fill="#70401C">[B, 3, H_l, W_l]</text>
+  <text x="130" y="541" text-anchor="middle" class="dim-tag" fill="#70401C">↓</text>
+  <text x="130" y="556" text-anchor="middle" class="dim-tag" fill="#70401C">[B, 2, H_l, W_l] (θ, φ)</text>
+
+  <!-- Arrow A -> B -->
+  <line x1="222" y1="506" x2="254" y2="506" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+
+  <!-- Step B: 2D ERP Refiner -->
+  <rect x="256" y="445" width="234" height="154" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+  <text x="373" y="467" text-anchor="middle" class="node-title" fill="#1F5138">Step B：2D ERP 局部精修 (Eq.6-8)</text>
+  <text x="373" y="487" text-anchor="middle" class="node-sub" fill="#1F5138">1. 双线性采样 f_{B→A}^l = f_B⟨û^{l+1}⟩</text>
+  <text x="373" y="505" text-anchor="middle" class="node-sub" fill="#1F5138">2. 局部相关 Corr_{Ω_k}^l [B, K, H_l, W_l]</text>
+  <text x="373" y="523" text-anchor="middle" class="node-sub" fill="#1F5138">3. 位移 1×1 Conv(û^{l+1} - u_A^{l+1})</text>
+  <text x="373" y="542" text-anchor="middle" class="node-sub" fill="#1F5138">4. 拼接送入 Refiner 预测 Δû, Δĉ</text>
+  <rect x="272" y="553" width="202" height="36" rx="5" fill="#FFFFFF" stroke="#46A171" stroke-width="1"/>
+  <text x="373" y="568" text-anchor="middle" class="dim-tag" fill="#1F5138">û^l = û^{l+1} + Δû^{l+1}  [B,2,H_l,W_l]</text>
+  <text x="373" y="582" text-anchor="middle" class="dim-tag" fill="#1F5138">ĉ^l = ĉ^{l+1} + Δĉ^{l+1}  [B,1,H_l,W_l]</text>
+
+  <!-- Arrow B -> C -->
+  <line x1="490" y1="506" x2="522" y2="506" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+
+  <!-- Step C: Back Projection pi^-1 -->
+  <rect x="524" y="445" width="188" height="122" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.7"/>
+  <text x="618" y="467" text-anchor="middle" class="node-title" fill="#70401C">Step C：反投影 π⁻¹ (Eq.12)</text>
+  <text x="618" y="486" text-anchor="middle" class="node-sub" fill="#70401C">2D 球面 ERP → 3D 单位球</text>
+  <text x="618" y="506" text-anchor="middle" class="dim-tag" fill="#70401C">Ŝ^l = π⁻¹(û^l)</text>
+  <text x="618" y="526" text-anchor="middle" class="dim-tag" fill="#70401C">[B, 2, H_l, W_l]</text>
+  <text x="618" y="541" text-anchor="middle" class="dim-tag" fill="#70401C">↓  严格落回单位球面</text>
+  <text x="618" y="556" text-anchor="middle" class="dim-tag" fill="#70401C">[B, 3, H_l, W_l] (|Ŝ|=1)</text>
+
+  <!-- Loop back arrow -->
+  <path d="M 618 567 L 618 654 L 130 654 L 130 571" fill="none" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="6,3" marker-end="url(#arrow-orange)"/>
+  <rect x="240" y="636" width="275" height="28" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1"/>
+  <text x="377" y="654" text-anchor="middle" class="node-sub" font-weight="700" fill="#70401C">循环迭代：上采样至下一尺度 (直至 320×640)</text>
+
+  <!-- ==================== STAGE 4: OUTPUT & TRAINING / INFERENCE ==================== -->
+  <rect x="752" y="395" width="288" height="295" rx="10" fill="#F9FAFB" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="768" y="418" class="stage-title" fill="#422578">④ 全分辨率输出与下游分支</text>
+
+  <!-- Arrow Stage 3 -> Stage 4 -->
+  <line x1="712" y1="490" x2="768" y2="490" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+
+  <!-- Final Output Box -->
+  <rect x="770" y="440" width="252" height="76" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.7"/>
+  <text x="896" y="462" text-anchor="middle" class="node-title" fill="#422578">全分辨率单位球稠密对应</text>
+  <text x="896" y="482" text-anchor="middle" class="dim-tag" fill="#422578">Ŝ_{A→B}: [B, 3, 320, 640]</text>
+  <text x="896" y="500" text-anchor="middle" class="dim-tag" fill="#422578">ĉ_{A→B}: [B, 1, 320, 640]</text>
+
+  <!-- Branch 1: Training Loss -->
+  <rect x="770" y="534" width="252" height="66" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
+  <text x="896" y="553" text-anchor="middle" class="node-title" fill="#70401C">训练阶段：多尺度球面监督</text>
+  <text x="896" y="571" text-anchor="middle" class="node-sub" fill="#70401C">L_total = Σ_l (L_r^l + 0.01 · L_c^l)</text>
+  <text x="896" y="588" text-anchor="middle" class="node-sub" fill="#92400E">余弦夹角回归损失 + 深度一致置信度 BCE</text>
+
+  <!-- Branch 2: Inference Pose -->
+  <rect x="770" y="612" width="252" height="66" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+  <text x="896" y="631" text-anchor="middle" class="node-title" fill="#111827">推理阶段：全景位姿与重建</text>
+  <text x="896" y="649" text-anchor="middle" class="node-sub" fill="#374151">置信度过滤 (ĉ &gt; 0.8) → 随机采样 ≤5000 对</text>
+  <text x="896" y="666" text-anchor="middle" class="node-sub" fill="#374151">→ 360-8PA 估计相对位姿 / 球面三角化</text>
+
+  <line x1="835" y1="516" x2="835" y2="532" stroke="#D5803B" stroke-width="1.4" marker-end="url(#arrow-orange)"/>
+  <path d="M 960 516 L 960 525 L 1030 525 L 1030 645 L 1024 645" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow)"/>
+
+  <!-- ==================== LEGEND BAR ==================== -->
+  <rect x="20" y="706" width="1020" height="40" rx="8" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="40" y="731" class="node-sub" font-weight="700" fill="#374151">模块图例：</text>
+
+  <rect x="115" y="717" width="18" height="18" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
+  <text x="140" y="731" class="node-sub" fill="#111827">输入 / 推理后处理</text>
+
+  <rect x="275" y="717" width="18" height="18" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3"/>
+  <text x="300" y="731" class="node-sub" fill="#153B60">编码 / 解码特征模块</text>
+
+  <rect x="445" y="717" width="18" height="18" rx="4" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+  <text x="470" y="731" class="node-sub" fill="#1F5138">匹配 / GP / 局部精修</text>
+
+  <rect x="615" y="717" width="18" height="18" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="640" y="731" class="node-sub" fill="#70401C">核心创新 / 球面投影 / 损失</text>
+
+  <rect x="825" y="717" width="18" height="18" rx="4" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
+  <text x="850" y="731" class="node-sub" fill="#422578">球面对应与置信度输出</text>
+</svg>

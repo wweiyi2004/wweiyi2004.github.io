@@ -1,0 +1,282 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 650" width="1080" height="650">
+  <defs>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#6B7280"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#46A171"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+    .title { font-size: 20px; font-weight: 700; fill: #111827; }
+    .subtitle { font-size: 12px; fill: #4B5563; }
+    .sec-title-blue { font-size: 14px; font-weight: 700; fill: #153B60; }
+    .sec-title-green { font-size: 14px; font-weight: 700; fill: #1F5138; }
+    .sec-title-gray { font-size: 13px; font-weight: 700; fill: #374151; }
+    .box-title-gray { font-size: 13px; font-weight: 700; fill: #111827; }
+    .box-sub-gray { font-size: 11px; fill: #374151; }
+    .box-title-blue { font-size: 13px; font-weight: 700; fill: #153B60; }
+    .box-sub-blue { font-size: 11px; fill: #1E4E79; }
+    .box-title-green { font-size: 13px; font-weight: 700; fill: #1F5138; }
+    .box-sub-green { font-size: 11px; fill: #256345; }
+    .box-title-orange { font-size: 13px; font-weight: 700; fill: #70401C; }
+    .box-sub-orange { font-size: 11px; fill: #8C5123; }
+    .box-title-purple { font-size: 13px; font-weight: 700; fill: #422578; }
+    .box-sub-purple { font-size: 11px; fill: #5B32A3; }
+    .tensor-tag { font-size: 10.5px; font-weight: 700; fill: #374151; }
+    .note-text { font-size: 11px; fill: #4B5563; }
+  </style>
+
+  <!-- Pure White Background -->
+  <rect x="0" y="0" width="1080" height="650" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="540" y="34" text-anchor="middle" class="title">SuperGlue 整体架构图（端到端可学习特征匹配中端）</text>
+  <text x="540" y="56" text-anchor="middle" class="subtitle">默认配合 SuperPoint：特征维度 D = 256 · 交替注意力 L = 9 组（共 18 层，4 Heads）· Sinkhorn 迭代 T = 100 次 · 总参数量约 12M</text>
+
+  <!-- ==================== STAGE CONTAINERS ==================== -->
+  <!-- Stage 0: Input Container -->
+  <rect x="20" y="76" width="180" height="494" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="110" y="99" text-anchor="middle" class="sec-title-gray">前端输入（局部特征）</text>
+
+  <!-- Stage 1: Attentional GNN Container -->
+  <rect x="224" y="76" width="406" height="494" rx="10" fill="#F7FBFF" stroke="#B5CFE9" stroke-width="1.5"/>
+  <text x="427" y="99" text-anchor="middle" class="sec-title-blue">模块一：注意力图神经网络（Attentional GNN）</text>
+
+  <!-- Stage 2: Optimal Matching Layer Container -->
+  <rect x="654" y="76" width="218" height="494" rx="10" fill="#F6FBF8" stroke="#B3CFC0" stroke-width="1.5"/>
+  <text x="763" y="99" text-anchor="middle" class="sec-title-green">模块二：最优匹配层</text>
+
+  <!-- Stage 3: Output & Downstream Container -->
+  <rect x="894" y="76" width="166" height="494" rx="10" fill="#FAF8FF" stroke="#D8CCF8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="977" y="99" text-anchor="middle" class="box-title-purple">输出与下游分流</text>
+
+  <!-- ==================== COLUMN 0: INPUTS ==================== -->
+  <!-- Image A features -->
+  <rect x="34" y="124" width="152" height="148" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="110" y="148" text-anchor="middle" class="box-title-gray">图像 A 局部特征</text>
+  <text x="110" y="167" text-anchor="middle" class="box-sub-gray">共 M 个关键点</text>
+  <rect x="46" y="178" width="128" height="36" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="110" y="194" text-anchor="middle" class="box-sub-gray">外观描述子 dᴬ</text>
+  <text x="110" y="209" text-anchor="middle" class="tensor-tag">[M, 256]</text>
+  <rect x="46" y="222" width="128" height="38" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="110" y="238" text-anchor="middle" class="box-sub-gray">位置+置信度 pᴬ=(x,y,c)</text>
+  <text x="110" y="253" text-anchor="middle" class="tensor-tag">[M, 3]</text>
+
+  <!-- Image B features -->
+  <rect x="34" y="302" width="152" height="148" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="110" y="326" text-anchor="middle" class="box-title-gray">图像 B 局部特征</text>
+  <text x="110" y="345" text-anchor="middle" class="box-sub-gray">共 N 个关键点</text>
+  <rect x="46" y="356" width="128" height="36" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="110" y="372" text-anchor="middle" class="box-sub-gray">外观描述子 dᴮ</text>
+  <text x="110" y="387" text-anchor="middle" class="tensor-tag">[N, 256]</text>
+  <rect x="46" y="400" width="128" height="38" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="110" y="416" text-anchor="middle" class="box-sub-gray">位置+置信度 pᴮ=(x,y,c)</text>
+  <text x="110" y="431" text-anchor="middle" class="tensor-tag">[N, 3]</text>
+
+  <!-- Input note -->
+  <rect x="34" y="472" width="152" height="82" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="110" y="492" text-anchor="middle" class="box-title-gray" style="font-size:11.5px;">预处理说明</text>
+  <text x="110" y="510" text-anchor="middle" class="note-text">· 前端可接 SuperPoint</text>
+  <text x="110" y="526" text-anchor="middle" class="note-text">  或 RootSIFT (D=128)</text>
+  <text x="110" y="542" text-anchor="middle" class="note-text">· (x,y) 按图像长边归一化</text>
+
+  <!-- ==================== COLUMN 1: ATTENTIONAL GNN ==================== -->
+  <!-- Keypoint Encoder (Shared) -->
+  <rect x="240" y="218" width="114" height="140" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="297" y="242" text-anchor="middle" class="box-title-blue">Keypoint</text>
+  <text x="297" y="260" text-anchor="middle" class="box-title-blue">Encoder</text>
+  <text x="297" y="280" text-anchor="middle" class="box-sub-blue">共享 5 层 MLP</text>
+  <text x="297" y="296" text-anchor="middle" class="box-sub-blue">3→32→64→128</text>
+  <text x="297" y="312" text-anchor="middle" class="box-sub-blue">→256→256</text>
+  <text x="297" y="332" text-anchor="middle" class="box-sub-blue">BN + ReLU</text>
+  <text x="297" y="348" text-anchor="middle" class="box-sub-blue">(约 100k 参数)</text>
+
+  <!-- Plus Circle A -->
+  <circle cx="297" cy="170" r="15" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="297" y="176" text-anchor="middle" class="box-title-blue" style="font-size:18px;">+</text>
+  <text x="297" y="144" text-anchor="middle" class="box-sub-blue">⁽⁰⁾xᴬ = dᴬ + MLP(pᴬ)</text>
+
+  <!-- Plus Circle B -->
+  <circle cx="297" cy="404" r="15" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="297" y="410" text-anchor="middle" class="box-title-blue" style="font-size:18px;">+</text>
+  <text x="297" y="438" text-anchor="middle" class="box-sub-blue">⁽⁰⁾xᴮ = dᴮ + MLP(pᴮ)</text>
+
+  <!-- Arrows from Inputs into Keypoint Encoder & Plus -->
+  <!-- dA to Plus A -->
+  <path d="M 186 196 L 220 196 L 220 170 L 280 170" fill="none" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <!-- pA to Encoder -->
+  <path d="M 186 241 L 238 241" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <!-- pB to Encoder -->
+  <path d="M 186 419 L 214 419 L 214 335 L 238 335" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <!-- dB to Plus B -->
+  <path d="M 186 374 L 220 374 L 220 404 L 280 404" fill="none" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <!-- Encoder to Plus A and Plus B -->
+  <path d="M 297 218 L 297 187" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <path d="M 297 358 L 297 387" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+
+  <!-- Multiplex GNN Loop Box -->
+  <rect x="376" y="122" width="150" height="334" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
+  <text x="451" y="144" text-anchor="middle" class="box-title-green">交替图注意力聚合</text>
+  <text x="451" y="162" text-anchor="middle" class="box-sub-green">重复 L = 9 组（共 18 层）</text>
+
+  <!-- Self Attention Sub-box -->
+  <rect x="388" y="176" width="126" height="82" rx="7" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
+  <text x="451" y="196" text-anchor="middle" class="box-title-green" style="font-size:12px;">Self-Attention</text>
+  <text x="451" y="213" text-anchor="middle" class="box-sub-green">图内自注意力 (奇数层)</text>
+  <text x="451" y="229" text-anchor="middle" class="note-text">A↔A，B↔B 全连接</text>
+  <text x="451" y="245" text-anchor="middle" class="note-text">扩大单图上下文视野</text>
+
+  <!-- Arrow Self -> Cross -->
+  <path d="M 451 258 L 451 278" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+
+  <!-- Cross Attention Sub-box -->
+  <rect x="388" y="280" width="126" height="82" rx="7" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
+  <text x="451" y="300" text-anchor="middle" class="box-title-green" style="font-size:12px;">Cross-Attention</text>
+  <text x="451" y="317" text-anchor="middle" class="box-sub-green">跨图交叉注意力 (偶数层)</text>
+  <text x="451" y="333" text-anchor="middle" class="note-text">A→B 与 B→A 对称检索</text>
+  <text x="451" y="349" text-anchor="middle" class="note-text">模拟人眼“来回比对”</text>
+
+  <!-- Residual Message Passing Update -->
+  <rect x="388" y="376" width="126" height="66" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="451" y="395" text-anchor="middle" class="box-title-orange" style="font-size:11.5px;">残差消息更新 (每层)</text>
+  <text x="451" y="413" text-anchor="middle" class="box-sub-orange">x ← x + MLP([x || m])</text>
+  <text x="451" y="430" text-anchor="middle" class="box-sub-orange">4 Heads · 512→512→256</text>
+
+  <!-- Loop-back indicator badge -->
+  <rect x="415" y="446" width="72" height="20" rx="10" fill="#46A171"/>
+  <text x="451" y="460" text-anchor="middle" style="font-size:11px;font-weight:700;fill:#FFFFFF;">循环 × 9</text>
+
+  <!-- Arrows from Plus A/B to GNN -->
+  <path d="M 312 170 L 374 170" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <text x="344" y="163" text-anchor="middle" class="tensor-tag">[M,256]</text>
+  <path d="M 312 404 L 374 404" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <text x="344" y="397" text-anchor="middle" class="tensor-tag">[N,256]</text>
+
+  <!-- Final Linear Projection Box -->
+  <rect x="546" y="198" width="72" height="178" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="582" y="232" text-anchor="middle" class="box-title-blue" style="font-size:12px;">最终</text>
+  <text x="582" y="250" text-anchor="middle" class="box-title-blue" style="font-size:12px;">线性投影</text>
+  <text x="582" y="276" text-anchor="middle" class="box-sub-blue">f = W·x + b</text>
+  <text x="582" y="302" text-anchor="middle" class="box-sub-orange" style="font-weight:700;">不做 L2</text>
+  <text x="582" y="318" text-anchor="middle" class="box-sub-orange" style="font-weight:700;">归一化!</text>
+  <text x="582" y="344" text-anchor="middle" class="box-sub-blue">保留范数</text>
+  <text x="582" y="360" text-anchor="middle" class="box-sub-blue">表征置信</text>
+
+  <!-- Arrows GNN -> Final Linear -->
+  <path d="M 526 238 L 544 238" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+  <path d="M 526 336 L 544 336" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+
+  <!-- GNN bottom note -->
+  <rect x="240" y="484" width="378" height="70" rx="6" fill="#FFFFFF" stroke="#B5CFE9" stroke-width="1"/>
+  <text x="429" y="504" text-anchor="middle" class="box-title-blue" style="font-size:11.5px;">设计亮点：双重置换等变性（Permutation Equivariance）</text>
+  <text x="429" y="522" text-anchor="middle" class="note-text">· 单图内关键点顺序打乱，输出对应打乱（无序点集友好）</text>
+  <text x="429" y="539" text-anchor="middle" class="note-text">· 图像 A 与 B 互换，匹配矩阵自动转置（两图共享全部投影权重）</text>
+
+  <!-- ==================== COLUMN 2: OPTIMAL MATCHING LAYER ==================== -->
+  <!-- Score Matrix -->
+  <rect x="670" y="126" width="186" height="86" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+  <text x="763" y="148" text-anchor="middle" class="box-title-green">1. 成对内积得分矩阵 S</text>
+  <text x="763" y="168" text-anchor="middle" class="box-sub-green">Sᵢ,ⱼ = &lt;fᵢᴬ, fⱼᴮ&gt;</text>
+  <text x="763" y="186" text-anchor="middle" class="tensor-tag">尺寸：[M, N]</text>
+  <text x="763" y="203" text-anchor="middle" class="note-text">无需构造 M×N 特征张量</text>
+
+  <!-- Arrows Final Linear -> Score Matrix -->
+  <path d="M 618 242 L 640 242 L 640 156 L 668 156" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <text x="640" y="146" text-anchor="middle" class="tensor-tag">fᴬ[M,256]</text>
+  <path d="M 618 332 L 646 332 L 646 184 L 668 184" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <text x="642" y="348" text-anchor="middle" class="tensor-tag">fᴮ[N,256]</text>
+
+  <!-- Arrow Score -> Dustbin -->
+  <path d="M 763 212 L 763 240" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+
+  <!-- Dustbin Augmentation -->
+  <rect x="670" y="242" width="186" height="106" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+  <text x="763" y="264" text-anchor="middle" class="box-title-orange">2. Dustbin 垃圾桶增广 S̄</text>
+  <text x="763" y="284" text-anchor="middle" class="box-sub-orange">末尾追加 1 行 + 1 列</text>
+  <text x="763" y="301" text-anchor="middle" class="box-sub-orange">填充单个可学习标量 z ∈ ℝ</text>
+  <text x="763" y="319" text-anchor="middle" class="tensor-tag">尺寸：[M+1, N+1]</text>
+  <text x="763" y="337" text-anchor="middle" class="note-text">显式吸收遮挡点与漏检点</text>
+
+  <!-- Arrow Dustbin -> Sinkhorn -->
+  <path d="M 763 348 L 763 376" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arrow-orange)"/>
+
+  <!-- Sinkhorn Algorithm -->
+  <rect x="670" y="378" width="186" height="114" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+  <text x="763" y="400" text-anchor="middle" class="box-title-green">3. 可微 Sinkhorn 迭代</text>
+  <text x="763" y="420" text-anchor="middle" class="box-sub-green">对 exp(S̄) 交替行 / 列归一化</text>
+  <text x="763" y="438" text-anchor="middle" class="box-sub-green">循环 T = 100 次（全可微）</text>
+  <text x="763" y="456" text-anchor="middle" class="box-sub-green">行和 → a=[1ₘᵀ, N]ᵀ</text>
+  <text x="763" y="474" text-anchor="middle" class="box-sub-green">列和 → b=[1ₙᵀ, M]ᵀ</text>
+
+  <!-- Optimal Matching note -->
+  <rect x="670" y="506" width="186" height="48" rx="6" fill="#FFFFFF" stroke="#B3CFC0" stroke-width="1"/>
+  <text x="763" y="525" text-anchor="middle" class="note-text">输出增广分配矩阵 P̄</text>
+  <text x="763" y="542" text-anchor="middle" class="tensor-tag">尺寸：[M+1, N+1]</text>
+
+  <!-- ==================== COLUMN 3: OUTPUTS ==================== -->
+  <!-- Partial Assignment P -->
+  <rect x="908" y="138" width="138" height="106" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="977" y="160" text-anchor="middle" class="box-title-purple">软部分分配矩阵 P</text>
+  <text x="977" y="180" text-anchor="middle" class="box-sub-purple">裁去末行与末列</text>
+  <text x="977" y="198" text-anchor="middle" class="box-sub-purple">P = P̄₁:ₘ,₁:ₙ</text>
+  <text x="977" y="218" text-anchor="middle" class="tensor-tag">尺寸：[M, N]</text>
+  <text x="977" y="234" text-anchor="middle" class="note-text">元素 ∈ [0, 1]</text>
+
+  <!-- Inference Branch -->
+  <rect x="908" y="280" width="138" height="126" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="977" y="302" text-anchor="middle" class="box-title-purple">推理阶段输出</text>
+  <text x="977" y="322" text-anchor="middle" class="box-sub-purple">互为最大 + 置信度</text>
+  <text x="977" y="340" text-anchor="middle" class="box-sub-purple">阈值筛选 (默认 0.2)</text>
+  <line x1="922" y1="352" x2="1032" y2="352" stroke="#C4B5FD" stroke-width="1"/>
+  <text x="977" y="370" text-anchor="middle" class="box-sub-purple">稀疏匹配点对 + 分数</text>
+  <text x="977" y="388" text-anchor="middle" class="note-text">→ RANSAC / DLT</text>
+  <text x="977" y="401" text-anchor="middle" class="note-text">/ SfM / SLAM 后端</text>
+
+  <!-- Training Branch -->
+  <rect x="908" y="432" width="138" height="122" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+  <text x="977" y="454" text-anchor="middle" class="box-title-orange">训练阶段监督</text>
+  <text x="977" y="474" text-anchor="middle" class="box-sub-orange">直接作用在 P̄ 上</text>
+  <text x="977" y="492" text-anchor="middle" class="box-sub-orange">负对数似然 Loss</text>
+  <line x1="922" y1="504" x2="1032" y2="504" stroke="#F3CFAF" stroke-width="1"/>
+  <text x="977" y="522" text-anchor="middle" class="note-text">· 匹配对 (i,j) ∈ M</text>
+  <text x="977" y="538" text-anchor="middle" class="note-text">· 未匹配点 i∈I, j∈J</text>
+
+  <!-- Arrows from Sinkhorn to P and Training Loss -->
+  <!-- Sinkhorn -> P -->
+  <path d="M 856 415 L 882 415 L 882 191 L 906 191" fill="none" stroke="#8B5CF6" stroke-width="1.6" marker-end="url(#arrow-purple)"/>
+  <!-- P -> Inference -->
+  <path d="M 977 244 L 977 278" fill="none" stroke="#8B5CF6" stroke-width="1.6" marker-end="url(#arrow-purple)"/>
+  <!-- Sinkhorn -> Training Loss (dashed) -->
+  <path d="M 856 468 L 882 468 L 882 493 L 906 493" fill="none" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
+
+  <!-- ==================== LEGEND BAR ==================== -->
+  <rect x="20" y="590" width="1040" height="44" rx="8" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="42" y="617" class="sec-title-gray" style="font-size:12px;">图例：</text>
+
+  <rect x="92" y="603" width="18" height="18" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
+  <text x="118" y="617" class="note-text">输入 / 局部特征数据</text>
+
+  <rect x="262" y="603" width="18" height="18" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3"/>
+  <text x="288" y="617" class="note-text">编码器 / 线性投影模块</text>
+
+  <rect x="448" y="603" width="18" height="18" rx="4" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+  <text x="474" y="617" class="note-text">注意力聚合 / Sinkhorn 核心算法</text>
+
+  <rect x="688" y="603" width="18" height="18" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+  <text x="714" y="617" class="note-text">Dustbin / 残差更新 / 训练损失</text>
+
+  <rect x="912" y="603" width="18" height="18" rx="4" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
+  <text x="938" y="617" class="note-text">最终分配输出</text>
+</svg>

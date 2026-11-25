@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 770" width="1060" height="770" style="background-color:#FFFFFF;">
+  <defs>
+    <style>
+      .font-main { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 12.5px; fill: #4B5563; }
+      .section-title { font-size: 13.5px; font-weight: 700; fill: #374151; }
+      .box-title { font-size: 13.5px; font-weight: 700; }
+      .box-sub { font-size: 11.5px; }
+      .box-dim { font-size: 11px; font-family: Consolas, "Courier New", monospace; }
+      .edge-label { font-size: 11px; fill: #374151; }
+      .badge-text { font-size: 11px; font-weight: 700; }
+    </style>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#46A171"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#8B5CF6"/>
+    </marker>
+  </defs>
+
+  <!-- Pure White Background -->
+  <rect x="0" y="0" width="1060" height="770" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="530" y="34" text-anchor="middle" class="font-main title">CAPS 端到端架构总览：相机位姿弱监督训练 vs. 单图描述子推理</text>
+  <text x="530" y="55" text-anchor="middle" class="font-main subtitle">示例尺寸以输入分辨率 H×W = 480×640、每对训练图像采样 n = 500 个查询点计；粗图 1/16（30×40），细图 1/4（120×160）</text>
+
+  <!-- ==================== TOP BAND: TRAINING PIPELINE ==================== -->
+  <rect x="20" y="72" width="1020" height="476" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="34" y="82" width="430" height="26" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+  <text x="249" y="99" text-anchor="middle" class="font-main section-title" style="fill:#70401C;">阶段 A · 训练流程（仅需图像对 + 相对相机位姿与内参，无需像素级真值）</text>
+
+  <!-- Column 1: Training Inputs -->
+  <g transform="translate(36, 128)">
+    <!-- Image I1 -->
+    <rect x="0" y="0" width="154" height="68" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="77" y="25" text-anchor="middle" class="font-main box-title" fill="#111827">输入图像 I₁</text>
+    <text x="77" y="43" text-anchor="middle" class="box-dim" fill="#374151">[B, 3, H, W]</text>
+    <text x="77" y="59" text-anchor="middle" class="font-main box-sub" fill="#4B5563">例：[B, 3, 480, 640]</text>
+
+    <!-- Image I2 -->
+    <rect x="0" y="88" width="154" height="68" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="77" y="113" text-anchor="middle" class="font-main box-title" fill="#111827">输入图像 I₂</text>
+    <text x="77" y="131" text-anchor="middle" class="box-dim" fill="#374151">[B, 3, H, W]</text>
+    <text x="77" y="147" text-anchor="middle" class="font-main box-sub" fill="#4B5563">同一场景不同视角</text>
+
+    <!-- Sampled Query Points -->
+    <rect x="0" y="182" width="154" height="76" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="77" y="205" text-anchor="middle" class="font-main box-title" fill="#111827">稀疏采样查询点 x₁</text>
+    <text x="77" y="223" text-anchor="middle" class="box-dim" fill="#374151">[B, n, 2], n=500</text>
+    <text x="77" y="240" text-anchor="middle" class="font-main box-sub" fill="#4B5563">90% SIFT + 10% 随机点</text>
+
+    <!-- Camera Pose -> F -->
+    <rect x="0" y="280" width="154" height="86" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
+    <text x="77" y="304" text-anchor="middle" class="font-main box-title" fill="#70401C">相对相机位姿 + 内参</text>
+    <text x="77" y="323" text-anchor="middle" class="font-main box-sub" fill="#70401C">（来自 SfM / IMU / GPS）</text>
+    <line x1="18" y1="333" x2="136" y2="333" stroke="#D5803B" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="77" y="352" text-anchor="middle" class="font-main box-title" style="font-size:12px;" fill="#70401C">导出基础矩阵 F [3×3]</text>
+  </g>
+
+  <!-- Arrows: I1, I2 -> Backbone -->
+  <path d="M 190 162 L 222 162 L 222 204 L 236 204" fill="none" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
+  <path d="M 190 250 L 222 250 L 222 222 L 236 222" fill="none" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
+
+  <!-- Column 2: Shared Backbone & Multi-scale Feature Maps -->
+  <g transform="translate(240, 128)">
+    <!-- Backbone Box -->
+    <rect x="0" y="32" width="174" height="106" rx="9" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.8"/>
+    <text x="87" y="57" text-anchor="middle" class="font-main box-title" fill="#153B60">共享编码器主干</text>
+    <text x="87" y="77" text-anchor="middle" class="font-main box-sub" fill="#153B60">ImageNet 预训练 ResNet-50</text>
+    <text x="87" y="95" text-anchor="middle" class="font-main box-sub" fill="#153B60">截断至 layer3（1/16 下采样）</text>
+    <text x="87" y="114" text-anchor="middle" class="font-main box-sub" fill="#153B60">两图 I₁、I₂ 权重完全共享</text>
+    <rect x="34" y="122" width="106" height="12" rx="3" fill="#2783DE"/>
+    <text x="87" y="131.5" text-anchor="middle" class="font-main" style="font-size:9.5px;fill:#FFFFFF;font-weight:700;">Siamese Shared CNN</text>
+
+    <!-- Coarse Feature Map -->
+    <rect x="0" y="166" width="174" height="74" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+    <text x="87" y="188" text-anchor="middle" class="font-main box-title" fill="#153B60">粗特征图 M₁ᶜ, M₂ᶜ</text>
+    <text x="87" y="206" text-anchor="middle" class="box-dim" fill="#153B60">[B, 128, H/16, W/16]</text>
+    <text x="87" y="224" text-anchor="middle" class="font-main box-sub" fill="#1E4E79">附加卷积层 · 例 30×40</text>
+
+    <!-- Fine Feature Map -->
+    <rect x="0" y="274" width="174" height="82" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+    <text x="87" y="296" text-anchor="middle" class="font-main box-title" fill="#153B60">细特征图 M₁ᶠ, M₂ᶠ</text>
+    <text x="87" y="314" text-anchor="middle" class="box-dim" fill="#153B60">[B, 128, H/4, W/4]</text>
+    <text x="87" y="331" text-anchor="middle" class="font-main box-sub" fill="#1E4E79">上采样 + 跳跃连接 + 卷积</text>
+    <text x="87" y="347" text-anchor="middle" class="font-main box-sub" fill="#1E4E79">例 120×160（高空间精度）</text>
+  </g>
+
+  <!-- Arrows inside Column 2 -->
+  <path d="M 327 266 L 327 290" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <path d="M 327 368 L 327 398" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+
+  <!-- Arrow: Query Points x1 -> Coarse & Fine Matching -->
+  <path d="M 190 348 L 214 348 L 214 388 L 434 388 L 434 218 L 456 218" fill="none" stroke="#4B5563" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrow-dark)"/>
+  <path d="M 434 388 L 434 404 L 456 404" fill="none" stroke="#4B5563" stroke-width="1.4" stroke-dasharray="4,3" marker-end="url(#arrow-dark)"/>
+  <text x="218" y="383" class="font-main edge-label">按 x₁ 插值取查询向量</text>
+
+  <!-- Arrows: Feature Maps -> Matching Boxes -->
+  <path d="M 414 331 L 444 331 L 444 192 L 456 192" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <path d="M 414 443 L 456 443" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+
+  <!-- Column 3: Coarse-to-Fine Differentiable Matching -->
+  <g transform="translate(460, 128)">
+    <!-- Coarse Matching Module -->
+    <rect x="0" y="0" width="276" height="148" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
+    <text x="138" y="24" text-anchor="middle" class="font-main box-title" fill="#1F5138">粗尺度 · 全图可微匹配层</text>
+    <line x1="16" y1="33" x2="260" y2="33" stroke="#A7D3BC" stroke-width="1"/>
+    <text x="16" y="53" class="font-main box-sub" fill="#1F5138">1. 取查询特征 M₁ᶜ(x₁) [B, n, 128]</text>
+    <text x="16" y="72" class="font-main box-sub" fill="#1F5138">2. 与整张 M₂ᶜ 内积 + 2D Softmax → 概率图 pᶜ</text>
+    <text x="16" y="91" class="box-dim" fill="#1F5138">   pᶜ 形状: [B, n, H/16, W/16]</text>
+    <text x="16" y="111" class="font-main box-sub" fill="#1F5138">3. 期望坐标: x̂₂ᶜ = Σ x·pᶜ(x|x₁)  [B, n, 2]</text>
+    <text x="16" y="130" class="font-main box-sub" fill="#1F5138">4. 总方差不确定度: σ²ᶜ = tr(Cov(pᶜ))</text>
+
+    <!-- Connecting Arrow: Coarse Peak -> Cropping Window W -->
+    <path d="M 138 148 L 138 206" fill="none" stroke="#D5803B" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
+    <rect x="18" y="160" width="240" height="36" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+    <text x="138" y="175" text-anchor="middle" class="font-main badge-text" fill="#70401C">取 pᶜ 最高概率位置 → 坐标 ×4 映射至细图</text>
+    <text x="138" y="191" text-anchor="middle" class="font-main" style="font-size:10.5px;fill:#70401C;">裁剪局部窗口 W（细图尺寸的 1/8，例 15×20）</text>
+
+    <!-- Fine Matching Module -->
+    <rect x="0" y="210" width="276" height="148" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
+    <text x="138" y="234" text-anchor="middle" class="font-main box-title" fill="#1F5138">细尺度 · 局部窗口 W 可微匹配层</text>
+    <line x1="16" y1="243" x2="260" y2="243" stroke="#A7D3BC" stroke-width="1"/>
+    <text x="16" y="263" class="font-main box-sub" fill="#1F5138">1. 取查询特征 M₁ᶠ(x₁) [B, n, 128]</text>
+    <text x="16" y="282" class="font-main box-sub" fill="#1F5138">2. 仅与窗口 W 内 M₂ᶠ 内积 + 2D Softmax → pᶠ</text>
+    <text x="16" y="301" class="box-dim" fill="#1F5138">   pᶠ 形状: [B, n, H_W, W_W]（显存大降）</text>
+    <text x="16" y="321" class="font-main box-sub" fill="#1F5138">3. 期望坐标: x̂₂ᶠ = Σ x·pᶠ(x|x₁)  [B, n, 2]</text>
+    <text x="16" y="340" class="font-main box-sub" fill="#1F5138">4. 总方差不确定度: σ²ᶠ = tr(Cov(pᶠ))</text>
+  </g>
+
+  <!-- Arrows: Coarse/Fine Predictions -> Loss Box -->
+  <path d="M 736 202 L 774 202" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="755" y="194" text-anchor="middle" class="font-main edge-label">x̂₂ᶜ, σᶜ</text>
+  <path d="M 736 412 L 774 412" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
+  <text x="755" y="404" text-anchor="middle" class="font-main edge-label">x̂₂ᶠ, σᶠ</text>
+
+  <!-- Arrow: Fundamental Matrix F -> Loss Box -->
+  <path d="M 113 494 L 113 514 L 900 514 L 900 472" fill="none" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
+  <text x="510" y="508" text-anchor="middle" class="font-main edge-label" style="fill:#70401C;font-weight:700;">提供几何极线真值 l₂ = F x₁（无需像素级对应标注）</text>
+
+  <!-- Column 4: Weak Supervision Loss Box -->
+  <g transform="translate(778, 128)">
+    <rect x="0" y="0" width="246" height="340" rx="10" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.8"/>
+    <text x="123" y="26" text-anchor="middle" class="font-main box-title" fill="#70401C">双尺度相机位姿弱监督损失</text>
+    <text x="123" y="44" text-anchor="middle" class="font-main box-sub" fill="#70401C">（粗层与细层各自施加 Eq. 6）</text>
+    <line x1="16" y1="54" x2="230" y2="54" stroke="#E5B083" stroke-width="1"/>
+
+    <!-- Loss 1 -->
+    <rect x="14" y="66" width="218" height="72" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="24" y="85" class="font-main badge-text" fill="#70401C">① 极线损失 L_ep（主几何约束）</text>
+    <text x="24" y="104" class="box-dim" fill="#111827">L_ep(x₁) = dist(x̂₂, F x₁)</text>
+    <text x="24" y="124" class="font-main box-sub" fill="#4B5563">拉近预测点 x̂₂ 到真实极线的距离</text>
+
+    <!-- Loss 2 -->
+    <rect x="14" y="150" width="218" height="74" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="24" y="169" class="font-main badge-text" fill="#70401C">② 循环一致损失 λ·L_cy（λ=0.1）</text>
+    <text x="24" y="188" class="box-dim" fill="#111827">L_cy = ‖h₂→₁(x̂₂) − x₁‖₂</text>
+    <text x="24" y="208" class="font-main box-sub" fill="#4B5563">反向匹配回图 1，防沿极线乱滑</text>
+
+    <!-- Loss 3 -->
+    <rect x="14" y="236" width="218" height="88" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="24" y="255" class="font-main badge-text" fill="#70401C">③ 不确定度倒数重加权（Eq. 6）</text>
+    <text x="24" y="274" class="box-dim" fill="#111827">L = Σ (1/σ(x₁ⁱ))·[L_ep + λL_cy]</text>
+    <text x="24" y="294" class="font-main box-sub" fill="#4B5563">权重 1/σ 归一化求和为 1</text>
+    <text x="24" y="311" class="font-main box-sub" fill="#4B5563">自动降权遮挡、截断与弱纹理点</text>
+  </g>
+
+  <!-- Backprop Arrow -->
+  <path d="M 901 128 L 901 95 L 327 95 L 327 156" fill="none" stroke="#D5803B" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
+  <rect x="530" y="83" width="256" height="22" rx="4" fill="#FFFFFF" stroke="#D5803B" stroke-width="1"/>
+  <text x="658" y="98" text-anchor="middle" class="font-main badge-text" fill="#70401C">梯度沿期望坐标全程反传 → 更新编码器</text>
+
+  <!-- ==================== BOTTOM BAND: INFERENCE PIPELINE ==================== -->
+  <rect x="20" y="564" width="1020" height="186" rx="12" fill="#FAFAFA" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="34" y="574" width="494" height="26" rx="5" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1"/>
+  <text x="281" y="591" text-anchor="middle" class="font-main section-title" style="fill:#422578;">阶段 B · 推理流程（单图前向，无需位姿 / 无需第二张图 / 无需可微匹配层）</text>
+
+  <!-- Inference Step 1 -->
+  <g transform="translate(36, 618)">
+    <rect x="0" y="14" width="144" height="84" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="72" y="42" text-anchor="middle" class="font-main box-title" fill="#111827">单张测试图像 I</text>
+    <text x="72" y="62" text-anchor="middle" class="box-dim" fill="#374151">[1, 3, H, W]</text>
+    <text x="72" y="81" text-anchor="middle" class="font-main box-sub" fill="#4B5563">任意输入分辨率</text>
+  </g>
+  <path d="M 180 674 L 210 674" fill="none" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
+
+  <!-- Inference Step 2 -->
+  <g transform="translate(214, 618)">
+    <rect x="0" y="4" width="212" height="104" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+    <text x="106" y="29" text-anchor="middle" class="font-main box-title" fill="#153B60">训练好的 ResNet-50 编码器</text>
+    <text x="106" y="51" text-anchor="middle" class="font-main box-sub" fill="#153B60">一次前向同时产出双尺度稠密图：</text>
+    <text x="106" y="71" text-anchor="middle" class="box-dim" fill="#153B60">Mᶜ: [1, 128, H/16, W/16]</text>
+    <text x="106" y="91" text-anchor="middle" class="box-dim" fill="#153B60">Mᶠ: [1, 128, H/4,  W/4 ]</text>
+  </g>
+  <path d="M 426 674 L 460 674" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+
+  <!-- Inference External Detector -->
+  <g transform="translate(464, 612)">
+    <rect x="0" y="0" width="166" height="46" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
+    <text x="83" y="20" text-anchor="middle" class="font-main box-title" style="font-size:12px;" fill="#111827">外部关键点检测器</text>
+    <text x="83" y="37" text-anchor="middle" class="font-main box-sub" style="font-size:10.5px;" fill="#4B5563">SIFT / SuperPoint 等 [N, 2]</text>
+  </g>
+  <path d="M 547 658 L 547 672" fill="none" stroke="#4B5563" stroke-width="1.4" marker-end="url(#arrow-dark)"/>
+
+  <!-- Inference Step 3 -->
+  <g transform="translate(464, 676)">
+    <rect x="0" y="0" width="290" height="60" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
+    <text x="145" y="23" text-anchor="middle" class="font-main box-title" fill="#1F5138">双尺度坐标插值 + 通道拼接</text>
+    <text x="145" y="44" text-anchor="middle" class="box-dim" fill="#1F5138">Mᶜ(x) [N,128] ⊕ Mᶠ(x) [N,128] → [N,256]</text>
+  </g>
+  <path d="M 754 706 L 788 706" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+
+  <!-- Inference Output -->
+  <g transform="translate(792, 618)">
+    <rect x="0" y="10" width="232" height="108" rx="9" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8"/>
+    <text x="116" y="36" text-anchor="middle" class="font-main box-title" fill="#422578">最终层级描述子（CAPS）</text>
+    <text x="116" y="57" text-anchor="middle" class="box-dim" fill="#422578">稀疏: [N, 256] / 稠密: 整图网格</text>
+    <line x1="18" y1="68" x2="214" y2="68" stroke="#C4B5FD" stroke-width="1"/>
+    <text x="116" y="87" text-anchor="middle" class="font-main box-sub" fill="#422578">兼顾粗层全局上下文 + 细层局部细节</text>
+    <text x="116" y="106" text-anchor="middle" class="font-main box-sub" fill="#422578">直接欧氏距离（L2）+ 互近邻匹配</text>
+  </g>
+</svg>

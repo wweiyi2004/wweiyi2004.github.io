@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 800" width="1060" height="800" font-family="Microsoft YaHei, PingFang SC, Arial, sans-serif">
+  <defs>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#8B5CF6"/>
+    </marker>
+    <filter id="card-shadow" x="-4%" y="-4%" width="108%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0F172A" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1060" height="800" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="530" y="34" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">LMCNet 端到端整体架构与核心张量流</text>
+  <text x="530" y="56" text-anchor="middle" font-size="12.5" fill="#4B5563">Laplacian Motion Coherence Network（CVPR 2021）· 以 N 条候选对应为输入，融合图拉普拉斯全局平滑与局部邻域一致性</text>
+
+  <!-- ==================== SECTION 1: TOP END-TO-END PIPELINE ==================== -->
+  <rect x="20" y="72" width="1020" height="302" rx="12" fill="#FAFAFB" stroke="#E5E7EB" stroke-width="1.2"/>
+  <text x="36" y="95" font-size="13.5" font-weight="bold" fill="#374151">A. 端到端前向主干与双边空间图预处理</text>
+
+  <!-- Node 1: Input Correspondences -->
+  <g filter="url(#card-shadow)">
+    <rect x="36" y="112" width="182" height="106" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="127" y="135" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#111827">输入候选对应</text>
+    <text x="127" y="156" text-anchor="middle" font-size="11.5" fill="#374151">坐标 c ∈ R^(N×4)</text>
+    <text x="127" y="173" text-anchor="middle" font-size="11" fill="#4B5563">(x_i, y_i, u_i, v_i)</text>
+    <line x1="52" y1="184" x2="202" y2="184" stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3,3"/>
+    <text x="127" y="201" text-anchor="middle" font-size="11" fill="#4B5563">可选特征 f_0 ∈ R^(N×d_0)</text>
+    <text x="127" y="214" text-anchor="middle" font-size="10" fill="#6B7280">（LMCNet-F：附加局部描述子）</text>
+  </g>
+
+  <!-- Graph Construction & Laplacian Precomputation Box (below Input & Embedding) -->
+  <g filter="url(#card-shadow)">
+    <rect x="36" y="246" width="388" height="112" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5"/>
+    <text x="230" y="268" text-anchor="middle" font-size="13" font-weight="bold" fill="#1F5138">双边空间构图与图拉普拉斯截断分解（仅计算一次，全网共享）</text>
+    <text x="50" y="290" font-size="11.2" fill="#1F5138">1. R^4 坐标空间 KNN 构图：每点连 k = 8 近邻，边权 w_ij = exp(-d²_ij / σ²)，σ = 0.1</text>
+    <text x="50" y="310" font-size="11.2" fill="#1F5138">2. 归一化图拉普拉斯矩阵：L̂ = D^(-1/2) (D - A) D^(-1/2) ∈ R^(N×N)</text>
+    <text x="50" y="330" font-size="11.2" fill="#1F5138">3. 截取最小 k_e = 32 个特征值/向量：Λ_32 ∈ R^32，U_32 ∈ R^(N×32)</text>
+    <text x="50" y="348" font-size="10.8" fill="#2F6F4E">→ 邻居索引 E 送入全部 LC-Layer；(U_32, Λ_32) 送入全部 CR-Layer（复杂度降至 O(N)）</text>
+  </g>
+
+  <!-- Arrow: Input -> Graph Construction -->
+  <path d="M 127 218 L 127 242" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
+  <text x="135" y="235" font-size="10.5" fill="#1F5138">归一化坐标 c</text>
+
+  <!-- Node 2: Geometry + Feature Embedding -->
+  <g filter="url(#card-shadow)">
+    <rect x="252" y="106" width="172" height="118" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+    <text x="338" y="126" text-anchor="middle" font-size="13" font-weight="bold" fill="#153B60">输入嵌入层</text>
+    <!-- Geometry Embedding -->
+    <rect x="264" y="134" width="148" height="36" rx="5" fill="#FFFFFF" stroke="#2783DE" stroke-width="1"/>
+    <text x="338" y="150" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#153B60">Geometry Embedding</text>
+    <text x="338" y="164" text-anchor="middle" font-size="10" fill="#1E4E79">FC(4→128) + ContextNorm</text>
+    <!-- Feature Embedding (Optional) -->
+    <rect x="264" y="177" width="148" height="38" rx="5" fill="#F8FBFF" stroke="#2783DE" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="338" y="193" text-anchor="middle" font-size="11" font-weight="bold" fill="#153B60">Feature Embedding (可选)</text>
+    <text x="338" y="207" text-anchor="middle" font-size="10" fill="#1E4E79">FC(d_0→128) + CN，相加融合</text>
+  </g>
+
+  <!-- Arrow: Input -> Embedding -->
+  <path d="M 218 165 L 248 165" fill="none" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-gray)"/>
+
+  <!-- Node 3: 4 x LMCBlock -->
+  <g filter="url(#card-shadow)">
+    <rect x="466" y="106" width="276" height="252" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
+    <rect x="478" y="114" width="252" height="24" rx="5" fill="#46A171"/>
+    <text x="604" y="131" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#FFFFFF">核心主干：LMCBlock × 4（每层均含残差连接）</text>
+
+    <!-- 7 layers stacked neatly inside LMCBlock -->
+    <rect x="484" y="146" width="240" height="24" rx="4" fill="#FFFFFF" stroke="#46A171" stroke-width="1.2"/>
+    <text x="604" y="162" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#1F5138">1. LC-Layer（局部邻域一致性 · d_l=8）</text>
+
+    <rect x="484" y="175" width="240" height="24" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.1"/>
+    <text x="604" y="191" text-anchor="middle" font-size="11.2" fill="#153B60">2. ContextNorm（128 → 128）</text>
+
+    <rect x="484" y="204" width="240" height="24" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="604" y="220" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#70401C">3. CR-Layer（全局图拉普拉斯残差 · η 可学）</text>
+
+    <rect x="484" y="233" width="240" height="24" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.1"/>
+    <text x="604" y="249" text-anchor="middle" font-size="11.2" fill="#153B60">4. ClusterLayer（软聚类 n_c=128 · 极线上下文）</text>
+
+    <rect x="484" y="262" width="240" height="24" rx="4" fill="#FFFFFF" stroke="#46A171" stroke-width="1.2"/>
+    <text x="604" y="278" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#1F5138">5. LC-Layer（再次提取局部邻域一致性）</text>
+
+    <rect x="484" y="291" width="240" height="24" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.1"/>
+    <text x="604" y="307" text-anchor="middle" font-size="11.2" fill="#153B60">6. ContextNorm（128 → 128）</text>
+
+    <rect x="484" y="320" width="240" height="24" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="604" y="336" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#70401C">7. CR-Layer（高层抽象特征全局平滑残差）</text>
+  </g>
+
+  <!-- Arrow: Embedding -> LMCBlock -->
+  <path d="M 424 165 L 462 165" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)"/>
+  <text x="444" y="154" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#153B60">f_1</text>
+  <text x="444" y="180" text-anchor="middle" font-size="10" fill="#4B5563">[N, 128]</text>
+
+  <!-- Arrow: Graph Precompute -> LMCBlock -->
+  <path d="M 424 302 L 462 302" fill="none" stroke="#46A171" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-green)"/>
+  <text x="443" y="292" text-anchor="middle" font-size="9.8" fill="#1F5138">E, U_32</text>
+  <text x="443" y="317" text-anchor="middle" font-size="9.8" fill="#1F5138">Λ_32</text>
+
+  <!-- Node 4: Prob Predictor -->
+  <g filter="url(#card-shadow)">
+    <rect x="782" y="106" width="240" height="82" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+    <text x="902" y="128" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#422578">概率预测器 Prob Predictor</text>
+    <text x="902" y="149" text-anchor="middle" font-size="11.5" fill="#422578">FC(128 → 1) + Sigmoid</text>
+    <text x="902" y="170" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5B21B6">输出内点概率 p = [p_i] ∈ R^N</text>
+  </g>
+
+  <!-- Arrow: LMCBlock -> Prob Predictor -->
+  <path d="M 742 147 L 778 147" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arrow-purple)"/>
+  <text x="760" y="137" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#422578">f_out</text>
+  <text x="760" y="162" text-anchor="middle" font-size="10" fill="#4B5563">[N, 128]</text>
+
+  <!-- Node 5A: Inference Branch -->
+  <g filter="url(#card-shadow)">
+    <rect x="782" y="206" width="240" height="68" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2" stroke-dasharray="4,2"/>
+    <text x="902" y="226" text-anchor="middle" font-size="12" font-weight="bold" fill="#422578">推理后处理（测试阶段）</text>
+    <text x="902" y="245" text-anchor="middle" font-size="11" fill="#422578">p_i &gt; 0.95 判为内点对应</text>
+    <text x="902" y="262" text-anchor="middle" font-size="10.8" fill="#5B21B6">相对位姿任务再接 RANSAC 估 E → (R, t)</text>
+  </g>
+
+  <!-- Node 5B: Training Supervision Branch -->
+  <g filter="url(#card-shadow)">
+    <rect x="782" y="288" width="240" height="70" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
+    <text x="902" y="308" text-anchor="middle" font-size="12" font-weight="bold" fill="#70401C">训练损失（反向传播更新全网与 η）</text>
+    <text x="902" y="327" text-anchor="middle" font-size="11" fill="#70401C">• 动态场景：二元交叉熵损失 ℓ_cls</text>
+    <text x="902" y="345" text-anchor="middle" font-size="11" fill="#70401C">• 相对位姿：ℓ_cls + 几何极线损失 ℓ_geom</text>
+  </g>
+
+  <!-- Arrows from Prob Predictor to Inference / Training -->
+  <path d="M 852 188 L 852 202" fill="none" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
+  <path d="M 956 188 L 956 202" fill="none" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <path d="M 1022 147 L 1032 147 L 1032 323 L 1026 323" fill="none" stroke="#D5803B" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+
+  <!-- ==================== SECTION 2: BOTTOM 3 MODULE ZOOM-INS ==================== -->
+  <rect x="20" y="390" width="1020" height="360" rx="12" fill="#FAFAFB" stroke="#E5E7EB" stroke-width="1.2"/>
+  <text x="36" y="414" font-size="13.5" font-weight="bold" fill="#374151">B. LMCBlock 内部核心算子逐层拆解（输入输出张量尺寸一览）</text>
+
+  <!-- Panel B1: LC-Layer -->
+  <g filter="url(#card-shadow)">
+    <rect x="36" y="428" width="318" height="306" rx="10" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
+    <rect x="36" y="428" width="318" height="32" rx="10" fill="#E8F1EC"/>
+    <rect x="36" y="448" width="318" height="12" fill="#E8F1EC"/>
+    <text x="195" y="449" text-anchor="middle" font-size="13" font-weight="bold" fill="#1F5138">① LC-Layer（局部一致性层 · 瓶颈结构）</text>
+
+    <!-- Inside B1 flow -->
+    <rect x="95" y="472" width="176" height="28" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="183" y="490" text-anchor="middle" font-size="11.2" fill="#111827">输入特征 f_l  [N, 128]</text>
+
+    <path d="M 183 500 L 183 513" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow-gray)"/>
+    <rect x="95" y="516" width="176" height="28" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1"/>
+    <text x="183" y="534" text-anchor="middle" font-size="11.2" fill="#153B60">瓶颈降维 FC(128→8)  [N, 8]</text>
+
+    <path d="M 183 544 L 183 557" fill="none" stroke="#46A171" stroke-width="1.3" marker-end="url(#arrow-green)"/>
+    <rect x="85" y="560" width="196" height="32" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="183" y="574" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#1F5138">KNNDiff(k=8): f_l,i - f_l,j</text>
+    <text x="183" y="587" text-anchor="middle" font-size="10" fill="#2F6F4E">构造邻域特征差张量 [N, 8, 8]</text>
+
+    <path d="M 183 592 L 183 605" fill="none" stroke="#46A171" stroke-width="1.3" marker-end="url(#arrow-green)"/>
+    <rect x="85" y="608" width="196" height="28" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1"/>
+    <text x="183" y="626" text-anchor="middle" font-size="11" fill="#153B60">FC+BN+ReLU+FC(8→8)  [N, 8, 8]</text>
+
+    <path d="M 183 636 L 183 649" fill="none" stroke="#46A171" stroke-width="1.3" marker-end="url(#arrow-green)"/>
+    <rect x="85" y="652" width="196" height="28" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="183" y="670" text-anchor="middle" font-size="11" font-weight="bold" fill="#1F5138">MaxPool (沿 k 维) → FC(8→128)</text>
+
+    <!-- Skip connection on right side of B1 -->
+    <path d="M 271 486 L 316 486 L 316 704 L 285 704" fill="none" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrow-orange)"/>
+    <text x="331" y="598" text-anchor="middle" font-size="10" fill="#70401C" transform="rotate(90 331 598)">跳跃连接 + f_l</text>
+
+    <path d="M 183 680 L 183 691" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow-gray)"/>
+    <rect x="95" y="694" width="186" height="28" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="188" y="712" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#70401C">残差相加输出  [N, 128]</text>
+  </g>
+
+  <!-- Panel B2: CR-Layer -->
+  <g filter="url(#card-shadow)">
+    <rect x="371" y="428" width="318" height="306" rx="10" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5"/>
+    <rect x="371" y="428" width="318" height="32" rx="10" fill="#FBEBDE"/>
+    <rect x="371" y="448" width="318" height="12" fill="#FBEBDE"/>
+    <text x="530" y="449" text-anchor="middle" font-size="13" font-weight="bold" fill="#70401C">② CR-Layer（一致性残差层 · 全局平滑）</text>
+
+    <!-- Inside B2 flow -->
+    <rect x="424" y="472" width="184" height="28" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="516" y="490" text-anchor="middle" font-size="11.2" fill="#111827">输入特征 f_l  [N, 128]</text>
+
+    <path d="M 516 500 L 516 515" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow-gray)"/>
+    <rect x="392" y="518" width="248" height="58" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
+    <text x="516" y="536" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#1F5138">闭式图谱平滑：f'_l = R(η) f_l</text>
+    <text x="516" y="553" text-anchor="middle" font-size="10.5" fill="#1F5138">U_32 · diag(1 / (1 + η λ_i)) · (U_32^T f_l)</text>
+    <text x="516" y="569" text-anchor="middle" font-size="10" fill="#2F6F4E">η 为可学习标量（初值 10.0）· 全程矩阵乘法可微</text>
+
+    <path d="M 516 576 L 516 591" fill="none" stroke="#D5803B" stroke-width="1.4" marker-end="url(#arrow-orange)"/>
+    <rect x="404" y="594" width="224" height="36" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
+    <text x="516" y="610" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#70401C">SmoothDiff：计算平滑残差</text>
+    <text x="516" y="624" text-anchor="middle" font-size="10.5" fill="#70401C">r_l = f_l - R(η) f_l  [N, 128]</text>
+
+    <path d="M 516 630 L 516 645" fill="none" stroke="#2783DE" stroke-width="1.3" marker-end="url(#arrow-blue)"/>
+    <rect x="404" y="648" width="224" height="30" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.1"/>
+    <text x="516" y="667" text-anchor="middle" font-size="11.2" fill="#153B60">ContextNorm(128 → 128)  [N, 128]</text>
+
+    <!-- Skip connection on right side of B2 -->
+    <path d="M 608 486 L 654 486 L 654 708 L 620 708" fill="none" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrow-orange)"/>
+    <text x="670" y="598" text-anchor="middle" font-size="10" fill="#70401C" transform="rotate(90 670 598)">跳跃连接 + f_l</text>
+
+    <path d="M 516 678 L 516 691" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow-gray)"/>
+    <rect x="418" y="694" width="198" height="28" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="517" y="712" text-anchor="middle" font-size="11.2" font-weight="bold" fill="#70401C">残差相加输出 f_(l+1) [N, 128]</text>
+  </g>
+
+  <!-- Panel B3: ContextNorm & ClusterLayer -->
+  <g filter="url(#card-shadow)">
+    <rect x="706" y="428" width="318" height="306" rx="10" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.5"/>
+    <rect x="706" y="428" width="318" height="32" rx="10" fill="#E5F2FC"/>
+    <rect x="706" y="448" width="318" height="12" fill="#E5F2FC"/>
+    <text x="865" y="449" text-anchor="middle" font-size="13" font-weight="bold" fill="#153B60">③ ContextNorm 与 ClusterLayer</text>
+
+    <!-- Sub-block 1: ContextNorm -->
+    <rect x="722" y="472" width="286" height="114" rx="7" fill="#F8FBFF" stroke="#2783DE" stroke-width="1.1"/>
+    <text x="865" y="491" text-anchor="middle" font-size="12" font-weight="bold" fill="#153B60">ContextNorm(128, 128)（全局统计上下文）</text>
+    <rect x="738" y="500" width="222" height="24" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="0.9"/>
+    <text x="849" y="516" text-anchor="middle" font-size="10.8" fill="#153B60">IN + BN + ReLU + FC(128 → 128)</text>
+    <path d="M 849 524 L 849 535" fill="none" stroke="#2783DE" stroke-width="1.2" marker-end="url(#arrow-blue)"/>
+    <rect x="738" y="538" width="222" height="24" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="0.9"/>
+    <text x="849" y="554" text-anchor="middle" font-size="10.8" fill="#153B60">IN + BN + ReLU + FC(128 → 128)</text>
+    <path d="M 960 512 L 990 512 L 990 572 L 892 572" fill="none" stroke="#D5803B" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#arrow-orange)"/>
+    <text x="849" y="577" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#70401C">+ 跳跃连接 → [N, 128]（置换等变）</text>
+
+    <!-- Sub-block 2: ClusterLayer -->
+    <rect x="722" y="598" width="286" height="124" rx="7" fill="#F8FBFF" stroke="#2783DE" stroke-width="1.1"/>
+    <text x="865" y="617" text-anchor="middle" font-size="12" font-weight="bold" fill="#153B60">ClusterLayer（借鉴 OANet · 捕获极线上下文）</text>
+    <rect x="738" y="626" width="254" height="24" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="0.9"/>
+    <text x="865" y="642" text-anchor="middle" font-size="10.6" fill="#153B60">1. DiffPool 软聚类：[N, 128] → [n_c=128, 128]</text>
+    <rect x="738" y="655" width="254" height="24" rx="4" fill="#E8F1EC" stroke="#46A171" stroke-width="0.9"/>
+    <text x="865" y="671" text-anchor="middle" font-size="10.6" fill="#1F5138">2. 簇间顺序感知过滤（Order-Aware Filter）</text>
+    <rect x="738" y="684" width="254" height="26" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+    <text x="865" y="701" text-anchor="middle" font-size="10.6" font-weight="bold" fill="#70401C">3. DiffUnpool 还原 + 跳跃连接 → [N, 128]</text>
+  </g>
+
+  <!-- ==================== LEGEND FOOTER ==================== -->
+  <g transform="translate(120, 765)">
+    <rect x="0" y="0" width="14" height="14" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
+    <text x="20" y="12" font-size="11.5" fill="#374151">输入与张量数据</text>
+
+    <rect x="135" y="0" width="14" height="14" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
+    <text x="155" y="12" font-size="11.5" fill="#153B60">嵌入 / ContextNorm / 聚类层</text>
+
+    <rect x="345" y="0" width="14" height="14" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="365" y="12" font-size="11.5" fill="#1F5138">构图 / LC-Layer / 频谱平滑</text>
+
+    <rect x="545" y="0" width="14" height="14" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+    <text x="565" y="12" font-size="11.5" fill="#70401C">CR-Layer 残差 / 跳跃连接 / 损失</text>
+
+    <rect x="765" y="0" width="14" height="14" rx="3" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="785" y="12" font-size="11.5" fill="#422578">概率输出与后处理</text>
+  </g>
+</svg>

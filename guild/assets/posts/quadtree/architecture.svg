@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 760" width="1060" height="760">
+  <defs>
+    <style>
+      .font-base { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 13px; fill: #4B5563; }
+      .sec-title { font-size: 14px; font-weight: 700; fill: #1F2937; }
+      .node-title { font-size: 13.5px; font-weight: 700; }
+      .node-sub { font-size: 11.5px; }
+      .tensor-lbl { font-size: 11px; font-weight: 600; fill: #374151; }
+      .badge-txt { font-size: 11px; font-weight: 600; }
+      .arrow-line { stroke: #4B5563; stroke-width: 1.8; fill: none; }
+      .arrow-dashed { stroke: #6B7280; stroke-width: 1.6; stroke-dasharray: 5,4; fill: none; }
+      .arrow-green { stroke: #46A171; stroke-width: 2; fill: none; }
+      .arrow-orange { stroke: #D5803B; stroke-width: 1.8; fill: none; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#D5803B"/>
+    </marker>
+  </defs>
+
+  <!-- Pure White Background -->
+  <rect x="0" y="0" width="1060" height="760" fill="#FFFFFF"/>
+
+  <!-- Main Title -->
+  <text x="530" y="34" text-anchor="middle" class="font-base title">QuadTree Attention 整体架构与特征匹配端到端流程</text>
+  <text x="530" y="56" text-anchor="middle" class="font-base subtitle">上：单个 QuadTree Attention 模块内部张量流（通用自注意力/交叉注意力）　|　下：嵌入 LoFTR 无检测器特征匹配完整链路</text>
+
+  <!-- ================= BAND A: QuadTree Attention Module ================= -->
+  <rect x="20" y="74" width="1020" height="304" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.2"/>
+  <rect x="34" y="86" width="8" height="18" rx="3" fill="#46A171"/>
+  <text x="50" y="100" class="font-base sec-title">Part A：单个 QuadTree Attention 模块内部流程（X₁ = X₂ 为自注意力，X₁ ≠ X₂ 为交叉注意力）</text>
+
+  <!-- A1: Input X1 & X2 -->
+  <rect x="38" y="128" width="136" height="74" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="106" y="152" text-anchor="middle" class="font-base node-title" fill="#111827">输入特征 X₁</text>
+  <text x="106" y="172" text-anchor="middle" class="font-base node-sub" fill="#374151">[B, C, H, W]</text>
+  <text x="106" y="190" text-anchor="middle" class="font-base node-sub" fill="#6B7280">(Query 来源)</text>
+
+  <rect x="38" y="226" width="136" height="74" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="106" y="250" text-anchor="middle" class="font-base node-title" fill="#111827">输入特征 X₂</text>
+  <text x="106" y="270" text-anchor="middle" class="font-base node-sub" fill="#374151">[B, C, H, W]</text>
+  <text x="106" y="288" text-anchor="middle" class="font-base node-sub" fill="#6B7280">(Key / Value 来源)</text>
+
+  <!-- Arrows A1 -> A2 -->
+  <line x1="174" y1="165" x2="206" y2="165" class="arrow-line" marker-end="url(#arr-gray)"/>
+  <line x1="174" y1="263" x2="206" y2="263" class="arrow-line" marker-end="url(#arr-gray)"/>
+
+  <!-- A2: Linear Projection + Token Pyramid -->
+  <rect x="210" y="118" width="214" height="240" rx="10" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="317" y="142" text-anchor="middle" class="font-base node-title" fill="#153B60">线性投影 + L 层 Token 金字塔</text>
+
+  <!-- Sub-box Q/K -->
+  <rect x="224" y="154" width="186" height="62" rx="6" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.2"/>
+  <text x="317" y="173" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#153B60">Q = WqX₁ ,  K = WkX₂</text>
+  <text x="317" y="191" text-anchor="middle" class="font-base node-sub" fill="#1E40AF">2×2 平均池化 (AvgPool) 逐级下采样</text>
+  <text x="317" y="208" text-anchor="middle" class="font-base node-sub" fill="#4B5563">得 {Qˡ, Kˡ}，尺度 H₀×W₀ → H×W</text>
+
+  <!-- Sub-box V -->
+  <rect x="224" y="226" width="186" height="68" rx="6" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.2"/>
+  <text x="317" y="245" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#153B60">V = WvX₂</text>
+  <text x="317" y="263" text-anchor="middle" class="font-base node-sub" fill="#1E40AF">交叉注意力：AvgPool 下采样</text>
+  <text x="317" y="281" text-anchor="middle" class="font-base node-sub" fill="#1E40AF">自注意力：Conv-Norm-Act (s=2)</text>
+
+  <!-- Sub-box MPE -->
+  <rect x="224" y="302" width="186" height="44" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
+  <text x="317" y="320" text-anchor="middle" class="font-base badge-txt" fill="#70401C">多尺度位置编码 MPE (LePE)</text>
+  <text x="317" y="337" text-anchor="middle" class="font-base node-sub" fill="#70401C">各层独立 DWConv 注入 Vˡ</text>
+
+  <!-- Arrow A2 -> A3 -->
+  <line x1="424" y1="238" x2="458" y2="238" class="arrow-green" marker-end="url(#arr-green)"/>
+
+  <!-- A3: Coarse-to-Fine Sparse Attention Engine -->
+  <rect x="462" y="118" width="234" height="240" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
+  <text x="579" y="142" text-anchor="middle" class="font-base node-title" fill="#1F5138">由粗到细四叉树稀疏注意力</text>
+
+  <!-- Level 1 -->
+  <rect x="478" y="156" width="202" height="52" rx="6" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.3"/>
+  <text x="579" y="176" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#1F5138">Level 1 (最粗层 H₀×W₀)</text>
+  <text x="579" y="195" text-anchor="middle" class="font-base node-sub" fill="#374151">全图稠密计算 → 选 Top-K 索引</text>
+
+  <line x1="579" y1="208" x2="579" y2="225" class="arrow-green" marker-end="url(#arr-green)"/>
+
+  <!-- Level 2 -->
+  <rect x="478" y="229" width="202" height="52" rx="6" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.3"/>
+  <text x="579" y="249" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#1F5138">Level 2 (2× 上级分辨率)</text>
+  <text x="579" y="268" text-anchor="middle" class="font-base node-sub" fill="#374151">仅在父级 Top-K 对应 4K 块内算</text>
+
+  <line x1="579" y1="281" x2="579" y2="298" class="arrow-green" marker-end="url(#arr-green)"/>
+
+  <!-- Level L -->
+  <rect x="478" y="302" width="202" height="44" rx="6" fill="#DCFCE7" stroke="#46A171" stroke-width="1.3"/>
+  <text x="579" y="320" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#1F5138">… → Level L (最细层 H×W)</text>
+  <text x="579" y="337" text-anchor="middle" class="font-base node-sub" fill="#166534">每 Token 仅看 4K 个细粒度候选</text>
+
+  <!-- Arrow A3 -> A4 -->
+  <line x1="696" y1="238" x2="728" y2="238" class="arrow-orange" marker-end="url(#arr-orange)"/>
+
+  <!-- A4: Multi-scale Message Aggregation -->
+  <rect x="732" y="128" width="166" height="220" rx="10" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+  <text x="815" y="152" text-anchor="middle" class="font-base node-title" fill="#70401C">多尺度消息聚合</text>
+
+  <rect x="744" y="166" width="142" height="74" rx="6" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
+  <text x="815" y="185" text-anchor="middle" class="font-base badge-txt" fill="#9A3412">QuadTree-A</text>
+  <text x="815" y="203" text-anchor="middle" class="font-base node-sub" fill="#4B5563">不重叠分区 Ωˡ 拼接</text>
+  <text x="815" y="221" text-anchor="middle" class="font-base node-sub" fill="#4B5563">分数递归连乘 sˡ=sˡ⁻¹·tˡ</text>
+
+  <rect x="744" y="252" width="142" height="84" rx="6" fill="#FFF7ED" stroke="#D5803B" stroke-width="1.5"/>
+  <text x="815" y="271" text-anchor="middle" class="font-base badge-txt" fill="#70401C">QuadTree-B (主推)</text>
+  <text x="815" y="290" text-anchor="middle" class="font-base node-sub" fill="#70401C">重叠区域 Γˡ 独立计算</text>
+  <text x="815" y="308" text-anchor="middle" class="font-base node-sub" fill="#70401C">可学习权重加权融合</text>
+  <text x="815" y="326" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#9A3412">mᵢ = Σ wᵢˡ · mᵢˡ</text>
+
+  <!-- Arrow A4 -> A5 -->
+  <line x1="898" y1="238" x2="924" y2="238" class="arrow-line" marker-end="url(#arr-gray)"/>
+
+  <!-- A5: Output Y -->
+  <rect x="928" y="176" width="98" height="124" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
+  <text x="977" y="206" text-anchor="middle" class="font-base node-title" fill="#422578">输出特征 Y</text>
+  <text x="977" y="228" text-anchor="middle" class="font-base node-sub" fill="#422578">[B, C, H, W]</text>
+  <line x1="942" y1="242" x2="1012" y2="242" stroke="#C4B5FD" stroke-width="1"/>
+  <text x="977" y="262" text-anchor="middle" class="font-base badge-txt" fill="#5B21B6">线性复杂度</text>
+  <text x="977" y="282" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#5B21B6">O(K · H · W)</text>
+
+  <!-- ================= BAND B: End-to-End Feature Matching (LoFTR + QuadTree) ================= -->
+  <rect x="20" y="396" width="1020" height="344" rx="12" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.2"/>
+  <rect x="34" y="408" width="8" height="18" rx="3" fill="#2783DE"/>
+  <text x="50" y="422" class="font-base sec-title">Part B：在无检测器半稠密特征匹配（LoFTR 框架）中的端到端流程（以 ScanNet 640×480 为例）</text>
+
+  <!-- B1: Image Pair -->
+  <rect x="38" y="468" width="128" height="114" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="102" y="496" text-anchor="middle" class="font-base node-title" fill="#111827">输入图像对</text>
+  <text x="102" y="518" text-anchor="middle" class="font-base node-sub" fill="#374151">图像 A &amp; 图像 B</text>
+  <text x="102" y="540" text-anchor="middle" class="font-base node-sub" font-weight="600" fill="#111827">[B, 1/3, 480, 640]</text>
+  <text x="102" y="562" text-anchor="middle" class="font-base node-sub" fill="#6B7280">无需关键点检测器</text>
+
+  <!-- Arrow B1 -> B2 -->
+  <line x1="166" y1="525" x2="196" y2="525" class="arrow-line" marker-end="url(#arr-gray)"/>
+
+  <!-- B2: Shared CNN + FPN -->
+  <rect x="200" y="458" width="152" height="134" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.6"/>
+  <text x="276" y="486" text-anchor="middle" class="font-base node-title" fill="#153B60">共享 CNN + FPN</text>
+  <text x="276" y="506" text-anchor="middle" class="font-base node-sub" fill="#153B60">局部多尺度特征提取</text>
+  <rect x="212" y="518" width="128" height="26" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+  <text x="276" y="535" text-anchor="middle" class="font-base node-sub" fill="#1E40AF">粗特征 1/8：60×80</text>
+  <rect x="212" y="552" width="128" height="26" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
+  <text x="276" y="569" text-anchor="middle" class="font-base node-sub" fill="#1E40AF">细特征 1/2：240×320</text>
+
+  <!-- Arrow B2 -> B3 (Coarse) -->
+  <line x1="352" y1="525" x2="394" y2="525" class="arrow-line" marker-end="url(#arr-gray)"/>
+  <text x="373" y="502" text-anchor="middle" class="font-base tensor-lbl">Fᶜ</text>
+  <text x="373" y="517" text-anchor="middle" class="font-base tensor-lbl">[B,C,60,80]</text>
+
+  <!-- B3: Coarse QuadTree Transformer (Core Replacement) -->
+  <rect x="398" y="446" width="218" height="162" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="2.2"/>
+  <rect x="424" y="434" width="166" height="22" rx="11" fill="#46A171"/>
+  <text x="507" y="449" text-anchor="middle" class="font-base badge-txt" fill="#FFFFFF">核心替换：原 LoFTR 线性注意力</text>
+
+  <text x="507" y="476" text-anchor="middle" class="font-base node-title" fill="#1F5138">粗级 QuadTree Transformer</text>
+  <text x="507" y="497" text-anchor="middle" class="font-base node-sub" fill="#1F5138">交替 Self- &amp; Cross-Attention</text>
+  <rect x="412" y="509" width="190" height="44" rx="5" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.2"/>
+  <text x="507" y="527" text-anchor="middle" class="font-base node-sub" font-weight="600" fill="#166534">3 层金字塔 (L=3, K=8/16)</text>
+  <text x="507" y="544" text-anchor="middle" class="font-base node-sub" fill="#374151">15×20 → 30×40 → 60×80</text>
+  <text x="507" y="573" text-anchor="middle" class="font-base node-sub" fill="#1F5138">兼顾全局上下文 + 细粒度聚焦</text>
+  <text x="507" y="593" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#166534">4800 Tokens 线性开销</text>
+
+  <!-- Connector from Part A to Part B3 -->
+  <path d="M 579 358 L 579 384 L 507 384 L 507 430" class="arrow-dashed" marker-end="url(#arr-gray)"/>
+
+  <!-- Arrow B3 -> B4 -->
+  <line x1="616" y1="525" x2="652" y2="525" class="arrow-line" marker-end="url(#arr-gray)"/>
+  <text x="634" y="514" text-anchor="middle" class="font-base tensor-lbl">F̃ᶜ</text>
+
+  <!-- B4: Coarse Matching Module -->
+  <rect x="656" y="468" width="142" height="114" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+  <text x="727" y="495" text-anchor="middle" class="font-base node-title" fill="#70401C">粗级特征匹配</text>
+  <text x="727" y="517" text-anchor="middle" class="font-base node-sub" fill="#70401C">计算相似度矩阵</text>
+  <text x="727" y="537" text-anchor="middle" class="font-base node-sub" fill="#70401C">Dual-Softmax + MNN</text>
+  <text x="727" y="562" text-anchor="middle" class="font-base node-sub" font-weight="600" fill="#9A3412">输出粗匹配对 Mᶜ</text>
+
+  <!-- Arrow B4 -> B5 (down-right to Fine Refinement) -->
+  <path d="M 727 582 L 727 624" class="arrow-orange" marker-end="url(#arr-orange)"/>
+  <text x="760" y="608" text-anchor="middle" class="font-base tensor-lbl">粗匹配坐标</text>
+
+  <!-- Skip connection B2 Fine Feature -> B5 -->
+  <path d="M 276 592 L 276 672 L 650 672" class="arrow-line" marker-end="url(#arr-gray)"/>
+  <rect x="380" y="658" width="204" height="24" rx="4" fill="#FAFAFA"/>
+  <text x="482" y="674" text-anchor="middle" class="font-base tensor-lbl">细特征直连 Fᶠ [B, Cᶠ, 240, 320] (1/2 尺度)</text>
+
+  <!-- B5: Fine-level Refinement (LoFTR unchanged) -->
+  <rect x="656" y="628" width="168" height="88" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
+  <text x="740" y="654" text-anchor="middle" class="font-base node-title" fill="#70401C">细级局部精修 (沿用 LoFTR)</text>
+  <text x="740" y="675" text-anchor="middle" class="font-base node-sub" fill="#70401C">在 1/2 特征图裁局部窗口</text>
+  <text x="740" y="695" text-anchor="middle" class="font-base node-sub" fill="#70401C">亚像素坐标回归精修</text>
+
+  <!-- Arrow B5 -> B6 -->
+  <line x1="824" y1="672" x2="862" y2="672" class="arrow-line" marker-end="url(#arr-gray)"/>
+
+  <!-- B6: Final Output -->
+  <rect x="866" y="510" width="156" height="206" rx="10" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8"/>
+  <text x="944" y="542" text-anchor="middle" class="font-base node-title" fill="#422578">最终输出与评估</text>
+  <rect x="880" y="558" width="128" height="52" rx="6" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.2"/>
+  <text x="944" y="579" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#422578">半稠密匹配点对</text>
+  <text x="944" y="598" text-anchor="middle" class="font-base node-sub" fill="#5B21B6">{(pᴬ, pᴮ)} 亚像素坐标</text>
+
+  <line x1="944" y1="610" x2="944" y2="628" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-gray)"/>
+
+  <rect x="880" y="632" width="128" height="68" rx="6" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="1.2"/>
+  <text x="944" y="652" text-anchor="middle" class="font-base node-sub" font-weight="700" fill="#422578">RANSAC 求解 E</text>
+  <text x="944" y="670" text-anchor="middle" class="font-base node-sub" fill="#5B21B6">恢复相机位姿 (R, t)</text>
+  <text x="944" y="688" text-anchor="middle" class="font-base badge-txt" fill="#6D28D9">ScanNet AUC@20°: 61.6</text>
+
+  <!-- Note at bottom left -->
+  <text x="38" y="718" class="font-base subtitle">注：在立体匹配 (STTR) 与分类/检测 (PVTv2) 任务中，同样只需将原网络中的 Standard/SR Attention 替换为 Part A 的 QuadTree Attention 模块。</text>
+</svg>

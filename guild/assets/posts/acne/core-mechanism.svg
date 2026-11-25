@@ -1,0 +1,308 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 830" width="1060" height="830">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171" />
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B" />
+    </marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 13px; fill: #4B5563; }
+      .sec-title { font-size: 14px; font-weight: 700; fill: #1F2937; }
+      .t-gray { font-size: 13px; font-weight: 700; fill: #111827; }
+      .s-gray { font-size: 11px; fill: #374151; }
+      .t-blue { font-size: 13px; font-weight: 700; fill: #153B60; }
+      .s-blue { font-size: 11px; fill: #1E4E79; }
+      .t-green { font-size: 13px; font-weight: 700; fill: #1F5138; }
+      .s-green { font-size: 11px; fill: #266445; }
+      .t-orange { font-size: 13px; font-weight: 700; fill: #70401C; }
+      .s-orange { font-size: 11px; fill: #8A4F22; }
+      .t-purple { font-size: 13px; font-weight: 700; fill: #422578; }
+      .s-purple { font-size: 11px; fill: #553294; }
+      .num { font-size: 11px; font-weight: 700; fill: #111827; }
+      .tiny { font-size: 10.5px; fill: #4B5563; }
+    </style>
+  </defs>
+
+  <!-- White Background -->
+  <rect x="0" y="0" width="1060" height="830" fill="#FFFFFF" />
+
+  <!-- Header -->
+  <text x="530" y="34" text-anchor="middle" class="title">ACNe 核心机制图解：双路注意力加权归一化与仿 IRLS 逐层聚焦</text>
+  <text x="530" y="56" text-anchor="middle" class="subtitle">三步看懂：为什么普通 CN 在高外点率下翻车 → Local + Global 注意力如何配合 → 12 层堆叠如何模拟 IRLS</text>
+
+  <!-- ==================== ACT 1: CN vs ACN under 80% Outliers ==================== -->
+  <rect x="20" y="72" width="1020" height="236" rx="10" fill="#FAFAFA" stroke="#E5E7EB" stroke-width="1.2" />
+  <text x="36" y="96" class="sec-title">第一幕：为什么普通上下文归一化 (CN) 怕外点？而 ACN 能稳住？（以 80% 外点直线拟合为例）</text>
+
+  <!-- Left comparison: Vanilla CN -->
+  <rect x="36" y="108" width="484" height="186" rx="8" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.4" />
+  <rect x="36" y="108" width="484" height="28" rx="8" fill="#FBEBDE" />
+  <text x="278" y="127" text-anchor="middle" class="t-orange">普通 CN：一视同仁求平均 → 统计量被外点“绑架”</text>
+
+  <!-- Scatter plot CN -->
+  <rect x="52" y="148" width="176" height="132" rx="6" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+  <!-- True line (faint) -->
+  <line x1="62" y1="264" x2="216" y2="162" stroke="#9CA3AF" stroke-width="1.3" stroke-dasharray="4,3" />
+  <!-- Wrong estimated line -->
+  <line x1="62" y1="226" x2="218" y2="196" stroke="#D5803B" stroke-width="2.2" />
+  <!-- Outliers (red/orange dots, equal size) -->
+  <circle cx="76" cy="166" r="3.8" fill="#D5803B" />
+  <circle cx="95" cy="184" r="3.8" fill="#D5803B" />
+  <circle cx="116" cy="164" r="3.8" fill="#D5803B" />
+  <circle cx="144" cy="176" r="3.8" fill="#D5803B" />
+  <circle cx="168" cy="236" r="3.8" fill="#D5803B" />
+  <circle cx="192" cy="248" r="3.8" fill="#D5803B" />
+  <circle cx="204" cy="218" r="3.8" fill="#D5803B" />
+  <circle cx="130" cy="254" r="3.8" fill="#D5803B" />
+  <circle cx="156" cy="264" r="3.8" fill="#D5803B" />
+  <circle cx="84" cy="212" r="3.8" fill="#D5803B" />
+  <circle cx="182" cy="266" r="3.8" fill="#D5803B" />
+  <circle cx="122" cy="198" r="3.8" fill="#D5803B" />
+  <!-- Inliers (green dots, drowned out) -->
+  <circle cx="78" cy="253" r="4" fill="#46A171" />
+  <circle cx="114" cy="230" r="4" fill="#46A171" />
+  <circle cx="158" cy="200" r="4" fill="#46A171" />
+  <circle cx="198" cy="174" r="4" fill="#46A171" />
+  <!-- Huge variance circle + skewed mean -->
+  <circle cx="140" cy="214" r="48" fill="none" stroke="#D5803B" stroke-width="1.3" stroke-dasharray="3,3" />
+  <line x1="134" y1="208" x2="146" y2="220" stroke="#B45309" stroke-width="2.2" />
+  <line x1="146" y1="208" x2="134" y2="220" stroke="#B45309" stroke-width="2.2" />
+  <text x="150" y="218" class="s-orange" font-weight="700">μ 偏离</text>
+  <text x="140" y="275" text-anchor="middle" class="tiny">虚线:真实直线 | 橙线:CN 歪斜估计</text>
+
+  <!-- Explanation CN -->
+  <text x="242" y="164" class="t-gray">核心缺陷：等权最小二乘</text>
+  <text x="242" y="185" class="s-gray">• 每个点权重完全相同（均为 1/N）</text>
+  <text x="242" y="205" class="s-gray">• 均值 μ = argmin Σ ||pₙ − μ||₂²</text>
+  <text x="242" y="225" class="s-gray">• 80% 外点把均值 μ 拽离真实结构</text>
+  <text x="242" y="245" class="s-gray">• 标准差 σ 被拉得极大（橙色大虚圆）</text>
+  <rect x="242" y="256" width="264" height="24" rx="5" fill="#FBEBDE" />
+  <text x="374" y="272" text-anchor="middle" class="s-orange" font-weight="700">后果：内点在特征空间被淹没，无法分离</text>
+
+  <!-- Right comparison: ACN -->
+  <rect x="540" y="108" width="484" height="186" rx="8" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5" />
+  <rect x="540" y="108" width="484" height="28" rx="8" fill="#E8F1EC" />
+  <text x="782" y="127" text-anchor="middle" class="t-green">ACN：注意力加权统计 → 将外点踢出归一化坐标系</text>
+
+  <!-- Scatter plot ACN -->
+  <rect x="556" y="148" width="176" height="132" rx="6" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1" />
+  <!-- Accurate estimated line -->
+  <line x1="566" y1="264" x2="720" y2="162" stroke="#46A171" stroke-width="2.4" />
+  <!-- Faded outliers (tiny gray dots, w ≈ 0) -->
+  <circle cx="580" cy="166" r="2.2" fill="#D1D5DB" />
+  <circle cx="599" cy="184" r="2.2" fill="#D1D5DB" />
+  <circle cx="620" cy="164" r="2.2" fill="#D1D5DB" />
+  <circle cx="648" cy="176" r="2.2" fill="#D1D5DB" />
+  <circle cx="672" cy="236" r="2.2" fill="#D1D5DB" />
+  <circle cx="696" cy="248" r="2.2" fill="#D1D5DB" />
+  <circle cx="708" cy="218" r="2.2" fill="#D1D5DB" />
+  <circle cx="634" cy="254" r="2.2" fill="#D1D5DB" />
+  <circle cx="660" cy="264" r="2.2" fill="#D1D5DB" />
+  <circle cx="588" cy="212" r="2.2" fill="#D1D5DB" />
+  <circle cx="686" cy="266" r="2.2" fill="#D1D5DB" />
+  <circle cx="626" cy="198" r="2.2" fill="#D1D5DB" />
+  <!-- Highlighted inliers with attention halos -->
+  <circle cx="582" cy="253" r="8" fill="#46A171" fill-opacity="0.22" />
+  <circle cx="582" cy="253" r="4.5" fill="#1F5138" />
+  <circle cx="618" cy="230" r="8.5" fill="#46A171" fill-opacity="0.25" />
+  <circle cx="618" cy="230" r="4.5" fill="#1F5138" />
+  <circle cx="662" cy="200" r="8.5" fill="#46A171" fill-opacity="0.25" />
+  <circle cx="662" cy="200" r="4.5" fill="#1F5138" />
+  <circle cx="702" cy="174" r="8" fill="#46A171" fill-opacity="0.22" />
+  <circle cx="702" cy="174" r="4.5" fill="#1F5138" />
+  <!-- Weighted mean right on the line -->
+  <line x1="635" y1="208" x2="647" y2="220" stroke="#1F5138" stroke-width="2.2" />
+  <line x1="647" y1="208" x2="635" y2="220" stroke="#1F5138" stroke-width="2.2" />
+  <text x="652" y="224" class="s-green" font-weight="700">μ_w 精准</text>
+  <text x="644" y="275" text-anchor="middle" class="tiny">绿晕:高权重内点 | 灰小点:w≈0 外点</text>
+
+  <!-- Explanation ACN -->
+  <text x="746" y="164" class="t-green">破局思路：仿 IRLS 鲁棒加权</text>
+  <text x="746" y="185" class="s-green">• 预测每点权重 wₙ ∈ [0, 1] 且 Σ wₙ = 1</text>
+  <text x="746" y="205" class="s-green">• 对应 IRLS：Σ ψ(残差)⁻¹ · ||pₙ − μᵗ||₂²</text>
+  <text x="746" y="225" class="s-green">• 用加权 μ_w 与 σ_w 做归一化 (f−μ_w)⊘σ_w</text>
+  <text x="746" y="245" class="s-green">• 外点权重 ≈ 0，几乎不污染统计量</text>
+  <rect x="746" y="256" width="264" height="24" rx="5" fill="#E8F1EC" />
+  <text x="878" y="272" text-anchor="middle" class="s-green" font-weight="700">效果：内点紧密聚类，外点自动退场</text>
+
+  <!-- ==================== ACT 2: Local + Global Attention Concrete Walk-through ==================== -->
+  <rect x="20" y="324" width="1020" height="266" rx="10" fill="#FAFAFA" stroke="#E5E7EB" stroke-width="1.2" />
+  <text x="36" y="348" class="sec-title">第二幕：局部注意力 (Local) × 全局注意力 (Global) 具体数值推演（假设输入 N = 4 个候选点）</text>
+
+  <!-- Step A: Input Feature Matrix -->
+  <rect x="36" y="366" width="196" height="206" rx="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.4" />
+  <rect x="36" y="366" width="196" height="26" rx="8" fill="#F3F4F6" />
+  <text x="134" y="384" text-anchor="middle" class="t-gray">Step 1: 特征矩阵 f (4×128)</text>
+
+  <!-- 4 rows -->
+  <rect x="48" y="404" width="172" height="32" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2" />
+  <text x="58" y="424" class="s-green" font-weight="700">点① 优质内点</text>
+  <text x="212" y="424" text-anchor="end" class="tiny">f₁ ∈ R¹²⁸</text>
+
+  <rect x="48" y="444" width="172" height="32" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2" />
+  <text x="58" y="464" class="s-green" font-weight="700">点② 普通内点</text>
+  <text x="212" y="464" text-anchor="end" class="tiny">f₂ ∈ R¹²⁸</text>
+
+  <rect x="48" y="484" width="172" height="32" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" />
+  <text x="58" y="504" class="s-orange" font-weight="700">点③ 模糊边界</text>
+  <text x="212" y="504" text-anchor="end" class="tiny">f₃ ∈ R¹²⁸</text>
+
+  <rect x="48" y="524" width="172" height="32" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2" />
+  <text x="58" y="544" class="s-gray" font-weight="700">点④ 明显外点</text>
+  <text x="212" y="544" text-anchor="end" class="tiny">f₄ ∈ R¹²⁸</text>
+
+  <!-- Arrows from Step 1 to Step 2 -->
+  <path d="M 232 450 L 250 450 L 250 416 L 266 416" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)" />
+  <path d="M 232 480 L 250 480 L 250 524 L 266 524" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arr)" />
+
+  <!-- Step B Top: Local Attention -->
+  <rect x="270" y="366" width="302" height="98" rx="8" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4" />
+  <rect x="270" y="366" width="302" height="26" rx="8" fill="#E8F1EC" />
+  <text x="421" y="384" text-anchor="middle" class="t-green">Step 2A: 局部注意力 w_local = sigmoid(W fᵢᵀ + b)</text>
+  <text x="284" y="409" class="s-green">逐点独立打分（回答“每个点自己像不像内点？”）：</text>
+  <!-- 4 value pills -->
+  <rect x="284" y="418" width="62" height="34" rx="5" fill="#D1E7DC" stroke="#46A171" stroke-width="1" />
+  <text x="315" y="432" text-anchor="middle" class="tiny">点①</text>
+  <text x="315" y="446" text-anchor="middle" class="num">0.92</text>
+
+  <rect x="354" y="418" width="62" height="34" rx="5" fill="#D1E7DC" stroke="#46A171" stroke-width="1" />
+  <text x="385" y="432" text-anchor="middle" class="tiny">点②</text>
+  <text x="385" y="446" text-anchor="middle" class="num">0.85</text>
+
+  <rect x="424" y="418" width="62" height="34" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1" />
+  <text x="455" y="432" text-anchor="middle" class="tiny">点③</text>
+  <text x="455" y="446" text-anchor="middle" class="num">0.40</text>
+
+  <rect x="494" y="418" width="62" height="34" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1" />
+  <text x="525" y="432" text-anchor="middle" class="tiny">点④</text>
+  <text x="525" y="446" text-anchor="middle" class="num">0.05</text>
+
+  <!-- Step B Bottom: Global Attention -->
+  <rect x="270" y="474" width="302" height="98" rx="8" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.4" />
+  <rect x="270" y="474" width="302" height="26" rx="8" fill="#E5F2FC" />
+  <text x="421" y="492" text-anchor="middle" class="t-blue">Step 2B: 全局注意力 w_global = softmax(W fᵢᵀ + b)</text>
+  <text x="284" y="517" class="s-blue">跨点竞争排序（回答“全集里谁的贡献最重要？”）：</text>
+  <!-- 4 value pills -->
+  <rect x="284" y="526" width="62" height="34" rx="5" fill="#CCE4FA" stroke="#2783DE" stroke-width="1" />
+  <text x="315" y="540" text-anchor="middle" class="tiny">点①</text>
+  <text x="315" y="554" text-anchor="middle" class="num">0.58</text>
+
+  <rect x="354" y="526" width="62" height="34" rx="5" fill="#E5F2FC" stroke="#2783DE" stroke-width="1" />
+  <text x="385" y="540" text-anchor="middle" class="tiny">点②</text>
+  <text x="385" y="554" text-anchor="middle" class="num">0.30</text>
+
+  <rect x="424" y="526" width="62" height="34" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1" />
+  <text x="455" y="540" text-anchor="middle" class="tiny">点③</text>
+  <text x="455" y="554" text-anchor="middle" class="num">0.10</text>
+
+  <rect x="494" y="526" width="62" height="34" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1" />
+  <text x="525" y="540" text-anchor="middle" class="tiny">点④</text>
+  <text x="525" y="554" text-anchor="middle" class="num">0.02</text>
+
+  <!-- Arrows Step 2 -> Step 3 -->
+  <path d="M 572 415 L 594 415 L 594 452 L 610 452" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)" />
+  <path d="M 572 523 L 594 523 L 594 484 L 610 484" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arr)" />
+
+  <!-- Step C: Fusion & L1 Norm -->
+  <rect x="614" y="366" width="218" height="206" rx="8" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5" />
+  <rect x="614" y="366" width="218" height="26" rx="8" fill="#FBEBDE" />
+  <text x="723" y="384" text-anchor="middle" class="t-orange">Step 3: 逐元素相乘 ⊙ + L1 归一化</text>
+
+  <text x="626" y="410" class="s-orange" font-weight="700">1) 相乘 w̃ = w_local ⊙ w_global：</text>
+  <text x="626" y="428" class="s-gray">[0.534, 0.255, 0.040, 0.001]</text>
+  <text x="626" y="446" class="tiny">求和 ||w̃||₁ = 0.830</text>
+
+  <line x1="626" y1="458" x2="820" y2="458" stroke="#F3D5B5" stroke-width="1" />
+
+  <text x="626" y="478" class="s-orange" font-weight="700">2) 归一化 w = w̃ / ||w̃||₁：</text>
+  <!-- Bar chart of final weights -->
+  <text x="626" y="499" class="tiny">点①</text>
+  <rect x="652" y="489" width="110" height="12" rx="3" fill="#46A171" />
+  <text x="768" y="499" class="num">64.3%</text>
+
+  <text x="626" y="519" class="tiny">点②</text>
+  <rect x="652" y="509" width="52" height="12" rx="3" fill="#68B98E" />
+  <text x="710" y="519" class="num">30.7%</text>
+
+  <text x="626" y="539" class="tiny">点③</text>
+  <rect x="652" y="529" width="10" height="12" rx="3" fill="#D5803B" />
+  <text x="668" y="539" class="num">4.8%</text>
+
+  <text x="626" y="559" class="tiny">点④</text>
+  <rect x="652" y="549" width="2" height="12" rx="1" fill="#9CA3AF" />
+  <text x="662" y="559" class="num">0.1% (近乎归零)</text>
+
+  <!-- Arrow Step 3 -> Step 4 -->
+  <line x1="832" y1="468" x2="856" y2="468" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arr-orange)" />
+
+  <!-- Step D: Output ACN -->
+  <rect x="860" y="366" width="164" height="206" rx="8" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.5" />
+  <rect x="860" y="366" width="164" height="26" rx="8" fill="#EDE9FE" />
+  <text x="942" y="384" text-anchor="middle" class="t-purple">Step 4: 加权归一化</text>
+
+  <text x="872" y="414" class="s-purple" font-weight="700">计算加权统计量：</text>
+  <text x="872" y="434" class="s-gray">μ_w = Σ wᵢ fᵢ</text>
+  <text x="872" y="454" class="s-gray">σ_w = √Σ wᵢ(fᵢ−μ_w)²</text>
+  <text x="872" y="478" class="s-purple" font-weight="700">执行归一化：</text>
+  <text x="872" y="498" class="s-gray">f̂ = (f − μ_w) ⊘ σ_w</text>
+  <text x="872" y="518" class="s-gray">再接 GroupNorm(32)</text>
+
+  <rect x="870" y="532" width="144" height="30" rx="5" fill="#EDE9FE" />
+  <text x="942" y="551" text-anchor="middle" class="s-purple" font-weight="700">95% 话语权归属内点①②</text>
+
+  <!-- ==================== ACT 3: Deep Stack ≈ Unrolled IRLS ==================== -->
+  <rect x="20" y="606" width="1020" height="204" rx="10" fill="#FAFAFA" stroke="#E5E7EB" stroke-width="1.2" />
+  <text x="36" y="630" class="sec-title">第三幕：多层 ARB 堆叠的直觉 —— 把经典迭代重加权最小二乘 (IRLS) 展开成前馈神经网络</text>
+
+  <!-- Stage 1 -->
+  <rect x="36" y="646" width="218" height="146" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" />
+  <text x="145" y="668" text-anchor="middle" class="t-gray">浅层 ARB（如第 2 层）</text>
+  <text x="145" y="688" text-anchor="middle" class="s-gray">相当于 IRLS 第 1~2 次迭代</text>
+  <line x1="50" y1="698" x2="240" y2="698" stroke="#D1D5DB" stroke-width="1" />
+  <text x="48" y="718" class="s-gray">• 全局上下文刚刚建立</text>
+  <text x="48" y="738" class="s-gray">• 注意力权重分布较均匀分散</text>
+  <text x="48" y="758" class="s-gray">• 只能粗略抑制极离谱外点</text>
+  <text x="48" y="778" class="tiny">对应原论文 Fig.1: ACNe-2</text>
+
+  <line x1="254" y1="719" x2="282" y2="719" stroke="#4B5563" stroke-width="2" marker-end="url(#arr)" />
+
+  <!-- Stage 2 -->
+  <rect x="286" y="646" width="218" height="146" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
+  <text x="395" y="668" text-anchor="middle" class="t-blue">中层 ARB（如第 6 层）</text>
+  <text x="395" y="688" text-anchor="middle" class="s-blue">相当于 IRLS 中期迭代</text>
+  <line x1="300" y1="698" x2="490" y2="698" stroke="#93C5FD" stroke-width="1" />
+  <text x="298" y="718" class="s-blue">• 统计量 μ_w 明显向内点靠拢</text>
+  <text x="298" y="738" class="s-blue">• 大多数外点权重持续衰减</text>
+  <text x="298" y="758" class="s-blue">• 真实几何结构浮出水面</text>
+  <text x="298" y="778" class="tiny">对应原论文 Fig.1: ACNe-6</text>
+
+  <line x1="504" y1="719" x2="532" y2="719" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)" />
+
+  <!-- Stage 3 -->
+  <rect x="536" y="646" width="218" height="146" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
+  <text x="645" y="668" text-anchor="middle" class="t-green">深层 ARB（如第 10~12 层）</text>
+  <text x="645" y="688" text-anchor="middle" class="s-green">相当于 IRLS 收敛阶段</text>
+  <line x1="550" y1="698" x2="740" y2="698" stroke="#A7D7BE" stroke-width="1" />
+  <text x="548" y="718" class="s-green">• 外点权重被压制到接近 0</text>
+  <text x="548" y="738" class="s-green">• 内点与外点在高维空间清晰分离</text>
+  <text x="548" y="758" class="s-green">• 聚焦几何一致性最强的点集</text>
+  <text x="548" y="778" class="tiny">对应原论文 Fig.1: ACNe-10</text>
+
+  <line x1="754" y1="719" x2="782" y2="719" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)" />
+
+  <!-- Stage 4 -->
+  <rect x="786" y="646" width="238" height="146" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6" />
+  <text x="905" y="668" text-anchor="middle" class="t-purple">最终输出与几何求解</text>
+  <text x="905" y="688" text-anchor="middle" class="s-purple">超越“二值筛点”，保留相对权重</text>
+  <line x1="800" y1="698" x2="1010" y2="698" stroke="#C4B5FD" stroke-width="1" />
+  <text x="798" y="718" class="s-purple">• w_global 保留内点间的质量排序</text>
+  <text x="798" y="738" class="s-purple">• 直接送入加权八点法解出 F̂</text>
+  <text x="798" y="758" class="s-purple">• 无需再接 RANSAC 即达最优精度</text>
+  <text x="798" y="778" class="tiny">（硬阈值接 RANSAC 反而丢掉相对权重）</text>
+</svg>

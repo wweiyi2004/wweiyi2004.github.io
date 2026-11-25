@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 830" width="1060" height="830" style="background-color:#FFFFFF;">
+  <defs>
+    <style>
+      .font-main { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 12.5px; fill: #4B5563; }
+      .panel-title { font-size: 14px; font-weight: 700; }
+      .card-title { font-size: 13px; font-weight: 700; }
+      .body-txt { font-size: 11.5px; }
+      .mono { font-size: 11px; font-family: Consolas, "Courier New", monospace; }
+      .small-txt { font-size: 10.5px; }
+    </style>
+    <marker id="arr-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#4B5563"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#46A171"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#D5803B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#2783DE"/>
+    </marker>
+  </defs>
+
+  <!-- White Background -->
+  <rect x="0" y="0" width="1060" height="830" fill="#FFFFFF"/>
+
+  <!-- Main Header -->
+  <text x="530" y="34" text-anchor="middle" class="font-main title">CAPS 核心机制分步图解：粗到细可微匹配与相机位姿弱监督</text>
+  <text x="530" y="55" text-anchor="middle" class="font-main subtitle">上半部分拆解“坐标如何变得可微且高效”；下半部分拆解“只给相机位姿，三条规则如何联手逼出好描述子”</text>
+
+  <!-- ==================== PANEL A: COARSE-TO-FINE DIFFERENTIABLE MATCHING ==================== -->
+  <rect x="20" y="72" width="1020" height="366" rx="12" fill="#FAFAFA" stroke="#46A171" stroke-width="1.5"/>
+  <rect x="34" y="82" width="466" height="26" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
+  <text x="267" y="99" text-anchor="middle" class="font-main panel-title" fill="#1F5138">核心机制一 · 粗到细可微匹配层（Differentiable Coarse-to-Fine Matching）</text>
+
+  <!-- STEP 1 CARD -->
+  <g transform="translate(34, 122)">
+    <rect x="0" y="0" width="228" height="300" rx="9" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.5"/>
+    <rect x="0" y="0" width="228" height="34" rx="9" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+    <text x="114" y="22" text-anchor="middle" class="font-main card-title" fill="#153B60">第 1 步：粗图全图相关与 Softmax</text>
+
+    <!-- Query Vector Badge -->
+    <rect x="14" y="46" width="200" height="30" rx="5" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="114" y="65" text-anchor="middle" class="font-main body-txt" fill="#111827">查询向量 M₁ᶜ(x₁) ∈ ℝ¹²⁸</text>
+
+    <text x="114" y="92" text-anchor="middle" class="font-main small-txt" fill="#4B5563">与 M₂ᶜ 所有网格内积 + 2D Softmax</text>
+
+    <!-- 5x4 Heatmap Grid representing p^c -->
+    <g transform="translate(34, 102)">
+      <!-- Row 0 -->
+      <rect x="0" y="0" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="32" y="0" width="32" height="24" fill="#E8F1EC" stroke="#D1D5DB"/>
+      <rect x="64" y="0" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="96" y="0" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="128" y="0" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <!-- Row 1 -->
+      <rect x="0" y="24" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="32" y="24" width="32" height="24" fill="#C6E6D5" stroke="#D1D5DB"/>
+      <rect x="64" y="24" width="32" height="24" fill="#8CD0AF" stroke="#D1D5DB"/>
+      <rect x="96" y="24" width="32" height="24" fill="#E8F1EC" stroke="#D1D5DB"/>
+      <rect x="128" y="24" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <!-- Row 2 (Peak at col 2, row 2) -->
+      <rect x="0" y="48" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="32" y="48" width="32" height="24" fill="#8CD0AF" stroke="#D1D5DB"/>
+      <rect x="64" y="48" width="32" height="24" fill="#46A171" stroke="#D5803B" stroke-width="2.2"/>
+      <rect x="96" y="48" width="32" height="24" fill="#C6E6D5" stroke="#D1D5DB"/>
+      <rect x="128" y="48" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <!-- Row 3 -->
+      <rect x="0" y="72" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="32" y="72" width="32" height="24" fill="#E8F1EC" stroke="#D1D5DB"/>
+      <rect x="64" y="72" width="32" height="24" fill="#C6E6D5" stroke="#D1D5DB"/>
+      <rect x="96" y="72" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <rect x="128" y="72" width="32" height="24" fill="#F3F4F6" stroke="#D1D5DB"/>
+      <!-- Peak marker -->
+      <circle cx="80" cy="60" r="6" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+      <text x="80" y="114" text-anchor="middle" class="font-main small-txt" fill="#1F5138">2D 概率分布 pᶜ（白圈为最大概率峰）</text>
+    </g>
+
+    <rect x="12" y="232" width="204" height="56" rx="6" fill="#F3F4F6" stroke="#D1D5DB"/>
+    <text x="114" y="251" text-anchor="middle" class="mono" fill="#111827">pᶜ(x|x₁) = Softmax(M₁ᶜ·M₂ᶜ)</text>
+    <text x="114" y="271" text-anchor="middle" class="font-main small-txt" fill="#4B5563">网格仅 H/16×W/16，全图搜索开销低</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 262 272 L 284 272" fill="none" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arr-dark)"/>
+
+  <!-- STEP 2 CARD -->
+  <g transform="translate(288, 122)">
+    <rect x="0" y="0" width="232" height="300" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
+    <rect x="0" y="0" width="232" height="34" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5"/>
+    <text x="116" y="22" text-anchor="middle" class="font-main card-title" fill="#1F5138">第 2 步：可微期望与方差不确定度</text>
+
+    <!-- Argmax vs Expectation comparison -->
+    <rect x="12" y="46" width="208" height="44" rx="6" fill="#FEF2F2" stroke="#EF4444" stroke-width="1"/>
+    <text x="22" y="64" class="font-main body-txt" style="font-weight:700;fill:#991B1B;">✗ 硬最近邻 argmax(p)</text>
+    <text x="22" y="82" class="font-main small-txt" fill="#991B1B">坐标阶跃不可微，梯度断掉无法反传</text>
+
+    <rect x="12" y="98" width="208" height="54" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
+    <text x="22" y="116" class="font-main body-txt" style="font-weight:700;fill:#1F5138;">✓ 期望坐标 x̂₂ = Σ x · p(x|x₁)</text>
+    <text x="22" y="134" class="font-main small-txt" fill="#1F5138">对坐标做概率加权平均，全程光滑可微</text>
+    <text x="22" y="147" class="font-main small-txt" fill="#1F5138">→ 位置误差直接回传更新描述子！</text>
+
+    <!-- Variance intuition -->
+    <text x="116" y="174" text-anchor="middle" class="font-main body-txt" style="font-weight:700;fill:#70401C;">顺带免费拿到不确定度 σ² = tr(Cov(p))</text>
+
+    <!-- Left mini box: low variance -->
+    <rect x="12" y="184" width="99" height="104" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
+    <text x="61" y="201" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#1F5138;">单峰尖锐</text>
+    <!-- Sharp peak curve -->
+    <path d="M 24 244 Q 50 244 61 208 Q 72 244 98 244" fill="none" stroke="#46A171" stroke-width="2.2"/>
+    <line x1="20" y1="246" x2="102" y2="246" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="61" y="263" text-anchor="middle" class="font-main small-txt" fill="#1F5138">σ 小 → 可靠点</text>
+    <text x="61" y="279" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#1F5138;">权重 1/σ 高</text>
+
+    <!-- Right mini box: high variance -->
+    <rect x="121" y="184" width="99" height="104" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+    <text x="170" y="201" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#70401C;">弥散 / 多峰</text>
+    <!-- Diffuse bimodal curve -->
+    <path d="M 130 244 Q 146 226 158 236 Q 170 242 184 228 Q 198 238 210 244" fill="none" stroke="#D5803B" stroke-width="2.2"/>
+    <line x1="128" y1="246" x2="212" y2="246" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="170" y="263" text-anchor="middle" class="font-main small-txt" fill="#70401C">σ 大 → 遮挡/白墙</text>
+    <text x="170" y="279" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#70401C;">权重 1/σ 自动降权</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 520 272 L 542 272" fill="none" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arr-orange)"/>
+
+  <!-- STEP 3 CARD -->
+  <g transform="translate(546, 122)">
+    <rect x="0" y="0" width="232" height="300" rx="9" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5"/>
+    <rect x="0" y="0" width="232" height="34" rx="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
+    <text x="116" y="22" text-anchor="middle" class="font-main card-title" fill="#70401C">第 3 步：峰值映射与局部窗口裁剪</text>
+
+    <text x="116" y="54" text-anchor="middle" class="font-main body-txt" fill="#374151">把粗图 pᶜ 的最高概率点映射到细图 M₂ᶠ</text>
+
+    <!-- Fine Feature Map with cropped local window W -->
+    <g transform="translate(26, 66)">
+      <rect x="0" y="0" width="180" height="120" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
+      <!-- Subtle grid lines inside fine map -->
+      <line x1="45" y1="0" x2="45" y2="120" stroke="#BFDBFE" stroke-width="0.8"/>
+      <line x1="90" y1="0" x2="90" y2="120" stroke="#BFDBFE" stroke-width="0.8"/>
+      <line x1="135" y1="0" x2="135" y2="120" stroke="#BFDBFE" stroke-width="0.8"/>
+      <line x1="0" y1="40" x2="180" y2="40" stroke="#BFDBFE" stroke-width="0.8"/>
+      <line x1="0" y1="80" x2="180" y2="80" stroke="#BFDBFE" stroke-width="0.8"/>
+
+      <!-- Highlighted Local Window W -->
+      <rect x="66" y="42" width="54" height="42" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="2.2" stroke-dasharray="4,2"/>
+      <circle cx="93" cy="63" r="4.5" fill="#D5803B"/>
+      <text x="93" y="36" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#70401C;">局部窗口 W</text>
+      <text x="14" y="16" class="font-main small-txt" fill="#153B60">M₂ᶠ (H/4 × W/4)</text>
+      <text x="90" y="112" text-anchor="middle" class="font-main small-txt" fill="#153B60">窗口外区域全部跳过计算！</text>
+    </g>
+
+    <rect x="12" y="198" width="208" height="90" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+    <text x="20" y="217" class="font-main small-txt" style="font-weight:700;fill:#70401C;">为什么非要裁剪窗口 W？</text>
+    <text x="20" y="236" class="font-main small-txt" fill="#70401C">1. 省算力：细图面积是粗图 16 倍，只搜</text>
+    <text x="20" y="252" class="font-main small-txt" fill="#70401C">   1/8 尺度窗口，避免全图相关爆显存</text>
+    <text x="20" y="270" class="font-main small-txt" fill="#70401C">2. 提精度：屏蔽远处相似物干扰峰，让</text>
+    <text x="20" y="284" class="font-main small-txt" fill="#70401C">   期望坐标更聚焦，不再被多峰拉偏</text>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 778 272 L 800 272" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
+
+  <!-- STEP 4 CARD -->
+  <g transform="translate(804, 122)">
+    <rect x="0" y="0" width="222" height="300" rx="9" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.5"/>
+    <rect x="0" y="0" width="222" height="34" rx="9" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+    <text x="111" y="22" text-anchor="middle" class="font-main card-title" fill="#422578">第 4 步：细层精修与双层输出</text>
+
+    <!-- Mini zoomed W distribution -->
+    <g transform="translate(49, 48)">
+      <rect x="0" y="0" width="124" height="76" rx="5" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5"/>
+      <rect x="44" y="24" width="36" height="28" rx="3" fill="#46A171" opacity="0.35"/>
+      <circle cx="62" cy="38" r="7" fill="#46A171"/>
+      <circle cx="64" cy="37" r="2.5" fill="#FFFFFF"/>
+      <text x="62" y="68" text-anchor="middle" class="font-main small-txt" fill="#1F5138">窗口内分布 pᶠ → x̂₂ᶠ</text>
+    </g>
+
+    <rect x="12" y="138" width="198" height="68" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+    <text x="111" y="157" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#70401C;">训练阶段：双尺度同时监督</text>
+    <text x="111" y="176" text-anchor="middle" class="font-main small-txt" fill="#70401C">对 x̂₂ᶜ（粗）与 x̂₂ᶠ（细）同时施加</text>
+    <text x="111" y="193" text-anchor="middle" class="font-main small-txt" fill="#70401C">Eq.(6) 损失，同步训好两层特征</text>
+
+    <rect x="12" y="218" width="198" height="70" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
+    <text x="111" y="237" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#422578;">推理阶段：层级特征拼接</text>
+    <text x="111" y="256" text-anchor="middle" class="mono" fill="#422578">[Mᶜ(x) 128维] ⊕ [Mᶠ(x) 128维]</text>
+    <text x="111" y="275" text-anchor="middle" class="font-main small-txt" fill="#422578">= 256 维兼顾全局与细节的描述子</text>
+  </g>
+
+  <!-- ==================== PANEL B: POSE-ONLY WEAK SUPERVISION GEOMETRY ==================== -->
+  <rect x="20" y="454" width="1020" height="356" rx="12" fill="#FAFAFA" stroke="#D5803B" stroke-width="1.5"/>
+  <rect x="34" y="464" width="530" height="26" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+  <text x="299" y="481" text-anchor="middle" class="font-main panel-title" fill="#70401C">核心机制二 · 仅靠相机位姿的几何监督：极线损失 + 循环一致 + 方差加权</text>
+
+  <!-- Left Geometric Diagram (Two Images I1 and I2) -->
+  <g transform="translate(34, 504)">
+    <rect x="0" y="0" width="510" height="292" rx="9" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.4"/>
+
+    <!-- Image 1 Frame -->
+    <rect x="18" y="34" width="218" height="214" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="127" y="24" text-anchor="middle" class="font-main card-title" fill="#111827">视图 I₁（查询图）</text>
+    <!-- Schematic building silhouette in I1 -->
+    <polygon points="48,248 48,116 122,76 196,116 196,248" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.2"/>
+    <rect x="78" y="138" width="30" height="44" fill="#D1D5DB" stroke="#9CA3AF"/>
+    <rect x="136" y="138" width="30" height="44" fill="#D1D5DB" stroke="#9CA3AF"/>
+
+    <!-- Image 2 Frame -->
+    <rect x="274" y="34" width="218" height="214" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="383" y="24" text-anchor="middle" class="font-main card-title" fill="#111827">视图 I₂（目标图）</text>
+    <!-- Perspective shifted building silhouette in I2 -->
+    <polygon points="304,248 312,126 392,84 462,122 456,248" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.2"/>
+    <polygon points="338,144 366,142 366,184 338,186" fill="#D1D5DB" stroke="#9CA3AF"/>
+    <polygon points="396,140 424,138 424,180 396,182" fill="#D1D5DB" stroke="#9CA3AF"/>
+
+    <!-- Epipolar Line l2 = F x1 in I2 -->
+    <line x1="282" y1="212" x2="484" y2="152" stroke="#D5803B" stroke-width="2.6" stroke-dasharray="7,4"/>
+    <text x="454" y="182" text-anchor="middle" class="font-main body-txt" style="font-weight:700;fill:#70401C;">真实极线 F x₁</text>
+
+    <!-- True unknown match x2* on epipolar line -->
+    <circle cx="348" cy="192" r="5.5" fill="#FFFFFF" stroke="#4B5563" stroke-width="1.6" stroke-dasharray="2,1.5"/>
+    <text x="348" y="214" text-anchor="middle" class="font-main small-txt" fill="#4B5563">未知真值 x₂*（必在线上）</text>
+
+    <!-- Predicted match x2_hat in I2 (off the epipolar line) -->
+    <circle cx="394" cy="126" r="7" fill="#D5803B" stroke="#FFFFFF" stroke-width="1.8"/>
+    <text x="424" y="122" class="font-main card-title" fill="#70401C">x̂₂</text>
+
+    <!-- Perpendicular distance L_ep from x2_hat to line F x1 -->
+    <line x1="394" y1="133" x2="408" y2="174" stroke="#EF4444" stroke-width="2.2"/>
+    <rect x="412" y="138" width="68" height="22" rx="4" fill="#FEF2F2" stroke="#EF4444" stroke-width="1"/>
+    <text x="446" y="153" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#B91C1C;">距离 L_ep</text>
+
+    <!-- Query point x1 in I1 -->
+    <circle cx="92" cy="158" r="7" fill="#F59E0B" stroke="#111827" stroke-width="1.6"/>
+    <text x="72" y="156" class="font-main card-title" fill="#111827">x₁</text>
+
+    <!-- Forward-backward cycle point x1_hat in I1 -->
+    <circle cx="152" cy="186" r="7" fill="#46A171" stroke="#FFFFFF" stroke-width="1.8"/>
+    <text x="168" y="205" class="font-main card-title" fill="#1F5138">x̂₁</text>
+
+    <!-- Distance L_cy between x1 and x1_hat -->
+    <line x1="99" y1="161" x2="145" y2="183" stroke="#1F5138" stroke-width="2.2"/>
+    <rect x="74" y="182" width="66" height="22" rx="4" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
+    <text x="107" y="197" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#1F5138;">距离 L_cy</text>
+
+    <!-- Forward matching curve: x1 -> x2_hat -->
+    <path d="M 96 150 C 168 58, 322 52, 388 120" fill="none" stroke="#D5803B" stroke-width="2.2" marker-end="url(#arr-orange)"/>
+    <rect x="190" y="62" width="134" height="22" rx="4" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
+    <text x="257" y="77" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#70401C;">正向匹配 h₁→₂(x₁)</text>
+
+    <!-- Backward matching curve: x2_hat -> x1_hat -->
+    <path d="M 387 132 C 324 226, 224 228, 160 190" fill="none" stroke="#46A171" stroke-width="2.2" marker-end="url(#arr-green)"/>
+    <rect x="194" y="214" width="136" height="22" rx="4" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
+    <text x="262" y="229" text-anchor="middle" class="font-main small-txt" style="font-weight:700;fill:#1F5138;">反向匹配 h₂→₁(x̂₂)</text>
+
+    <!-- Legend bar at bottom of diagram -->
+    <text x="255" y="274" text-anchor="middle" class="font-main small-txt" fill="#4B5563">仅用相机位姿算出极线 F x₁：先把 x̂₂ 拉回极线上（L_ep），再要求反向匹配回到 x₁（L_cy）</text>
+  </g>
+
+  <!-- Right Side: Three Complementary Rules Cards -->
+  <g transform="translate(562, 504)">
+    <!-- Card 1: Epipolar Loss -->
+    <rect x="0" y="0" width="464" height="88" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
+    <text x="16" y="24" class="font-main card-title" fill="#70401C">① 极线损失 L_ep（核心主角：把 2D 搜寻压到 1D 直线）</text>
+    <text x="16" y="45" class="font-main body-txt" fill="#70401C">虽然不知道真值在极线哪一点，但所有“不在极线上的点”全被直接淘汰。</text>
+    <text x="16" y="65" class="font-main body-txt" fill="#70401C">跨海量图像对聚合约束后，只有外观真正一致的物理对应点能持续过关。</text>
+    <text x="16" y="81" class="font-main small-txt" style="font-weight:700;fill:#9A3412;">短板：单靠 L_ep 无法惩罚预测点沿着极线“左右乱滑”。</text>
+
+    <!-- Card 2: Cycle Consistency -->
+    <rect x="0" y="102" width="464" height="88" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5"/>
+    <text x="16" y="126" class="font-main card-title" fill="#1F5138">② 循环一致损失 λ·L_cy（辅助补丁：堵死“沿极线乱滑”漏洞）</text>
+    <text x="16" y="147" class="font-main body-txt" fill="#1F5138">从 x₁ 正向找到 x̂₂ 后，再从 x̂₂ 反向找回 x̂₁，要求 ‖x̂₁ − x₁‖₂ 尽量小。</text>
+    <text x="16" y="167" class="font-main body-txt" fill="#1F5138">压制那些“刚好落在极线上但并非真正对应”的假匹配，λ 设为 0.1。</text>
+    <text x="16" y="183" class="font-main small-txt" style="font-weight:700;fill:#166534;">注意：论文消融证明单用 L_cy 会训练崩溃，极线损失才是根本驱动力。</text>
+
+    <!-- Card 3: Uncertainty Reweighting -->
+    <rect x="0" y="204" width="464" height="88" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
+    <text x="16" y="228" class="font-main card-title" fill="#153B60">③ 不确定度倒数加权 1/σ(x₁)（抗噪稳压器：屏蔽遮挡与弱纹理）</text>
+    <text x="16" y="249" class="font-main body-txt" fill="#153B60">弱监督下不知道 x₁ 在图 2 是否被遮挡/截断出画；硬训这些点会灌入脏梯度。</text>
+    <text x="16" y="269" class="font-main body-txt" fill="#153B60">直接用分布 p 的协方差迹 σ² 衡量弥散度（零额外网络参数），1/σ 归一化加权。</text>
+    <text x="16" y="285" class="font-main small-txt" style="font-weight:700;fill:#1E40AF;">效果：自动给不可靠点降权，论文指出这对快速稳定收敛至关重要。</text>
+  </g>
+</svg>
