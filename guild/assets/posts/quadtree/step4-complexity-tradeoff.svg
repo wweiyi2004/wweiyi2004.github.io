@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 438" width="980" height="438">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="438" fill="#FFFFFF" rx="12"/>
+
+  <text x="490" y="36" text-anchor="middle" class="title">图 5：四大视觉注意力视野对比与工程实测真相</text>
+  <text x="490" y="60" text-anchor="middle" class="sub">QuadTree 兼具全局视野、细粒度聚焦与线性显存 O(KN)，但落地需警惕朴素稀疏 CUDA 的耗时倒挂</text>
+
+  <!-- Card 1: Standard -->
+  <rect x="26" y="82" width="220" height="208" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="136" y="108" text-anchor="middle" class="h" fill="#991B1B">标准注意力</text>
+  <rect x="96" y="116" width="80" height="22" rx="11" fill="#FEE2E2"/>
+  <text x="136" y="132" text-anchor="middle" class="mono" font-size="12.5" fill="#DC2626">O(N²)</text>
+  <text x="136" y="258" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">全局 + 精细，但爆显存</text>
+  <text x="136" y="276" text-anchor="middle" class="s" fill="#64748B">4800 点需算 2304 万对</text>
+
+  <!-- Card 2: Linear -->
+  <rect x="262" y="82" width="220" height="208" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="372" y="108" text-anchor="middle" class="h" fill="#9A3412">线性注意力 (LoFTR)</text>
+  <rect x="332" y="116" width="80" height="22" rx="11" fill="#FFEDD5"/>
+  <text x="372" y="132" text-anchor="middle" class="mono" font-size="12.5" fill="#EA580C">O(N)</text>
+  <text x="372" y="258" text-anchor="middle" class="s" fill="#9A3412" font-weight="700">线性算力，但低秩发散</text>
+  <text x="372" y="276" text-anchor="middle" class="s" fill="#64748B">注意力糊在一大片背景上</text>
+
+  <!-- Card 3: Local Window -->
+  <rect x="498" y="82" width="220" height="208" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.8"/>
+  <text x="608" y="108" text-anchor="middle" class="h" fill="#334155">局部窗口 (Swin)</text>
+  <rect x="564" y="116" width="88" height="22" rx="11" fill="#E2E8F0"/>
+  <text x="608" y="132" text-anchor="middle" class="mono" font-size="12.5" fill="#475569">O(M²N)</text>
+  <text x="608" y="258" text-anchor="middle" class="s" fill="#334155" font-weight="700">局部精细，但丢全局视野</text>
+  <text x="608" y="276" text-anchor="middle" class="s" fill="#64748B">难以直接做跨图匹配</text>
+
+  <!-- Card 4: QuadTree-B -->
+  <rect x="734" y="82" width="220" height="208" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2.4"/>
+  <text x="844" y="108" text-anchor="middle" class="h" fill="#166534">QuadTree-B（本文 ★）</text>
+  <rect x="802" y="116" width="84" height="22" rx="11" fill="#DCFCE7"/>
+  <text x="844" y="132" text-anchor="middle" class="mono" font-size="12.5" fill="#15803D">O(KN)</text>
+  <text x="844" y="258" text-anchor="middle" class="s" fill="#166534" font-weight="700">全局覆盖 + 细层无损聚焦</text>
+  <text x="844" y="276" text-anchor="middle" class="s" fill="#15803D" font-weight="700">自/交叉注意力统一支持</text>
+
+  <rect x="92.0" y="148.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="114.5" y="148.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="137.0" y="148.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="159.5" y="148.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="92.0" y="170.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="114.5" y="170.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="137.0" y="170.5" width="20" height="20" rx="3" fill="#EF4444"/>
+  <rect x="159.5" y="170.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="92.0" y="193.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="114.5" y="193.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="137.0" y="193.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="159.5" y="193.0" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="92.0" y="215.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="114.5" y="215.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="137.0" y="215.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="159.5" y="215.5" width="20" height="20" rx="3" fill="#FCA5A5"/>
+  <rect x="328.0" y="148.0" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="350.5" y="148.0" width="20" height="20" rx="3" fill="#FDBA74"/>
+  <rect x="373.0" y="148.0" width="20" height="20" rx="3" fill="#FDBA74"/>
+  <rect x="395.5" y="148.0" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="328.0" y="170.5" width="20" height="20" rx="3" fill="#FDBA74"/>
+  <rect x="350.5" y="170.5" width="20" height="20" rx="3" fill="#FB923C"/>
+  <rect x="373.0" y="170.5" width="20" height="20" rx="3" fill="#FDBA74"/>
+  <rect x="395.5" y="170.5" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="328.0" y="193.0" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="350.5" y="193.0" width="20" height="20" rx="3" fill="#FDBA74"/>
+  <rect x="373.0" y="193.0" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="395.5" y="193.0" width="20" height="20" rx="3" fill="#FFEDD5"/>
+  <rect x="328.0" y="215.5" width="20" height="20" rx="3" fill="#FFEDD5"/>
+  <rect x="350.5" y="215.5" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="373.0" y="215.5" width="20" height="20" rx="3" fill="#FED7AA"/>
+  <rect x="395.5" y="215.5" width="20" height="20" rx="3" fill="#FFEDD5"/>
+  <rect x="564.0" y="148.0" width="20" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="586.5" y="148.0" width="20" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="609.0" y="148.0" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="631.5" y="148.0" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="564.0" y="170.5" width="20" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="586.5" y="170.5" width="20" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="609.0" y="170.5" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="631.5" y="170.5" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="564.0" y="193.0" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="586.5" y="193.0" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="609.0" y="193.0" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="631.5" y="193.0" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="564.0" y="215.5" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="586.5" y="215.5" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="609.0" y="215.5" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="631.5" y="215.5" width="20" height="20" rx="3" fill="#E2E8F0"/>
+  <rect x="562" y="146" width="46.5" height="46.5" rx="4" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="4,2"/>
+  <rect x="800.0" y="148.0" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="822.5" y="148.0" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="845.0" y="148.0" width="20" height="20" rx="3" fill="#BBF7D0"/>
+  <rect x="867.5" y="148.0" width="20" height="20" rx="3" fill="#BBF7D0"/>
+  <rect x="800.0" y="170.5" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="822.5" y="170.5" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="845.0" y="170.5" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="855.5" y="170.5" width="9.2" height="9.2" rx="1.5" fill="#15803D"/>
+  <rect x="845.0" y="181.0" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="855.5" y="181.0" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="867.5" y="170.5" width="20" height="20" rx="3" fill="#BBF7D0"/>
+  <rect x="800.0" y="193.0" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="822.5" y="193.0" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="845.0" y="193.0" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="855.5" y="193.0" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="845.0" y="203.5" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="855.5" y="203.5" width="9.2" height="9.2" rx="1.5" fill="#22C55E"/>
+  <rect x="867.5" y="193.0" width="20" height="20" rx="3" fill="#BBF7D0"/>
+  <rect x="800.0" y="215.5" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="822.5" y="215.5" width="20" height="20" rx="3" fill="#DCFCE7" stroke="#86EFAC" stroke-width="0.8"/>
+  <rect x="845.0" y="215.5" width="20" height="20" rx="3" fill="#BBF7D0"/>
+  <rect x="867.5" y="215.5" width="20" height="20" rx="3" fill="#BBF7D0"/>
+
+  <!-- Bottom Benchmark Reality Panel -->
+  <rect x="26" y="306" width="928" height="118" rx="12" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.8"/>
+  <text x="490" y="330" text-anchor="middle" class="h" fill="#9A3412">工程实测真相（COCO 800×1333 · RetinaNet · PVTv2-b0 vs QuadTree-B-b0）</text>
+
+  <!-- Metric 1: FLOPs -->
+  <rect x="44" y="342" width="286" height="70" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="58" y="362" class="b" fill="#166534" font-weight="700">理论计算量 FLOPs</text>
+  <text x="316" y="362" text-anchor="end" class="mono" font-size="13" fill="#16A34A">-42% ↓</text>
+  <text x="58" y="382" class="s" fill="#64748B">PVTv2</text>
+  <rect x="128" y="372" width="124" height="12" rx="4" fill="#CBD5E1"/>
+  <text x="260" y="382" class="mono" font-size="12" fill="#475569">28.3G</text>
+  <text x="58" y="401" class="s" fill="#166534" font-weight="700">QuadTree</text>
+  <rect x="128" y="391" width="72" height="12" rx="4" fill="#22C55E"/>
+  <text x="208" y="401" class="mono" font-size="12" fill="#15803D">16.5G</text>
+
+  <!-- Metric 2: Memory -->
+  <rect x="347" y="342" width="286" height="70" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="361" y="362" class="b" fill="#166534" font-weight="700">GPU 真实显存占用</text>
+  <text x="619" y="362" text-anchor="end" class="mono" font-size="13" fill="#16A34A">-41% ↓</text>
+  <text x="361" y="382" class="s" fill="#64748B">PVTv2</text>
+  <rect x="431" y="372" width="124" height="12" rx="4" fill="#CBD5E1"/>
+  <text x="563" y="382" class="mono" font-size="12" fill="#475569">574MB</text>
+  <text x="361" y="401" class="s" fill="#166534" font-weight="700">QuadTree</text>
+  <rect x="431" y="391" width="73" height="12" rx="4" fill="#22C55E"/>
+  <text x="512" y="401" class="mono" font-size="12" fill="#15803D">339MB</text>
+
+  <!-- Metric 3: Latency -->
+  <rect x="650" y="342" width="286" height="70" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="664" y="362" class="b" fill="#991B1B" font-weight="700">前向耗时（朴素 CUDA）</text>
+  <text x="922" y="362" text-anchor="end" class="mono" font-size="13" fill="#DC2626">+77% ↑</text>
+  <text x="664" y="382" class="s" fill="#64748B">PVTv2</text>
+  <rect x="734" y="372" width="74" height="12" rx="4" fill="#CBD5E1"/>
+  <text x="816" y="382" class="mono" font-size="12" fill="#475569">26ms</text>
+  <text x="664" y="401" class="s" fill="#991B1B" font-weight="700">QuadTree</text>
+  <rect x="734" y="391" width="131" height="12" rx="4" fill="#EF4444"/>
+  <text x="873" y="401" class="mono" font-size="12" fill="#DC2626">46ms</text>
+
+</svg>

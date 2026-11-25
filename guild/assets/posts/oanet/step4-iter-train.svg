@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="420" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 5：Ours++ 两阶段迭代精修与“热身 + 梯度截断”训练策略</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">两阶段串联精修（不增总参数）+ 阶段间强行 detach 断梯度 + 前 2 万步分类热身，无 RANSAC 飙升至 39.33%</text>
+
+  <!-- Stage 1 -->
+  <rect x="28" y="88" width="210" height="172" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="133" y="114" text-anchor="middle" class="h" fill="#1E3A8A">Stage 1：初始化网络</text>
+  <rect x="46" y="128" width="174" height="44" rx="8" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="133" y="148" text-anchor="middle" class="b" font-weight="700" fill="#1D4ED8">半深度 OANet</text>
+  <text x="133" y="165" text-anchor="middle" class="s" fill="#475569">输入 C (N×4)</text>
+  <rect x="46" y="182" width="174" height="42" rx="8" fill="#DBEAFE" stroke="#60A5FA" stroke-width="1.4"/>
+  <text x="133" y="201" text-anchor="middle" class="b" font-weight="700" fill="#1E40AF">输出粗权重 w₁ + 残差 r₁</text>
+  <text x="133" y="218" text-anchor="middle" class="s" fill="#1D4ED8">独立计算 Loss₁</text>
+  <text x="133" y="248" text-anchor="middle" class="s" fill="#475569">先初筛外点并算初步 Ê₁</text>
+
+  <!-- Middle Detach Connector (gap 238..356 = 118px, center 297) -->
+  <line x1="238" y1="150" x2="350" y2="150" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="296" y="138" text-anchor="middle" class="b" font-weight="700" fill="#1D4ED8">拼成 N×6</text>
+
+  <line x1="354" y1="204" x2="244" y2="204" stroke="#EF4444" stroke-width="2.2" stroke-dasharray="5,4" marker-end="url(#arr-red)"/>
+  <rect x="260" y="186" width="76" height="36" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="298" y="209" text-anchor="middle" class="b" font-weight="700" fill="#DC2626">✗ detach</text>
+  <text x="297" y="244" text-anchor="middle" class="s" font-weight="700" fill="#B91C1C">必截断反传梯度！</text>
+
+  <!-- Stage 2 -->
+  <rect x="356" y="88" width="222" height="172" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="467" y="114" text-anchor="middle" class="h" fill="#166534">Stage 2：迭代精修网络</text>
+  <rect x="374" y="128" width="186" height="44" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="467" y="148" text-anchor="middle" class="b" font-weight="700" fill="#15803D">半深度 OANet</text>
+  <text x="467" y="165" text-anchor="middle" class="s" fill="#475569">输入 [C, w₁, r₁] (N×6)</text>
+  <rect x="374" y="182" width="186" height="42" rx="8" fill="#DCFCE7" stroke="#4ADE80" stroke-width="1.4"/>
+  <text x="467" y="201" text-anchor="middle" class="b" font-weight="700" fill="#166534">输出精修 logits z₂</text>
+  <text x="467" y="218" text-anchor="middle" class="s" fill="#15803D">独立计算 Loss₂</text>
+  <text x="467" y="248" text-anchor="middle" class="s" fill="#475569">对照极线残差精准纠偏</text>
+
+  <!-- Arrow Stage 2 -> Loss / Weighted 8-pt -->
+  <line x1="578" y1="174" x2="624" y2="174" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
+
+  <!-- Stage 3: Differentiable Weighted 8-pt & Clamped Geo Loss -->
+  <rect x="630" y="88" width="302" height="172" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="781" y="114" text-anchor="middle" class="h" fill="#5B21B6">可微几何求解与双任务 Loss</text>
+
+  <rect x="648" y="128" width="266" height="54" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="781" y="150" text-anchor="middle" class="mono" font-size="13" fill="#5B21B6">w = tanh(ReLU(z))</text>
+  <text x="781" y="170" text-anchor="middle" class="s" fill="#475569">负 logit 精准归 0，不留外点尾巴噪声</text>
+
+  <rect x="648" y="192" width="266" height="54" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="781" y="214" text-anchor="middle" class="b" font-weight="700" fill="#6D28D9">加权八点法 → 几何损失（截断 ≤ 0.1）</text>
+  <text x="781" y="234" text-anchor="middle" class="s" fill="#475569">9×9 特征分解可微反传 · 截断防异常点爆炸</text>
+
+  <!-- BOTTOM BAND: 500k Curriculum Warm-up Timeline -->
+  <rect x="28" y="280" width="904" height="120" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="480" y="307" text-anchor="middle" class="h" fill="#9A3412">总计 500,000 步的两阶段课程调度（Warm-up 避坑关键）</text>
+
+  <!-- Segment 1: 0 - 20k -->
+  <rect x="52" y="322" width="236" height="48" rx="8" fill="#2563EB"/>
+  <text x="170" y="343" text-anchor="middle" class="b" font-weight="700" fill="#FFFFFF">0 → 20k 步（α = 0）</text>
+  <text x="170" y="362" text-anchor="middle" class="s" fill="#DBEAFE">只用 BCE 分类热身，稳住权重</text>
+
+  <line x1="292" y1="346" x2="318" y2="346" stroke="#EA580C" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+
+  <!-- Segment 2: 20k - 500k -->
+  <rect x="324" y="322" width="584" height="48" rx="8" fill="#EA580C"/>
+  <text x="616" y="343" text-anchor="middle" class="b" font-weight="700" fill="#FFFFFF">20k → 500k 步（开启本质矩阵损失：L2 用 α=0.1，几何损失用 α=0.5）</text>
+  <text x="616" y="362" text-anchor="middle" class="s" fill="#FFEDD5">分类与对极几何端到端联合微调（避免前期随机权重导致特征分解梯度爆炸）</text>
+
+  <text x="480" y="391" text-anchor="middle" class="s" font-weight="700" fill="#9A3412">消融实证：加几何损失涨 +1.13%，叠两阶段迭代（配 detach）再猛涨 +5.65%！</text>
+</svg>

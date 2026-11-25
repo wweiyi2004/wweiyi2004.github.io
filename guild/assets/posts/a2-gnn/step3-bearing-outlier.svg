@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 310" width="940" height="310">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="310" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：纯方位向量离群点剔除——为什么不喂高维特征反而更稳？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">把候选 2D-3D 对全部还原成纯粹的几何方位关系做外点分类，跨数据集泛化力拉满</text>
+
+  <rect x="28" y="94" width="246" height="174" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="151" y="126" text-anchor="middle" class="h" fill="#1E3A8A">① 初始 2D-3D 候选对</text>
+  <text x="151" y="162" text-anchor="middle" class="b" fill="#1D4ED8">只取几何坐标与方位向量</text>
+  <text x="151" y="190" text-anchor="middle" class="s">（2D 视线 b_i + 3D 点坐标 p_j）</text>
+  <text x="151" y="226" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">彻底剥离场景特定的外观特征！</text>
+
+  <line x1="274" y1="181" x2="322" y2="181" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+  <rect x="328" y="94" width="286" height="174" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="471" y="126" text-anchor="middle" class="h" fill="#9A3412">② 轻量几何外点分类器</text>
+  <text x="471" y="162" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">专靠三维空间一致性判真假</text>
+  <text x="471" y="192" text-anchor="middle" class="s">内点符合同一相机位姿投影约束</text>
+  <text x="471" y="222" text-anchor="middle" class="s">外点几何矛盾 → 置信度直接压低</text>
+
+  <line x1="614" y1="181" x2="662" y2="181" stroke="#EA580C" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+
+  <rect x="668" y="94" width="244" height="174" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="790" y="126" text-anchor="middle" class="h" fill="#166534">③ 干净内点 → PnP 位姿</text>
+  <text x="790" y="162" text-anchor="middle" class="b" fill="#15803D" font-weight="700">大幅减轻 RANSAC 负担</text>
+  <text x="790" y="192" text-anchor="middle" class="s">从 MegaDepth 零样本迁移到</text>
+  <text x="790" y="218" text-anchor="middle" class="s" fill="#15803D" font-weight="700">Cambridge / 7Scenes 依然极稳！</text>
+
+</svg>

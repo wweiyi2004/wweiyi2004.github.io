@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 408" width="980" height="408">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="408" fill="#FFFFFF" rx="12"/>
+
+  <text x="490" y="36" text-anchor="middle" class="title">图 4：粗到细双尺度架构——为什么窗口中心取“峰值”而不取“期望”？</text>
+  <text x="490" y="60" text-anchor="middle" class="sub">先在 1/16 粗图全局锁定最高概率峰，再放大 4 倍到 1/4 细图只裁局部窗 W，同时拯救显存与多峰拉偏</text>
+
+  <!-- Stage 1: Coarse Global Search -->
+  <rect x="24" y="86" width="292" height="248" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="170" y="112" text-anchor="middle" class="h" fill="#1E3A8A">① 1/16 粗图全图搜索（M₂ᶜ）</text>
+
+  <rect x="46" y="126" width="248" height="132" rx="8" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.6"/>
+  <line x1="95.6" y1="126" x2="95.6" y2="258" stroke="#DBEAFE" stroke-width="1"/>
+  <line x1="145.2" y1="126" x2="145.2" y2="258" stroke="#DBEAFE" stroke-width="1"/>
+  <line x1="194.8" y1="126" x2="194.8" y2="258" stroke="#DBEAFE" stroke-width="1"/>
+  <line x1="244.4" y1="126" x2="244.4" y2="258" stroke="#DBEAFE" stroke-width="1"/>
+  <line x1="46" y1="170.0" x2="294" y2="170.0" stroke="#DBEAFE" stroke-width="1"/>
+  <line x1="46" y1="214.0" x2="294" y2="214.0" stroke="#DBEAFE" stroke-width="1"/>
+  <!-- Dashed pull line between two peaks -->
+  <line x1="106" y1="176" x2="238" y2="206" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="4,3"/>
+
+  <!-- Main Peak (blue glow) -->
+  <circle cx="106" cy="176" r="18" fill="#BFDBFE" opacity="0.6"/>
+  <circle cx="106" cy="176" r="10" fill="#2563EB"/>
+  <text x="106" y="180" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="700">★</text>
+  <text x="106" y="150" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">最高峰 0.58</text>
+
+  <!-- Distractor Peak (orange) -->
+  <circle cx="238" cy="206" r="14" fill="#FED7AA" opacity="0.7"/>
+  <circle cx="238" cy="206" r="7.5" fill="#EA580C"/>
+  <text x="238" y="186" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">相似窗 0.24</text>
+
+  <!-- Expectation pulled into empty wall + pointer arrow -->
+  <circle cx="152" cy="187" r="7" fill="#FFFFFF" stroke="#DC2626" stroke-width="2"/>
+  <line x1="148" y1="183" x2="156" y2="191" stroke="#DC2626" stroke-width="2"/>
+  <line x1="156" y1="183" x2="148" y2="191" stroke="#DC2626" stroke-width="2"/>
+  <line x1="152" y1="230" x2="152" y2="200" stroke="#DC2626" stroke-width="1.6" marker-end="url(#arr-red)"/>
+  <text x="166" y="246" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">全局期望 x̂₂ᶜ 被拉偏到空墙！</text>
+
+  <text x="40" y="284" class="b" fill="#1E3A8A">• 粗图仅 1/16 面积，全图搜极省显存</text>
+  <text x="40" y="308" class="b" fill="#1E3A8A" font-weight="700">• 取最高峰 ★ 为中心（不取落空期望）</text>
+
+  <!-- Arrow 1->2 -->
+  <line x1="316" y1="194" x2="370" y2="194" stroke="#EA580C" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <text x="344" y="176" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">峰值 ×4</text>
+  <text x="344" y="216" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">映射裁窗</text>
+
+  <!-- Stage 2: Fine Local Window W -->
+  <rect x="376" y="86" width="302" height="248" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="527" y="112" text-anchor="middle" class="h" fill="#166534">② 1/4 细图局部窗 W 精修（M₂ᶠ）</text>
+
+  <rect x="398" y="126" width="258" height="132" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.6"/>
+  <circle cx="608" cy="206" r="8" fill="#CBD5E1"/>
+  <line x1="600" y1="198" x2="616" y2="214" stroke="#EF4444" stroke-width="2.2"/>
+  <line x1="616" y1="198" x2="600" y2="214" stroke="#EF4444" stroke-width="2.2"/>
+  <text x="606" y="186" text-anchor="middle" class="s" fill="#94A3B8">远处干扰峰</text>
+  <text x="606" y="236" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">物理裁掉!</text>
+
+  <rect x="414" y="138" width="134" height="96" rx="7" fill="#DCFCE7" stroke="#16A34A" stroke-width="2.2"/>
+  <line x1="447.5" y1="138" x2="447.5" y2="234" stroke="#86EFAC" stroke-width="1"/>
+  <line x1="481.0" y1="138" x2="481.0" y2="234" stroke="#86EFAC" stroke-width="1"/>
+  <line x1="514.5" y1="138" x2="514.5" y2="234" stroke="#86EFAC" stroke-width="1"/>
+  <line x1="414" y1="170.0" x2="548" y2="170.0" stroke="#86EFAC" stroke-width="1"/>
+  <line x1="414" y1="202.0" x2="548" y2="202.0" stroke="#86EFAC" stroke-width="1"/>
+  <text x="481" y="156" text-anchor="middle" class="s" fill="#166534" font-weight="700">窗口 W (细图 1/8)</text>
+  <circle cx="481" cy="190" r="14" fill="#86EFAC" opacity="0.7"/>
+  <circle cx="481" cy="190" r="7" fill="#16A34A"/>
+  <text x="481" y="224" text-anchor="middle" class="s" fill="#14532D" font-weight="700">精准单峰 x̂₂ᶠ</text>
+
+  <text x="394" y="284" class="b" fill="#14532D">• 仅在局部窗 W 内算内积与 2D Softmax</text>
+  <text x="394" y="308" class="b" fill="#14532D">• 远处相似物被切除，期望不再跑偏！</text>
+
+  <!-- Arrow 2->3 -->
+  <line x1="678" y1="194" x2="714" y2="194" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
+
+  <!-- Stage 3: Dual Benefits -->
+  <rect x="720" y="86" width="236" height="248" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="838" y="112" text-anchor="middle" class="h" fill="#5B21B6">③ 效率与精度双赢</text>
+
+  <rect x="736" y="126" width="204" height="58" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="838" y="150" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">显存与算力暴降 12×+</text>
+  <text x="838" y="170" text-anchor="middle" class="s">匹配开销压至全图细匹配 ~7.8%</text>
+
+  <rect x="736" y="194" width="204" height="58" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="838" y="218" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">粗细双尺度联合监督</text>
+  <text x="838" y="238" text-anchor="middle" class="s">x̂₂ᶜ 与 x̂₂ᶠ 同步计算 Eq.6 损失</text>
+
+  <rect x="736" y="262" width="204" height="58" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.6"/>
+  <text x="838" y="286" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">推理拼出 256 维描述子</text>
+  <text x="838" y="306" text-anchor="middle" class="s" fill="#4C1D95">粗 128(语义) + 细 128(定位)</text>
+
+  <!-- Bottom Callout -->
+  <rect x="24" y="348" width="932" height="44" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="490" y="375" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">消融实测定海神针：删掉粗到细结构后，HPatches 稠密匹配 PCK 从约 0.635 断崖暴跌至 0.24（全篇涨点最大设计）</text>
+
+</svg>

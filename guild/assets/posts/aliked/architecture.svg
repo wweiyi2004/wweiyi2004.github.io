@@ -1,228 +1,146 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 690" width="1080" height="690">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="980" height="400">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563"/>
-    </marker>
-    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2783DE"/>
-    </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171"/>
-    </marker>
-    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6"/>
-    </marker>
     <style>
-      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
-      .title { font-size: 19px; font-weight: 700; fill: #111827; }
-      .subtitle { font-size: 12.5px; fill: #6B7280; }
-      .stage-title { font-size: 13.5px; font-weight: 700; fill: #374151; }
-      .node-title { font-size: 13px; font-weight: 700; }
-      .node-sub { font-size: 11px; }
-      .tensor-tag { font-size: 10.5px; font-weight: 600; fill: #4B5563; }
-      .card-title { font-size: 13px; font-weight: 700; }
-      .card-body { font-size: 11.5px; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
   </defs>
 
-  <!-- Pure White Background -->
-  <rect x="0" y="0" width="1080" height="690" fill="#FFFFFF"/>
+  <rect width="980" height="400" fill="#FFFFFF" rx="12"/>
 
-  <!-- Header -->
-  <text x="540" y="32" text-anchor="middle" class="title">ALIKED 端到端网络架构总览（以 ALIKED-N(16) 为例）</text>
-  <text x="540" y="52" text-anchor="middle" class="subtitle">三阶段串联：多尺度特征编码（后两级嵌入 DCN3×3） → 全分辨率特征聚合 → SMH+DKD 检点 &amp; SDDH 稀疏可变形描述</text>
+  <text x="490" y="38" text-anchor="middle" class="title">图 1：ALIKED 整体工作流程（宏观全景）</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">输入单张图像 → 4 级编码聚合成全分辨率特征图 → 先找稀疏关键点 → 仅在关键点上跑可变形描述头</text>
 
-  <!-- ==================== STAGE 1: FEATURE ENCODING ==================== -->
-  <rect x="18" y="70" width="320" height="412" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="5,3"/>
-  <text x="178" y="92" text-anchor="middle" class="stage-title">阶段 1 · 多尺度特征编码 (Feature Encoding)</text>
+  <!-- Stage 1: Input & Multi-scale Encoding -->
+  <rect x="24" y="92" width="204" height="252" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="126" y="118" text-anchor="middle" class="h" fill="#1E293B">① 输入与多尺度编码</text>
 
-  <!-- Input Image -->
-  <rect x="44" y="106" width="268" height="44" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-  <text x="178" y="125" text-anchor="middle" class="node-title" fill="#111827">输入 RGB 图像 I</text>
-  <text x="178" y="142" text-anchor="middle" class="node-sub" fill="#4B5563">张量形状：[B, 3, H, W]（如 480×640）</text>
+  <!-- Mini RGB image -->
+  <rect x="42" y="130" width="168" height="54" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <!-- Mini building icon inside image -->
+  <polygon points="58,166 74,146 90,166" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.4"/>
+  <rect x="62" y="166" width="24" height="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.4"/>
+  <text x="148" y="155" text-anchor="middle" class="b" fill="#1E293B" font-weight="700">输入图像 I</text>
+  <text x="148" y="173" text-anchor="middle" class="s">H × W × 3</text>
 
-  <!-- Arrow I -> block1 -->
-  <line x1="178" y1="150" x2="178" y2="167" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="126" y1="184" x2="126" y2="202" stroke="#64748B" stroke-width="2" marker-end="url(#arr-gray)"/>
 
-  <!-- block1 -->
-  <rect x="44" y="170" width="268" height="58" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="178" y="190" text-anchor="middle" class="node-title" fill="#153B60">block 1（常规卷积，无下采样）</text>
-  <text x="178" y="207" text-anchor="middle" class="node-sub" fill="#153B60">[Conv3×3 + BN + SELU] × 2</text>
-  <text x="178" y="222" text-anchor="middle" class="node-sub" fill="#2783DE">输出 F₁：[B, c₁=16, H, W]</text>
+  <!-- 4 Pyramid Blocks -->
+  <rect x="40" y="206" width="172" height="24" rx="5" fill="#DBEAFE" stroke="#60A5FA" stroke-width="1.4"/>
+  <text x="126" y="223" text-anchor="middle" class="s" fill="#1E40AF" font-weight="700">1×  block1 · 普通卷积</text>
 
-  <!-- Arrow block1 -> block2 -->
-  <line x1="178" y1="228" x2="178" y2="245" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="45" y="235" width="162" height="24" rx="5" fill="#DBEAFE" stroke="#60A5FA" stroke-width="1.4"/>
+  <text x="126" y="252" text-anchor="middle" class="s" fill="#1E40AF" font-weight="700">1/2 block2 · 普通卷积</text>
 
-  <!-- block2 -->
-  <rect x="44" y="248" width="268" height="62" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="178" y="268" text-anchor="middle" class="node-title" fill="#153B60">block 2（2×2 平均池化 + 残差卷积）</text>
-  <text x="178" y="285" text-anchor="middle" class="node-sub" fill="#153B60">AvgPool2×2 → Res([Conv3×3 + BN + SELU] × 2)</text>
-  <text x="178" y="302" text-anchor="middle" class="node-sub" fill="#2783DE">输出 F₂：[B, c₂=32, H/2, W/2]</text>
+  <rect x="50" y="264" width="152" height="24" rx="5" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="126" y="281" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">1/8 block3 · DCN</text>
 
-  <!-- Arrow block2 -> block3 -->
-  <line x1="178" y1="310" x2="178" y2="327" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="55" y="293" width="142" height="24" rx="5" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="126" y="310" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">1/32 block4 · DCN</text>
 
-  <!-- block3 (DCN Highlight) -->
-  <rect x="44" y="330" width="268" height="62" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="178" y="350" text-anchor="middle" class="node-title" fill="#70401C">block 3（4×4 平均池化 + 残差 DCN）</text>
-  <text x="178" y="367" text-anchor="middle" class="node-sub" fill="#70401C">AvgPool4×4 → Res([DCN3×3 + BN + SELU] × 2)</text>
-  <text x="178" y="384" text-anchor="middle" class="node-sub" fill="#B45309">输出 F₃：[B, c₃=64, H/8, W/8]</text>
+  <text x="126" y="335" text-anchor="middle" class="s">浅层保细节 · 深层抗形变</text>
 
-  <!-- Arrow block3 -> block4 -->
-  <line x1="178" y1="392" x2="178" y2="409" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Arrow 1 -> 2 -->
+  <line x1="228" y1="218" x2="256" y2="218" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
 
-  <!-- block4 (DCN Highlight) -->
-  <rect x="44" y="412" width="268" height="62" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="178" y="432" text-anchor="middle" class="node-title" fill="#70401C">block 4（4×4 平均池化 + 残差 DCN）</text>
-  <text x="178" y="449" text-anchor="middle" class="node-sub" fill="#70401C">AvgPool4×4 → Res([DCN3×3 + BN + SELU] × 2)</text>
-  <text x="178" y="466" text-anchor="middle" class="node-sub" fill="#B45309">输出 F₄：[B, c₄=128, H/32, W/32]</text>
+  <!-- Stage 2: Aggregation + Keypoint Detection -->
+  <rect x="260" y="92" width="220" height="252" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="370" y="118" text-anchor="middle" class="h" fill="#1E3A8A">② 聚合特征与检点</text>
 
-  <!-- ==================== STAGE 2: FEATURE AGGREGATION ==================== -->
-  <rect x="356" y="70" width="252" height="412" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="5,3"/>
-  <text x="482" y="92" text-anchor="middle" class="stage-title">阶段 2 · 多尺度聚合 (Aggregation)</text>
+  <rect x="278" y="132" width="184" height="76" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="370" y="156" text-anchor="middle" class="h" fill="#1D4ED8">4 路对齐拼接 → F</text>
+  <text x="370" y="177" text-anchor="middle" class="b">ublock1~4 上采样聚合</text>
+  <text x="370" y="196" text-anchor="middle" class="s">H×W 全分辨率多尺度特征</text>
 
-  <!-- ublock1 -->
-  <rect x="374" y="176" width="122" height="46" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="435" y="196" text-anchor="middle" class="node-title" fill="#153B60">ublock 1</text>
-  <text x="435" y="213" text-anchor="middle" class="node-sub" fill="#153B60">Conv1×1 (×1上采样)</text>
+  <line x1="370" y1="208" x2="370" y2="232" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
 
-  <!-- ublock2 -->
-  <rect x="374" y="256" width="122" height="46" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="435" y="276" text-anchor="middle" class="node-title" fill="#153B60">ublock 2</text>
-  <text x="435" y="293" text-anchor="middle" class="node-sub" fill="#153B60">Conv1×1 + ×2上采样</text>
+  <rect x="278" y="236" width="184" height="88" rx="8" fill="#FFFFFF" stroke="#34D399" stroke-width="1.8"/>
+  <text x="370" y="260" text-anchor="middle" class="h" fill="#047857">SMH 分数图 → DKD</text>
+  <text x="370" y="282" text-anchor="middle" class="b">NMS + softargmax 精修</text>
+  <text x="370" y="304" text-anchor="middle" class="s" fill="#059669" font-weight="700">先检出 N 个亚像素点 P</text>
 
-  <!-- ublock3 -->
-  <rect x="374" y="338" width="122" height="46" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="435" y="358" text-anchor="middle" class="node-title" fill="#153B60">ublock 3</text>
-  <text x="435" y="375" text-anchor="middle" class="node-sub" fill="#153B60">Conv1×1 + ×8上采样</text>
+  <!-- Dual Fork Arrows 2 -> 3 -->
+  <line x1="480" y1="170" x2="544" y2="170" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="512" y="160" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">特征图 F</text>
 
-  <!-- ublock4 -->
-  <rect x="374" y="420" width="122" height="46" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="435" y="440" text-anchor="middle" class="node-title" fill="#153B60">ublock 4</text>
-  <text x="435" y="457" text-anchor="middle" class="node-sub" fill="#153B60">Conv1×1 + ×32上采样</text>
+  <line x1="480" y1="280" x2="544" y2="280" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="6,4" marker-end="url(#arr-purple)"/>
+  <text x="512" y="270" text-anchor="middle" class="s" fill="#6D28D9" font-weight="700">稀疏点 P</text>
 
-  <!-- Arrows block_i -> ublock_i -->
-  <line x1="312" y1="199" x2="371" y2="199" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="312" y1="279" x2="371" y2="279" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="312" y1="361" x2="371" y2="361" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="312" y1="443" x2="371" y2="443" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <!-- Stage 3: SDDH -->
+  <rect x="548" y="92" width="214" height="252" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="655" y="118" text-anchor="middle" class="h" fill="#5B21B6">③ 稀疏可变形头 SDDH</text>
 
-  <!-- Concat node -->
-  <rect x="518" y="256" width="76" height="104" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-  <text x="556" y="285" text-anchor="middle" class="node-title" fill="#111827">Concat</text>
-  <text x="556" y="303" text-anchor="middle" class="node-sub" fill="#4B5563">通道拼接</text>
-  <text x="556" y="324" text-anchor="middle" class="node-title" fill="#111827">特征图 F</text>
-  <text x="556" y="341" text-anchor="middle" class="node-sub" fill="#4B5563">[B, dim,</text>
-  <text x="556" y="354" text-anchor="middle" class="node-sub" fill="#4B5563">H, W]</text>
+  <!-- Visual deformable sampling box -->
+  <rect x="566" y="132" width="178" height="148" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.8"/>
+  <!-- Slanted object outline -->
+  <polygon points="586,238 616,154 714,168 696,248" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- Small 3x3 dashed patch around keypoint -->
+  <rect x="640" y="186" width="24" height="24" rx="2" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.2" stroke-dasharray="3,2"/>
+  <!-- Deformable tentacles from p(652,198) to M supporting points -->
+  <line x1="652" y1="198" x2="618" y2="162" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="652" y1="198" x2="658" y2="160" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="652" y1="198" x2="704" y2="174" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="652" y1="198" x2="604" y2="210" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="652" y1="198" x2="694" y2="214" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="652" y1="198" x2="624" y2="236" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <line x1="652" y1="198" x2="678" y2="240" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- Supporting points -->
+  <circle cx="618" cy="162" r="4.5" fill="#F97316"/>
+  <circle cx="658" cy="160" r="4.5" fill="#F97316"/>
+  <circle cx="704" cy="174" r="4.5" fill="#F97316"/>
+  <circle cx="604" cy="210" r="4.5" fill="#F97316"/>
+  <circle cx="694" cy="214" r="4.5" fill="#F97316"/>
+  <circle cx="624" cy="236" r="4.5" fill="#F97316"/>
+  <circle cx="678" cy="240" r="4.5" fill="#F97316"/>
+  <!-- Center keypoint p -->
+  <circle cx="652" cy="198" r="6.5" fill="#DC2626" stroke="#FFFFFF" stroke-width="1.8"/>
+  <text x="655" y="270" text-anchor="middle" class="s" fill="#6D28D9" font-weight="700">每点自由采 M 个支撑点</text>
 
-  <!-- Arrows ublock_i -> Concat -->
-  <path d="M 496 199 L 508 199 L 508 274 L 515 274" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow)"/>
-  <path d="M 496 279 L 515 279" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow)"/>
-  <path d="M 496 361 L 508 361 L 508 326 L 515 326" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow)"/>
-  <path d="M 496 443 L 508 443 L 508 345 L 515 345" fill="none" stroke="#4B5563" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <rect x="566" y="292" width="178" height="36" rx="18" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="655" y="315" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">只在 N 个点算描述子</text>
 
-  <text x="482" y="138" text-anchor="middle" class="node-sub" fill="#6B7280">各 ublock 统一输出空间尺寸 H×W</text>
-  <text x="482" y="155" text-anchor="middle" class="node-sub" fill="#6B7280">与对齐通道数（四路拼接后总通道 = dim）</text>
+  <!-- Arrow 3 -> 4 -->
+  <line x1="762" y1="218" x2="790" y2="218" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
 
-  <!-- ==================== STAGE 3: DETECTION & SPARSE DESCRIPTION ==================== -->
-  <rect x="626" y="70" width="436" height="412" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="5,3"/>
-  <text x="844" y="92" text-anchor="middle" class="stage-title">阶段 3 · 关键点检测与稀疏可变形描述子提取</text>
+  <!-- Stage 4: Output -->
+  <rect x="794" y="92" width="162" height="252" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <text x="875" y="118" text-anchor="middle" class="h" fill="#065F46">④ 输出局部特征</text>
 
-  <!-- Upper Branch Box: SMH + DKD -->
-  <rect x="642" y="106" width="404" height="156" rx="8" fill="#F7FBFF" stroke="#B5CFE9" stroke-width="1.2"/>
-  <text x="656" y="125" class="node-sub" font-weight="700" fill="#2783DE">上支路：关键点检测分支（先定位，后取描述）</text>
+  <!-- Output mini image -->
+  <rect x="812" y="132" width="126" height="114" rx="8" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.6"/>
+  <polygon points="834,218 874,158 918,218" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.5"/>
+  <!-- Detected keypoints -->
+  <circle cx="874" cy="158" r="6" fill="#2563EB" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="834" cy="218" r="6" fill="#16A34A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="918" cy="218" r="6" fill="#EA580C" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="874" cy="196" r="6" fill="#7C3AED" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="875" y="238" text-anchor="middle" class="s" fill="#047857">精准点 + 强特征</text>
 
-  <!-- SMH -->
-  <rect x="654" y="136" width="128" height="112" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="718" y="156" text-anchor="middle" class="node-title" fill="#153B60">SMH 分数图头</text>
-  <text x="718" y="174" text-anchor="middle" class="node-sub" fill="#153B60">Conv1×1(→8)+SELU</text>
-  <text x="718" y="190" text-anchor="middle" class="node-sub" fill="#153B60">[Conv3×3+SELU]×2</text>
-  <text x="718" y="206" text-anchor="middle" class="node-sub" fill="#153B60">Conv3×3 + Sigmoid</text>
-  <text x="718" y="226" text-anchor="middle" class="node-sub" font-weight="700" fill="#2783DE">分数图 S</text>
-  <text x="718" y="241" text-anchor="middle" class="node-sub" fill="#2783DE">[B, 1, H, W]</text>
+  <rect x="812" y="258" width="126" height="30" rx="6" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.4"/>
+  <text x="875" y="278" text-anchor="middle" class="b" fill="#065F46" font-weight="700">亚像素坐标 P</text>
 
-  <!-- Arrow SMH -> DKD -->
-  <line x1="782" y1="192" x2="800" y2="192" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <rect x="812" y="296" width="126" height="30" rx="6" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.4"/>
+  <text x="875" y="316" text-anchor="middle" class="b" fill="#065F46" font-weight="700">可变形描述子 D</text>
 
-  <!-- DKD -->
-  <rect x="803" y="136" width="122" height="112" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="864" y="156" text-anchor="middle" class="node-title" fill="#153B60">DKD 可微检测</text>
-  <text x="864" y="175" text-anchor="middle" class="node-sub" fill="#153B60">1. NMS 找局部峰值</text>
-  <text x="864" y="192" text-anchor="middle" class="node-sub" fill="#153B60">2. 阈值 / Top-K</text>
-  <text x="864" y="209" text-anchor="middle" class="node-sub" fill="#153B60">3. 局部窗口(r=2)</text>
-  <text x="864" y="226" text-anchor="middle" class="node-sub" fill="#153B60">Soft-Argmax 精修</text>
-  <text x="864" y="241" text-anchor="middle" class="node-sub" fill="#2783DE">输出亚像素坐标</text>
-
-  <!-- Arrow DKD -> Output P -->
-  <line x1="925" y1="192" x2="942" y2="192" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
-
-  <!-- Output Keypoints P -->
-  <rect x="945" y="148" width="90" height="88" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
-  <text x="990" y="172" text-anchor="middle" class="node-title" fill="#422578">关键点 P</text>
-  <text x="990" y="191" text-anchor="middle" class="node-sub" fill="#422578">{p₁, p₂, ...}</text>
-  <text x="990" y="209" text-anchor="middle" class="node-sub" font-weight="700" fill="#6D28D9">[N, 2]</text>
-  <text x="990" y="226" text-anchor="middle" class="node-sub" fill="#422578">+ 分数 [N]</text>
-
-  <!-- Lower Branch Box: SDDH -->
-  <rect x="642" y="282" width="404" height="186" rx="8" fill="#F6FBF8" stroke="#B3CFC0" stroke-width="1.2"/>
-  <text x="656" y="301" class="node-sub" font-weight="700" fill="#1F5138">下支路：稀疏可变形描述头（SDDH · 本文核心创新）</text>
-
-  <!-- SDDH Box -->
-  <rect x="654" y="314" width="271" height="142" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <text x="790" y="335" text-anchor="middle" class="node-title" fill="#1F5138">SDDH (Sparse Deformable Descriptor Head)</text>
-  <text x="668" y="356" class="node-sub" fill="#1F5138">① 仅在 N 个关键点处取 K×K 局部块：[N, dim, K, K]</text>
-  <text x="668" y="375" class="node-sub" fill="#1F5138">② ConvKxK→SELU→Conv1×1 预测偏移 pˢ：[N, M, 2]</text>
-  <text x="668" y="394" class="node-sub" fill="#1F5138">③ 在 F 上按 p+pˢ 双线性采样支撑特征：[N, M, dim]</text>
-  <text x="668" y="413" class="node-sub" fill="#1F5138">④ Conv1×1→SELU→ConvM 加权求和输出描述子</text>
-  <text x="790" y="439" text-anchor="middle" class="node-sub" font-weight="700" fill="#047857">不构造 H×W 稠密描述图，算力仅与点数 N 成正比</text>
-
-  <!-- Arrow SDDH -> Output D -->
-  <line x1="925" y1="385" x2="942" y2="385" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arrow-purple)"/>
-
-  <!-- Output Descriptors D -->
-  <rect x="945" y="341" width="90" height="88" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
-  <text x="990" y="365" text-anchor="middle" class="node-title" fill="#422578">描述子 D</text>
-  <text x="990" y="384" text-anchor="middle" class="node-sub" fill="#422578">{d₁, d₂, ...}</text>
-  <text x="990" y="402" text-anchor="middle" class="node-sub" font-weight="700" fill="#6D28D9">[N, dim]</text>
-  <text x="990" y="419" text-anchor="middle" class="node-sub" fill="#422578">L2 归一化</text>
-
-  <!-- Arrows from Concat F to SMH and SDDH -->
-  <path d="M 594 296 L 614 296 L 614 192 L 651 192" fill="none" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
-  <path d="M 594 320 L 614 320 L 614 385 L 651 385" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arrow-green)"/>
-
-  <!-- Arrow from P (DKD) down to SDDH -->
-  <path d="M 990 236 L 990 272 L 790 272 L 790 311" fill="none" stroke="#8B5CF6" stroke-width="1.6" stroke-dasharray="5,3" marker-end="url(#arrow-purple)"/>
-  <rect x="838" y="261" width="112" height="20" rx="4" fill="#FFFFFF" stroke="#DDD6FE" stroke-width="1"/>
-  <text x="894" y="275" text-anchor="middle" class="tensor-tag" fill="#6D28D9">稀疏坐标索引 P</text>
-
-  <!-- ==================== BOTTOM SUMMARY CARDS ==================== -->
-  <!-- Card 1 -->
-  <rect x="18" y="500" width="336" height="172" rx="10" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="36" y="525" class="card-title" fill="#153B60">1. 模型规格与通道配置（Table II）</text>
-  <text x="36" y="550" class="card-body" fill="#153B60">• ALIKED-T(16)：c₁~c₄ = 8/16/32/64，dim = 64</text>
-  <text x="48" y="569" class="card-body" fill="#2783DE">0.192M 参数 · 1.37 GFLOPs · 125.87 FPS</text>
-  <text x="36" y="593" class="card-body" fill="#153B60">• ALIKED-N(16)：c₁~c₄ = 16/32/64/128，dim = 128</text>
-  <text x="48" y="612" class="card-body" fill="#2783DE">0.677M 参数 · 4.05 GFLOPs · 77.40 FPS</text>
-  <text x="36" y="636" class="card-body" fill="#153B60">• ALIKED-N(32)：同 -N 通道，M = 32 采样点</text>
-  <text x="48" y="655" class="card-body" fill="#2783DE">0.980M 参数 · 4.62 GFLOPs · 75.64 FPS</text>
-
-  <!-- Card 2 -->
-  <rect x="372" y="500" width="336" height="172" rx="10" fill="#E8F1EC" stroke="#46A171" stroke-width="1.4"/>
-  <text x="390" y="525" class="card-title" fill="#1F5138">2. 为什么比传统 DMH 更轻又更强？</text>
-  <text x="390" y="550" class="card-body" fill="#1F5138">• 消除无点区域冗余卷积：只在 N 个关键点计算，</text>
-  <text x="402" y="569" class="card-body" fill="#1F5138">K=3, N=1000 时从 50.33G 降至 0.32G 运算量。</text>
-  <text x="390" y="593" class="card-body" fill="#1F5138">• 突破固定卷积网格与仿射约束：M 个可变形位</text>
-  <text x="402" y="612" class="card-body" fill="#1F5138">置可建模任意局部几何形变（如视角/缩放）。</text>
-  <text x="390" y="636" class="card-body" fill="#1F5138">• 省出的算力反哺检测头：SMH 从 1 层 1×1 升</text>
-  <text x="402" y="655" class="card-body" fill="#1F5138">级为 4 层结构（SH3），显著提高定位精度。</text>
-
-  <!-- Card 3 -->
-  <rect x="726" y="500" width="336" height="172" rx="10" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="744" y="525" class="card-title" fill="#70401C">3. 关键设计细节（易踩坑速记）</text>
-  <text x="744" y="550" class="card-body" fill="#70401C">• 仅 block3/4 用 DCN3×3：前两块分辨率高且提</text>
-  <text x="756" y="569" class="card-body" fill="#70401C">取底层纹理，加 DCN 反而拖慢速度并可能掉点。</text>
-  <text x="744" y="593" class="card-body" fill="#70401C">• 激活与池化升级：MaxPool → AvgPool，ReLU</text>
-  <text x="756" y="612" class="card-body" fill="#70401C">→ SELU，收敛更稳，IMW-val mAA 提升明显。</text>
-  <text x="744" y="636" class="card-body" fill="#70401C">• 训练必配 Sparse NRE：无稠密描述图时，用稀疏</text>
-  <text x="756" y="655" class="card-body" fill="#70401C">概率向量算交叉熵，480×480 显存 11.1→3.2GB。</text>
+  <text x="490" y="376" text-anchor="middle" class="s">核心颠覆：彻底抛弃全图稠密描述图（砍掉 99% 无点像素的无效卷积），先检出稀疏点再按需提取描述子</text>
 </svg>

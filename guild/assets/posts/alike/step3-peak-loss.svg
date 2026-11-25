@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 402" width="960" height="402">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; }
+      .sub { font-size: 13.5px; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="402" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title" fill="#111827">图 4：离散峰值损失 L_pk——为什么传统 max − mean 会失灵？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub" fill="#4B5563">传统峰值损失只管数值统计不管空间位置；L_pk 用“到关键点的距离 d(x)”加权惩罚，强迫高分收拢成尖峰</text>
+
+  <!-- Left Panel: Traditional max - mean FAILS -->
+  <rect x="24" y="88" width="424" height="246" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="236" y="116" text-anchor="middle" class="h" fill="#991B1B">✗ 传统峰值损失（max − mean）：盲人摸象</text>
+
+  <!-- Mini plot area left -->
+  <rect x="46" y="132" width="380" height="144" rx="9" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <line x1="70" y1="248" x2="404" y2="248" stroke="#94A3B8" stroke-width="1.5"/>
+  <!-- Keypoint vertical dashed line at x=0.5 -> svg x=326 -->
+  <line x1="326" y1="158" x2="326" y2="248" stroke="#16A34A" stroke-width="1.8" stroke-dasharray="5,4"/>
+  <text x="326" y="266" text-anchor="middle" class="s" fill="#15803D" font-weight="700">真实点 x=0.5</text>
+  <text x="84" y="266" text-anchor="middle" class="s" fill="#64748B">-1</text>
+  <text x="205" y="266" text-anchor="middle" class="s" fill="#64748B">0</text>
+  <text x="396" y="266" text-anchor="middle" class="s" fill="#64748B">+1</text>
+
+  <!-- Shifted Red Block Peak -->
+  <path d="M 84 247 L 106 247 L 114 170 L 156 170 L 164 247 L 196 247" fill="#FEE2E2" fill-opacity="0.7" stroke="#DC2626" stroke-width="2.5"/>
+  <text x="135" y="156" text-anchor="middle" class="s" fill="#B91C1C" font-weight="700">歪到左侧的假峰</text>
+
+  <!-- Good Green Peak -->
+  <path d="M 284 247 L 302 247 L 310 170 L 342 170 L 350 247 L 372 247" fill="#DCFCE7" fill-opacity="0.65" stroke="#16A34A" stroke-width="2.5"/>
+  <text x="326" y="156" text-anchor="middle" class="s" fill="#15803D" font-weight="700">对准中心的真峰</text>
+
+  <!-- Equals sign between them -->
+  <text x="236" y="202" text-anchor="middle" class="b" fill="#B91C1C" font-weight="700">max − mean</text>
+  <text x="236" y="222" text-anchor="middle" class="b" fill="#B91C1C" font-weight="700">数值一模一样！</text>
+
+  <text x="236" y="300" text-anchor="middle" class="b" fill="#7F1D1D" font-weight="700">完全不看高分落在哪儿，分数图易糊成平顶</text>
+  <text x="236" y="320" text-anchor="middle" class="s" fill="#991B1B">换个视角稍有噪声，NMS 中心就会乱跳</text>
+
+  <!-- Right Panel: ALIKE Dispersity Peak Loss -->
+  <rect x="472" y="88" width="464" height="246" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="704" y="116" text-anchor="middle" class="h" fill="#166534">✓ ALIKE 离散峰值损失：L_pk = mean( d(x) · s'(x) )</text>
+
+  <!-- Plot area right -->
+  <rect x="494" y="132" width="420" height="144" rx="9" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <line x1="518" y1="248" x2="892" y2="248" stroke="#94A3B8" stroke-width="1.5"/>
+
+  <!-- V-shaped distance penalty d(x) = |x - 0.5| centered at svg x=780 -->
+  <path d="M 526 150 L 780 248 L 882 208" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="4,4"/>
+  <text x="630" y="154" text-anchor="middle" class="s" fill="#64748B" font-weight="700">虚线：距离惩罚 d(x)</text>
+
+  <!-- Keypoint vertical dashed line at x=0.5 -> svg x=780 -->
+  <line x1="780" y1="146" x2="780" y2="248" stroke="#16A34A" stroke-width="1.8" stroke-dasharray="5,4"/>
+  <text x="780" y="266" text-anchor="middle" class="s" fill="#15803D" font-weight="700">关键点 x=0.5</text>
+  <text x="530" y="266" text-anchor="middle" class="s" fill="#64748B">-1</text>
+  <text x="655" y="266" text-anchor="middle" class="s" fill="#64748B">0</text>
+  <text x="880" y="266" text-anchor="middle" class="s" fill="#64748B">+1</text>
+
+  <!-- Case A: Red shifted peak (kept slightly lower at y=194 so label sits cleanly below dashed line or to the left) -->
+  <path d="M 538 247 Q 560 247 572 210 Q 584 182 596 210 Q 608 247 630 247" fill="#FEE2E2" fill-opacity="0.65" stroke="#DC2626" stroke-width="2.2"/>
+  <text x="542" y="196" text-anchor="middle" class="s" fill="#B91C1C" font-weight="700">A 偏离</text>
+
+  <!-- Case B: Orange wide blob around x=0.5 -->
+  <path d="M 676 247 Q 728 198 780 196 Q 832 198 872 247" fill="#FFEDD5" fill-opacity="0.55" stroke="#EA580C" stroke-width="2.2"/>
+  <text x="698" y="198" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">B 宽峰</text>
+
+  <!-- Case C: Green needle peak right at x=0.5 -->
+  <path d="M 750 247 Q 768 244 780 150 Q 792 244 810 247" fill="#DCFCE7" fill-opacity="0.85" stroke="#16A34A" stroke-width="2.8"/>
+  <text x="844" y="160" text-anchor="middle" class="s" fill="#15803D" font-weight="700">C 窄尖峰 ✓</text>
+
+  <!-- 3 crisp score pills -->
+  <rect x="494" y="288" width="134" height="36" rx="7" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1.3"/>
+  <text x="561" y="311" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">A 偏离：0.508 重罚</text>
+
+  <rect x="637" y="288" width="134" height="36" rx="7" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.3"/>
+  <text x="704" y="311" text-anchor="middle" class="s" fill="#9A3412" font-weight="700">B 宽峰：0.100 偏高</text>
+
+  <rect x="780" y="288" width="134" height="36" rx="7" fill="#DCFCE7" stroke="#4ADE80" stroke-width="1.3"/>
+  <text x="847" y="311" text-anchor="middle" class="s" fill="#166534" font-weight="700">C 尖峰：0.065 最优</text>
+
+  <!-- Bottom crisp callout -->
+  <rect x="24" y="346" width="912" height="42" rx="10" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="480" y="372" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">消融实证（Table III）：加上 L_pk 挤掉扎堆虚高点后，下游单应估计 MHA@3 从 70.74% 暴涨至 75.74%（+5.00%）！</text>
+</svg>

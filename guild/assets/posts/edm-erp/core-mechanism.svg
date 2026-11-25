@@ -1,246 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 770" width="1060" height="770">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 390" width="960" height="390">
+
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563"/>
-    </marker>
-    <marker id="arr-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#D5803B"/>
-    </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171"/>
-    </marker>
-    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2783DE"/>
-    </marker>
-    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
-    </marker>
     <style>
-      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
-      .main-title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .main-sub { font-size: 12.5px; fill: #4B5563; }
-      .sec-title { font-size: 14.5px; font-weight: 700; }
-      .card-title { font-size: 13px; font-weight: 700; }
-      .body-txt { font-size: 11.5px; }
-      .small-txt { font-size: 10.5px; }
-      .code-txt { font-size: 11px; font-family: Consolas, "Courier New", monospace; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
   </defs>
 
-  <!-- White Background -->
-  <rect x="0" y="0" width="1060" height="770" fill="#FFFFFF"/>
+  <rect width="960" height="390" fill="#FFFFFF" rx="12"/>
 
-  <!-- Main Header -->
-  <text x="530" y="31" text-anchor="middle" class="main-title">EDM 两大核心机制连环画图解：3D 球面位置嵌入 &amp; 测地流双向精修</text>
-  <text x="530" y="51" text-anchor="middle" class="main-sub">为什么不能直接拿平面稠密匹配模型硬套 360° 全景图？看清“空间表示”和“流形更新”两道坎如何被一一拆解</text>
+  <text x="480" y="38" text-anchor="middle" class="title">图 2：为什么要把 ERP 全景网格投影到“单位球面 3D 坐标”？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">ERP 摊平后两极严重拉伸、左右接缝撕裂；一搬回单位球面 S²，两大畸变瞬间迎刃而解</text>
 
-  <!-- ========================================================================= -->
-  <!-- PANEL 1: 3D SPHERICAL POSITIONAL EMBEDDING (WHY 3D > 2D ERP GRID)        -->
-  <!-- ========================================================================= -->
-  <rect x="20" y="68" width="1020" height="316" rx="12" fill="#F9FAFB" stroke="#2783DE" stroke-width="1.5"/>
-  <rect x="20" y="68" width="1020" height="34" rx="12" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <rect x="20" y="90" width="1020" height="12" fill="#E5F2FC"/>
-  <line x1="20" y1="102" x2="1040" y2="102" stroke="#2783DE" stroke-width="1.2"/>
-  <text x="38" y="90" class="sec-title" fill="#153B60">机制一：SSAM 中的 3D 球面位置嵌入 —— 用单位球笛卡尔坐标根治“极点拉伸”与“左右割裂”</text>
+  <!-- Left: ERP 2D distortion -->
+  <rect x="28" y="88" width="424" height="270" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="240" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 摊平的 2D ERP 矩形：两大畸变坑</text>
+  <rect x="64" y="138" width="352" height="128" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <!-- Top stretched pole bar -->
+  <rect x="76" y="148" width="328" height="26" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="240" y="166" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">北极（天花板）横向拉长几十倍！cosθ → 0</text>
+  <!-- Left & right seam dots -->
+  <circle cx="84" cy="208" r="7" fill="#2563EB"/><text x="98" y="212" font-size="11.5" fill="#1D4ED8" font-weight="700">−180° 左边界</text>
+  <line x1="186" y1="208" x2="294" y2="208" stroke="#EF4444" stroke-width="2" stroke-dasharray="4,3"/>
+  <text x="240" y="199" text-anchor="middle" font-size="11.5" fill="#DC2626">被硬生生撕开</text>
+  <circle cx="396" cy="208" r="7" fill="#2563EB"/><text x="382" y="212" text-anchor="end" font-size="11.5" fill="#1D4ED8" font-weight="700">+180° 右边界</text>
+  <rect x="76" y="232" width="328" height="24" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="240" y="249" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">南极（地板）同样严重拉伸</text>
+  <text x="240" y="302" text-anchor="middle" class="b" fill="#7F1D1D">直接用 2D 坐标 (u, v) 做位置编码与匹配会彻底失真</text>
 
-  <!-- Card 1A: 2D ERP Grid Pain Point -->
-  <rect x="38" y="116" width="320" height="252" rx="9" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.4"/>
-  <text x="198" y="137" text-anchor="middle" class="card-title" fill="#111827">❌ 痛点：传统 2D ERP 平面网格 (θ, φ)</text>
+  <!-- Right: Unit Sphere -->
+  <rect x="488" y="88" width="444" height="270" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="710" y="118" text-anchor="middle" class="h" fill="#166534">✓ 搬回单位球面 3D 坐标 s = (x, y, z)</text>
+  <rect x="520" y="138" width="380" height="128" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <!-- Clean sphere drawing -->
+  <circle cx="628" cy="212" r="44" fill="#EFF6FF" stroke="#2563EB" stroke-width="2"/>
+  <ellipse cx="628" cy="212" rx="44" ry="15" fill="none" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <ellipse cx="628" cy="212" rx="18" ry="44" fill="none" stroke="#60A5FA" stroke-width="1.5"/>
+  <circle cx="628" cy="168" r="5" fill="#16A34A"/><text x="628" y="157" text-anchor="middle" class="s" fill="#15803D" font-weight="700">北极回归一点</text>
+  <circle cx="672" cy="212" r="6" fill="#2563EB"/><text x="692" y="206" class="s" fill="#1D4ED8" font-weight="700">±180° 无缝重合!</text>
+  <text x="758" y="236" text-anchor="middle" class="mono" font-size="12" fill="#166534">‖s‖₂ = 1</text>
+  <text x="710" y="300" text-anchor="middle" class="b" fill="#14532D">• 球面 3D 位置编码天然连续，无缝接轨左右边界</text>
+  <text x="710" y="326" text-anchor="middle" class="b" fill="#14532D">• 极点拉伸被真实三维夹角完全消除</text>
 
-  <!-- Draw 2D ERP Grid -->
-  <rect x="64" y="152" width="268" height="122" rx="4" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.4"/>
-  <!-- Polar distortion shaded strips -->
-  <rect x="65" y="153" width="266" height="22" fill="#FEE2E2" opacity="0.85"/>
-  <rect x="65" y="251" width="266" height="22" fill="#FEE2E2" opacity="0.85"/>
-  <!-- Grid lines -->
-  <line x1="64" y1="183" x2="332" y2="183" stroke="#D1D5DB" stroke-width="1"/>
-  <line x1="64" y1="213" x2="332" y2="213" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <line x1="64" y1="243" x2="332" y2="243" stroke="#D1D5DB" stroke-width="1"/>
-  <line x1="131" y1="152" x2="131" y2="274" stroke="#D1D5DB" stroke-width="1"/>
-  <line x1="198" y1="152" x2="198" y2="274" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <line x1="265" y1="152" x2="265" y2="274" stroke="#D1D5DB" stroke-width="1"/>
-
-  <!-- Pole points P1, P2 far apart -->
-  <circle cx="96" cy="164" r="5" fill="#DC2626"/>
-  <text x="96" y="149" text-anchor="middle" class="small-txt" font-weight="700" fill="#DC2626">P₁</text>
-  <circle cx="298" cy="164" r="5" fill="#DC2626"/>
-  <text x="298" y="149" text-anchor="middle" class="small-txt" font-weight="700" fill="#DC2626">P₂</text>
-  <line x1="103" y1="164" x2="291" y2="164" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="4,3"/>
-  <text x="198" y="168" text-anchor="middle" class="small-txt" font-weight="700" fill="#991B1B">北极严重横向拉伸！</text>
-
-  <!-- Left / Right Seam points QL, QR -->
-  <circle cx="66" cy="213" r="5.5" fill="#D5803B"/>
-  <text x="53" y="217" text-anchor="middle" class="small-txt" font-weight="700" fill="#70401C">Q_L</text>
-  <circle cx="330" cy="213" r="5.5" fill="#D5803B"/>
-  <text x="345" y="217" text-anchor="middle" class="small-txt" font-weight="700" fill="#70401C">Q_R</text>
-  <line x1="74" y1="226" x2="322" y2="226" stroke="#D5803B" stroke-width="1.4" stroke-dasharray="3,3"/>
-  <text x="198" y="239" text-anchor="middle" class="small-txt" fill="#70401C">θ=-π 与 θ=+π 在 2D 里相距最远 (割裂)</text>
-  <text x="198" y="266" text-anchor="middle" class="small-txt" fill="#991B1B">南极同样被拉成一整条</text>
-
-  <!-- Pain point summary bullets -->
-  <text x="52" y="297" class="body-txt" fill="#374151">• <tspan font-weight="700">畸变误判</tspan>：P₁、P₂ 2D 坐标差很大，实际贴在一起</text>
-  <text x="52" y="317" class="body-txt" fill="#374151">• <tspan font-weight="700">边界断裂</tspan>：Q_L、Q_R 物理重合，2D 编码却完全相反</text>
-  <text x="52" y="337" class="body-txt" fill="#374151">• 直接用 2D 坐标进 GP 回归，极区与边缘匹配极易崩坏</text>
-  <text x="52" y="357" class="small-txt" fill="#6B7280">（对应 DKM 的 χ_B = cos(W · f_B^grid + b)，2 通道输入）</text>
-
-  <!-- Middle Transform Arrow: pi^-1 -->
-  <rect x="372" y="182" width="146" height="118" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
-  <text x="445" y="204" text-anchor="middle" class="card-title" fill="#70401C">球面反投影 π⁻¹</text>
-  <text x="445" y="224" text-anchor="middle" class="code-txt" fill="#70401C">S^x = sin(θ)cos(φ)</text>
-  <text x="445" y="242" text-anchor="middle" class="code-txt" fill="#70401C">S^y = sin(φ)</text>
-  <text x="445" y="260" text-anchor="middle" class="code-txt" fill="#70401C">S^z = cos(θ)cos(φ)</text>
-  <text x="445" y="284" text-anchor="middle" class="small-txt" font-weight="700" fill="#92400E">2D (θ, φ) → 3D 射线</text>
-
-  <line x1="358" y1="241" x2="370" y2="241" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
-  <line x1="518" y1="241" x2="534" y2="241" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
-
-  <!-- Card 1B: 3D Unit Sphere + Embedding -->
-  <rect x="536" y="116" width="486" height="252" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.6"/>
-  <text x="779" y="137" text-anchor="middle" class="card-title" fill="#1F5138">✓ 破局：3D 单位球笛卡尔网格 + 余弦位置嵌入 (Eq.9)</text>
-
-  <!-- Stylized 3D Unit Sphere -->
-  <g transform="translate(650, 232)">
-    <!-- Outer sphere -->
-    <circle cx="0" cy="0" r="74" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.8" opacity="0.85"/>
-    <!-- Equator ellipse -->
-    <ellipse cx="0" cy="0" rx="74" ry="20" fill="none" stroke="#2783DE" stroke-width="1.2" stroke-dasharray="4,3"/>
-    <!-- Meridian ellipse -->
-    <ellipse cx="0" cy="0" rx="28" ry="74" fill="none" stroke="#2783DE" stroke-width="1.1" stroke-dasharray="3,3"/>
-    <!-- Center origin -->
-    <circle cx="0" cy="0" r="2.5" fill="#153B60"/>
-    <!-- Axes -->
-    <line x1="0" y1="0" x2="0" y2="-86" stroke="#153B60" stroke-width="1.2" marker-end="url(#arr-blue)"/>
-    <text x="12" y="-82" class="small-txt" fill="#153B60">-y (北极)</text>
-    <line x1="0" y1="0" x2="88" y2="8" stroke="#153B60" stroke-width="1.2" marker-end="url(#arr-blue)"/>
-    <text x="90" y="13" class="small-txt" fill="#153B60">x</text>
-    <line x1="0" y1="0" x2="-44" y2="30" stroke="#153B60" stroke-width="1.2" marker-end="url(#arr-blue)"/>
-    <text x="-56" y="42" class="small-txt" fill="#153B60">z</text>
-
-    <!-- P1 and P2 converging at North Pole -->
-    <circle cx="-5" cy="-71" r="4.5" fill="#DC2626"/>
-    <circle cx="5" cy="-71" r="4.5" fill="#DC2626"/>
-    <text x="-48" y="-66" class="small-txt" font-weight="700" fill="#DC2626">P₁, P₂ 紧邻!</text>
-
-    <!-- QL and QR merging at the exact same back seam point -->
-    <circle cx="46" cy="-15" r="6" fill="#D5803B"/>
-    <circle cx="46" cy="-15" r="9" fill="none" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="2,2"/>
-    <text x="60" y="-26" class="small-txt" font-weight="700" fill="#70401C">Q_L = Q_R</text>
-    <text x="60" y="-13" class="small-txt" fill="#70401C">同一点 (0,0,-1)!</text>
-  </g>
-
-  <!-- Right side explanation cards inside 1B -->
-  <rect x="782" y="156" width="224" height="72" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
-  <text x="894" y="176" text-anchor="middle" class="card-title" fill="#1F5138">余弦位置嵌入层</text>
-  <text x="894" y="196" text-anchor="middle" class="code-txt" fill="#1F5138">χ_B = cos(W·S_B + b)</text>
-  <text x="894" y="216" text-anchor="middle" class="small-txt" fill="#1F5138">可学习 1×1 Conv (3 → C' 通道)</text>
-
-  <rect x="782" y="238" width="224" height="68" rx="7" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
-  <text x="894" y="257" text-anchor="middle" class="card-title" fill="#70401C">为什么立刻生效？</text>
-  <text x="792" y="276" class="small-txt" fill="#70401C">1. 极点处坐标自动聚拢 → 畸变感知</text>
-  <text x="792" y="294" class="small-txt" fill="#70401C">2. ±π 映射为同一 3D 向量 → 零缝跳变</text>
-
-  <rect x="782" y="316" width="224" height="38" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
-  <text x="894" y="339" text-anchor="middle" class="body-txt" font-weight="700" fill="#422578">消融实证：2D→3D，AUC@5° +10.12</text>
-
-  <!-- ========================================================================= -->
-  <!-- PANEL 2: GEODESIC FLOW REFINEMENT (BIDIRECTIONAL pi <-> pi^-1 LOOP)       -->
-  <!-- ========================================================================= -->
-  <rect x="20" y="402" width="1020" height="348" rx="12" fill="#F9FAFB" stroke="#D5803B" stroke-width="1.5"/>
-  <rect x="20" y="402" width="1020" height="34" rx="12" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <rect x="20" y="424" width="1020" height="12" fill="#FBEBDE"/>
-  <line x1="20" y1="436" x2="1040" y2="436" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="38" y="424" class="sec-title" fill="#70401C">机制二：测地流精修的“下球精修 → 上球约束”双向循环（在 2D ERP 做残差卷积，在 3D 单位球保几何一致）</text>
-
-  <!-- Step 1: Why not linear update in 3D? -->
-  <rect x="38" y="452" width="220" height="236" rx="9" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.4"/>
-  <rect x="38" y="452" width="220" height="28" rx="9" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="148" y="471" text-anchor="middle" class="card-title" fill="#111827">① 球面直接精修的难题</text>
-
-  <!-- Curved arc + tangent arrow shooting off -->
-  <path d="M 65 568 Q 148 515 230 568" fill="none" stroke="#2783DE" stroke-width="2.5"/>
-  <text x="148" y="588" text-anchor="middle" class="small-txt" fill="#153B60">单位球表面（测地线是曲线）</text>
-  <circle cx="115" cy="544" r="4.5" fill="#153B60"/>
-  <text x="108" y="560" text-anchor="middle" class="small-txt" fill="#153B60">Ŝ</text>
-  <!-- Tangent overshoot -->
-  <line x1="115" y1="544" x2="188" y2="502" stroke="#DC2626" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arr-red)"/>
-  <circle cx="192" cy="500" r="4" fill="#DC2626"/>
-  <text x="184" y="493" text-anchor="middle" class="small-txt" font-weight="700" fill="#DC2626">Ŝ + ΔS 飞离球面!</text>
-
-  <text x="50" y="615" class="small-txt" fill="#374151">• 3D 向量直接相加会偏离 |S|=1</text>
-  <text x="50" y="635" class="small-txt" fill="#374151">• 2D 特征图 f_B 存放在平面网格</text>
-  <text x="50" y="655" class="small-txt" fill="#374151">  无法直接拿 3D 向量做双线性采样</text>
-  <text x="50" y="675" class="small-txt" font-weight="700" fill="#70401C">→ 必须先把球面点“摊回”2D！</text>
-
-  <!-- Arrow 1 -> 2 -->
-  <line x1="258" y1="566" x2="282" y2="566" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
-
-  <!-- Step 2: Project to 2D ERP via pi -->
-  <rect x="284" y="452" width="222" height="236" rx="9" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5"/>
-  <rect x="284" y="452" width="222" height="28" rx="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="395" y="471" text-anchor="middle" class="card-title" fill="#70401C">② 正投影 π 下到 2D ERP</text>
-
-  <rect x="302" y="492" width="186" height="44" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="395" y="510" text-anchor="middle" class="code-txt" font-weight="700" fill="#70401C">û^{l+1} = π(Ŝ^{l+1})</text>
-  <text x="395" y="527" text-anchor="middle" class="small-txt" fill="#70401C">3 通道 (S^x,S^y,S^z) → 2 通道 (θ,φ)</text>
-
-  <!-- Mini 2D grid + local window Omega_k -->
-  <rect x="314" y="548" width="162" height="68" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
-  <rect x="374" y="564" width="36" height="36" fill="#D1FAE5" stroke="#46A171" stroke-width="1.5"/>
-  <circle cx="392" cy="582" r="3.5" fill="#1F5138"/>
-  <text x="395" y="561" text-anchor="middle" class="small-txt" fill="#153B60">特征图 f_B^l</text>
-  <text x="444" y="586" text-anchor="middle" class="small-txt" font-weight="700" fill="#1F5138">局部窗 Ω_k</text>
-
-  <text x="296" y="636" class="small-txt" fill="#374151">• 用 û^{l+1} 双线性采样 f_{B→A}^l</text>
-  <text x="296" y="655" class="small-txt" fill="#374151">• 在 2D 邻域 Ω_k 算局部相关 Corr</text>
-  <text x="296" y="674" class="small-txt" fill="#374151">• 构造 2D 位移特征 û^{l+1} - u_A^{l+1}</text>
-
-  <!-- Arrow 2 -> 3 -->
-  <line x1="506" y1="566" x2="530" y2="566" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
-
-  <!-- Step 3: 2D Residual Update -->
-  <rect x="532" y="452" width="228" height="236" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
-  <rect x="532" y="452" width="228" height="28" rx="9" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
-  <text x="646" y="471" text-anchor="middle" class="card-title" fill="#1F5138">③ 2D 平面线性加残差</text>
-
-  <rect x="548" y="492" width="196" height="58" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
-  <text x="646" y="511" text-anchor="middle" class="card-title" fill="#1F5138">CNN Refiner^{l+1}</text>
-  <text x="646" y="528" text-anchor="middle" class="small-txt" fill="#1F5138">输入：f_A ⊕ f_{B→A} ⊕ Corr ⊕ 位移</text>
-  <text x="646" y="543" text-anchor="middle" class="small-txt" fill="#1F5138">输出：残差 Δû^{l+1} 与 Δĉ^{l+1}</text>
-
-  <rect x="548" y="562" width="196" height="48" rx="6" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
-  <text x="646" y="582" text-anchor="middle" class="code-txt" font-weight="700" fill="#1F5138">û^l = û^{l+1} + Δû^{l+1}</text>
-  <text x="646" y="600" text-anchor="middle" class="code-txt" fill="#1F5138">ĉ^l = ĉ^{l+1} + Δĉ^{l+1}</text>
-
-  <text x="544" y="632" class="small-txt" fill="#374151">• 平面内放心执行标准线性残差加法</text>
-  <text x="544" y="651" class="small-txt" fill="#374151">• <tspan font-weight="700" fill="#70401C">巧妙之处</tspan>：即使经度 θ 跨过 ±π</text>
-  <text x="544" y="670" class="small-txt" fill="#374151">  （如 +π+0.1），也无需硬截断！</text>
-
-  <!-- Arrow 3 -> 4 -->
-  <line x1="760" y1="566" x2="784" y2="566" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
-
-  <!-- Step 4: Back-project to Unit Sphere via pi^-1 -->
-  <rect x="786" y="452" width="236" height="236" rx="9" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.6"/>
-  <rect x="786" y="452" width="236" height="28" rx="9" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
-  <text x="904" y="471" text-anchor="middle" class="card-title" fill="#422578">④ 反投影 π⁻¹ 回到单位球</text>
-
-  <rect x="802" y="492" width="204" height="44" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
-  <text x="904" y="510" text-anchor="middle" class="code-txt" font-weight="700" fill="#422578">Ŝ^l = π⁻¹(û^l)</text>
-  <text x="904" y="527" text-anchor="middle" class="small-txt" fill="#422578">sin/cos 周期性自动无痕跨过 ±π 缝!</text>
-
-  <!-- Sphere arc with updated point strictly ON the sphere -->
-  <path d="M 818 602 Q 904 548 990 602" fill="none" stroke="#46A171" stroke-width="2.5"/>
-  <circle cx="868" cy="581" r="4.5" fill="#9CA3AF"/>
-  <text x="862" y="598" text-anchor="middle" class="small-txt" fill="#6B7280">旧 Ŝ^{l+1}</text>
-  <path d="M 874 579 Q 904 567 934 579" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr)"/>
-  <circle cx="940" cy="581" r="5" fill="#8B5CF6"/>
-  <text x="950" y="598" text-anchor="middle" class="small-txt" font-weight="700" fill="#422578">新 Ŝ^l (|Ŝ|=1)</text>
-
-  <text x="798" y="630" class="small-txt" fill="#374151">• 精确沿测地线滑动，永不脱离球面</text>
-  <text x="798" y="649" class="small-txt" fill="#374151">• 配合<tspan font-weight="700" fill="#70401C">单位球余弦角损失 (Eq.14)</tspan></text>
-  <text x="798" y="668" class="small-txt" fill="#374151">  直接拉近预测射线与真值射线夹角</text>
-
-  <!-- Bottom loop bar inside Panel 2 -->
-  <path d="M 904 688 L 904 724 L 395 724 L 395 692" fill="none" stroke="#D5803B" stroke-width="1.8" stroke-dasharray="6,3" marker-end="url(#arr-orange)"/>
-  <rect x="466" y="707" width="372" height="28" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="652" y="725" text-anchor="middle" class="body-txt" font-weight="700" fill="#70401C">多尺度迭代 (stride 16→8→4→2→1) ｜ 消融实证：AUC@5° +9.84</text>
 </svg>

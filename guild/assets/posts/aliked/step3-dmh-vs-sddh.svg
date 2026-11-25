@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="400" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 4：传统稠密 DMH vs 稀疏 SDDH——为什么计算量能直降 157 倍？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">480×640 图像共有 30.72 万像素，但关键点仅约 1000 个：超过 99% 的全图卷积都在白费算力</text>
+
+  <!-- Left Panel: Dense DMH -->
+  <rect x="28" y="88" width="438" height="244" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="247" y="116" text-anchor="middle" class="h" fill="#991B1B">✗ 传统稠密描述头 DMH（先全图卷，再采样）</text>
+
+  <!-- Dense Grid -->
+  <rect x="44" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="61" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="78" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="95" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="112" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="129" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="146" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="163" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="180" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="197" y="136" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="44" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="61" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="78" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <circle cx="85.5" cy="160.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="95" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="112" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="129" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="146" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="163" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="180" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="197" y="153" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="44" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="61" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="78" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="95" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="112" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="129" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="146" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="163" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <circle cx="170.5" cy="177.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="180" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="197" y="170" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="44" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="61" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="78" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="95" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="112" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="129" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="146" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="163" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="180" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="197" y="187" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="44" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="61" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="78" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="95" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <circle cx="102.5" cy="211.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="112" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="129" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="146" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="163" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="180" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <circle cx="187.5" cy="211.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="197" y="204" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="44" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="61" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="78" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="95" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="112" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="129" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="146" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="163" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="180" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <rect x="197" y="221" width="15" height="15" rx="2" fill="#FCA5A5" stroke="#F87171" stroke-width="0.8"/>
+  <text x="128" y="258" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">红格=跑卷积（100% 全算）</text>
+
+  <!-- Stats Right of Left Grid -->
+  <rect x="226" y="134" width="224" height="128" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="338" y="156" text-anchor="middle" class="b" fill="#B91C1C" font-weight="700">K=3, N=1000 实测开销</text>
+
+  <text x="240" y="182" class="s" fill="#7F1D1D" font-weight="700">理论计算量：50.33 G</text>
+  <rect x="240" y="190" width="194" height="14" rx="4" fill="#EF4444"/>
+
+  <text x="240" y="226" class="s" fill="#7F1D1D" font-weight="700">RTX 2060 耗时：14.70 ms</text>
+  <rect x="240" y="234" width="180" height="14" rx="4" fill="#F97316"/>
+
+  <text x="247" y="288" text-anchor="middle" class="b" fill="#7F1D1D">• 超过 97% 耗时都烧在没有关键点的背景像素上</text>
+  <text x="247" y="312" text-anchor="middle" class="b" fill="#7F1D1D">• 逼得前代只能降分辨率或砍成极简 1×1 卷积</text>
+
+  <!-- Right Panel: Sparse SDDH -->
+  <rect x="494" y="88" width="438" height="244" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="713" y="116" text-anchor="middle" class="h" fill="#166534">✓ ALIKED 稀疏可变形头 SDDH（先找点，再按需算）</text>
+
+  <!-- Sparse Grid -->
+  <rect x="510" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="527" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="544" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="561" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="578" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="595" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="612" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="629" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="646" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="663" y="136" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="510" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="527" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="544" y="153" width="15" height="15" rx="2" fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
+  <circle cx="551.5" cy="160.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="561" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="578" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="595" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="612" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="629" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="646" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="663" y="153" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="510" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="527" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="544" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="561" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="578" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="595" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="612" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="629" y="170" width="15" height="15" rx="2" fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
+  <circle cx="636.5" cy="177.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="646" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="663" y="170" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="510" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="527" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="544" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="561" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="578" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="595" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="612" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="629" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="646" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="663" y="187" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="510" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="527" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="544" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="561" y="204" width="15" height="15" rx="2" fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
+  <circle cx="568.5" cy="211.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="578" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="595" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="612" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="629" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="646" y="204" width="15" height="15" rx="2" fill="#22C55E" stroke="#15803D" stroke-width="1.2"/>
+  <circle cx="653.5" cy="211.5" r="4.2" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <rect x="663" y="204" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="510" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="527" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="544" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="561" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="578" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="595" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="612" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="629" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="646" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="663" y="221" width="15" height="15" rx="2" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="594" y="258" text-anchor="middle" class="s" fill="#15803D" font-weight="700">灰格跳过（仅 0.3% 点位）</text>
+
+  <!-- Stats Right of Right Grid -->
+  <rect x="692" y="134" width="224" height="128" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="804" y="156" text-anchor="middle" class="b" fill="#15803D" font-weight="700">同等配置（K=3, N=1000）</text>
+
+  <text x="706" y="182" class="s" fill="#14532D" font-weight="700">计算量：0.32 G（降 157×）</text>
+  <rect x="706" y="190" width="194" height="14" rx="4" fill="#F1F5F9"/>
+  <rect x="706" y="190" width="6" height="14" rx="3" fill="#16A34A"/>
+
+  <text x="706" y="226" class="s" fill="#14532D" font-weight="700">耗时：1.25 ms（提速 11.8×）</text>
+  <rect x="706" y="234" width="180" height="14" rx="4" fill="#F1F5F9"/>
+  <rect x="706" y="234" width="15" height="14" rx="4" fill="#16A34A"/>
+
+  <text x="713" y="288" text-anchor="middle" class="b" fill="#14532D">• 直接跳过 99.7% 无点区，彻底消除全图冗余计算</text>
+  <text x="713" y="312" text-anchor="middle" class="b" fill="#14532D">• 省出充足算力预算，顺手给描述子装上可变形采样</text>
+
+  <!-- Bottom summary callout -->
+  <rect x="28" y="346" width="904" height="38" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="480" y="370" text-anchor="middle" class="b" fill="#1E40AF" font-weight="700">高密度场景（K=5, N=5000）同样暴省：运算量 130.86 G → 4.97 G（降 26.3×），耗时 51.85 ms → 7.60 ms（提速 6.8×）</text>
+</svg>

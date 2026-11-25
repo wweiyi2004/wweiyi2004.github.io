@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 404" width="960" height="404">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; }
+      .sub { font-size: 13.5px; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="404" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="36" text-anchor="middle" class="title" fill="#111827">图 2：为什么必须在 4D 双边空间里构图？（2D vs 4D 对比）</text>
+  <text x="480" y="60" text-anchor="middle" class="sub" fill="#4B5563">前景栏杆与背景墙在左图 (x, y) 紧挨着，但右图 (u, v) 差很远——拼成 4D 坐标即可在边界处自动断边</text>
+
+  <!-- LEFT PANEL: 2D bad -->
+  <rect x="26" y="84" width="442" height="296" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="247" y="112" text-anchor="middle" class="h" fill="#B91C1C">✗ 只按左图 2D 坐标 (x, y) 找近邻</text>
+
+  <rect x="44" y="126" width="406" height="176" rx="10" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <!-- Foreground & Background touching zones -->
+  <rect x="54" y="136" width="186" height="156" rx="8" fill="#EFF6FF"/>
+  <text x="147" y="156" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">前景栏杆（近处 · 位移大）</text>
+  <rect x="246" y="136" width="194" height="156" rx="8" fill="#F0FDF4"/>
+  <text x="343" y="156" text-anchor="middle" class="b" fill="#15803D" font-weight="700">背景墙面（远处 · 位移小）</text>
+
+  <!-- Intra edges -->
+  <line x1="94" y1="196" x2="174" y2="188" stroke="#93C5FD" stroke-width="2"/>
+  <line x1="94" y1="196" x2="152" y2="254" stroke="#93C5FD" stroke-width="2"/>
+  <line x1="174" y1="188" x2="152" y2="254" stroke="#93C5FD" stroke-width="2"/>
+  <line x1="294" y1="192" x2="386" y2="188" stroke="#86EFAC" stroke-width="2"/>
+  <line x1="294" y1="192" x2="342" y2="254" stroke="#86EFAC" stroke-width="2"/>
+  <line x1="386" y1="188" x2="342" y2="254" stroke="#86EFAC" stroke-width="2"/>
+
+  <!-- BAD cross-boundary red edges -->
+  <line x1="174" y1="188" x2="294" y2="192" stroke="#EF4444" stroke-width="2.6" stroke-dasharray="6,4"/>
+  <line x1="152" y1="254" x2="294" y2="192" stroke="#EF4444" stroke-width="2.6" stroke-dasharray="6,4"/>
+  <line x1="152" y1="254" x2="342" y2="254" stroke="#EF4444" stroke-width="2.6" stroke-dasharray="6,4"/>
+
+  <!-- Motion vectors (blue long arrows angled slightly up-right so they don't collide with red dashed lines) -->
+  <line x1="94" y1="196" x2="132" y2="180" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <line x1="174" y1="188" x2="212" y2="172" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <line x1="152" y1="254" x2="190" y2="238" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <line x1="294" y1="192" x2="314" y2="184" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <line x1="386" y1="188" x2="406" y2="180" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <line x1="342" y1="254" x2="362" y2="246" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <!-- Nodes -->
+  <circle cx="94" cy="196" r="7" fill="#2563EB"/>
+  <circle cx="174" cy="188" r="7" fill="#2563EB"/>
+  <circle cx="152" cy="254" r="7" fill="#2563EB"/>
+  <circle cx="294" cy="192" r="7" fill="#16A34A"/>
+  <circle cx="386" cy="188" r="7" fill="#16A34A"/>
+  <circle cx="342" cy="254" r="7" fill="#16A34A"/>
+
+  <!-- Red warning pill on boundary -->
+  <rect x="196" y="208" width="96" height="26" rx="13" fill="#DC2626"/>
+  <text x="244" y="225" text-anchor="middle" class="s" fill="#FFFFFF" font-weight="700">跨边界错连！</text>
+
+  <text x="116" y="282" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">位移 Δx = +40</text>
+  <text x="364" y="282" text-anchor="middle" class="s" fill="#15803D" font-weight="700">位移 Δx = +4</text>
+
+  <!-- Left Bottom Conclusion -->
+  <rect x="44" y="314" width="406" height="52" rx="10" fill="#FEE2E2" stroke="#F87171" stroke-width="1.5"/>
+  <text x="247" y="336" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">2D 距离太近 → 前景与背景被强行连成一张网</text>
+  <text x="247" y="356" text-anchor="middle" class="s" fill="#B91C1C">做全局平滑时位移被平均糊在一起，边界真内点全被误杀</text>
+
+  <!-- RIGHT PANEL: 4D good -->
+  <rect x="492" y="84" width="442" height="296" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="713" y="112" text-anchor="middle" class="h" fill="#15803D">✓ 按 4D 双边坐标 (x, y, u, v) 找近邻</text>
+
+  <rect x="510" y="126" width="406" height="176" rx="10" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+
+  <!-- Left separated component -->
+  <rect x="522" y="138" width="144" height="152" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text x="594" y="158" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">前景连通块</text>
+  <line x1="556" y1="196" x2="630" y2="190" stroke="#2563EB" stroke-width="2.4"/>
+  <line x1="556" y1="196" x2="594" y2="246" stroke="#2563EB" stroke-width="2.4"/>
+  <line x1="630" y1="190" x2="594" y2="246" stroke="#2563EB" stroke-width="2.4"/>
+  <circle cx="556" cy="196" r="7" fill="#2563EB"/>
+  <circle cx="630" cy="190" r="7" fill="#2563EB"/>
+  <circle cx="594" cy="246" r="7" fill="#2563EB"/>
+  <text x="594" y="276" text-anchor="middle" class="s" fill="#1D4ED8">wᵢⱼ ≈ 0.9（内部平滑）</text>
+
+  <!-- Clean automatic cut in middle -->
+  <line x1="713" y1="138" x2="713" y2="290" stroke="#F97316" stroke-width="2.2" stroke-dasharray="6,5"/>
+  <rect x="671" y="176" width="84" height="72" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="713" y="198" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">自动断边</text>
+  <text x="713" y="218" text-anchor="middle" class="s" fill="#9A3412">d₄D 极大</text>
+  <text x="713" y="236" text-anchor="middle" class="mono" font-size="12" fill="#EA580C">wᵢⱼ ≈ 0</text>
+
+  <!-- Right separated component -->
+  <rect x="760" y="138" width="144" height="152" rx="10" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text x="832" y="158" text-anchor="middle" class="b" fill="#15803D" font-weight="700">背景连通块</text>
+  <line x1="794" y1="196" x2="868" y2="190" stroke="#16A34A" stroke-width="2.4"/>
+  <line x1="794" y1="196" x2="832" y2="246" stroke="#16A34A" stroke-width="2.4"/>
+  <line x1="868" y1="190" x2="832" y2="246" stroke="#16A34A" stroke-width="2.4"/>
+  <circle cx="794" cy="196" r="7" fill="#16A34A"/>
+  <circle cx="868" cy="190" r="7" fill="#16A34A"/>
+  <circle cx="832" cy="246" r="7" fill="#16A34A"/>
+  <text x="832" y="276" text-anchor="middle" class="s" fill="#15803D">wᵢⱼ ≈ 0.9（内部平滑）</text>
+
+  <!-- Right Bottom Conclusion -->
+  <rect x="510" y="314" width="406" height="52" rx="10" fill="#DCFCE7" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="713" y="336" text-anchor="middle" class="b" fill="#166534" font-weight="700">右图 (u, v) 差得远 → 4D 距离骤增、高斯边权趋零</text>
+  <text x="713" y="356" text-anchor="middle" class="s" fill="#15803D">深度突变与多车独立运动处自然分团，各自实现分段平滑！</text>
+</svg>

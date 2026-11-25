@@ -1,365 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 820" width="1080" height="820">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400">
+
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563" />
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
     <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2783DE" />
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
     <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171" />
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
     <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#D5803B" />
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
     </marker>
     <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6" />
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
     </marker>
-    <style>
-      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
-      .main-title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .main-sub { font-size: 12.5px; fill: #4B5563; }
-      .panel-title { font-size: 14px; font-weight: 700; }
-      .box-title { font-size: 12.5px; font-weight: 700; }
-      .txt { font-size: 11px; }
-      .small { font-size: 10px; }
-      .mono { font-size: 10.5px; font-family: Consolas, "Courier New", monospace; }
-    </style>
   </defs>
 
-  <!-- White Background -->
-  <rect x="0" y="0" width="1080" height="820" fill="#FFFFFF" />
+  <rect width="960" height="400" fill="#FFFFFF" rx="12"/>
 
-  <!-- Header -->
-  <text x="540" y="32" text-anchor="middle" class="main-title">Efficient LoFTR (ELoFTR) 两大核心机制图解</text>
-  <text x="540" y="54" text-anchor="middle" class="main-sub">上篇：聚合注意力如何把词元压缩 16 倍还能换回精确标准注意力；下篇：两阶段相关如何治好 LoFTR 精修的“空间拉偏”顽疾</text>
+  <text x="480" y="38" text-anchor="middle" class="title">图 2：聚合注意力（Aggregated Attention）——浓缩 16 倍，反用真 Softmax！</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">相邻 4×4 网格的粗语义高度冗余：浓缩后注意力矩阵缩小 256 倍，既飞快又聚焦</text>
 
-  <!-- ========================================================================= -->
-  <!-- PANEL A: AGGREGATED ATTENTION (y=72..430)                                 -->
-  <!-- ========================================================================= -->
-  <g id="panel-a">
-    <rect x="22" y="72" width="1036" height="356" rx="12" fill="#F8FCFA" stroke="#46A171" stroke-width="1.6" />
-    <rect x="34" y="82" width="440" height="26" rx="6" fill="#46A171" />
-    <text x="254" y="100" text-anchor="middle" class="panel-title" fill="#FFFFFF">核心机制一：聚合注意力（Aggregated Attention）四步拆解</text>
+  <!-- Top: Old LoFTR -->
+  <rect x="28" y="88" width="904" height="106" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="48" y="114" class="h" fill="#475569">原版 LoFTR：4800 个冗余词元硬塞进近似 Linear Attention</text>
+  <rect x="52" y="128" width="210" height="48" rx="8" fill="#EFF6FF" stroke="#60A5FA"/><text x="157" y="157" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">粗图 [60×80] = 4800 词元</text>
+  <line x1="262" y1="152" x2="310" y2="152" stroke="#64748B" stroke-width="2.2" marker-end="url(#arr-gray)"/>
+  <rect x="316" y="128" width="320" height="48" rx="8" fill="#FEE2E2" stroke="#F87171"/><text x="476" y="157" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">Linear Attention 核近似（权重平而糊）</text>
+  <line x1="636" y1="152" x2="684" y2="152" stroke="#64748B" stroke-width="2.2" marker-end="url(#arr-gray)"/>
+  <rect x="690" y="128" width="218" height="48" rx="8" fill="#F1F5F9" stroke="#94A3B8"/><text x="799" y="157" text-anchor="middle" class="b" fill="#475569">又慢，焦点又不够锐利</text>
 
-    <!-- STEP 1: Input Coarse Feature Grid -->
-    <g id="step-a1">
-      <rect x="36" y="120" width="194" height="292" rx="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.3" />
-      <rect x="46" y="128" width="174" height="22" rx="4" fill="#F3F4F6" />
-      <text x="133" y="143" text-anchor="middle" class="box-title" fill="#111827">① 1/8 粗特征图（冗余多）</text>
+  <!-- Bottom: ELoFTR -->
+  <rect x="28" y="212" width="904" height="162" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="48" y="240" class="h" fill="#166534">ELoFTR 聚合注意力：先 4×4 非对称浓缩 → 跑真 Softmax + RoPE → 先上采样再过 FFN！</text>
 
-      <!-- 8x8 Feature Grid representing 4 quadrants of 4x4 -->
-      <g transform="translate(69, 162)">
-        <!-- Grid cells 8x8, each 16x16 = 128x128 -->
-        <rect x="0" y="0" width="128" height="128" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2" />
-        <!-- Quadrant 1 (top-left): mostly flat textureless with 1 corner -->
-        <rect x="0" y="0" width="64" height="64" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4" />
-        <rect x="16" y="16" width="16" height="16" fill="#2783DE" />
-        <rect x="32" y="16" width="16" height="16" fill="#93C5FD" />
-        <!-- Quadrant 2 (top-right): salient edge -->
-        <rect x="64" y="0" width="64" height="64" fill="#E8F1EC" stroke="#46A171" stroke-width="1.4" />
-        <rect x="96" y="16" width="16" height="16" fill="#46A171" />
-        <rect x="80" y="32" width="16" height="16" fill="#86EFAC" />
-        <!-- Quadrant 3 (bottom-left): low texture wall -->
-        <rect x="0" y="64" width="64" height="64" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4" />
-        <rect x="16" y="96" width="16" height="16" fill="#D1D5DB" />
-        <!-- Quadrant 4 (bottom-right): salient corner -->
-        <rect x="64" y="64" width="64" height="64" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4" />
-        <rect x="80" y="80" width="16" height="16" fill="#D5803B" />
-        <rect x="96" y="80" width="16" height="16" fill="#FDBA74" />
+  <rect x="50" y="262" width="152" height="84" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.6"/>
+  <text x="126" y="294" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">原始粗特征</text>
+  <text x="126" y="318" text-anchor="middle" class="s">60×80（4800 格）</text>
 
-        <!-- Fine 16px internal grid lines -->
-        <path d="M16,0 V128 M32,0 V128 M48,0 V128 M80,0 V128 M96,0 V128 M112,0 V128 M0,16 H128 M0,32 H128 M0,48 H128 M0,80 H128 M0,96 H128 M0,112 H128" stroke="#FFFFFF" stroke-width="0.7" opacity="0.7" />
-        <!-- Quadrant dividers -->
-        <line x1="64" y1="0" x2="64" y2="128" stroke="#374151" stroke-width="1.5" stroke-dasharray="3,2" />
-        <line x1="0" y1="64" x2="128" y2="64" stroke="#374151" stroke-width="1.5" stroke-dasharray="3,2" />
-      </g>
+  <line x1="202" y1="304" x2="234" y2="304" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
 
-      <text x="133" y="308" text-anchor="middle" class="mono" font-weight="700" fill="#111827">每个虚线框 = 4×4 局部块</text>
-      <text x="133" y="328" text-anchor="middle" class="txt" fill="#374151">以 640×480 为例：</text>
-      <text x="133" y="346" text-anchor="middle" class="mono" fill="#153B60">80×60 = 4,800 个词元</text>
-      <rect x="46" y="358" width="174" height="44" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1" />
-      <text x="133" y="376" text-anchor="middle" class="small" font-weight="700" fill="#70401C">痛点：相邻词元注意力高度相似</text>
-      <text x="133" y="393" text-anchor="middle" class="small" fill="#70401C">全图算线性注意力仍慢且掉精度</text>
-    </g>
+  <rect x="240" y="256" width="182" height="96" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.8"/>
+  <text x="331" y="280" text-anchor="middle" class="b" fill="#14532D" font-weight="700">① 4×4 空间浓缩</text>
+  <text x="331" y="302" text-anchor="middle" class="s" fill="#166534">Q：Depthwise Conv</text>
+  <text x="331" y="320" text-anchor="middle" class="s" fill="#166534">K, V：MaxPool(4×4)</text>
+  <text x="331" y="340" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">缩成 15×20 = 300 格!</text>
 
-    <!-- Split Arrows Step 1 -> Step 2 -->
-    <path d="M 230 220 L 246 220 L 246 196 L 260 196" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arr-blue)" />
-    <path d="M 230 265 L 246 265 L 246 334 L 260 334" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)" />
+  <line x1="422" y1="304" x2="454" y2="304" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
 
-    <!-- STEP 2: Asymmetric Aggregation -->
-    <g id="step-a2">
-      <!-- Top Branch: Query f_i -> Depthwise Conv2D -->
-      <rect x="268" y="120" width="234" height="136" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
-      <text x="385" y="142" text-anchor="middle" class="box-title" fill="#153B60">②a 查询支路 f_i：4×4 逐通道卷积</text>
-      <text x="385" y="160" text-anchor="middle" class="mono" fill="#153B60">f_i' = Conv2D(f_i), kernel=4, stride=4</text>
+  <rect x="460" y="256" width="214" height="96" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.8"/>
+  <text x="567" y="282" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">② 真 Softmax + 2D RoPE</text>
+  <text x="567" y="306" text-anchor="middle" class="s" fill="#1D4ED8">300×300 矩阵缩小 256 倍</text>
+  <text x="567" y="328" text-anchor="middle" class="s" fill="#15803D" font-weight="700">直吃 FlashAttention 加速！</text>
 
-      <!-- Mini 2x2 blended grid -->
-      <g transform="translate(286, 174)">
-        <rect x="0" y="0" width="28" height="28" fill="#93C5FD" stroke="#2783DE" stroke-width="1.2" />
-        <rect x="28" y="0" width="28" height="28" fill="#86EFAC" stroke="#2783DE" stroke-width="1.2" />
-        <rect x="0" y="28" width="28" height="28" fill="#E5E7EB" stroke="#2783DE" stroke-width="1.2" />
-        <rect x="28" y="28" width="28" height="28" fill="#FDBA74" stroke="#2783DE" stroke-width="1.2" />
-      </g>
-      <text x="356" y="188" class="txt" font-weight="700" fill="#153B60">生成查询 Q = W_Q f_i'</text>
-      <text x="356" y="206" class="small" fill="#153B60">为何不用池化？</text>
-      <text x="356" y="222" class="small" fill="#153B60">卷积能平滑汇总局部区域，</text>
-      <text x="356" y="238" class="small" fill="#153B60">防止弱纹理被邻近角点霸占！</text>
+  <line x1="674" y1="304" x2="706" y2="304" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
 
-      <!-- Bottom Branch: Key/Value f_j -> MaxPool -->
-      <rect x="268" y="268" width="234" height="144" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-      <text x="385" y="290" text-anchor="middle" class="box-title" fill="#1F5138">②b 键值支路 f_j：4×4 最大池化</text>
-      <text x="385" y="308" text-anchor="middle" class="mono" fill="#1F5138">f_j' = MaxPool(f_j), kernel=4, stride=4</text>
+  <rect x="712" y="256" width="198" height="96" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.8"/>
+  <text x="811" y="282" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">③ 先上采样，再过 FFN!</text>
+  <text x="811" y="306" text-anchor="middle" class="s" fill="#C2410C">恢复 60×80 + 残差相加</text>
+  <text x="811" y="328" text-anchor="middle" class="s">在原分辨率保留精细局部信息</text>
 
-      <!-- Mini 2x2 salient peak grid -->
-      <g transform="translate(286, 322)">
-        <rect x="0" y="0" width="28" height="28" fill="#2783DE" stroke="#1F5138" stroke-width="1.2" />
-        <rect x="28" y="0" width="28" height="28" fill="#46A171" stroke="#1F5138" stroke-width="1.2" />
-        <rect x="0" y="28" width="28" height="28" fill="#D1D5DB" stroke="#1F5138" stroke-width="1.2" />
-        <rect x="28" y="28" width="28" height="28" fill="#D5803B" stroke="#1F5138" stroke-width="1.2" />
-      </g>
-      <text x="356" y="336" class="txt" font-weight="700" fill="#1F5138">生成 K = W_K f_j', V = W_V f_j'</text>
-      <text x="356" y="354" class="small" fill="#1F5138">为何用 MaxPool？</text>
-      <text x="356" y="370" class="small" fill="#1F5138">注意力权重天然集中在少量</text>
-      <text x="356" y="386" class="small" fill="#1F5138">显著特征上，直接挑出代表！</text>
-      <text x="385" y="405" text-anchor="middle" class="mono" font-weight="700" fill="#1F5138">两侧词元数均压缩 s² = 16 倍（4800 → 300）</text>
-    </g>
-
-    <!-- Arrows Step 2 -> Step 3 -->
-    <path d="M 502 188 L 520 188 L 520 228 L 534 228" fill="none" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arr-blue)" />
-    <path d="M 502 340 L 520 340 L 520 288 L 534 288" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)" />
-
-    <!-- STEP 3: Exact Vanilla Attention + 2D RoPE -->
-    <g id="step-a3">
-      <rect x="542" y="120" width="242" height="292" rx="8" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5" />
-      <rect x="552" y="128" width="222" height="22" rx="4" fill="#E8F1EC" />
-      <text x="663" y="143" text-anchor="middle" class="box-title" fill="#1F5138">③ 标准 Softmax 注意力 + 2D RoPE</text>
-
-      <!-- RoPE badge -->
-      <rect x="556" y="160" width="214" height="44" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2" />
-      <text x="663" y="178" text-anchor="middle" class="txt" font-weight="700" fill="#153B60">2D RoPE 旋转位置编码</text>
-      <text x="663" y="196" text-anchor="middle" class="small" fill="#153B60">仅自注意力启用（编码相对位移 Δx, Δy）</text>
-
-      <!-- Attention matrix compression visual -->
-      <rect x="556" y="214" width="214" height="100" rx="6" fill="#F8FCFA" stroke="#46A171" stroke-width="1.2" />
-      <text x="663" y="232" text-anchor="middle" class="txt" font-weight="700" fill="#1F5138">Softmax(Q K^T) V（多头精确注意力）</text>
-
-      <!-- Visual comparison: Big faded matrix vs tiny crisp matrix -->
-      <rect x="576" y="242" width="58" height="58" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="3,2" />
-      <text x="605" y="268" text-anchor="middle" class="small" fill="#6B7280">原矩阵</text>
-      <text x="605" y="283" text-anchor="middle" class="mono" fill="#6B7280">N × N</text>
-
-      <line x1="642" y1="271" x2="672" y2="271" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arr-orange)" />
-      <text x="657" y="262" text-anchor="middle" class="small" font-weight="700" fill="#D5803B">÷256</text>
-
-      <rect x="684" y="256" width="30" height="30" fill="#46A171" stroke="#1F5138" stroke-width="1.3" />
-      <text x="738" y="268" text-anchor="middle" class="small" font-weight="700" fill="#1F5138">聚合后</text>
-      <text x="738" y="283" text-anchor="middle" class="mono" font-weight="700" fill="#1F5138">(N/16)²</text>
-
-      <!-- Insight box -->
-      <rect x="556" y="324" width="214" height="76" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" />
-      <text x="663" y="344" text-anchor="middle" class="txt" font-weight="700" fill="#70401C">为什么敢用标准注意力？</text>
-      <text x="663" y="362" text-anchor="middle" class="small" fill="#70401C">词元少 16 倍 → 注意力矩阵缩小 256 倍！</text>
-      <text x="663" y="378" text-anchor="middle" class="small" fill="#70401C">摆脱线性注意力的表达瓶颈，</text>
-      <text x="663" y="393" text-anchor="middle" class="small" font-weight="700" fill="#70401C">MegaDepth AUC@5° 反升 +2.3%！</text>
-    </g>
-
-    <!-- Arrow Step 3 -> Step 4 -->
-    <line x1="784" y1="266" x2="808" y2="266" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)" />
-
-    <!-- STEP 4: Upsample BEFORE FFN Fusion -->
-    <g id="step-a4">
-      <rect x="816" y="120" width="228" height="292" rx="8" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.5" />
-      <rect x="826" y="128" width="208" height="22" rx="4" fill="#EDE9FE" />
-      <text x="930" y="143" text-anchor="middle" class="box-title" fill="#422578">④ 先上采样，再进 FFN 融合</text>
-
-      <rect x="836" y="160" width="188" height="32" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2" />
-      <text x="930" y="180" text-anchor="middle" class="txt" font-weight="700" fill="#1F5138">多头拼接与线性投影 (Concat+Linear)</text>
-
-      <line x1="930" y1="192" x2="930" y2="205" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arr)" />
-
-      <rect x="836" y="211" width="188" height="34" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" />
-      <text x="930" y="232" text-anchor="middle" class="txt" font-weight="700" fill="#70401C">★ 上采样恢复至 1/8 分辨率</text>
-
-      <line x1="930" y1="245" x2="930" y2="258" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arr)" />
-
-      <rect x="836" y="264" width="188" height="32" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2" />
-      <text x="930" y="284" text-anchor="middle" class="txt" font-weight="700" fill="#153B60">Concat 原细节特征 f_i (通道×2)</text>
-
-      <line x1="930" y1="296" x2="930" y2="309" stroke="#4B5563" stroke-width="1.5" marker-end="url(#arr)" />
-
-      <rect x="836" y="315" width="188" height="34" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.4" />
-      <text x="930" y="336" text-anchor="middle" class="txt" font-weight="700" fill="#422578">MLP (FFN) + 残差相加 f_i</text>
-
-      <rect x="830" y="360" width="200" height="42" rx="5" fill="#FFF7ED" stroke="#D5803B" stroke-width="1" />
-      <text x="930" y="377" text-anchor="middle" class="small" font-weight="700" fill="#70401C">顺序不能反！先上采样把平滑消息与</text>
-      <text x="930" y="393" text-anchor="middle" class="small" fill="#70401C">原细节融合；FFN 后上采样掉点 1.9%</text>
-    </g>
-  </g>
-
-  <!-- ========================================================================= -->
-  <!-- PANEL B: TWO-STAGE FINE CORRELATION (y=446..800)                          -->
-  <!-- ========================================================================= -->
-  <g id="panel-b">
-    <rect x="22" y="446" width="1036" height="354" rx="12" fill="#FFFDF9" stroke="#D5803B" stroke-width="1.6" />
-    <rect x="34" y="456" width="490" height="26" rx="6" fill="#D5803B" />
-    <text x="279" y="474" text-anchor="middle" class="panel-title" fill="#FFFFFF">核心机制二：两阶段细级相关精修 —— 消除 LoFTR 的空间位置偏差</text>
-
-    <!-- LEFT: LoFTR Problem -->
-    <g id="loftr-bias">
-      <rect x="36" y="494" width="322" height="292" rx="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.4" />
-      <rect x="46" y="502" width="302" height="24" rx="4" fill="#F3F4F6" />
-      <text x="197" y="518" text-anchor="middle" class="box-title" fill="#111827">对比：LoFTR 单阶段整块取期望（存在偏差）</text>
-
-      <!-- 5x5 Heatmap of Patch B in LoFTR -->
-      <g transform="translate(66, 540)">
-        <!-- 5x5 grid, each cell 30x30 = 150x150 -->
-        <rect x="0" y="0" width="150" height="150" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.2" />
-        <!-- True peak at (col=1, row=1) -> x=30, y=30 -->
-        <rect x="30" y="30" width="30" height="30" fill="#46A171" />
-        <rect x="0" y="30" width="30" height="30" fill="#BBF7D0" />
-        <rect x="60" y="30" width="30" height="30" fill="#BBF7D0" />
-        <rect x="30" y="0" width="30" height="30" fill="#BBF7D0" />
-        <rect x="30" y="60" width="30" height="30" fill="#DCFCE7" />
-        <!-- Noisy distractor cluster at bottom-right -->
-        <rect x="90" y="90" width="30" height="30" fill="#FDBA74" />
-        <rect x="120" y="90" width="30" height="30" fill="#FED7AA" />
-        <rect x="90" y="120" width="30" height="30" fill="#FED7AA" />
-        <rect x="120" y="120" width="30" height="30" fill="#FB923C" />
-        <!-- Grid lines -->
-        <path d="M30,0 V150 M60,0 V150 M90,0 V150 M120,0 V150 M0,30 H150 M0,60 H150 M0,90 H150 M0,120 H150" stroke="#9CA3AF" stroke-width="0.9" />
-        <!-- True peak marker -->
-        <circle cx="45" cy="45" r="7" fill="none" stroke="#FFFFFF" stroke-width="2.2" />
-        <text x="45" y="49" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">真</text>
-        <!-- Distractor label -->
-        <text x="135" y="139" text-anchor="middle" font-size="9" font-weight="700" fill="#70401C">噪</text>
-        <!-- Pull arrow from true peak to biased expectation -->
-        <line x1="51" y1="51" x2="74" y2="74" stroke="#DC2626" stroke-width="2" stroke-dasharray="3,2" />
-        <!-- Biased expectation X -->
-        <circle cx="78" cy="78" r="7" fill="#DC2626" />
-        <text x="78" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">×</text>
-      </g>
-
-      <!-- Explanation on right of heatmap -->
-      <text x="232" y="560" class="txt" font-weight="700" fill="#1F5138">● 绿色：真实对应峰</text>
-      <text x="232" y="582" class="txt" font-weight="700" fill="#D5803B">■ 橙色：背景/重复噪声</text>
-      <text x="232" y="604" class="txt" font-weight="700" fill="#DC2626">× 红色：整块期望位置</text>
-
-      <rect x="228" y="622" width="118" height="68" rx="6" fill="#FEF2F2" stroke="#EF4444" stroke-width="1" />
-      <text x="287" y="640" text-anchor="middle" class="small" font-weight="700" fill="#991B1B">重心被拉偏！</text>
-      <text x="287" y="657" text-anchor="middle" class="small" fill="#991B1B">整块图块算 Softmax，</text>
-      <text x="287" y="673" text-anchor="middle" class="small" fill="#991B1B">噪声权重把坐标拽偏</text>
-
-      <text x="197" y="716" text-anchor="middle" class="txt" fill="#374151">固定图 A 中心，对图 B 整块相关图取期望：</text>
-      <text x="197" y="736" text-anchor="middle" class="small" fill="#6B7280">① 只能单侧移动（图 A 点被钉死在 1/8 网格）</text>
-      <text x="197" y="754" text-anchor="middle" class="small" fill="#6B7280">② 只要图块内存在无关噪声，加权平均必引入空间偏差</text>
-    </g>
-
-    <!-- VS Divider Arrow -->
-    <line x1="358" y1="640" x2="386" y2="640" stroke="#D5803B" stroke-width="2.2" marker-end="url(#arr-orange)" />
-    <text x="372" y="628" text-anchor="middle" class="small" font-weight="700" fill="#D5803B">改进</text>
-
-    <!-- RIGHT: ELoFTR Two-Stage Refinement -->
-    <!-- Stage 1 Box -->
-    <g id="eloftr-s1">
-      <rect x="394" y="494" width="318" height="292" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" />
-      <rect x="404" y="502" width="298" height="24" rx="4" fill="#D5803B" />
-      <text x="553" y="518" text-anchor="middle" class="box-title" fill="#FFFFFF">第一阶段：细图块密集相关 + 像素级 MNN</text>
-
-      <!-- Patch A (4x4 visual) -->
-      <g transform="translate(414, 548)">
-        <text x="36" y="-6" text-anchor="middle" class="small" font-weight="700" fill="#153B60">图 A 细图块 (w×w)</text>
-        <rect x="0" y="0" width="72" height="72" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3" />
-        <path d="M18,0 V72 M36,0 V72 M54,0 V72 M0,18 H72 M0,36 H72 M0,54 H72" stroke="#93C5FD" stroke-width="0.9" />
-        <rect x="36" y="18" width="18" height="18" fill="#2783DE" />
-        <text x="45" y="31" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">pA*</text>
-      </g>
-
-      <!-- Double arrow between Patch A and Patch B -->
-      <text x="502" y="582" text-anchor="middle" class="txt" font-weight="700" fill="#70401C">×</text>
-      <text x="502" y="598" text-anchor="middle" class="small" fill="#70401C">全对相关</text>
-
-      <!-- Patch B (4x4 visual) -->
-      <g transform="translate(520, 548)">
-        <text x="36" y="-6" text-anchor="middle" class="small" font-weight="700" fill="#1F5138">图 B 细图块 (w×w)</text>
-        <rect x="0" y="0" width="72" height="72" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3" />
-        <path d="M18,0 V72 M36,0 V72 M54,0 V72 M0,18 H72 M0,36 H72 M0,54 H72" stroke="#86EFAC" stroke-width="0.9" />
-        <rect x="18" y="18" width="18" height="18" fill="#46A171" />
-        <text x="27" y="31" text-anchor="middle" font-size="9" font-weight="700" fill="#FFFFFF">pB*</text>
-        <!-- Noise cell ignored -->
-        <rect x="54" y="54" width="18" height="18" fill="#FDBA74" />
-      </g>
-
-      <!-- Arrow to S_l -->
-      <line x1="596" y1="584" x2="615" y2="584" stroke="#70401C" stroke-width="1.5" marker-end="url(#arr-orange)" />
-
-      <!-- Local Score Matrix S_l -->
-      <g transform="translate(622, 548)">
-        <text x="36" y="-6" text-anchor="middle" class="small" font-weight="700" fill="#70401C">局部矩阵 S_l</text>
-        <rect x="0" y="0" width="72" height="72" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.3" />
-        <path d="M18,0 V72 M36,0 V72 M54,0 V72 M0,18 H72 M0,36 H72 M0,54 H72" stroke="#F3C8A0" stroke-width="0.8" />
-        <!-- Single peak highlighted -->
-        <rect x="36" y="18" width="18" height="18" fill="#46A171" stroke="#1F5138" stroke-width="1.5" />
-        <text x="45" y="30" text-anchor="middle" font-size="8.5" font-weight="700" fill="#FFFFFF">Top1</text>
-      </g>
-
-      <!-- Stage 1 bullets -->
-      <rect x="408" y="636" width="290" height="136" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.1" />
-      <text x="420" y="658" class="txt" font-weight="700" fill="#70401C">1. 两侧自由搜索（不再钉死图 A 中心）</text>
-      <text x="420" y="676" class="small" fill="#4B5563">计算 Patch A 与 Patch B 所有像素对的相关性 S_l</text>
-      <text x="420" y="698" class="txt" font-weight="700" fill="#70401C">2. 互最近邻 (MNN) + 仅留 Top-1 最高分</text>
-      <text x="420" y="716" class="small" fill="#4B5563">直接 argmax 锁定 (pA*, pB*)，完全不受噪声拉偏</text>
-      <text x="420" y="738" class="txt" font-weight="700" fill="#70401C">3. 唯一短板：坐标停留在整数像素级</text>
-      <text x="420" y="756" class="small" fill="#4B5563">→ 交给第二阶段做极小窗口精细微调</text>
-    </g>
-
-    <!-- Arrow Stage 1 -> Stage 2 -->
-    <line x1="712" y1="640" x2="736" y2="640" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)" />
-
-    <!-- Stage 2 Box -->
-    <g id="eloftr-s2">
-      <rect x="744" y="494" width="300" height="292" rx="8" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.5" />
-      <rect x="754" y="502" width="280" height="24" rx="4" fill="#8B5CF6" />
-      <text x="894" y="518" text-anchor="middle" class="box-title" fill="#FFFFFF">第二阶段：3×3 局部窗口期望（亚像素精修）</text>
-
-      <!-- 5x5 Patch B with 3x3 active window & outside grayed out -->
-      <g transform="translate(766, 540)">
-        <!-- Full 5x5 dimmed outside -->
-        <rect x="0" y="0" width="130" height="130" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.1" />
-        <!-- Ignored noise outside 3x3 -->
-        <rect x="78" y="78" width="26" height="26" fill="#E5E7EB" />
-        <rect x="104" y="104" width="26" height="26" fill="#D1D5DB" />
-        <text x="117" y="121" text-anchor="middle" font-size="8.5" fill="#6B7280">被挡</text>
-
-        <!-- Active 3x3 window around (col=1, row=1) -> x=0..78, y=0..78 -->
-        <rect x="0" y="0" width="78" height="78" fill="#DCFCE7" stroke="#46A171" stroke-width="2.2" />
-        <rect x="26" y="26" width="26" height="26" fill="#46A171" />
-        <rect x="52" y="26" width="26" height="26" fill="#86EFAC" />
-        <rect x="26" y="52" width="26" height="26" fill="#86EFAC" />
-
-        <!-- Grid lines -->
-        <path d="M26,0 V130 M52,0 V130 M78,0 V130 M104,0 V130 M0,26 H130 M0,52 H130 M0,78 H130 M0,104 H130" stroke="#9CA3AF" stroke-width="0.8" />
-        <!-- Re-draw bold 3x3 border on top -->
-        <rect x="0" y="0" width="78" height="78" fill="none" stroke="#8B5CF6" stroke-width="2.4" />
-
-        <!-- Exact sub-pixel purple star slightly offset inside center cell -->
-        <circle cx="43" cy="42" r="5.5" fill="#8B5CF6" stroke="#FFFFFF" stroke-width="1.5" />
-      </g>
-
-      <!-- Right annotations -->
-      <text x="908" y="560" class="txt" font-weight="700" fill="#422578">紫框 = 3×3 窗口</text>
-      <text x="908" y="580" class="small" fill="#4B5563">仅以 pB* 为中心</text>
-      <text x="908" y="596" class="small" fill="#4B5563">取周围 9 个像素</text>
-      <text x="908" y="620" class="txt" font-weight="700" fill="#8B5CF6">● 亚像素输出</text>
-      <text x="908" y="638" class="mono" fill="#422578">(xB*+δx, yB*+δy)</text>
-      <text x="908" y="660" class="small" fill="#6B7280">外围干扰完全隔离</text>
-
-      <!-- Stage 2 summary box -->
-      <rect x="758" y="684" width="272" height="88" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2" />
-      <text x="894" y="705" text-anchor="middle" class="txt" font-weight="700" fill="#422578">固定图 A 的 pA*，与图 B 的 3×3 图块算相关</text>
-      <text x="894" y="724" text-anchor="middle" class="txt" fill="#422578">经 Softmax 得到 9 格概率分布 → 取期望得亚像素</text>
-      <text x="894" y="746" text-anchor="middle" class="small" font-weight="700" fill="#422578">消融验证：比 LoFTR 精修高 +1.7% AUC@5°（MD），</text>
-      <text x="894" y="762" text-anchor="middle" class="small" fill="#422578">且两阶段总耗时仅 2.0~3.0 ms（几乎零额外延迟）</text>
-    </g>
-  </g>
 </svg>

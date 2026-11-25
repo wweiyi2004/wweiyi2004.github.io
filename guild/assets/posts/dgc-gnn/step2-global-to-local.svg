@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 3：Global-to-Local 层次化几何引导——为什么用聚类代替下采样？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">稀疏点云没有规则像素网格：先 K-Means 聚出粗簇对齐宏观骨架，再把全局指导广播回每个局部点</text>
+
+  <rect x="28" y="92" width="270" height="206" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="163" y="122" text-anchor="middle" class="h" fill="#1E3A8A">① 空间聚类造“超级节点”</text>
+  <circle cx="104" cy="176" r="24" fill="#DBEAFE" stroke="#2563EB" stroke-dasharray="4,3"/>
+  <circle cx="96" cy="170" r="4" fill="#2563EB"/><circle cx="110" cy="178" r="4" fill="#2563EB"/><circle cx="102" cy="186" r="4" fill="#2563EB"/>
+  <circle cx="216" cy="176" r="24" fill="#DCFCE7" stroke="#16A34A" stroke-dasharray="4,3"/>
+  <circle cx="208" cy="170" r="4" fill="#16A34A"/><circle cx="222" cy="178" r="4" fill="#16A34A"/><circle cx="214" cy="186" r="4" fill="#16A34A"/>
+  <circle cx="160" cy="236" r="24" fill="#FFEDD5" stroke="#F97316" stroke-dasharray="4,3"/>
+  <circle cx="152" cy="232" r="4" fill="#EA580C"/><circle cx="168" cy="238" r="4" fill="#EA580C"/>
+  <text x="163" y="282" text-anchor="middle" class="s">K-Means 把稀疏点聚成 M 个粗簇</text>
+
+  <line x1="298" y1="195" x2="334" y2="195" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+  <rect x="340" y="92" width="276" height="206" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="478" y="122" text-anchor="middle" class="h" fill="#166534">② 粗簇间“距离 + 夹角”全局交互</text>
+  <rect x="362" y="144" width="232" height="62" rx="8" fill="#FFFFFF" stroke="#4ADE80"/>
+  <text x="478" y="168" text-anchor="middle" class="b" fill="#15803D" font-weight="700">k-NN 欧氏距离图 + 三元组夹角</text>
+  <text x="478" y="190" text-anchor="middle" class="s">任意旋转平移后夹角 ∠uvw 严格不变！</text>
+  <rect x="362" y="220" width="232" height="58" rx="8" fill="#DCFCE7" stroke="#16A34A"/>
+  <text x="478" y="244" text-anchor="middle" class="b" fill="#14532D" font-weight="700">先对齐房间/建筑宏观轮廓</text>
+  <text x="478" y="264" text-anchor="middle" class="s">避免孤立点在全图大海捞针</text>
+
+  <line x1="616" y1="195" x2="652" y2="195" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
+
+  <rect x="658" y="92" width="254" height="206" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="785" y="122" text-anchor="middle" class="h" fill="#5B21B6">③ 广播回局部点精准匹配</text>
+  <rect x="680" y="144" width="210" height="64" rx="8" fill="#FFFFFF" stroke="#C4B5FD"/>
+  <text x="785" y="170" text-anchor="middle" class="b" fill="#6D28D9" font-weight="700">两级聚类注意力</text>
+  <text x="785" y="192" text-anchor="middle" class="s">省算力，聚焦局部对应簇</text>
+  <rect x="680" y="222" width="210" height="56" rx="8" fill="#EDE9FE" stroke="#8B5CF6"/>
+  <text x="785" y="255" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">最优传输 → 精准 2D-3D 对</text>
+
+</svg>

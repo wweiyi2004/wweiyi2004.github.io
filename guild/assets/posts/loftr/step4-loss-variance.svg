@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 384" width="960" height="384">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="384" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="36" text-anchor="middle" class="title">图 5：精级损失为何按 1/σ² 加权，且必须截断 σ² 梯度？</text>
+  <text x="480" y="60" text-anchor="middle" class="sub">热力图总方差 σ² 刻画模型把握程度；截断反向传播梯度防止网络“把热力图摊成大饼”来作弊</text>
+
+  <!-- Left Panel: Uncertainty Weighting -->
+  <rect x="26" y="84" width="440" height="276" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="246" y="114" text-anchor="middle" class="h" fill="#1E3A8A">① 1/σ² 加权：清晰角点重权，模糊白墙轻权</text>
+
+  <!-- Sub-label sharp (centered at 136) -->
+  <text x="136" y="142" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">清晰角点（尖锐单峰）</text>
+  <rect x="91" y="152" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="109" y="152" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="127" y="152" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="145" y="152" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="163" y="152" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="91" y="170" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="109" y="170" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="127" y="170" width="18" height="18" fill="#93C5FD" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="145" y="170" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="163" y="170" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="91" y="188" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="109" y="188" width="18" height="18" fill="#93C5FD" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="127" y="188" width="18" height="18" fill="#1D4ED8" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="145" y="188" width="18" height="18" fill="#93C5FD" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="163" y="188" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="91" y="206" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="109" y="206" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="127" y="206" width="18" height="18" fill="#93C5FD" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="145" y="206" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="163" y="206" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="91" y="224" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="109" y="224" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="127" y="224" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="145" y="224" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="163" y="224" width="18" height="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <rect x="69" y="254" width="134" height="28" rx="14" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.4"/>
+  <text x="136" y="273" text-anchor="middle" class="s" fill="#15803D" font-weight="700">σ² 极小 → 高权重</text>
+
+  <!-- Centered Divider at x=246 -->
+  <line x1="246" y1="138" x2="246" y2="282" stroke="#93C5FD" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+  <!-- Sub-label blur (centered at 356) -->
+  <text x="356" y="142" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">弱纹理白墙（平缓分布）</text>
+  <rect x="311" y="152" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="329" y="152" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="347" y="152" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="365" y="152" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="383" y="152" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="311" y="170" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="329" y="170" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="347" y="170" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="365" y="170" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="383" y="170" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="311" y="188" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="329" y="188" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="347" y="188" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="365" y="188" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="383" y="188" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="311" y="206" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="329" y="206" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="347" y="206" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="365" y="206" width="18" height="18" fill="#FDBA74" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="383" y="206" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="311" y="224" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="329" y="224" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="347" y="224" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="365" y="224" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="383" y="224" width="18" height="18" fill="#FFEDD5" stroke="#FED7AA" stroke-width="1"/>
+  <rect x="289" y="254" width="134" height="28" rx="14" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.4"/>
+  <text x="356" y="273" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">σ² 很大 → 低权重</text>
+
+  <text x="246" y="316" text-anchor="middle" class="b" fill="#1E3A8A">• 避免模糊区域带偏精修头，让清晰特征主导精准收敛</text>
+  <text x="246" y="339" text-anchor="middle" class="s" fill="#475569">• 另：真值投影落出 5×5 窗口外的粗匹配直接忽略，不回传脏梯度</text>
+
+  <!-- Right Panel: Why stop_gradient / detach -->
+  <rect x="494" y="84" width="440" height="276" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="714" y="114" text-anchor="middle" class="h" fill="#1E293B">② 关键避坑：为什么 σ² 必须 detach() 截断梯度？</text>
+
+  <!-- Formula pill -->
+  <rect x="534" y="130" width="360" height="38" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.6"/>
+  <text x="714" y="154" text-anchor="middle" class="mono" font-size="14" fill="#0F172A">L_f = ( 1 / σ² ) × || ĵ' − ĵ'_gt ||₂</text>
+
+  <!-- BAD case -->
+  <rect x="516" y="182" width="396" height="76" rx="10" fill="#FEF2F2" stroke="#EF4444" stroke-width="1.8"/>
+  <text x="534" y="206" class="h" fill="#991B1B">✗ 若不截断梯度：模型发现“摆烂捷径”</text>
+  <text x="534" y="229" class="b" fill="#7F1D1D">故意把热力图摊成均匀大饼 → σ² 无限变大 → 1/σ² → 0</text>
+  <text x="534" y="249" class="s" fill="#B91C1C">坐标完全没学准，损失 L_f 却作弊坍缩为 0！</text>
+
+  <!-- GOOD case -->
+  <rect x="516" y="270" width="396" height="76" rx="10" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="534" y="294" class="h" fill="#166534">✓ 截断 σ² 梯度（stop_gradient）</text>
+  <text x="534" y="317" class="b" fill="#14532D">1/σ² 仅当常数权重，不向热力图回传“拉大方差”梯度</text>
+  <text x="534" y="337" class="s" fill="#15803D">逼着网络只能老老实实把坐标误差 || ĵ' − ĵ'_gt ||₂ 压到最低</text>
+</svg>

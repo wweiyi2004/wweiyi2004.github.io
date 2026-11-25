@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：训练核心技巧——怎么防止所有像素全都“坍缩”进同一个主题？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">没有人工分割标签时，靠“正匹配拉齐主题 + 负样本互斥推开”自发长出清晰语义分区</text>
+
+  <rect x="30" y="90" width="420" height="218" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="240" y="120" text-anchor="middle" class="h" fill="#991B1B">✗ 只监督正匹配（没有负样本约束）</text>
+  <rect x="64" y="142" width="352" height="84" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <circle cx="120" cy="184" r="24" fill="#3B82F6"/><text x="120" y="189" text-anchor="middle" fill="#FFF" font-size="13" font-weight="700">T1</text>
+  <text x="270" y="176" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">网络偷懒：把全图 100% 网格</text>
+  <text x="270" y="198" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">全塞进主题 T1！</text>
+  <text x="240" y="256" text-anchor="middle" class="b" fill="#7F1D1D">结果：其余 T2~TM 全部饿死（主题坍缩）</text>
+  <text x="240" y="280" text-anchor="middle" class="s" fill="#991B1B">退化成没有分组的普通全图匹配</text>
+
+  <rect x="490" y="90" width="420" height="218" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="700" y="120" text-anchor="middle" class="h" fill="#166534">✓ TopicFM：正样本拉近 + 负样本推开</text>
+  <rect x="524" y="140" width="352" height="58" rx="8" fill="#FFFFFF" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="700" y="164" text-anchor="middle" class="b" fill="#15803D" font-weight="700">① 正匹配对 (i, j) ∈ M_gt → 强迫落进同一主题</text>
+  <text x="700" y="184" text-anchor="middle" class="s">最大化同一处物理结构的联合主题概率</text>
+
+  <rect x="524" y="210" width="352" height="58" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="700" y="234" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">② 负样本对 (i, k) ∉ M_gt → 惩罚分进同一主题</text>
+  <text x="700" y="254" text-anchor="middle" class="s">逼迫不同结构分散占满 M 个主题，绝不坍缩！</text>
+
+  <text x="700" y="294" text-anchor="middle" class="s" fill="#166534" font-weight="700">结果：无监督自动涌现出清晰的建筑/窗户/地面语义分区</text>
+
+</svg>

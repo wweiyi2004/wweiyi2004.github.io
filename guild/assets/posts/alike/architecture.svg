@@ -1,245 +1,132 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 690" width="1080" height="690">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 405" width="980" height="405">
   <defs>
     <style>
-      text {
-        font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
-      }
-      .title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .subtitle { font-size: 12.5px; fill: #4B5563; }
-      .stage-title { font-size: 13.5px; font-weight: 700; fill: #1F2937; }
-      .node-title { font-size: 13px; font-weight: 700; }
-      .node-sub { font-size: 11.2px; }
-      .tensor { font-size: 11px; font-family: Consolas, "Courier New", monospace; font-weight: 600; }
-      .badge { font-size: 11px; font-weight: 600; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; }
+      .sub { font-size: 13.5px; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
-    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563"/>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE"/>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171"/>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B"/>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
     </marker>
   </defs>
 
-  <!-- Pure white background -->
-  <rect x="0" y="0" width="1080" height="690" fill="#FFFFFF"/>
+  <rect width="980" height="405" fill="#FFFFFF" rx="12"/>
 
-  <!-- Header -->
-  <text x="540" y="34" text-anchor="middle" class="title">ALIKE 端到端网络架构总览（以默认配置 ALIKE-N 为例）</text>
-  <text x="540" y="56" text-anchor="middle" class="subtitle">全卷积轻量设计：单次前向同时输出全分辨率分数图 S 与描述子图 D，再经局部可微检测 DKD 与双线性采样得到亚像素局部特征</text>
+  <text x="490" y="38" text-anchor="middle" class="title" fill="#111827">图 1：ALIKE 整体工作流程（宏观全景）</text>
+  <text x="490" y="62" text-anchor="middle" class="sub" fill="#4B5563">轻量多尺度编码 → 原图分辨率融合输出分数图与描述子图 → DKD 亚像素可微提取（95 FPS）</text>
 
-  <!-- Legend -->
-  <g transform="translate(220, 68)">
-    <rect x="0" y="0" width="14" height="14" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-    <text x="20" y="11" class="badge" fill="#374151">输入 / 中间张量</text>
+  <!-- Stage 1: Lightweight Multi-scale Encoder -->
+  <rect x="24" y="92" width="210" height="252" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="129" y="120" text-anchor="middle" class="h" fill="#1E293B">① 轻量多尺度编码器</text>
 
-    <rect x="128" y="0" width="14" height="14" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
-    <text x="148" y="11" class="badge" fill="#153B60">编码 / 聚合 / 提取头</text>
+  <!-- Mini RGB Image -->
+  <rect x="44" y="136" width="170" height="68" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="129" y="156" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">输入 RGB 图像</text>
+  <rect x="66" y="172" width="26" height="24" fill="#BFDBFE" stroke="#2563EB" stroke-width="1.2"/>
+  <polygon points="104,196 126,166 148,196" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.2"/>
+  <rect x="158" y="176" width="32" height="20" fill="#BFDBFE" stroke="#2563EB" stroke-width="1.2"/>
 
-    <rect x="278" y="0" width="14" height="14" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
-    <text x="298" y="11" class="badge" fill="#1F5138">DKD 检测 / 网格采样</text>
+  <!-- 4 shrinking pyramid bars -->
+  <line x1="129" y1="204" x2="129" y2="220" stroke="#64748B" stroke-width="2" marker-end="url(#arr-gray)"/>
+  <rect x="44" y="226" width="170" height="20" rx="4" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.2"/>
+  <text x="129" y="240" text-anchor="middle" class="s" fill="#1E3A8A" font-weight="700">Block 1（原图 1×）</text>
 
-    <rect x="430" y="0" width="14" height="14" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-    <text x="450" y="11" class="badge" fill="#70401C">训练损失与反向梯度</text>
+  <rect x="62" y="252" width="134" height="18" rx="4" fill="#BFDBFE" stroke="#3B82F6" stroke-width="1.2"/>
+  <text x="129" y="265" text-anchor="middle" class="s" fill="#1E3A8A">Block 2（1/2）</text>
 
-    <rect x="578" y="0" width="14" height="14" rx="3" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
-    <text x="598" y="11" class="badge" fill="#422578">最终稀疏输出</text>
-  </g>
+  <rect x="82" y="276" width="94" height="18" rx="4" fill="#93C5FD" stroke="#2563EB" stroke-width="1.2"/>
+  <text x="129" y="289" text-anchor="middle" class="s" fill="#1E3A8A">Block 3（1/8）</text>
 
-  <!-- ==================== STAGE (a) ENCODER ==================== -->
-  <rect x="20" y="94" width="246" height="388" rx="10" fill="#FAFCFF" stroke="#BFDBFE" stroke-width="1.4" stroke-dasharray="6,4"/>
-  <text x="143" y="115" text-anchor="middle" class="stage-title">(a) 轻量图像特征编码器</text>
+  <rect x="98" y="300" width="62" height="18" rx="4" fill="#2563EB" stroke="#1D4ED8" stroke-width="1.2"/>
+  <text x="129" y="313" text-anchor="middle" class="s" fill="#FFFFFF" font-weight="700">1/32</text>
+  <text x="129" y="335" text-anchor="middle" class="s" fill="#64748B">快速扩出大感受野</text>
 
-  <!-- Input Image -->
-  <rect x="34" y="128" width="218" height="50" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-  <text x="143" y="149" text-anchor="middle" class="node-title" fill="#111827">输入 RGB 图像 I</text>
-  <text x="143" y="167" text-anchor="middle" class="tensor" fill="#374151">[B, 3, H, W] (如 480×640)</text>
+  <!-- Arrow 1->2 -->
+  <line x1="234" y1="218" x2="266" y2="218" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
 
-  <!-- Block 1 -->
-  <rect x="34" y="196" width="218" height="56" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="143" y="216" text-anchor="middle" class="node-title" fill="#153B60">Block 1：2×(Conv3×3 + ReLU)</text>
-  <text x="143" y="233" text-anchor="middle" class="node-sub" fill="#153B60">保留原图分辨率细节</text>
-  <text x="143" y="247" text-anchor="middle" class="tensor" fill="#1E40AF">[B, c1=16, H, W]</text>
+  <!-- Stage 2: Full-Res Aggregation & Head -->
+  <rect x="272" y="92" width="224" height="252" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="384" y="120" text-anchor="middle" class="h" fill="#1E3A8A">② 全分辨率聚合与输出头</text>
 
-  <!-- Block 2 -->
-  <rect x="34" y="268" width="218" height="56" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="143" y="288" text-anchor="middle" class="node-title" fill="#153B60">Block 2：MaxPool(÷2) + ResBlock</text>
-  <text x="143" y="305" text-anchor="middle" class="node-sub" fill="#153B60">3×3 基础残差块</text>
-  <text x="143" y="319" text-anchor="middle" class="tensor" fill="#1E40AF">[B, c2=32, H/2, W/2]</text>
+  <rect x="292" y="138" width="184" height="52" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.6"/>
+  <text x="384" y="160" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">4 尺度 1×1 卷积 + 上采样</text>
+  <text x="384" y="180" text-anchor="middle" class="s" fill="#64748B">全部对齐回原图尺寸并拼接</text>
 
-  <!-- Block 3 -->
-  <rect x="34" y="340" width="218" height="56" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="143" y="360" text-anchor="middle" class="node-title" fill="#153B60">Block 3：MaxPool(÷4) + ResBlock</text>
-  <text x="143" y="377" text-anchor="middle" class="node-sub" fill="#153B60">大幅扩展感受野</text>
-  <text x="143" y="391" text-anchor="middle" class="tensor" fill="#1E40AF">[B, c3=64, H/8, W/8]</text>
+  <line x1="384" y1="190" x2="384" y2="212" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
 
-  <!-- Block 4 -->
-  <rect x="34" y="412" width="218" height="56" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="143" y="432" text-anchor="middle" class="node-title" fill="#153B60">Block 4：MaxPool(÷4) + ResBlock</text>
-  <text x="143" y="449" text-anchor="middle" class="node-sub" fill="#153B60">最大感受野达 204×204</text>
-  <text x="143" y="463" text-anchor="middle" class="tensor" fill="#1E40AF">[B, c4=128, H/32, W/32]</text>
+  <!-- Split into Score Map S & Descriptor Map D -->
+  <rect x="292" y="218" width="184" height="48" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="384" y="239" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">稠密分数图 S（Sigmoid）</text>
+  <text x="384" y="257" text-anchor="middle" class="s" fill="#9A3412">每像素打分 0 ~ 1</text>
 
-  <!-- Vertical Arrows inside Stage (a) -->
-  <line x1="143" y1="178" x2="143" y2="194" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
-  <line x1="143" y1="252" x2="143" y2="266" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
-  <line x1="143" y1="324" x2="143" y2="338" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
-  <line x1="143" y1="396" x2="143" y2="410" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arrow-blue)"/>
+  <rect x="292" y="276" width="184" height="48" rx="8" fill="#F0FDF4" stroke="#4ADE80" stroke-width="1.6"/>
+  <text x="384" y="297" text-anchor="middle" class="b" fill="#15803D" font-weight="700">稠密描述子图 D（L2 归一）</text>
+  <text x="384" y="315" text-anchor="middle" class="s" fill="#166534">每像素单位特征向量</text>
 
-  <!-- ==================== STAGE (b) FEATURE AGGREGATION ==================== -->
-  <rect x="284" y="94" width="256" height="388" rx="10" fill="#FAFCFF" stroke="#BFDBFE" stroke-width="1.4" stroke-dasharray="6,4"/>
-  <text x="412" y="115" text-anchor="middle" class="stage-title">(b) 多尺度特征聚合模块</text>
-  <text x="412" y="133" text-anchor="middle" class="node-sub" fill="#4B5563">兼顾浅层精确定位与深层语义表征</text>
+  <!-- Arrow 2->3 -->
+  <line x1="496" y1="242" x2="530" y2="242" stroke="#EA580C" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <path d="M 496 300 L 732 300 L 732 252 L 760 252" fill="none" stroke="#16A34A" stroke-width="2.2" stroke-dasharray="6,4" marker-end="url(#arr-green)"/>
 
-  <!-- 4 alignment boxes -->
-  <rect x="296" y="200" width="142" height="48" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="367" y="220" text-anchor="middle" class="node-title" fill="#153B60">Conv 1×1</text>
-  <text x="367" y="237" text-anchor="middle" class="node-sub" fill="#153B60">尺寸不变 (H×W)</text>
+  <!-- Stage 3: DKD -->
+  <rect x="536" y="92" width="188" height="190" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="630" y="120" text-anchor="middle" class="h" fill="#9A3412">③ DKD 可微检测</text>
 
-  <rect x="296" y="272" width="142" height="48" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="367" y="292" text-anchor="middle" class="node-title" fill="#153B60">Conv 1×1 + 上采样</text>
-  <text x="367" y="309" text-anchor="middle" class="node-sub" fill="#153B60">双线性放大 ×2</text>
+  <rect x="554" y="138" width="152" height="48" rx="8" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.5"/>
+  <text x="630" y="159" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">局部 NMS 画框</text>
+  <text x="630" y="177" text-anchor="middle" class="s" fill="#64748B">锁定整像素候选中心</text>
 
-  <rect x="296" y="344" width="142" height="48" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="367" y="364" text-anchor="middle" class="node-title" fill="#153B60">Conv 1×1 + 上采样</text>
-  <text x="367" y="381" text-anchor="middle" class="node-sub" fill="#153B60">双线性放大 ×8</text>
+  <line x1="630" y1="186" x2="630" y2="206" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
 
-  <rect x="296" y="416" width="142" height="48" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="367" y="436" text-anchor="middle" class="node-title" fill="#153B60">Conv 1×1 + 上采样</text>
-  <text x="367" y="453" text-anchor="middle" class="node-sub" fill="#153B60">双线性放大 ×32</text>
+  <rect x="554" y="212" width="152" height="52" rx="8" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.5"/>
+  <text x="630" y="233" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">窗口 Softargmax</text>
+  <text x="630" y="253" text-anchor="middle" class="s" fill="#64748B">求亚像素质心 · 梯度直通</text>
 
-  <!-- Concat Bar -->
-  <rect x="456" y="196" width="72" height="272" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.7"/>
-  <text x="492" y="310" text-anchor="middle" class="node-title" fill="#153B60">通道拼接</text>
-  <text x="492" y="328" text-anchor="middle" class="node-sub" fill="#153B60">Concat</text>
-  <text x="492" y="352" text-anchor="middle" class="tensor" fill="#1E40AF">[B, dim,</text>
-  <text x="492" y="367" text-anchor="middle" class="tensor" fill="#1E40AF">H, W]</text>
-  <text x="492" y="388" text-anchor="middle" class="node-sub" fill="#374151">(dim=128)</text>
+  <!-- Gradient feedback hint under stage 3 -->
+  <text x="630" y="328" text-anchor="middle" class="s" fill="#15803D" font-weight="700">按亚像素坐标直接双线性采样 D</text>
 
-  <!-- Arrows from Stage (a) to Stage (b) -->
-  <line x1="252" y1="224" x2="294" y2="224" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="252" y1="296" x2="294" y2="296" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="252" y1="368" x2="294" y2="368" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="252" y1="440" x2="294" y2="440" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <!-- Arrow 3->4 -->
+  <line x1="724" y1="186" x2="760" y2="186" stroke="#EA580C" stroke-width="2.5" marker-end="url(#arr-orange)"/>
 
-  <!-- Arrows from 4 boxes to Concat -->
-  <line x1="438" y1="224" x2="454" y2="224" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="438" y1="296" x2="454" y2="296" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="438" y1="368" x2="454" y2="368" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
-  <line x1="438" y1="440" x2="454" y2="440" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <!-- Stage 4: Output -->
+  <rect x="766" y="92" width="190" height="252" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="861" y="120" text-anchor="middle" class="h" fill="#5B21B6">④ 输出精准局部特征</text>
 
-  <!-- ==================== STAGE (c) FEATURE EXTRACTION HEAD ==================== -->
-  <rect x="558" y="94" width="224" height="388" rx="10" fill="#FAFCFF" stroke="#BFDBFE" stroke-width="1.4" stroke-dasharray="6,4"/>
-  <text x="670" y="115" text-anchor="middle" class="stage-title">(c) 全分辨率特征提取头</text>
-  <text x="670" y="133" text-anchor="middle" class="node-sub" fill="#4B5563">在原图分辨率上输出 S 与 D</text>
+  <!-- Output mini image with crisp keypoints -->
+  <rect x="786" y="138" width="150" height="106" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.6"/>
+  <rect x="804" y="184" width="28" height="44" fill="#F3E8FF" stroke="#A78BFA" stroke-width="1.2"/>
+  <polygon points="844,228 872,172 900,228" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2"/>
+  <rect x="902" y="196" width="20" height="32" fill="#F3E8FF" stroke="#A78BFA" stroke-width="1.2"/>
+  <circle cx="804" cy="184" r="5" fill="#EA580C" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="832" cy="184" r="5" fill="#2563EB" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="872" cy="172" r="5.5" fill="#16A34A" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="900" cy="228" r="5" fill="#7C3AED" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="922" cy="196" r="5" fill="#EA580C" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="861" y="158" text-anchor="middle" class="s" fill="#5B21B6" font-weight="700">角点严丝合缝（亚像素）</text>
 
-  <!-- Conv1x1 Head -->
-  <rect x="572" y="254" width="196" height="66" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="670" y="275" text-anchor="middle" class="node-title" fill="#153B60">Conv 1×1 + ReLU</text>
-  <text x="670" y="292" text-anchor="middle" class="node-sub" fill="#153B60">N_head 层（Normal=1, Large=2）</text>
-  <text x="670" y="309" text-anchor="middle" class="tensor" fill="#1E40AF">[B, dim+1, H, W]</text>
+  <rect x="786" y="256" width="150" height="72" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.4"/>
+  <text x="861" y="278" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">亚像素坐标 p_k</text>
+  <text x="861" y="298" text-anchor="middle" class="b" fill="#15803D" font-weight="700">+ 采样描述子 d_k</text>
+  <text x="861" y="318" text-anchor="middle" class="s" fill="#64748B">ALIKE-N 达 95.19 FPS</text>
 
-  <!-- Arrow from Concat to Head -->
-  <line x1="528" y1="287" x2="570" y2="287" stroke="#2783DE" stroke-width="1.7" marker-end="url(#arrow-blue)"/>
-
-  <!-- Upper Branch: Score Map S -->
-  <rect x="572" y="150" width="196" height="72" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.6"/>
-  <text x="670" y="170" text-anchor="middle" class="node-title" fill="#111827">末 1 通道 → Sigmoid</text>
-  <text x="670" y="188" text-anchor="middle" class="node-sub" fill="#1F2937">稠密关键点分数图 S</text>
-  <text x="670" y="207" text-anchor="middle" class="tensor" fill="#374151">[B, 1, H, W], S ∈ (0, 1)</text>
-
-  <!-- Lower Branch: Descriptor Map D -->
-  <rect x="572" y="356" width="196" height="72" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.6"/>
-  <text x="670" y="376" text-anchor="middle" class="node-title" fill="#111827">前 dim 通道 → L2 Norm</text>
-  <text x="670" y="394" text-anchor="middle" class="node-sub" fill="#1F2937">单位长度稠密描述子图 D</text>
-  <text x="670" y="413" text-anchor="middle" class="tensor" fill="#374151">[B, dim, H, W]</text>
-
-  <!-- Split arrows inside Stage (c) -->
-  <line x1="670" y1="254" x2="670" y2="224" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
-  <line x1="670" y1="320" x2="670" y2="354" stroke="#4B5563" stroke-width="1.6" marker-end="url(#arrow-dark)"/>
-
-  <!-- ==================== STAGE (d) DKD & SAMPLING ==================== -->
-  <rect x="800" y="94" width="260" height="388" rx="10" fill="#F6FBF8" stroke="#A7F3D0" stroke-width="1.4" stroke-dasharray="6,4"/>
-  <text x="930" y="115" text-anchor="middle" class="stage-title">(d) 可微检测与亚像素采样</text>
-  <text x="930" y="133" text-anchor="middle" class="node-sub" fill="#4B5563">梯度可通过 DKD 反向流回分数图 S</text>
-
-  <!-- DKD Module -->
-  <rect x="814" y="146" width="232" height="86" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
-  <text x="930" y="167" text-anchor="middle" class="node-title" fill="#1F5138">可微关键点检测模块 (DKD)</text>
-  <text x="930" y="185" text-anchor="middle" class="node-sub" fill="#1F5138">① 局部 N×N 窗口 NMS + 阈值 th</text>
-  <text x="930" y="202" text-anchor="middle" class="node-sub" fill="#1F5138">② 局部窗口 Softargmax 亚像素偏移</text>
-  <text x="930" y="220" text-anchor="middle" class="tensor" fill="#166534">p_k = [u,v]_NMS + [i,j]_soft</text>
-
-  <!-- Grid Sample -->
-  <rect x="814" y="264" width="232" height="72" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <text x="930" y="285" text-anchor="middle" class="node-title" fill="#1F5138">双线性网格采样 (grid_sample)</text>
-  <text x="930" y="303" text-anchor="middle" class="node-sub" fill="#1F5138">按亚像素坐标 p_k 从 D 插值取向量</text>
-  <text x="930" y="321" text-anchor="middle" class="tensor" fill="#166534">d_k = bisampling(D, p_k)</text>
-
-  <!-- Final Output -->
-  <rect x="814" y="376" width="232" height="88" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8"/>
-  <text x="930" y="398" text-anchor="middle" class="node-title" fill="#422578">最终稀疏局部特征输出</text>
-  <text x="930" y="418" text-anchor="middle" class="tensor" fill="#5B21B6">亚像素坐标 {p_k}: [M, 2]</text>
-  <text x="930" y="436" text-anchor="middle" class="tensor" fill="#5B21B6">关键点分数 {s_k}: [M]</text>
-  <text x="930" y="454" text-anchor="middle" class="tensor" fill="#5B21B6">单位描述子 {d_k}: [M, dim]</text>
-
-  <!-- Arrows into and inside Stage (d) -->
-  <line x1="768" y1="186" x2="812" y2="186" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
-  <line x1="930" y1="232" x2="930" y2="262" stroke="#46A171" stroke-width="1.7" marker-end="url(#arrow-green)"/>
-  <text x="975" y="251" text-anchor="middle" class="tensor" fill="#166534">{p_k} [M, 2]</text>
-
-  <!-- Arrow from D to grid_sample -->
-  <path d="M 768 392 L 792 392 L 792 300 L 812 300" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)"/>
-
-  <!-- Arrow from grid_sample to Output -->
-  <line x1="930" y1="336" x2="930" y2="374" stroke="#46A171" stroke-width="1.7" marker-end="url(#arrow-green)"/>
-
-  <!-- ==================== TRAINING LOSSES STRIP ==================== -->
-  <rect x="20" y="502" width="1040" height="142" rx="10" fill="#FFFBF7" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <text x="40" y="524" class="stage-title" fill="#70401C">训练阶段联合优化目标（双视图图像对 I_A, I_B 共享上述网络权重；推理阶段完全移除以下损失模块）</text>
-
-  <!-- Loss 1: Reprojection -->
-  <rect x="36" y="538" width="238" height="90" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="155" y="558" text-anchor="middle" class="node-title" fill="#70401C">① 重投影损失 L_rp (w=1)</text>
-  <text x="155" y="576" text-anchor="middle" class="node-sub" fill="#70401C">拉近 warp(p_A) 与最近邻 p_B 的 L1 距离</text>
-  <text x="155" y="594" text-anchor="middle" class="node-sub" fill="#70401C">经 DKD 反向更新局部 N×N 分数窗口</text>
-  <text x="155" y="614" text-anchor="middle" class="tensor" fill="#9A3412">→ 直接优化亚像素定位与重复率</text>
-
-  <!-- Loss 2: Dispersity Peak -->
-  <rect x="292" y="538" width="238" height="90" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="411" y="558" text-anchor="middle" class="node-title" fill="#70401C">② 离散峰值损失 L_pk (w=1)</text>
-  <text x="411" y="576" text-anchor="middle" class="node-sub" fill="#70401C">用像素到 p_soft 的距离加权 s'(i,j)</text>
-  <text x="411" y="594" text-anchor="middle" class="node-sub" fill="#70401C">约束分数在关键点正上方收成尖峰</text>
-  <text x="411" y="614" text-anchor="middle" class="tensor" fill="#9A3412">→ 消除“糊成团”的平台响应</text>
-
-  <!-- Loss 3: Reliability -->
-  <rect x="548" y="538" width="238" height="90" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="667" y="558" text-anchor="middle" class="node-title" fill="#70401C">③ 可靠度损失 L_rl (w=1)</text>
-  <text x="667" y="576" text-anchor="middle" class="node-sub" fill="#70401C">复用描述子相似度图评估可区分度 r_p</text>
-  <text x="667" y="594" text-anchor="middle" class="node-sub" fill="#70401C">以分数乘积加权惩罚 (1 - r_p)</text>
-  <text x="667" y="614" text-anchor="middle" class="tensor" fill="#9A3412">→ 压低天空/白墙/重复纹理得分</text>
-
-  <!-- Loss 4: NRE Descriptor -->
-  <rect x="804" y="538" width="240" height="90" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="924" y="558" text-anchor="middle" class="node-title" fill="#70401C">④ NRE 描述子损失 L_de (w=5)</text>
-  <text x="924" y="576" text-anchor="middle" class="node-sub" fill="#70401C">稀疏描述子 d_p 对整张图 D_B 算相似度</text>
-  <text x="924" y="594" text-anchor="middle" class="node-sub" fill="#70401C">稠密匹配概率图与真值图求交叉熵</text>
-  <text x="924" y="614" text-anchor="middle" class="tensor" fill="#9A3412">→ 全局稳定收敛，替代 Triplet</text>
-
-  <!-- Backprop dashed arrows from Loss strip to Stage (c)/(d) -->
-  <path d="M 670 502 L 670 431" fill="none" stroke="#D5803B" stroke-width="1.7" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
-  <text x="678" y="494" class="badge" fill="#9A3412">梯度约束 D</text>
-
-  <path d="M 930 502 L 930 467" fill="none" stroke="#D5803B" stroke-width="1.7" stroke-dasharray="5,3" marker-end="url(#arrow-orange)"/>
-  <text x="938" y="494" class="badge" fill="#9A3412">梯度经 DKD 回传 S</text>
-
-  <!-- Footer Specs -->
-  <rect x="20" y="654" width="1040" height="26" rx="6" fill="#F3F4F6" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="540" y="671" text-anchor="middle" class="badge" fill="#374151">
-    模型档位参考（640×480 输入）：ALIKE-T (0.080M / 2.11 GFLOPs) ｜ ALIKE-S (0.142M / 3.89 GFLOPs) ｜ ALIKE-N (0.318M / 7.91 GFLOPs / 95.19 FPS) ｜ ALIKE-L (0.653M / 19.68 GFLOPs / 68.18 FPS)
-  </text>
+  <!-- Bottom crisp takeaway -->
+  <text x="490" y="380" text-anchor="middle" class="s" fill="#64748B">端到端免伪标签训练：重投影损失 L_rp + 离散峰值 L_pk + 稠密 NRE 损失 L_de + 可靠度 L_rl 联合优化</text>
 </svg>

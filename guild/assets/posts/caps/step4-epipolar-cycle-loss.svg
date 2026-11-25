@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 404" width="960" height="404">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="404" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="36" text-anchor="middle" class="title">图 5：纯位姿弱监督损失——极线约束主攻 + 循环一致补漏</text>
+  <text x="480" y="60" text-anchor="middle" class="sub">为什么一条 1 维极线就能训出强描述子？极线先否决 99% 错位，循环一致再压制沿极线滑移</text>
+
+  <!-- Left Panel: Epipolar Loss -->
+  <rect x="28" y="86" width="438" height="232" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="247" y="114" text-anchor="middle" class="h" fill="#1E3A8A">① 极线损失 L_ep（主心骨：点到直线垂直距离）</text>
+
+  <!-- Mini Image I1 -->
+  <rect x="46" y="132" width="128" height="122" rx="8" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.6"/>
+  <text x="110" y="152" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">图 I₁</text>
+  <circle cx="110" cy="196" r="8" fill="#2563EB"/>
+  <text x="110" y="222" text-anchor="middle" class="b" fill="#1E40AF" font-weight="700">查询点 x₁</text>
+
+  <!-- Arrow F*x1 -->
+  <line x1="174" y1="194" x2="226" y2="194" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <text x="200" y="182" text-anchor="middle" class="mono" font-size="12.5" fill="#1D4ED8">F·x₁</text>
+  <text x="200" y="214" text-anchor="middle" class="s" fill="#1D4ED8">导出极线</text>
+
+  <!-- Mini Image I2 with exact perpendicular & generous spacing -->
+  <rect x="232" y="132" width="216" height="122" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.6"/>
+  <text x="340" y="149" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">图 I₂（极线 l₂ = F·x₁）</text>
+  <line x1="252" y1="238" x2="432" y2="174" stroke="#2563EB" stroke-width="2.4"/>
+  <!-- Right angle mark -->
+  <polyline points="342.0,206.0 339.3,198.5 331.8,201.1" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+  <!-- Perpendicular segment -->
+  <line x1="320.0" y1="168.0" x2="334.5" y2="208.7" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4,2"/>
+  <!-- Predicted point off line -->
+  <circle cx="320.0" cy="168.0" r="6.5" fill="#EA580C"/>
+  <text x="304" y="172" text-anchor="end" class="b" fill="#C2410C" font-weight="700">x̂₂</text>
+  <!-- Dist label -->
+  <text x="342" y="185" class="s" fill="#DC2626" font-weight="700">L_ep</text>
+  <!-- True match star on epipolar line -->
+  <circle cx="388.8" cy="189.4" r="6" fill="#16A34A"/>
+  <text x="392" y="226" text-anchor="middle" class="s" fill="#15803D" font-weight="700">真对应落在线上</text>
+
+  <text x="48" y="278" class="b" fill="#1E3A8A">• 极线仅占几百像素，一次否决 99%+ 非极线错位</text>
+  <text x="48" y="302" class="b" fill="#1E3A8A">• 局限：若 x̂₂ 顺着极线左右滑移，L_ep 依然为 0</text>
+
+  <!-- Right Panel: Cycle Consistency Loss -->
+  <rect x="494" y="86" width="438" height="232" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="713" y="114" text-anchor="middle" class="h" fill="#5B21B6">② 循环一致损失 L_cy（防沿线滑动 · 权重 λ = 0.1）</text>
+
+  <!-- Mini Image I1 (cycle) -->
+  <rect x="512" y="132" width="168" height="122" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.6"/>
+  <text x="596" y="150" text-anchor="middle" class="s" fill="#5B21B6" font-weight="700">图 I₁（回跳检验）</text>
+  <circle cx="564" cy="176" r="7" fill="#2563EB"/>
+  <text x="546" y="180" text-anchor="end" class="b" fill="#1D4ED8" font-weight="700">x₁</text>
+  <circle cx="626" cy="214" r="7" fill="#DC2626"/>
+  <text x="639" y="218" class="b" fill="#DC2626" font-weight="700">x̂₁</text>
+  <line x1="570" y1="180" x2="620" y2="210" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4,2"/>
+  <text x="580" y="236" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">误差 L_cy</text>
+
+  <!-- Forward / Backward curved arrows -->
+  <path d="M 682 172 Q 713 152 742 172" fill="none" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <text x="712" y="153" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">h₁→₂</text>
+  <path d="M 742 216 Q 713 236 682 216" fill="none" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+  <text x="712" y="242" text-anchor="middle" class="s" fill="#6D28D9" font-weight="700">h₂→₁</text>
+
+  <!-- Mini Image I2 (slid along epipolar line) -->
+  <rect x="746" y="132" width="168" height="122" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.6"/>
+  <text x="830" y="150" text-anchor="middle" class="s" fill="#5B21B6" font-weight="700">图 I₂（踩线但滑偏）</text>
+  <line x1="762" y1="226" x2="898" y2="170" stroke="#2563EB" stroke-width="2.2"/>
+  <circle cx="812" cy="205" r="6.5" fill="#EA580C"/>
+  <text x="808" y="191" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">x̂₂</text>
+  <circle cx="868" cy="182" r="5.5" fill="#16A34A"/>
+  <text x="868" y="169" text-anchor="middle" class="s" fill="#15803D" font-weight="700">真点</text>
+  <text x="832" y="240" text-anchor="middle" class="s" fill="#6D28D9">滑偏后反向回不到 x₁</text>
+
+  <text x="514" y="278" class="b" fill="#4C1D95">• 要求双向往返闭合，压制踩线假匹配</text>
+  <text x="514" y="302" class="b" fill="#4C1D95">• 仅作辅助（λ=0.1）：去掉 L_ep 单训会塌缩！</text>
+
+  <!-- Bottom Combined Formula Bar -->
+  <rect x="28" y="334" width="904" height="54" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="480" y="357" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">最终目标（Eq. 6，粗/细双尺度同步施加）：L = Σ w_i · [ L_ep(x₁ⁱ) + 0.1 · L_cy(x₁ⁱ) ]，w_i ∝ 1 / σ(x₁ⁱ)</text>
+  <text x="480" y="378" text-anchor="middle" class="b" fill="#9A3412">跨百万对不同视角与极线方向聚合：只有真正对应的物理表面点，才会在所有交叉极线下保持一致特征！</text>
+
+</svg>

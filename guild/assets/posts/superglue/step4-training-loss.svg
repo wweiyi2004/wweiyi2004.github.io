@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 392" width="960" height="392">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+      .bar { text-decoration: overline; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="392" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 5：真值标签构造与三项负对数似然损失</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">用几何重投影误差划分“正匹配 / 忽略缓冲带 / 垃圾桶”，直接在增广矩阵 <tspan class="bar">P</tspan> 上端到端监督</text>
+  <rect x="26" y="88" width="424" height="278" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="238" y="116" text-anchor="middle" class="h" fill="#1E293B">① 按重投影误差贴真值标签（室内 ScanNet）</text>
+  <rect x="46" y="136" width="114" height="38" rx="6" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="103" y="160" text-anchor="middle" class="b" fill="#166534" font-weight="700">&lt; 5 px</text>
+  <rect x="166" y="136" width="122" height="38" rx="6" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.8" stroke-dasharray="4,3"/>
+  <text x="227" y="160" text-anchor="middle" class="b" fill="#475569" font-weight="700">5 ~ 15 px</text>
+  <rect x="294" y="136" width="136" height="38" rx="6" fill="#FFEDD5" stroke="#F97316" stroke-width="1.8"/>
+  <text x="362" y="160" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">&gt; 15 px</text>
+  <rect x="46" y="200" width="98" height="32" rx="7" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+  <text x="95" y="221" text-anchor="middle" class="b" fill="#166534" font-weight="700">正匹配集 M</text>
+  <text x="156" y="221" class="b" fill="#334155">误差 &lt;5px 且双向最近，拉高对应概率</text>
+  <rect x="46" y="246" width="98" height="32" rx="7" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="95" y="267" text-anchor="middle" class="b" fill="#475569" font-weight="700">忽略缓冲带</text>
+  <text x="156" y="267" class="b" fill="#334155">不计入 Loss，防止深度噪声误伤边界点</text>
+  <rect x="46" y="292" width="98" height="32" rx="7" fill="#FFEDD5" stroke="#F97316" stroke-width="1.5"/>
+  <text x="95" y="313" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">未匹配 I / J</text>
+  <text x="156" y="313" class="b" fill="#334155">误差 &gt;15px，强制把概率压进垃圾桶</text>
+  <text x="238" y="350" text-anchor="middle" class="s">室外 MegaDepth：正 &lt;3px · 忽略 3~5px · 负 &gt;5px（单应无忽略区）</text>
+  <line x1="450" y1="227" x2="482" y2="227" stroke="#7C3AED" stroke-width="2.4" marker-end="url(#arr-purple)"/>
+  <rect x="488" y="88" width="446" height="278" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="711" y="116" text-anchor="middle" class="h" fill="#5B21B6">② 三项等权 NLL 损失监督增广矩阵 <tspan class="bar">P</tspan></text>
+  <text x="549.0" y="144" text-anchor="middle" class="s" fill="#475569" font-weight="700">B1</text>
+  <text x="587.0" y="144" text-anchor="middle" class="s" fill="#475569" font-weight="700">B2</text>
+  <text x="625.0" y="144" text-anchor="middle" class="s" fill="#475569" font-weight="700">B3*</text>
+  <text x="663.0" y="144" text-anchor="middle" class="s" fill="#475569" font-weight="700">桶</text>
+  <text x="524" y="172" text-anchor="end" class="s" fill="#475569" font-weight="700">A1</text>
+  <rect x="532" y="152" width="34" height="30" rx="5" fill="#16A34A" stroke="#15803D" stroke-width="1.2"/>
+  <text x="549.0" y="172" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">M</text>
+  <rect x="570" y="152" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="608" y="152" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="646" y="152" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="524" y="206" text-anchor="end" class="s" fill="#475569" font-weight="700">A2</text>
+  <rect x="532" y="186" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="570" y="186" width="34" height="30" rx="5" fill="#16A34A" stroke="#15803D" stroke-width="1.2"/>
+  <text x="587.0" y="206" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">M</text>
+  <rect x="608" y="186" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="646" y="186" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="524" y="240" text-anchor="end" class="s" fill="#475569" font-weight="700">A3*</text>
+  <rect x="532" y="220" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="570" y="220" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="608" y="220" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="646" y="220" width="34" height="30" rx="5" fill="#EA580C" stroke="#C2410C" stroke-width="1.2"/>
+  <text x="663.0" y="240" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">I</text>
+  <text x="524" y="274" text-anchor="end" class="s" fill="#475569" font-weight="700">桶</text>
+  <rect x="532" y="254" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="570" y="254" width="34" height="30" rx="5" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <rect x="608" y="254" width="34" height="30" rx="5" fill="#2563EB" stroke="#1D4ED8" stroke-width="1.2"/>
+  <text x="625.0" y="274" text-anchor="middle" class="mono" font-size="12.5" fill="#FFFFFF">J</text>
+  <rect x="646" y="254" width="34" height="30" rx="5" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="663.0" y="274" text-anchor="middle" class="mono" font-size="12.5" fill="#64748B">·</text>
+  <rect x="696" y="138" width="222" height="48" rx="8" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.6"/>
+  <text x="807" y="159" text-anchor="middle" class="mono" font-size="12" fill="#166534">−Σ log <tspan class="bar">P</tspan>(i, j)   (i,j)∈M</text>
+  <text x="807" y="178" text-anchor="middle" class="s" fill="#166534">推高真匹配概率 → 拉高召回率</text>
+  <rect x="696" y="194" width="222" height="48" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="807" y="215" text-anchor="middle" class="mono" font-size="12" fill="#9A3412">−Σ log <tspan class="bar">P</tspan>(i, N+1)  i∈I</text>
+  <text x="807" y="234" text-anchor="middle" class="s" fill="#9A3412">图 A 遮挡点进桶 → 抑制误匹配</text>
+  <rect x="696" y="250" width="222" height="48" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="807" y="271" text-anchor="middle" class="mono" font-size="12" fill="#1D4ED8">−Σ log <tspan class="bar">P</tspan>(M+1, j)  j∈J</text>
+  <text x="807" y="290" text-anchor="middle" class="s" fill="#1D4ED8">图 B 遮挡点进桶 → 双向防错配</text>
+  <rect x="508" y="314" width="410" height="36" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="713" y="337" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">三项权重天然均为 1 · 梯度可穿透 Sinkhorn 联合微调前端描述子</text>
+</svg>

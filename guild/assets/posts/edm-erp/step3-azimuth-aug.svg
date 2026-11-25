@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 310" width="940" height="310">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="310" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：随机方位角旋转增强——ERP 全景图独享的“零黑边”数据增强</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">把 ERP 图水平循环滚动 Δu 像素，数学上严格等价于把全景相机绕竖直轴原地旋转任意角度！</text>
+
+  <rect x="36" y="92" width="380" height="176" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="226" y="122" text-anchor="middle" class="h" fill="#1E3A8A">原始 ERP 全景图</text>
+  <rect x="64" y="142" width="110" height="80" rx="6" fill="#DBEAFE" stroke="#2563EB"/><text x="119" y="187" text-anchor="middle" class="h" fill="#1D4ED8">左侧 A</text>
+  <rect x="178" y="142" width="110" height="80" rx="6" fill="#DCFCE7" stroke="#16A34A"/><text x="233" y="187" text-anchor="middle" class="h" fill="#15803D">中间 B</text>
+  <rect x="292" y="142" width="96" height="80" rx="6" fill="#FFEDD5" stroke="#F97316"/><text x="340" y="187" text-anchor="middle" class="h" fill="#C2410C">右侧 C</text>
+  <text x="226" y="248" text-anchor="middle" class="s">左右边界在球面上原本就是首尾相连的</text>
+
+  <line x1="416" y1="180" x2="516" y2="180" stroke="#EA580C" stroke-width="3" marker-end="url(#arr-orange)"/>
+  <text x="466" y="164" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">随机水平滚动</text>
+  <text x="466" y="204" text-anchor="middle" font-size="11.5" fill="#C2410C">等价 360° 偏航</text>
+
+  <rect x="524" y="92" width="380" height="176" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="714" y="122" text-anchor="middle" class="h" fill="#166534">增强后的新视角 ERP 图（零黑边！）</text>
+  <rect x="552" y="142" width="96" height="80" rx="6" fill="#FFEDD5" stroke="#F97316"/><text x="600" y="187" text-anchor="middle" class="h" fill="#C2410C">右侧 C</text>
+  <rect x="652" y="142" width="110" height="80" rx="6" fill="#DBEAFE" stroke="#2563EB"/><text x="707" y="187" text-anchor="middle" class="h" fill="#1D4ED8">左侧 A</text>
+  <rect x="766" y="142" width="110" height="80" rx="6" fill="#DCFCE7" stroke="#16A34A"/><text x="821" y="187" text-anchor="middle" class="h" fill="#15803D">中间 B</text>
+  <text x="714" y="248" text-anchor="middle" class="s" fill="#15803D" font-weight="700">大幅提升大偏航角跨视角泛化能力！</text>
+
+</svg>

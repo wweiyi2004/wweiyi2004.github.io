@@ -1,279 +1,162 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 800" width="1080" height="800" role="img" aria-label="LoFTR 端到端架构总览图">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="980" height="420">
+
   <defs>
     <style>
-      .bg { fill: #FFFFFF; }
-      .title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #111827; }
-      .subtitle { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 12.5px; fill: #4B5563; }
-      .stage-title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 13.5px; font-weight: 700; fill: #1F2937; }
-      .node-title { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 13px; font-weight: 700; }
-      .node-sub { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 11.5px; }
-      .mono { font-family: Consolas, "Courier New", "Microsoft YaHei", monospace; font-size: 11px; }
-      .edge-label { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 11px; fill: #374151; }
-      .legend-text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; font-size: 11.5px; fill: #374151; }
-      .stage-box { fill: #FAFAFB; stroke: #D1D5DB; stroke-width: 1.4; stroke-dasharray: 6 4; rx: 10; }
-      .train-box { fill: #FFFBF7; stroke: #D5803B; stroke-width: 1.4; stroke-dasharray: 6 4; rx: 10; }
-      .data-box { fill: #F3F4F6; stroke: #9CA3AF; stroke-width: 1.5; rx: 8; }
-      .feat-box { fill: #E5F2FC; stroke: #2783DE; stroke-width: 1.5; rx: 8; }
-      .attn-box { fill: #E8F1EC; stroke: #46A171; stroke-width: 1.5; rx: 8; }
-      .loss-box { fill: #FBEBDE; stroke: #D5803B; stroke-width: 1.5; rx: 8; }
-      .out-box  { fill: #EDE9FE; stroke: #8B5CF6; stroke-width: 1.5; rx: 8; }
-      .arrow { fill: none; stroke: #4B5563; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-      .arrow-blue { fill: none; stroke: #2783DE; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-      .arrow-green { fill: none; stroke: #46A171; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-      .arrow-orange { fill: none; stroke: #D5803B; stroke-width: 1.5; stroke-dasharray: 5 3; stroke-linecap: round; stroke-linejoin: round; }
-      .badge-bg { fill: #FFFFFF; stroke: #D1D5DB; stroke-width: 1; rx: 4; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
-    <marker id="arr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#4B5563" />
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#2783DE" />
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#46A171" />
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M 0 1 L 9 5 L 0 9 z" fill="#D5803B" />
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
     </marker>
   </defs>
 
-  <!-- Pure White Background -->
-  <rect class="bg" x="0" y="0" width="1080" height="800" />
+  <rect width="980" height="420" fill="#FFFFFF" rx="12"/>
 
-  <!-- Header & Legend -->
-  <text class="title" x="28" y="34">LoFTR 端到端半稠密特征匹配架构总览</text>
-  <text class="subtitle" x="28" y="56">无检测器（Detector-Free）由粗到精流水线：1/8 粗尺度全局 Transformer 匹配 → 1/2 精尺度局部窗口亚像素精修（括号内以 640×480 为例）</text>
+  <text x="490" y="36" text-anchor="middle" class="title">图 1：LoFTR 整体工作流程（宏观全景）</text>
+  <text x="490" y="60" text-anchor="middle" class="sub">彻底抛弃关键点检测器：双尺度 CNN 提特征 → 粗级全局注意力 → 可微粗匹配 → 5×5 窗口亚像素精修</text>
 
-  <!-- Legend -->
-  <g transform="translate(555, 16)">
-    <rect x="0" y="0" width="14" height="14" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2" />
-    <text class="legend-text" x="20" y="11">输入/数据</text>
+  <!-- Top Skip Connection: 1/2 Fine Features directly from Stage 1 (center 118) to Stage 4 (center 857) -->
+  <path d="M 118 118 L 118 90 L 857 90 L 857 114" fill="none" stroke="#2563EB" stroke-width="2.2" stroke-dasharray="6,4" marker-end="url(#arr-blue)"/>
+  <rect x="348" y="76" width="284" height="26" rx="13" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="490" y="94" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">1/2 精级特征直通支路（留给阶段 ④ 精修用）</text>
 
-    <rect x="88" y="0" width="14" height="14" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2" />
-    <text class="legend-text" x="108" y="11">CNN特征</text>
+  <!-- Stage 1: Dual-scale CNN -->
+  <rect x="26" y="118" width="184" height="252" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="118" y="144" text-anchor="middle" class="h" fill="#1E293B">① 双尺度 CNN</text>
+  <text x="118" y="164" text-anchor="middle" class="s" fill="#6B7280">ResNet-18 + FPN</text>
 
-    <rect x="176" y="0" width="14" height="14" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2" />
-    <text class="legend-text" x="196" y="11">注意力/匹配</text>
+  <!-- Mini Image A -->
+  <rect x="48" y="178" width="140" height="42" rx="6" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <!-- Mini Image B -->
+  <rect x="48" y="266" width="140" height="42" rx="6" fill="#F0FDF4" stroke="#4ADE80" stroke-width="1.5"/>
+  <line x1="76" y1="178" x2="76" y2="220" stroke="#93C5FD" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="104" y1="178" x2="104" y2="220" stroke="#93C5FD" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="132" y1="178" x2="132" y2="220" stroke="#93C5FD" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="160" y1="178" x2="160" y2="220" stroke="#93C5FD" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="48" y1="192" x2="188" y2="192" stroke="#93C5FD" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="48" y1="206" x2="188" y2="206" stroke="#93C5FD" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="76" y1="266" x2="76" y2="308" stroke="#86EFAC" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="104" y1="266" x2="104" y2="308" stroke="#86EFAC" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="132" y1="266" x2="132" y2="308" stroke="#86EFAC" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="160" y1="266" x2="160" y2="308" stroke="#86EFAC" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="48" y1="280" x2="188" y2="280" stroke="#86EFAC" stroke-width="1" stroke-dasharray="2,2"/>
+  <line x1="48" y1="294" x2="188" y2="294" stroke="#86EFAC" stroke-width="1" stroke-dasharray="2,2"/>
+  <text x="118" y="204" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">图 A（稠密网格）</text>
+  <text x="118" y="247" text-anchor="middle" class="s" fill="#475569">无检测器 · 共享权重</text>
+  <text x="118" y="292" text-anchor="middle" class="b" fill="#15803D" font-weight="700">图 B（稠密网格）</text>
+  <text x="118" y="336" text-anchor="middle" class="b" fill="#1E293B" font-weight="700">输出双尺度特征</text>
+  <text x="118" y="356" text-anchor="middle" class="s" fill="#64748B">1/8 粗特征 + 1/2 精特征</text>
 
-    <rect x="278" y="0" width="14" height="14" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" />
-    <text class="legend-text" x="298" y="11">精修/损失</text>
+  <!-- Arrow 1->2 -->
+  <line x1="210" y1="244" x2="248" y2="244" stroke="#64748B" stroke-width="2.4" marker-end="url(#arr-gray)"/>
+  <text x="230" y="232" text-anchor="middle" class="s" fill="#475569" font-weight="700">1/8</text>
 
-    <rect x="370" y="0" width="14" height="14" rx="3" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.2" />
-    <text class="legend-text" x="390" y="11">最终输出</text>
-  </g>
+  <!-- Stage 2: Coarse LoFTR Module -->
+  <rect x="254" y="118" width="252" height="252" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="380" y="144" text-anchor="middle" class="h" fill="#1E3A8A">② 粗级 LoFTR（N_c = 4）</text>
+  <text x="380" y="164" text-anchor="middle" class="s" fill="#1D4ED8">展平 + 2D 位置编码（仅加 1 次）</text>
 
-  <!-- ==================== UPPER EXPRESS TRACK: 1/2 Fine Feature Skip ==================== -->
-  <!-- Stage 1 Fine output to Stage 4 (enters right side of Stage 4 top box at x=1024, clear of title) -->
-  <path class="arrow-blue" d="M 31 333 L 31 96 L 1024 96 L 1024 178" marker-end="url(#arr-blue)" />
-  <rect class="badge-bg" x="342" y="79" width="388" height="30" />
-  <text class="edge-label" x="536" y="93" text-anchor="middle" fill="#153B60" font-weight="700">1/2 精级特征直通支路：F̂ᴬ, F̂ᴮ  [B, C_f, H/2, W/2]</text>
-  <text class="mono" x="536" y="106" text-anchor="middle" fill="#2783DE">示例尺寸：[B, C_f, 240, 320]（保留高分辨率空间定位细节）</text>
+  <rect x="272" y="178" width="216" height="54" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="380" y="200" text-anchor="middle" class="h" fill="#1D4ED8">图内 Self-Attention</text>
+  <text x="380" y="220" text-anchor="middle" class="s" fill="#4B5563">让白墙像素看清全局周边地标</text>
 
-  <!-- ==================== STAGE 1: Local Feature CNN ==================== -->
-  <rect class="stage-box" x="24" y="140" width="212" height="462" />
-  <text class="stage-title" x="130" y="162" text-anchor="middle">1. 局部特征提取（CNN）</text>
+  <line x1="380" y1="232" x2="380" y2="250" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
 
-  <!-- Input Images -->
-  <rect class="data-box" x="40" y="180" width="180" height="72" />
-  <text class="node-title" x="130" y="203" text-anchor="middle" fill="#111827">输入图像对 Iᴬ, Iᴮ</text>
-  <text class="mono" x="130" y="222" text-anchor="middle" fill="#374151">[B, 1, H, W]</text>
-  <text class="node-sub" x="130" y="240" text-anchor="middle" fill="#4B5563">例：640×480（ScanNet）</text>
+  <rect x="272" y="255" width="216" height="54" rx="8" fill="#FFFFFF" stroke="#34D399" stroke-width="1.8"/>
+  <text x="380" y="277" text-anchor="middle" class="h" fill="#047857">跨图 Cross-Attention</text>
+  <text x="380" y="297" text-anchor="middle" class="s" fill="#4B5563">双视角互相通信、对齐全局结构</text>
 
-  <path class="arrow" d="M 130 252 L 130 282" marker-end="url(#arr-gray)" />
+  <rect x="267" y="324" width="226" height="32" rx="16" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="380" y="345" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">Linear Attention：O(N²) → O(N)</text>
 
-  <!-- ResNet-18 + FPN -->
-  <rect class="feat-box" x="40" y="284" width="180" height="98" />
-  <text class="node-title" x="130" y="308" text-anchor="middle" fill="#153B60">局部特征提取骨干</text>
-  <text class="node-sub" x="130" y="328" text-anchor="middle" fill="#153B60">改进版 ResNet-18 + FPN</text>
-  <text class="node-sub" x="130" y="348" text-anchor="middle" fill="#1E40AF">双分支权值共享提取</text>
-  <text class="node-sub" x="130" y="368" text-anchor="middle" fill="#3B82F6">提供平移等变性与局部归纳偏置</text>
+  <!-- Arrow 2->3 -->
+  <line x1="506" y1="244" x2="544" y2="244" stroke="#2563EB" stroke-width="2.4" marker-end="url(#arr-blue)"/>
 
-  <!-- Branch to Fine (left stub from CNN to vertical blue express rail at x=31) -->
-  <path class="arrow-blue" d="M 40 333 L 31 333" />
-  <rect x="44" y="113" width="172" height="19" rx="4" fill="#E5F2FC" stroke="#2783DE" stroke-width="0.9" />
-  <text class="edge-label" x="130" y="126" text-anchor="middle" fill="#153B60">输出 1/2 精级特征 F̂ᴬ, F̂ᴮ</text>
+  <!-- Stage 3: Differentiable Coarse Matching -->
+  <rect x="550" y="118" width="166" height="252" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="633" y="146" text-anchor="middle" class="h" fill="#166534">③ 可微粗匹配</text>
+  <rect x="583" y="168" width="22" height="22" rx="4" fill="#16A34A" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="609" y="168" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="635" y="168" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="661" y="168" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="583" y="194" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="609" y="194" width="22" height="22" rx="4" fill="#16A34A" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="635" y="194" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="661" y="194" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="583" y="220" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="609" y="220" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="635" y="220" width="22" height="22" rx="4" fill="#16A34A" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="661" y="220" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="583" y="246" width="22" height="22" rx="4" fill="#FED7AA" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="609" y="246" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="635" y="246" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <rect x="661" y="246" width="22" height="22" rx="4" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+  <text x="633" y="292" text-anchor="middle" class="b" fill="#166534" font-weight="700">Dual-Softmax / OT</text>
+  <text x="633" y="314" text-anchor="middle" class="s" fill="#4B5563">算全局置信度矩阵 P_c</text>
+  <rect x="565" y="328" width="136" height="28" rx="14" fill="#FFFFFF" stroke="#4ADE80" stroke-width="1.4"/>
+  <text x="633" y="346" text-anchor="middle" class="s" fill="#15803D" font-weight="700">≥ 0.2 + 互近邻筛选</text>
 
-  <!-- Branch down to Coarse -->
-  <path class="arrow" d="M 130 382 L 130 418" marker-end="url(#arr-gray)" />
+  <!-- Arrow 3->4 -->
+  <line x1="716" y1="244" x2="754" y2="244" stroke="#16A34A" stroke-width="2.4" marker-end="url(#arr-green)"/>
+  <text x="735" y="232" text-anchor="middle" class="s" fill="#15803D" font-weight="700">M_c</text>
 
-  <!-- Coarse Feature Maps -->
-  <rect class="feat-box" x="40" y="420" width="180" height="84" />
-  <text class="node-title" x="130" y="443" text-anchor="middle" fill="#153B60">1/8 粗级特征图 F̃ᴬ, F̃ᴮ</text>
-  <text class="mono" x="130" y="463" text-anchor="middle" fill="#153B60">[B, C_c, H/8, W/8]</text>
-  <text class="node-sub" x="130" y="482" text-anchor="middle" fill="#1E40AF">例：[B, C_c, 60, 80]</text>
-  <text class="node-sub" x="130" y="497" text-anchor="middle" fill="#4B5563">序列长度缩减至原图 1/64</text>
+  <!-- Stage 4: Coarse-to-Fine Sub-pixel Refinement -->
+  <rect x="760" y="118" width="194" height="252" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="857" y="146" text-anchor="middle" class="h" fill="#5B21B6">④ 5×5 亚像素精修</text>
+  <rect x="801" y="162" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="824" y="162" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="847" y="162" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="870" y="162" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="893" y="162" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="801" y="185" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="824" y="185" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="847" y="185" width="20" height="20" rx="3" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="870" y="185" width="20" height="20" rx="3" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="893" y="185" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="801" y="208" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="824" y="208" width="20" height="20" rx="3" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="847" y="208" width="20" height="20" rx="3" fill="#DDD6FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="870" y="208" width="20" height="20" rx="3" fill="#A78BFA" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="893" y="208" width="20" height="20" rx="3" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="801" y="231" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="824" y="231" width="20" height="20" rx="3" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="847" y="231" width="20" height="20" rx="3" fill="#A78BFA" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="870" y="231" width="20" height="20" rx="3" fill="#7C3AED" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="893" y="231" width="20" height="20" rx="3" fill="#DDD6FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="801" y="254" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="824" y="254" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="847" y="254" width="20" height="20" rx="3" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="870" y="254" width="20" height="20" rx="3" fill="#DDD6FE" stroke="#C4B5FD" stroke-width="1"/>
+  <rect x="893" y="254" width="20" height="20" rx="3" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1"/>
+  <!-- Sub-pixel red crosshair near cell (3,3) -->
+  <circle cx="878" cy="238" r="5" fill="#EF4444" stroke="#FFFFFF" stroke-width="1.8"/>
+  <line x1="868" y1="238" x2="888" y2="238" stroke="#EF4444" stroke-width="1.6"/>
+  <line x1="878" y1="228" x2="878" y2="248" stroke="#EF4444" stroke-width="1.6"/>
 
-  <!-- Note inside Stage 1 -->
-  <rect x="40" y="520" width="180" height="66" rx="6" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1" />
-  <text class="node-sub" x="130" y="539" text-anchor="middle" fill="#374151" font-weight="700">无兴趣点检测器！</text>
-  <text class="node-sub" x="130" y="558" text-anchor="middle" fill="#4B5563">1/8 网格上每个点都作为</text>
-  <text class="node-sub" x="130" y="575" text-anchor="middle" fill="#4B5563">候选特征参与稠密匹配</text>
+  <text x="857" y="294" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">窗口精修 + 2D 期望</text>
+  <text x="857" y="315" text-anchor="middle" class="s" fill="#4B5563">固定左图中心 · 精修右图点</text>
+  <rect x="778" y="328" width="158" height="28" rx="14" fill="#FFFFFF" stroke="#A78BFA" stroke-width="1.4"/>
+  <text x="857" y="346" text-anchor="middle" class="s" fill="#6D28D9" font-weight="700">输出亚像素匹配 M_f</text>
 
-  <!-- Connector Stage 1 -> Stage 2 -->
-  <path class="arrow" d="M 220 462 L 246 462 L 246 218 L 274 218" marker-end="url(#arr-gray)" />
-
-  <!-- ==================== STAGE 2: Coarse-Level LoFTR Module ==================== -->
-  <rect class="stage-box" x="260" y="140" width="268" height="462" />
-  <text class="stage-title" x="394" y="162" text-anchor="middle">2. 粗级局部特征 Transformer（LoFTR）</text>
-
-  <!-- Flatten + 2D PE -->
-  <rect class="feat-box" x="276" y="180" width="236" height="78" />
-  <text class="node-title" x="394" y="202" text-anchor="middle" fill="#153B60">展平 1D 序列 + 2D 正弦位置编码</text>
-  <text class="mono" x="394" y="221" text-anchor="middle" fill="#153B60">[B, N, C_c]  (N = H/8 × W/8 = 4800)</text>
-  <text class="node-sub" x="394" y="241" text-anchor="middle" fill="#D5803B" font-weight="700">关键：位置编码仅在骨干输出后添加 1 次</text>
-
-  <path class="arrow" d="M 394 258 L 394 282" marker-end="url(#arr-gray)" />
-
-  <!-- Interleaved Self & Cross Attention Box -->
-  <rect class="attn-box" x="276" y="284" width="236" height="196" />
-  <text class="node-title" x="394" y="307" text-anchor="middle" fill="#1F5138">LoFTR 核心模块（交替重复 N_c = 4 次）</text>
-
-  <!-- Sub-box Self-Attention -->
-  <rect x="292" y="320" width="204" height="58" rx="6" fill="#FFFFFF" stroke="#46A171" stroke-width="1.2" />
-  <text class="node-title" x="394" y="340" text-anchor="middle" fill="#1F5138">Self-Attention（图内全局上下文）</text>
-  <text class="node-sub" x="394" y="357" text-anchor="middle" fill="#374151">Q=f_i, K=V=f_i（同图内消息传递）</text>
-  <text class="node-sub" x="394" y="372" text-anchor="middle" fill="#46A171">弱纹理点自动聚合周边边缘轮廓信息</text>
-
-  <path class="arrow-green" d="M 394 378 L 394 398" marker-end="url(#arr-green)" />
-
-  <!-- Sub-box Cross-Attention -->
-  <rect x="292" y="400" width="204" height="66" rx="6" fill="#FFFFFF" stroke="#46A171" stroke-width="1.2" />
-  <text class="node-title" x="394" y="420" text-anchor="middle" fill="#1F5138">Cross-Attention（跨图双视角交互）</text>
-  <text class="node-sub" x="394" y="437" text-anchor="middle" fill="#374151">Q=f_i, K=V=f_j（A→B 与 B→A 双向）</text>
-  <text class="node-sub" x="394" y="454" text-anchor="middle" fill="#46A171">线性注意力 φ(·)=elu(·)+1，复杂度 O(N)</text>
-
-  <path class="arrow" d="M 394 480 L 394 506" marker-end="url(#arr-gray)" />
-
-  <!-- Output Transformed Features -->
-  <rect class="attn-box" x="276" y="508" width="236" height="78" />
-  <text class="node-title" x="394" y="531" text-anchor="middle" fill="#1F5138">变换后粗级特征 F̃ᴬ_tr, F̃ᴮ_tr</text>
-  <text class="mono" x="394" y="550" text-anchor="middle" fill="#1F5138">[B, N_A, C_c] &amp; [B, N_B, C_c]</text>
-  <text class="node-sub" x="394" y="570" text-anchor="middle" fill="#374151">同时具备上下文依赖 &amp; 位置依赖</text>
-
-  <!-- Connector Stage 2 -> Stage 3 -->
-  <path class="arrow" d="M 512 547 L 538 547 L 538 218 L 566 218" marker-end="url(#arr-gray)" />
-
-  <!-- Upsample + Concat path from Stage 2 F_tr to Stage 4 (enters at x=838, clear of title) -->
-  <path class="arrow-green" d="M 512 566 L 544 566 L 544 123 L 838 123 L 838 178" marker-end="url(#arr-green)" />
-  <rect x="558" y="113" width="270" height="20" rx="4" fill="#E8F1EC" stroke="#46A171" stroke-width="0.9" />
-  <text class="edge-label" x="693" y="127" text-anchor="middle" fill="#1F5138">实现细节：F̃ᴬ_tr, F̃ᴮ_tr 上采样后与 F̂ᴬ, F̂ᴮ 拼接</text>
-
-  <!-- ==================== STAGE 3: Coarse Matching Module ==================== -->
-  <rect class="stage-box" x="554" y="140" width="224" height="462" />
-  <text class="stage-title" x="666" y="162" text-anchor="middle">3. 可微粗匹配模块</text>
-
-  <!-- Score Matrix -->
-  <rect class="attn-box" x="570" y="180" width="192" height="78" />
-  <text class="node-title" x="666" y="203" text-anchor="middle" fill="#1F5138">相关得分矩阵 S</text>
-  <text class="mono" x="666" y="222" text-anchor="middle" fill="#1F5138">S(i,j) = (1/τ)·&lt;F̃ᴬ_tr(i), F̃ᴮ_tr(j)&gt;</text>
-  <text class="mono" x="666" y="242" text-anchor="middle" fill="#374151">[B, N_A, N_B]（例 4800×4800）</text>
-
-  <path class="arrow" d="M 666 258 L 666 286" marker-end="url(#arr-gray)" />
-
-  <!-- Differentiable Matching Layer -->
-  <rect class="attn-box" x="570" y="288" width="192" height="106" />
-  <text class="node-title" x="666" y="311" text-anchor="middle" fill="#1F5138">可微匹配层（二选一）</text>
-  <text class="node-sub" x="666" y="332" text-anchor="middle" fill="#1F5138" font-weight="700">① Dual-Softmax（LoFTR-DS）</text>
-  <text class="node-sub" x="666" y="349" text-anchor="middle" fill="#374151">行列双向 Softmax 相乘</text>
-  <text class="node-sub" x="666" y="369" text-anchor="middle" fill="#1F5138" font-weight="700">② Optimal Transport（LoFTR-OT）</text>
-  <text class="node-sub" x="666" y="385" text-anchor="middle" fill="#374151">-S 作代价矩阵，Sinkhorn×3</text>
-
-  <path class="arrow" d="M 666 394 L 666 420" marker-end="url(#arr-gray)" />
-
-  <!-- Confidence Matrix Pc -->
-  <rect class="data-box" x="570" y="422" width="192" height="60" />
-  <text class="node-title" x="666" y="444" text-anchor="middle" fill="#111827">粗匹配置信度矩阵 P_c</text>
-  <text class="mono" x="666" y="464" text-anchor="middle" fill="#374151">[B, N_A, N_B]，值域 [0, 1]</text>
-
-  <path class="arrow" d="M 666 482 L 666 508" marker-end="url(#arr-gray)" />
-
-  <!-- Match Selection -->
-  <rect class="loss-box" x="570" y="510" width="192" height="76" />
-  <text class="node-title" x="666" y="532" text-anchor="middle" fill="#70401C">粗匹配筛选 → M_c</text>
-  <text class="node-sub" x="666" y="551" text-anchor="middle" fill="#70401C">① 置信度 P_c(ĩ, j̃) ≥ θ_c (0.2)</text>
-  <text class="node-sub" x="666" y="570" text-anchor="middle" fill="#70401C">② 互近邻筛选 MNN(P_c)</text>
-
-  <!-- Connector Stage 3 -> Stage 4 -->
-  <path class="arrow" d="M 762 548 L 792 548 L 792 218 L 818 218" marker-end="url(#arr-gray)" />
-
-  <!-- ==================== STAGE 4: Coarse-to-Fine Module ==================== -->
-  <rect class="stage-box" x="806" y="140" width="250" height="462" />
-  <text class="stage-title" x="931" y="162" text-anchor="middle">4. 粗到精亚像素精修模块</text>
-
-  <!-- Local Window Cropping -->
-  <rect class="loss-box" x="822" y="180" width="218" height="84" />
-  <text class="node-title" x="931" y="203" text-anchor="middle" fill="#70401C">映射定位 &amp; 局部窗口裁剪</text>
-  <text class="node-sub" x="931" y="222" text-anchor="middle" fill="#70401C">每对粗匹配 (ĩ, j̃) 映射到 1/2 特征 (î, ĵ)</text>
-  <text class="mono" x="931" y="241" text-anchor="middle" fill="#70401C">裁剪 w×w (5×5) 窗口：[M, 25, C_f']</text>
-  <text class="node-sub" x="931" y="256" text-anchor="middle" fill="#9A3412">M = |M_c| 为保留的粗匹配数</text>
-
-  <path class="arrow" d="M 931 264 L 931 288" marker-end="url(#arr-gray)" />
-
-  <!-- Fine-level LoFTR -->
-  <rect class="attn-box" x="822" y="290" width="218" height="72" />
-  <text class="node-title" x="931" y="313" text-anchor="middle" fill="#1F5138">小型精级 LoFTR（N_f = 1）</text>
-  <text class="node-sub" x="931" y="333" text-anchor="middle" fill="#1F5138">窗口内 Self + Cross Attention</text>
-  <text class="mono" x="931" y="351" text-anchor="middle" fill="#374151">产出 F̂ᴬ_tr(î), F̂ᴮ_tr(ĵ)  [M, 5×5, C]</text>
-
-  <path class="arrow" d="M 931 362 L 931 386" marker-end="url(#arr-gray)" />
-
-  <!-- Correlation + Heatmap + Expectation -->
-  <rect class="loss-box" x="822" y="388" width="218" height="94" />
-  <text class="node-title" x="931" y="410" text-anchor="middle" fill="#70401C">中心点相关 &amp; 2D 期望回归</text>
-  <text class="node-sub" x="931" y="429" text-anchor="middle" fill="#70401C">取 F̂ᴬ_tr(î) 中心向量与 F̂ᴮ_tr(ĵ) 全窗相关</text>
-  <text class="mono" x="931" y="448" text-anchor="middle" fill="#70401C">Softmax → 概率热力图 [M, 5, 5]</text>
-  <text class="node-sub" x="931" y="468" text-anchor="middle" fill="#9A3412" font-weight="700">求期望 E(·) → 亚像素坐标 ĵ'（î 固定）</text>
-
-  <path class="arrow" d="M 931 482 L 931 508" marker-end="url(#arr-gray)" />
-
-  <!-- Final Output -->
-  <rect class="out-box" x="822" y="510" width="218" height="76" />
-  <text class="node-title" x="931" y="533" text-anchor="middle" fill="#422578">最终半稠密亚像素匹配 M_f</text>
-  <text class="mono" x="931" y="553" text-anchor="middle" fill="#422578">M_f = { (î, ĵ') }，映射回原图尺度</text>
-  <text class="node-sub" x="931" y="572" text-anchor="middle" fill="#5B21B6">送入 RANSAC 求解单应/本质矩阵</text>
-
-  <!-- ==================== BOTTOM TRAINING SUPERVISION BAR ==================== -->
-  <rect class="train-box" x="24" y="628" width="1032" height="148" />
-  <text class="stage-title" x="44" y="652" fill="#70401C">端到端联合监督（仅训练阶段启用，全程从随机初始化权重端到端优化）</text>
-
-  <!-- GT Box -->
-  <rect class="data-box" x="44" y="668" width="236" height="90" />
-  <text class="node-title" x="162" y="692" text-anchor="middle" fill="#111827">真值几何监督来源</text>
-  <text class="node-sub" x="162" y="712" text-anchor="middle" fill="#374151">相机位姿 + 深度图重投影</text>
-  <text class="node-sub" x="162" y="730" text-anchor="middle" fill="#4B5563">• 粗真值 M_c^gt：1/8 网格中心 MNN</text>
-  <text class="node-sub" x="162" y="747" text-anchor="middle" fill="#4B5563">• 精真值 ĵ'_gt：î 投影至 B 局部窗口</text>
-
-  <path class="arrow-orange" d="M 280 713 L 326 713" marker-end="url(#arr-orange)" />
-
-  <!-- Coarse Loss -->
-  <rect class="loss-box" x="328" y="668" width="256" height="90" />
-  <text class="node-title" x="456" y="691" text-anchor="middle" fill="#70401C">粗级损失 L_c（负对数似然）</text>
-  <text class="mono" x="456" y="712" text-anchor="middle" fill="#70401C">DS: -1/|M_c^gt| · Σ log P_c(ĩ, j̃)</text>
-  <text class="node-sub" x="456" y="732" text-anchor="middle" fill="#9A3412">OT 版本采用 SuperGlue 同款 NLL 损失</text>
-  <text class="node-sub" x="456" y="749" text-anchor="middle" fill="#4B5563">拉高真值匹配格概率，压低其余误匹配</text>
-
-  <!-- Dashed line from Pc to Lc -->
-  <path class="arrow-orange" d="M 570 452 L 548 452 L 548 614 L 456 614 L 456 666" marker-end="url(#arr-orange)" />
-
-  <!-- Fine Loss -->
-  <rect class="loss-box" x="614" y="668" width="270" height="90" />
-  <text class="node-title" x="749" y="691" text-anchor="middle" fill="#70401C">精级损失 L_f（不确定性加权 ℓ₂）</text>
-  <text class="mono" x="749" y="712" text-anchor="middle" fill="#70401C">1/|M_f| · Σ [ 1/σ²(î) · ||ĵ' - ĵ'_gt||₂ ]</text>
-  <text class="node-sub" x="749" y="732" text-anchor="middle" fill="#9A3412">σ²(î) 为热力图总方差（不反传梯度！）</text>
-  <text class="node-sub" x="749" y="749" text-anchor="middle" fill="#4B5563">若 ĵ'_gt 落出 5×5 窗口，则忽略该项</text>
-
-  <!-- Dashed line from Fine output to Lf -->
-  <path class="arrow-orange" d="M 822 452 L 798 452 L 798 614 L 749 614 L 749 666" marker-end="url(#arr-orange)" />
-  <!-- Also GT arrow to Lf -->
-  <path class="arrow-orange" d="M 280 742 L 304 742 L 304 768 L 600 768 L 600 742 L 612 742" marker-end="url(#arr-orange)" />
-
-  <!-- Total Loss -->
-  <rect class="out-box" x="912" y="678" width="128" height="70" />
-  <text class="node-title" x="976" y="703" text-anchor="middle" fill="#422578">联合总损失</text>
-  <text class="mono" x="976" y="724" text-anchor="middle" fill="#422578" font-weight="700">L = L_c + L_f</text>
-  <text class="node-sub" x="976" y="741" text-anchor="middle" fill="#5B21B6">权重 1 : 1</text>
-
-  <!-- L_c bottom route to Total Loss, L_f direct to Total Loss -->
-  <path class="arrow-orange" d="M 456 758 L 456 772 L 976 772 L 976 750" marker-end="url(#arr-orange)" />
-  <path class="arrow-orange" d="M 884 713 L 910 713" marker-end="url(#arr-orange)" />
+  <text x="490" y="400" text-anchor="middle" class="s" fill="#6B7280">核心分工：低分辨率 1/8 靠全局注意力建立弱纹理共识，高分辨率 1/2 靠 5×5 局部窗口把误差压到亚像素</text>
 </svg>

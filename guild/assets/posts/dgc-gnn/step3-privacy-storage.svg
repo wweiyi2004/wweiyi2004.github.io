@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 310" width="940" height="310">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="310" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：为什么无描述子路线对大规模 3D 地图如此重要？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">一笔直观的工程账：省下 300 倍单点存储、防特征反演泄密、换前端检测器不用重构地图</text>
+
+  <rect x="30" y="92" width="278" height="184" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="169" y="124" text-anchor="middle" class="h" fill="#1E3A8A">① 地图存储暴瘦 300×</text>
+  <rect x="52" y="146" width="234" height="44" rx="7" fill="#FEE2E2" stroke="#F87171"/><text x="169" y="173" text-anchor="middle" class="b" fill="#991B1B">256维 Float 描述子：1024 字节/点</text>
+  <rect x="52" y="204" width="234" height="44" rx="7" fill="#DCFCE7" stroke="#22C55E"/><text x="169" y="231" text-anchor="middle" class="b" fill="#15803D" font-weight="700">RGB 颜色线索：仅 3 字节/点！</text>
+
+  <rect x="331" y="92" width="278" height="184" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="470" y="124" text-anchor="middle" class="h" fill="#166534">② 保护隐私防反演</text>
+  <rect x="353" y="146" width="234" height="44" rx="7" fill="#FEE2E2" stroke="#F87171"/><text x="470" y="173" text-anchor="middle" class="b" fill="#991B1B">高维描述子可高清还原人脸/室内</text>
+  <rect x="353" y="204" width="234" height="44" rx="7" fill="#DCFCE7" stroke="#22C55E"/><text x="470" y="231" text-anchor="middle" class="b" fill="#15803D" font-weight="700">稀疏点 + RGB 无法还原隐私画面</text>
+
+  <rect x="632" y="92" width="278" height="184" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="771" y="124" text-anchor="middle" class="h" fill="#9A3412">③ 跨检测器免维护</text>
+  <rect x="654" y="146" width="234" height="44" rx="7" fill="#FEE2E2" stroke="#F87171"/><text x="771" y="173" text-anchor="middle" class="b" fill="#991B1B">换特征模型 = 整座城地图重算</text>
+  <rect x="654" y="204" width="234" height="44" rx="7" fill="#DCFCE7" stroke="#22C55E"/><text x="771" y="231" text-anchor="middle" class="b" fill="#15803D" font-weight="700">只存几何地图，任意检测器即插即用</text>
+
+</svg>

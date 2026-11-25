@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 416" width="980" height="416">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="416" fill="#FFFFFF" rx="12"/>
+
+  <text x="490" y="38" text-anchor="middle" class="title">图 4：训练策略——三项损失分工与 20k 步延迟开启</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">局部注意力吃 0/1 标签监督，全局注意力绝不加显式监督；前 20k 步先稳权重，再开基础矩阵几何损失</text>
+
+  <!-- Left Card: Depth convergence + Supervision split -->
+  <rect x="28" y="88" width="490" height="254" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="273" y="116" text-anchor="middle" class="h" fill="#1E3A8A">① 逐层聚焦（类 IRLS）与双路监督分工</text>
+
+  <!-- 3 mini boxes -->
+  <rect x="46" y="130" width="122" height="72" rx="8" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+  <circle cx="70" cy="148" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="90" cy="146" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="138" cy="184" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="124" cy="186" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="148" cy="168" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="108" cy="184" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="76" cy="188" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="128" cy="144" r="4.2" fill="#FB923C" opacity="0.85"/>
+  <circle cx="64" cy="182" r="4.5" fill="#22C55E" opacity="0.75"/>
+  <circle cx="82" cy="174" r="4.5" fill="#22C55E" opacity="0.75"/>
+  <circle cx="100" cy="166" r="4.5" fill="#22C55E" opacity="0.75"/>
+  <circle cx="118" cy="158" r="4.5" fill="#22C55E" opacity="0.75"/>
+  <circle cx="136" cy="150" r="4.5" fill="#22C55E" opacity="0.75"/>
+  <text x="107" y="218" text-anchor="middle" class="s" fill="#1E40AF" font-weight="700">浅层 ARB 2（分散）</text>
+
+  <line x1="172" y1="166" x2="204" y2="166" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="212" y="130" width="122" height="72" rx="8" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+  <line x1="224" y1="185" x2="310" y2="146" stroke="#86EFAC" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <circle cx="236" cy="148" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="256" cy="146" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="304" cy="184" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="290" cy="186" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="314" cy="168" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="274" cy="184" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="242" cy="188" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="294" cy="144" r="3.2" fill="#FDBA74" opacity="0.5"/>
+  <circle cx="230" cy="182" r="5" fill="#16A34A" opacity="0.9"/>
+  <circle cx="248" cy="174" r="5" fill="#16A34A" opacity="0.9"/>
+  <circle cx="266" cy="166" r="5" fill="#16A34A" opacity="0.9"/>
+  <circle cx="284" cy="158" r="5" fill="#16A34A" opacity="0.9"/>
+  <circle cx="302" cy="150" r="5" fill="#16A34A" opacity="0.9"/>
+  <text x="273" y="218" text-anchor="middle" class="s" fill="#1E40AF" font-weight="700">中层 ARB 6（初显）</text>
+
+  <line x1="338" y1="166" x2="370" y2="166" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="378" y="130" width="122" height="72" rx="8" fill="#FFFFFF" stroke="#34D399" stroke-width="1.8"/>
+  <line x1="390" y1="185" x2="476" y2="146" stroke="#22C55E" stroke-width="2"/>
+  <circle cx="402" cy="148" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="422" cy="146" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="470" cy="184" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="456" cy="186" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="480" cy="168" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="440" cy="184" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="408" cy="188" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="460" cy="144" r="2.2" fill="#CBD5E1" opacity="0.45"/>
+  <circle cx="396" cy="182" r="5.5" fill="#15803D"/>
+  <circle cx="414" cy="174" r="5.5" fill="#15803D"/>
+  <circle cx="432" cy="166" r="5.5" fill="#15803D"/>
+  <circle cx="450" cy="158" r="5.5" fill="#15803D"/>
+  <circle cx="468" cy="150" r="5.5" fill="#15803D"/>
+  <text x="439" y="218" text-anchor="middle" class="s" fill="#15803D" font-weight="700">深层 ARB 12（锁死）</text>
+
+  <!-- Supervision split boxes -->
+  <rect x="46" y="234" width="218" height="90" rx="8" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.6"/>
+  <text x="155" y="258" text-anchor="middle" class="b" fill="#166534" font-weight="700">✓ 局部分支 w_local：加 BCE</text>
+  <text x="155" y="282" text-anchor="middle" class="s" fill="#374151">末层 (β=1) + 中间层 (γ=1, 可选)</text>
+  <text x="155" y="304" text-anchor="middle" class="s" fill="#15803D">用极线距离 0/1 真值引导筛点</text>
+
+  <rect x="280" y="234" width="220" height="90" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="390" y="258" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">✗ 全局分支 w_global：不监督</text>
+  <text x="390" y="282" text-anchor="middle" class="s" fill="#9A3412" font-weight="700">全程绝不给显式 0/1 标签！</text>
+  <text x="390" y="304" text-anchor="middle" class="s" fill="#9A3412">由下游几何损失端到端自发学习</text>
+
+  <!-- Right Card: Two-Stage Warm-up -->
+  <rect x="536" y="88" width="416" height="254" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="744" y="116" text-anchor="middle" class="h" fill="#5B21B6">② 两阶段训练时间轴（Warm-up 策略）</text>
+
+  <rect x="556" y="132" width="376" height="82" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.6"/>
+  <rect x="568" y="144" width="132" height="24" rx="12" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
+  <text x="634" y="160" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">阶段 1：0 ～ 20k 步</text>
+  <text x="710" y="161" class="b" fill="#1E293B" font-weight="700">仅开局部 BCE 分类损失</text>
+  <text x="570" y="196" class="s" fill="#4B5563">先关闭几何回归项：防初期权重混乱导致特征分解梯度爆炸</text>
+
+  <line x1="744" y1="214" x2="744" y2="236" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+
+  <rect x="556" y="242" width="376" height="82" rx="8" fill="#FFFFFF" stroke="#22C55E" stroke-width="1.6"/>
+  <rect x="568" y="254" width="132" height="24" rx="12" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="634" y="270" text-anchor="middle" class="s" fill="#15803D" font-weight="700">阶段 2：20k 步之后</text>
+  <text x="710" y="271" class="b" fill="#1E293B" font-weight="700">开启基础矩阵几何损失 (α=0.1)</text>
+  <text x="570" y="306" class="s" fill="#4B5563">用 min(+/-) 兼容 F̂ 与 -F̂ 符号等价，驱动全局权重精细排序</text>
+
+  <!-- Bottom callout -->
+  <rect x="28" y="356" width="924" height="46" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
+  <text x="490" y="384" text-anchor="middle" class="b" fill="#1E293B" font-weight="700">设计巧思：0/1 标签只知道“是不是内点”，不知道“哪几个内点解八点法最稳”——把全局分支留给几何损失自由发挥！</text>
+</svg>

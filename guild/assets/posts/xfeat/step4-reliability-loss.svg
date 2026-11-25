@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 410" width="980" height="410">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; }
+      .sub { font-size: 13.5px; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="410" fill="#FFFFFF" rx="12"/>
+
+  <text x="490" y="36" text-anchor="middle" class="title" fill="#111827">图 5：可靠性图 R 怎么自监督？拿双向 Softmax 成绩单反哺单图</text>
+  <text x="490" y="60" text-anchor="middle" class="sub" fill="#4B5563">训练时直接拿双图最大匹配概率乘积 max(S) ⊙ max(Sᵀ) 当现成标签教可靠性头，并截断梯度保护描述子</text>
+
+  <!-- Step headers -->
+  <text x="178" y="98" text-anchor="middle" class="h" fill="#1D4ED8">① 双向 Softmax 概率（4×4 示例）</text>
+  <text x="466" y="98" text-anchor="middle" class="h" fill="#C2410C">② 联合置信度 max(S) ⊙ max(Sᵀ)</text>
+  <text x="808" y="98" text-anchor="middle" class="h" fill="#166534">③ 监督单图可靠性头 R</text>
+
+  <!-- Matrix -->
+  <text x="97.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+  <text x="151.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+  <text x="205.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B3</text>
+  <text x="259.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B4*</text>
+  <text x="62" y="158.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+  <rect x="72" y="134" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="97.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.93</text>
+  <rect x="126" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="151.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.03</text>
+  <rect x="180" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="205.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+  <rect x="234" y="134" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="259.0" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+  <text x="62" y="200.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+  <rect x="72" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="97.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+  <rect x="126" y="176" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="151.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.90</text>
+  <rect x="180" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="205.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.05</text>
+  <rect x="234" y="176" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="259.0" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.03</text>
+  <text x="62" y="242.0" text-anchor="end" class="b" fill="#334155" font-weight="700">A3</text>
+  <rect x="72" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="97.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.02</text>
+  <rect x="126" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="151.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.04</text>
+  <rect x="180" y="218" width="50" height="38" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="205.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.87</text>
+  <rect x="234" y="218" width="50" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="259.0" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.07</text>
+  <text x="62" y="284.0" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A4*</text>
+  <rect x="72" y="260" width="50" height="38" rx="6" fill="#FFF7ED" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="97.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#C2410C">0.22</text>
+  <rect x="126" y="260" width="50" height="38" rx="6" fill="#FFF7ED" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="151.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#C2410C">0.25</text>
+  <rect x="180" y="260" width="50" height="38" rx="6" fill="#FFF7ED" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="205.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#C2410C">0.24</text>
+  <rect x="234" y="260" width="50" height="38" rx="6" fill="#EA580C" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="259.0" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.29</text>
+  <text x="178" y="324" text-anchor="middle" class="s" fill="#475569">L_ds 逼对角线趋近 1 · 白墙 A4* 难分高下</text>
+
+  <!-- Arrow 1 -> 2 -->
+  <line x1="294" y1="215" x2="342" y2="215" stroke="#EA580C" stroke-width="2.4" marker-end="url(#arr-orange)"/>
+  <text x="318" y="202" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">取最大</text>
+
+  <!-- Middle Panel -->
+  <rect x="350" y="114" width="230" height="192" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="362" y="158.0" text-anchor="start" class="s" fill="#334155" font-weight="700">A1 角点</text>
+  <text x="470" y="158.0" text-anchor="middle" class="mono" font-size="12" fill="#475569">0.93×0.94 =</text>
+  <rect x="516" y="137" width="50" height="32" rx="6" fill="#16A34A"/>
+  <text x="541" y="158.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.87</text>
+  <text x="362" y="200.0" text-anchor="start" class="s" fill="#334155" font-weight="700">A2 窗角</text>
+  <text x="470" y="200.0" text-anchor="middle" class="mono" font-size="12" fill="#475569">0.90×0.89 =</text>
+  <rect x="516" y="179" width="50" height="32" rx="6" fill="#16A34A"/>
+  <text x="541" y="200.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.80</text>
+  <text x="362" y="242.0" text-anchor="start" class="s" fill="#334155" font-weight="700">A3 门楣</text>
+  <text x="470" y="242.0" text-anchor="middle" class="mono" font-size="12" fill="#475569">0.87×0.86 =</text>
+  <rect x="516" y="221" width="50" height="32" rx="6" fill="#16A34A"/>
+  <text x="541" y="242.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.75</text>
+  <text x="362" y="284.0" text-anchor="start" class="s" fill="#DC2626" font-weight="700">A4* 白墙</text>
+  <text x="470" y="284.0" text-anchor="middle" class="mono" font-size="12" fill="#475569">0.29×0.25 =</text>
+  <rect x="516" y="263" width="50" height="32" rx="6" fill="#EA580C"/>
+  <text x="541" y="284.0" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.07</text>
+  <text x="466" y="324" text-anchor="middle" class="s" fill="#C2410C">双图匹配难度自动变成 0~1 标签</text>
+
+  <!-- Stop-Gradient Bridge 2 -> 3 -->
+  <line x1="580" y1="215" x2="652" y2="215" stroke="#DC2626" stroke-width="2.4" stroke-dasharray="5,3" marker-end="url(#arr-red)"/>
+  <rect x="585" y="176" width="66" height="26" rx="13" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="618" y="193" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">截断梯度</text>
+  <text x="618" y="236" text-anchor="middle" class="s" fill="#B91C1C" font-weight="700">Stop-Grad</text>
+  <text x="618" y="254" text-anchor="middle" class="s" fill="#64748B">不改描述子</text>
+
+  <!-- Right Panel: Reliability Head -->
+  <rect x="660" y="114" width="296" height="192" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+
+  <rect x="676" y="128" width="264" height="54" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <text x="808" y="151" text-anchor="middle" class="b" fill="#166534" font-weight="700">L1 逼近：σ(R) → max(S) ⊙ max(Sᵀ)</text>
+  <text x="808" y="172" text-anchor="middle" class="s" fill="#15803D">逼着单张图提前猜出“将来好不好配”</text>
+
+  <rect x="676" y="194" width="264" height="44" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.4"/>
+  <text x="808" y="221" text-anchor="middle" class="b" fill="#14532D" font-weight="700">✓ 高分角点（0.87）→ 稀疏 K·R 优先留</text>
+
+  <rect x="676" y="248" width="264" height="44" rx="8" fill="#FEF2F2" stroke="#F87171" stroke-width="1.4"/>
+  <text x="808" y="275" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">✗ 低分白墙（0.07）→ 半稠密 10k 剔除</text>
+
+  <text x="808" y="324" text-anchor="middle" class="s" fill="#166534">推理时无需第二张图，单图直接筛出好点</text>
+
+  <!-- Bottom crisp callout -->
+  <rect x="32" y="340" width="916" height="52" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="490" y="363" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">原论文重点提醒：为什么 L_rel 必须对目标 max(S) ⊙ max(Sᵀ) 截断梯度？</text>
+  <text x="490" y="383" text-anchor="middle" class="b" fill="#1E3A8A">因为可靠性头只能老实拟合描述子的真实匹配难度，绝不能反过来修改描述子（防止网络把描述子学烂来“作弊”迁就低分）！</text>
+</svg>

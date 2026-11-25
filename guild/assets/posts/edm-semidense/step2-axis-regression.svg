@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="960" height="380">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="380" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 3：双向轴回归头（ABRHead）——把 2D 网格搜索拆成两条 1D 轴！</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">彻底告别昂贵的 1/2 高分辨率 2D 局部热力图，复杂度从 W² 降成 2W，还能顺手算不确定度 σ</text>
+
+  <!-- Left: 2D Heatmap -->
+  <rect x="28" y="88" width="414" height="264" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="235" y="118" text-anchor="middle" class="h" fill="#475569">传统 2D 局部热力图精修</text>
+  <!-- 5x5 grid -->
+  <rect x="145" y="138" width="180" height="120" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <line x1="181" y1="138" x2="181" y2="258" stroke="#E2E8F0"/><line x1="217" y1="138" x2="217" y2="258" stroke="#E2E8F0"/>
+  <line x1="253" y1="138" x2="253" y2="258" stroke="#E2E8F0"/><line x1="289" y1="138" x2="289" y2="258" stroke="#E2E8F0"/>
+  <line x1="145" y1="168" x2="325" y2="168" stroke="#E2E8F0"/><line x1="145" y1="198" x2="325" y2="198" stroke="#E2E8F0"/>
+  <line x1="145" y1="228" x2="325" y2="228" stroke="#E2E8F0"/>
+  <rect x="219" y="170" width="32" height="26" rx="4" fill="#3B82F6"/>
+  <text x="235" y="294" text-anchor="middle" class="b" fill="#64748B">• 必须先算整张 1/2 高分辨率特征图</text>
+  <text x="235" y="320" text-anchor="middle" class="b" fill="#64748B">• 每对粗匹配都要裁切 2D 窗口算 W×W 相关性</text>
+
+  <!-- Right: EDM ABRHead -->
+  <rect x="466" y="88" width="466" height="264" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="699" y="118" text-anchor="middle" class="h" fill="#5B21B6">✓ EDM 双向轴回归头（ABRHead + SCC）</text>
+
+  <rect x="482" y="140" width="186" height="90" rx="8" fill="#FFFFFF" stroke="#A78BFA" stroke-width="1.6"/>
+  <text x="575" y="168" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">粗匹配隐特征拼接</text>
+  <text x="575" y="192" text-anchor="middle" font-size="11.5" fill="#6B7280">正向(f_A,f_B) + 反向(f_B,f_A)</text>
+  <text x="575" y="214" text-anchor="middle" class="s" fill="#7C3AED">1 次推理拿 2 倍候选！</text>
+
+  <line x1="668" y1="185" x2="694" y2="185" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+
+  <!-- 1D X & Y bars -->
+  <rect x="700" y="138" width="210" height="44" rx="7" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="805" y="165" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">X 轴 1D 概率分布 → 期望 Δx</text>
+
+  <rect x="700" y="192" width="210" height="44" rx="7" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="805" y="219" text-anchor="middle" class="b" fill="#15803D" font-weight="700">Y 轴 1D 概率分布 → 期望 Δy</text>
+
+  <rect x="492" y="252" width="418" height="76" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="701" y="280" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">同时预测回归不确定度 σ（RLE 损失监督）</text>
+  <text x="701" y="306" text-anchor="middle" class="s" fill="#C2410C">σ 太大说明定位模糊 → 推理时直接过滤剔除，只留高纯度亚像素点！</text>
+
+</svg>

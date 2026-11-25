@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 380" width="940" height="380">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+      .bar { text-decoration: overline; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="380" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 2：Keypoint Encoder——为什么只看外观会认错重复窗户？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">用共享 5 层 MLP 把归一化坐标 (x, y, c) 融入外观描述子，给每个角点贴上独一无二的“空间身份证”</text>
+
+  <!-- Left Panel: Without Positional Encoding -->
+  <rect x="28" y="88" width="428" height="268" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="242" y="116" text-anchor="middle" class="h" fill="#991B1B">✗ 只看局部外观 d：重复纹理完全分不清</text>
+
+  <!-- Mini Building Facade (Left) -->
+  <rect x="48" y="132" width="198" height="148" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <rect x="64" y="160" width="166" height="84" rx="4" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+  <!-- Window 1 -->
+  <rect x="82" y="180" width="46" height="44" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <line x1="105" y1="180" x2="105" y2="224" stroke="#60A5FA" stroke-width="1.2"/>
+  <line x1="82" y1="202" x2="128" y2="202" stroke="#60A5FA" stroke-width="1.2"/>
+  <!-- Window 2 -->
+  <rect x="164" y="180" width="46" height="44" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <line x1="187" y1="180" x2="187" y2="224" stroke="#60A5FA" stroke-width="1.2"/>
+  <line x1="164" y1="202" x2="210" y2="202" stroke="#60A5FA" stroke-width="1.2"/>
+  <!-- Corner Dots -->
+  <circle cx="82" cy="180" r="6" fill="#EF4444"/>
+  <text x="102" y="152" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">窗角 A1</text>
+  <circle cx="164" cy="180" r="6" fill="#EF4444"/>
+  <text x="184" y="152" text-anchor="middle" class="s" fill="#DC2626" font-weight="700">窗角 A2</text>
+  <text x="147" y="268" text-anchor="middle" class="s" fill="#991B1B">两扇长相一致的窗户</text>
+
+  <!-- Feature Vector Comparison (Left) -->
+  <rect x="260" y="138" width="178" height="136" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <text x="349" y="162" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">局部描述子几乎相等</text>
+
+  <text x="278" y="191" class="mono" font-size="13" fill="#1E40AF">d₁</text>
+  <rect x="302" y="176" width="28" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="333" y="176" width="28" height="20" rx="3" fill="#60A5FA"/>
+  <rect x="364" y="176" width="28" height="20" rx="3" fill="#2563EB"/>
+  <rect x="395" y="176" width="28" height="20" rx="3" fill="#93C5FD"/>
+
+  <text x="349" y="216" text-anchor="middle" class="h" fill="#DC2626">≈（难以区分）</text>
+
+  <text x="278" y="241" class="mono" font-size="13" fill="#1E40AF">d₂</text>
+  <rect x="302" y="226" width="28" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="333" y="226" width="28" height="20" rx="3" fill="#60A5FA"/>
+  <rect x="364" y="226" width="28" height="20" rx="3" fill="#2563EB"/>
+  <rect x="395" y="226" width="28" height="20" rx="3" fill="#93C5FD"/>
+
+  <text x="349" y="264" text-anchor="middle" class="s" fill="#DC2626">直接找最近邻极易错配！</text>
+
+  <text x="242" y="310" text-anchor="middle" class="b" fill="#7F1D1D">• 重复建筑窗格、瓷砖纹理的局部特征高度雷同</text>
+  <text x="242" y="335" text-anchor="middle" class="b" fill="#7F1D1D">• 缺少空间坐标锚点，后续注意力也无法推理几何</text>
+
+  <!-- Right Panel: With Keypoint Encoder -->
+  <rect x="484" y="88" width="428" height="268" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="698" y="116" text-anchor="middle" class="h" fill="#166534">✓ 外观 + 位置编码：x⁽⁰⁾ = d + MLP(x, y, c)</text>
+
+  <!-- Mini Building Facade with Coords (Right) -->
+  <rect x="504" y="132" width="198" height="148" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <!-- Small roof landmark seated cleanly on top of building -->
+  <polygon points="528,160 558,142 588,160" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="520" y="160" width="166" height="88" rx="4" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+  <rect x="538" y="176" width="46" height="38" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <rect x="620" y="176" width="46" height="38" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.5"/>
+  <circle cx="538" cy="176" r="6" fill="#2563EB"/>
+  <circle cx="620" cy="176" r="6" fill="#16A34A"/>
+  <text x="561" y="236" text-anchor="middle" class="mono" font-size="11.5" fill="#1D4ED8">(0.2, 0.5)</text>
+  <text x="644" y="236" text-anchor="middle" class="mono" font-size="11.5" fill="#15803D">(0.7, 0.5)</text>
+  <text x="603" y="268" text-anchor="middle" class="s" fill="#166534">坐标按图像长边归一化</text>
+
+  <!-- Fusion Box (Right) -->
+  <rect x="714" y="138" width="180" height="136" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <text x="804" y="162" text-anchor="middle" class="b" fill="#166534" font-weight="700">融入位置后立即可区分</text>
+
+  <!-- A1 fused -->
+  <text x="726" y="191" class="mono" font-size="12.5" fill="#1D4ED8">x₁</text>
+  <rect x="748" y="176" width="28" height="20" rx="3" fill="#2563EB"/>
+  <rect x="779" y="176" width="28" height="20" rx="3" fill="#F97316"/>
+  <rect x="810" y="176" width="28" height="20" rx="3" fill="#3B82F6"/>
+  <rect x="841" y="176" width="28" height="20" rx="3" fill="#FB923C"/>
+
+  <text x="804" y="216" text-anchor="middle" class="h" fill="#16A34A">≠（唯一空间编码）</text>
+
+  <!-- A2 fused -->
+  <text x="726" y="241" class="mono" font-size="12.5" fill="#15803D">x₂</text>
+  <rect x="748" y="226" width="28" height="20" rx="3" fill="#16A34A"/>
+  <rect x="779" y="226" width="28" height="20" rx="3" fill="#8B5CF6"/>
+  <rect x="810" y="226" width="28" height="20" rx="3" fill="#22C55E"/>
+  <rect x="841" y="226" width="28" height="20" rx="3" fill="#A78BFA"/>
+
+  <text x="804" y="264" text-anchor="middle" class="s" fill="#15803D">同时记住“长相”与“位置”</text>
+
+  <text x="698" y="310" text-anchor="middle" class="b" fill="#14532D">• 5 层 MLP（3→32→64→128→256→256），仅 100k 参数</text>
+  <text x="698" y="335" text-anchor="middle" class="b" fill="#14532D">• 消融实验：去掉它，ScanNet 位姿精度直接暴跌 4.72%</text>
+</svg>

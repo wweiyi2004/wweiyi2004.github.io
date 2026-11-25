@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 3：测地线流精修——为什么不能在 ERP 平面上直接加 (Δu, Δv)？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">平面上同样走 5 像素，在赤道和极点对应的真实角度差了几十倍；沿球面大圆弧更新才彻底统一</text>
+
+  <rect x="28" y="90" width="424" height="218" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="240" y="120" text-anchor="middle" class="h" fill="#991B1B">✗ 2D 平面增量更新：u + Δu, v + Δv</text>
+  <rect x="54" y="140" width="372" height="82" rx="8" fill="#FFFFFF" stroke="#FCA5A5"/>
+  <text x="240" y="168" text-anchor="middle" class="b" fill="#374151">赤道区域：移动 Δu = 5 px ≈ 真实转动 2.0°</text>
+  <text x="240" y="198" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">极点附近：移动 Δu = 5 px ≈ 真实转动 0.05°！</text>
+  <text x="240" y="256" text-anchor="middle" class="b" fill="#7F1D1D">同一个精修卷积核根本无法同时适配赤道和极点</text>
+  <text x="240" y="280" text-anchor="middle" class="s" fill="#991B1B">越靠近天花板/地板，精修残差越发散</text>
+
+  <rect x="488" y="90" width="424" height="218" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="700" y="120" text-anchor="middle" class="h" fill="#166534">✓ 全景 EDM：单位球面测地线流更新</text>
+  <rect x="514" y="140" width="372" height="82" rx="8" fill="#FFFFFF" stroke="#86EFAC"/>
+  <text x="700" y="168" text-anchor="middle" class="b" fill="#15803D" font-weight="700">① 在 3D 球面上沿测地线加残差 Δs 并重新归一化</text>
+  <text x="700" y="198" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">② 通过双向投影 π / π⁻¹ 转回 ERP 坐标采特征</text>
+  <text x="700" y="256" text-anchor="middle" class="b" fill="#14532D">赤道和两极的单位步长严格对应相同的真实球面夹角</text>
+  <text x="700" y="280" text-anchor="middle" class="s" fill="#15803D">配合球面余弦角损失，全向 360° 处处高精度收敛！</text>
+
+</svg>

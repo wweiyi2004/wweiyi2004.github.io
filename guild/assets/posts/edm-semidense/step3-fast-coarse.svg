@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 320" width="940" height="320">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="320" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：EDM 粗匹配提速两板斧——单次指数 + 告别 MNN</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">把粗匹配后处理里最吃 GPU 时间的两个算子全部重构，做到算子极简</text>
+
+  <rect x="28" y="90" width="428" height="196" rx="12" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="242" y="120" text-anchor="middle" class="h" fill="#9A3412">板斧一：单次指数 Dual-Softmax</text>
+  <rect x="52" y="140" width="380" height="54" rx="8" fill="#FFFFFF" stroke="#FDBA74"/><text x="242" y="172" text-anchor="middle" class="b" fill="#64748B">传统：行 Softmax 算一遍 exp，列 Softmax 再算一遍 exp</text>
+  <rect x="52" y="208" width="380" height="58" rx="8" fill="#FFEDD5" stroke="#F97316"/><text x="242" y="234" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">EDM：先算 1 次 E = exp(S)，再分别除行和与列和！</text>
+  <text x="242" y="255" text-anchor="middle" class="s" fill="#C2410C">数学完全等价，指数运算耗时直接砍半</text>
+
+  <rect x="484" y="90" width="428" height="196" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="698" y="120" text-anchor="middle" class="h" fill="#1E3A8A">板斧二：行最大 + Top-K 取代 MNN</text>
+  <rect x="508" y="140" width="380" height="54" rx="8" fill="#FFFFFF" stroke="#93C5FD"/><text x="698" y="172" text-anchor="middle" class="b" fill="#64748B">传统 MNN：双向找极大值 + 变长非零筛选（部署不友好）</text>
+  <rect x="508" y="208" width="380" height="58" rx="8" fill="#DBEAFE" stroke="#2563EB"/><text x="698" y="234" text-anchor="middle" class="b" fill="#1E40AF" font-weight="700">EDM：每行取 argmax → 直接 Top-K 固定形状输出！</text>
+  <text x="698" y="255" text-anchor="middle" class="s" fill="#1D4ED8">静态张量形状，完美契合 ONNX / TensorRT 加速</text>
+
+</svg>

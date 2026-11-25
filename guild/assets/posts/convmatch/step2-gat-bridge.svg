@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 412" width="960" height="412">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-blue-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-red-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="412" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 2：GAT 双向网格桥梁——为什么能把 O(N²) 压成线性 O(NK²)？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">用 256 个固定网格当中转站：Regularize 聚合成规则图（严格置换不变），Recover 复用原特征找回局部细节</text>
+
+  <!-- Left Panel: Regularize -->
+  <rect x="26" y="88" width="440" height="238" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="246" y="116" text-anchor="middle" class="h" fill="#1E3A8A">① Regularize：无序点 → 16×16 规则网格</text>
+
+  <rect x="44" y="138" width="84" height="58" rx="8" fill="#2563EB"/>
+  <text x="86" y="162" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Query</text>
+  <text x="86" y="182" text-anchor="middle" class="mono" font-size="12" fill="#DBEAFE">256×128</text>
+  <text x="86" y="220" text-anchor="middle" class="s" fill="#1D4ED8">固定网格 X_grid</text>
+
+  <text x="142" y="173" text-anchor="middle" font-size="18" font-weight="700" fill="#475569">×</text>
+
+  <rect x="156" y="138" width="94" height="58" rx="8" fill="#475569"/>
+  <text x="203" y="162" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Key / Value</text>
+  <text x="203" y="182" text-anchor="middle" class="mono" font-size="12" fill="#E2E8F0">2000×128</text>
+  <text x="203" y="220" text-anchor="middle" class="s" fill="#475569">无序点特征 F</text>
+
+  <line x1="254" y1="167" x2="278" y2="167" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+
+  <rect x="284" y="130" width="164" height="72" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="366" y="152" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">Softmax(QKᵀ) V</text>
+  <text x="366" y="173" text-anchor="middle" class="mono" font-size="12" fill="#2563EB">权重 [256 × 2000]</text>
+  <text x="366" y="193" text-anchor="middle" class="s" fill="#4B5563">输出规则图 16×16</text>
+  <text x="366" y="220" text-anchor="middle" class="s" fill="#1D4ED8">数据驱动的可学习插值核</text>
+
+  <text x="48" y="260" class="b" fill="#1E3A8A">• 对 N 维加权求和：任意打乱输入点顺序，网格图完全不变</text>
+  <text x="48" y="286" class="b" fill="#1E3A8A">• 网格中心只向附近点“吸取”运动信息，隐式完成场插值</text>
+  <text x="48" y="311" class="s" fill="#2563EB">Comb 融合：X_grid + MLP(X_grid || Aggr)</text>
+
+  <!-- Center bidirectional badge -->
+  <text x="480" y="208" text-anchor="middle" class="h" fill="#64748B">⇄</text>
+
+  <!-- Right Panel: Recover -->
+  <rect x="494" y="88" width="440" height="238" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="714" y="116" text-anchor="middle" class="h" fill="#166534">② Recover：纠正后网格 → 恢复无序点</text>
+
+  <rect x="512" y="138" width="92" height="58" rx="8" fill="#16A34A"/>
+  <text x="558" y="162" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Query</text>
+  <text x="558" y="182" text-anchor="middle" class="mono" font-size="12" fill="#DCFCE7">2000×128</text>
+  <text x="558" y="220" text-anchor="middle" class="s" fill="#15803D">直接复用原特征 F</text>
+
+  <text x="618" y="173" text-anchor="middle" font-size="18" font-weight="700" fill="#475569">×</text>
+
+  <rect x="632" y="138" width="88" height="58" rx="8" fill="#2563EB"/>
+  <text x="676" y="162" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Key / Val</text>
+  <text x="676" y="182" text-anchor="middle" class="mono" font-size="12" fill="#DBEAFE">256×128</text>
+  <text x="676" y="220" text-anchor="middle" class="s" fill="#1D4ED8">CNN 去噪后网格</text>
+
+  <line x1="724" y1="167" x2="748" y2="167" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <rect x="754" y="130" width="162" height="72" rx="8" fill="#FFFFFF" stroke="#4ADE80" stroke-width="1.8"/>
+  <text x="835" y="152" text-anchor="middle" class="b" fill="#15803D" font-weight="700">Softmax(QKᵀ) Ṽ</text>
+  <text x="835" y="173" text-anchor="middle" class="mono" font-size="12" fill="#16A34A">权重 [2000 × 256]</text>
+  <text x="835" y="193" text-anchor="middle" class="s" fill="#4B5563">输出更新特征 f̃</text>
+  <text x="835" y="220" text-anchor="middle" class="s" fill="#15803D">按原位重新采样运动场</text>
+
+  <text x="516" y="260" class="b" fill="#14532D">• 复用原特征 F 当 Query：自带位置语义，精准“指路”采样</text>
+  <text x="516" y="286" class="b" fill="#14532D">• Comb 残差 (+ F)：补回 2000→256 网格化损失的局部细节</text>
+  <text x="516" y="311" class="s" fill="#16A34A">Comb 融合：F + MLP(F || Aggr) → 送入下一层</text>
+
+  <!-- Bottom crisp complexity banner -->
+  <rect x="26" y="342" width="908" height="52" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="480" y="364" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">算力暴降 7.8 倍（严格线性 O(N)）：全图点对点自注意力需 2000×2000 = 400 万元素，</text>
+  <text x="480" y="384" text-anchor="middle" class="b" fill="#9A3412">ConvMatch 借道 256 个网格中转仅需 2000×256 = 51.2 万元素；HPatches 4000 点下优势更扩大到 15.6 倍！</text>
+
+</svg>

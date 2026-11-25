@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 3：A2-GNN 双轨特征更新——置换不变性与几何层次兼得</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">一边保留经典 MaxPool 支路守住无序点集稳定性，一边用环形卷积 + 射线夹角疯狂提纯结构</text>
+
+  <rect x="28" y="138" width="150" height="84" rx="10" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"/>
+  <text x="103" y="174" text-anchor="middle" class="h" fill="#1E293B">局部 k 近邻</text>
+  <text x="103" y="198" text-anchor="middle" class="s">边特征构造</text>
+
+  <!-- Track A (top) -->
+  <path d="M 178 164 L 242 132" fill="none" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <rect x="248" y="96" width="380" height="72" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="438" y="126" text-anchor="middle" class="h" fill="#1E3A8A">轨道 A：标准 Max-Pooling 支路</text>
+  <text x="438" y="150" text-anchor="middle" class="s" fill="#1D4ED8">提取最显著邻居特征，严格保证无序点集置换不变性</text>
+
+  <!-- Track B (bottom) -->
+  <path d="M 178 196 L 242 228" fill="none" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <rect x="248" y="192" width="380" height="96" rx="10" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="438" y="220" text-anchor="middle" class="h" fill="#166534">轨道 B：角度-环形几何支路（核心创新）</text>
+  <text x="438" y="246" text-anchor="middle" class="b" fill="#15803D">① 环形卷积（按近/中/远三圈聚合径向层次）</text>
+  <text x="438" y="270" text-anchor="middle" class="b" fill="#15803D">② 相机射线夹角嵌入（注入视角与方位不变性）</text>
+
+  <!-- Merge -->
+  <path d="M 628 132 L 692 166" fill="none" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <path d="M 628 240 L 692 198" fill="none" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <rect x="698" y="126" width="214" height="108" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="805" y="162" text-anchor="middle" class="h" fill="#5B21B6">双轨多尺度融合</text>
+  <text x="805" y="188" text-anchor="middle" class="b" fill="#6D28D9">迭代 2 次更新节点状态</text>
+  <text x="805" y="212" text-anchor="middle" class="s">轻巧高效，无需深堆全局图</text>
+
+</svg>

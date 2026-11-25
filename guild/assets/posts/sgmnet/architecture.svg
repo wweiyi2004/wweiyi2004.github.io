@@ -1,297 +1,137 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 690" width="1100" height="690">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 400" width="980" height="400">
+
   <defs>
-    <marker id="arr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#6B7280"/>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#2783DE"/>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#46A171"/>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#D5803B"/>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
     </marker>
-    <marker id="arr-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#8B5CF6"/>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
     </marker>
   </defs>
 
-  <style>
-    text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
-    .title { font-size: 20px; font-weight: 700; fill: #111827; }
-    .subtitle { font-size: 12px; fill: #4B5563; }
-    .sec-gray { font-size: 13px; font-weight: 700; fill: #374151; }
-    .sec-blue { font-size: 13.5px; font-weight: 700; fill: #153B60; }
-    .sec-green { font-size: 13.5px; font-weight: 700; fill: #1F5138; }
-    .sec-orange { font-size: 13.5px; font-weight: 700; fill: #70401C; }
-    .sec-purple { font-size: 13.5px; font-weight: 700; fill: #422578; }
-    .box-t-gray { font-size: 12.5px; font-weight: 700; fill: #111827; }
-    .box-s-gray { font-size: 11px; fill: #374151; }
-    .box-t-blue { font-size: 12.5px; font-weight: 700; fill: #153B60; }
-    .box-s-blue { font-size: 11px; fill: #1E4E79; }
-    .box-t-green { font-size: 12.5px; font-weight: 700; fill: #1F5138; }
-    .box-s-green { font-size: 11px; fill: #256345; }
-    .box-t-orange { font-size: 12.5px; font-weight: 700; fill: #70401C; }
-    .box-s-orange { font-size: 11px; fill: #8C5123; }
-    .box-t-purple { font-size: 12.5px; font-weight: 700; fill: #422578; }
-    .box-s-purple { font-size: 11px; fill: #5B32A3; }
-    .tag { font-size: 10.5px; font-weight: 700; fill: #374151; }
-    .tag-blue { font-size: 10.5px; font-weight: 700; fill: #153B60; }
-    .tag-green { font-size: 10.5px; font-weight: 700; fill: #1F5138; }
-    .tag-orange { font-size: 10.5px; font-weight: 700; fill: #70401C; }
-    .tag-purple { font-size: 10.5px; font-weight: 700; fill: #422578; }
-    .note { font-size: 10.5px; fill: #4B5563; }
-    .badge { font-size: 10.5px; font-weight: 700; fill: #FFFFFF; }
-  </style>
+  <rect width="980" height="400" fill="#FFFFFF" rx="12"/>
 
-  <!-- Pure White Background -->
-  <rect x="0" y="0" width="1100" height="690" fill="#FFFFFF"/>
+  <text x="490" y="36" text-anchor="middle" class="title">图 1：SGMNet 整体工作流程（宏观全景）</text>
+  <text x="490" y="60" text-anchor="middle" class="sub">局部特征 + 初始选种 → 6 层种子图网络 → 级联重选种 + 3 层精修 → Sinkhorn 输出一对一匹配</text>
 
-  <!-- Header -->
-  <text x="550" y="32" text-anchor="middle" class="title">SGMNet 端到端级联架构总览（Seeding + Seeded GNN + Reseeding）</text>
-  <text x="550" y="54" text-anchor="middle" class="subtitle">初始阶段 6 层 Seeded GNN + 重选种（Reseeding）+ 精修阶段 3 层 Seeded GNN · 4 头注意力 · 注意力复杂度由 O(N²C) 降至 O(NKC)（K ≪ N）</text>
+  <!-- Stage 1: Input & Initial Seeding -->
+  <rect x="22" y="86" width="194" height="258" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="119" y="112" text-anchor="middle" class="h" fill="#1E293B">① 输入与初始选种</text>
 
-  <!-- ==================== TOP HALF: FULL TWO-STAGE CASCADE PIPELINE ==================== -->
-  <!-- Container 0: Input & Position Encoding -->
-  <rect x="18" y="72" width="198" height="316" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.4" stroke-dasharray="6,4"/>
-  <text x="117" y="94" text-anchor="middle" class="sec-gray">① 前端特征与位置编码</text>
+  <rect x="38" y="126" width="162" height="72" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="119" y="145" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">图 A（n 个点）</text>
+  <circle cx="68" cy="164" r="5.5" fill="#2563EB"/>
+  <circle cx="104" cy="160" r="5.5" fill="#16A34A"/>
+  <circle cx="144" cy="171" r="5.5" fill="#7C3AED"/>
+  <circle cx="172" cy="161" r="5" fill="#94A3B8"/>
+  <text x="119" y="191" text-anchor="middle" class="s" fill="#6B7280">坐标 p + 描述子 d</text>
 
-  <!-- Image A input -->
-  <rect x="30" y="106" width="174" height="72" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
-  <text x="117" y="125" text-anchor="middle" class="box-t-gray">图 A 局部特征 Kᴬ</text>
-  <text x="117" y="144" text-anchor="middle" class="box-s-gray">坐标 pᴬ [n, 2] · 描述子 dᴬ [n, d]</text>
-  <text x="117" y="164" text-anchor="middle" class="tag">RootSIFT/ContextDesc(128) / SP(256)</text>
+  <rect x="38" y="208" width="162" height="72" rx="8" fill="#F0FDF4" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="119" y="227" text-anchor="middle" class="b" fill="#15803D" font-weight="700">图 B（m 个点）</text>
+  <circle cx="72" cy="246" r="5.5" fill="#2563EB"/>
+  <circle cx="110" cy="243" r="5.5" fill="#16A34A"/>
+  <circle cx="148" cy="253" r="5.5" fill="#7C3AED"/>
+  <circle cx="174" cy="242" r="5" fill="#94A3B8"/>
+  <text x="119" y="273" text-anchor="middle" class="s" fill="#6B7280">坐标 p + 描述子 d</text>
 
-  <!-- Image B input -->
-  <rect x="30" y="190" width="174" height="72" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
-  <text x="117" y="209" text-anchor="middle" class="box-t-gray">图 B 局部特征 Kᴮ</text>
-  <text x="117" y="228" text-anchor="middle" class="box-s-gray">坐标 pᴮ [m, 2] · 描述子 dᴮ [m, d]</text>
-  <text x="117" y="248" text-anchor="middle" class="tag">n, m 可不等（训练采样 1k）</text>
+  <rect x="33" y="294" width="172" height="34" rx="17" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.5"/>
+  <text x="119" y="315" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">NN+比率+NMS 选 k 种子</text>
 
-  <!-- Position Encoding -->
-  <rect x="30" y="276" width="174" height="98" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="117" y="297" text-anchor="middle" class="box-t-blue">位置编码与初始融合</text>
-  <text x="117" y="317" text-anchor="middle" class="box-s-blue">⁰Fᵢ = dᵢ + MLP(pᵢ)</text>
-  <text x="117" y="337" text-anchor="middle" class="tag-blue">⁰Fᴬ: [n, d]   ⁰Fᴮ: [m, d]</text>
-  <text x="117" y="358" text-anchor="middle" class="note">同时携带视觉外观与几何坐标</text>
+  <!-- Arrow 1->2 -->
+  <line x1="216" y1="215" x2="244" y2="215" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
 
-  <!-- Arrows inside Col 0 -->
-  <path d="M 204 142 L 222 142" fill="none" stroke="#9CA3AF" stroke-width="1.5"/>
-  <path d="M 204 226 L 222 226" fill="none" stroke="#9CA3AF" stroke-width="1.5"/>
-  <path d="M 222 142 L 222 226" fill="none" stroke="#9CA3AF" stroke-width="1.5"/>
-  <path d="M 222 184 L 240 184" fill="none" stroke="#2783DE" stroke-width="1.7" marker-end="url(#arr-blue)"/>
-  <path d="M 117 262 L 117 274" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+  <!-- Stage 2: Initial 6-Layer Seeded GNN -->
+  <rect x="248" y="86" width="230" height="258" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="363" y="112" text-anchor="middle" class="h" fill="#1E3A8A">② 初始 6 层 Seeded GNN</text>
 
-  <!-- Container 1: Stage 1 (Initial Seeding + 6-Layer Seeded GNN) -->
-  <rect x="234" y="72" width="332" height="316" rx="10" fill="#F6FBF8" stroke="#B3CFC0" stroke-width="1.5"/>
-  <text x="400" y="94" text-anchor="middle" class="sec-green">② 初始匹配阶段（Initial Stage：6 层 Seeded GNN）</text>
+  <rect x="266" y="126" width="194" height="54" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.6"/>
+  <text x="363" y="148" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">注意力池化（N → k）</text>
+  <text x="363" y="168" text-anchor="middle" class="s" fill="#6B7280">全图上下文汇总到 k 个种子</text>
 
-  <!-- Initial Seeding Module -->
-  <rect x="246" y="112" width="136" height="142" rx="8" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="314" y="135" text-anchor="middle" class="box-t-blue">初始选种模块</text>
-  <text x="314" y="152" text-anchor="middle" class="box-s-blue">Initial Seeding</text>
-  <rect x="256" y="164" width="116" height="50" rx="5" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1"/>
-  <text x="314" y="182" text-anchor="middle" class="box-s-blue">原始描述子 NN</text>
-  <text x="314" y="198" text-anchor="middle" class="box-s-blue">1/Ratio 打分 + NMS</text>
-  <text x="314" y="232" text-anchor="middle" class="tag-blue">输出索引 S = (Sᴬ, Sᴮ)</text>
-  <text x="314" y="246" text-anchor="middle" class="note">长度 k（无梯度反传）</text>
+  <line x1="363" y1="180" x2="363" y2="195" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
 
-  <!-- Arrow 0F to Stage 1 GNN -->
-  <path d="M 204 326 L 396 326" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
-  <text x="306" y="318" text-anchor="middle" class="tag-green">⁰Fᴬ [n, d], ⁰Fᴮ [m, d]</text>
+  <rect x="266" y="198" width="194" height="54" rx="8" fill="#FFFFFF" stroke="#34D399" stroke-width="1.6"/>
+  <text x="363" y="220" text-anchor="middle" class="b" fill="#047857" font-weight="700">种子过滤 + 内点打分 γ</text>
+  <text x="363" y="240" text-anchor="middle" class="s" fill="#6B7280">仅在 k×k 种子间跨图通信</text>
 
-  <!-- Arrow Seeding to Stage 1 GNN -->
-  <path d="M 382 184 L 404 184" fill="none" stroke="#2783DE" stroke-width="1.7" marker-end="url(#arr-blue)"/>
+  <line x1="363" y1="252" x2="363" y2="267" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
 
-  <!-- 6-Layer Seeded GNN -->
-  <rect x="408" y="112" width="146" height="148" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
-  <rect x="424" y="122" width="114" height="22" rx="11" fill="#46A171"/>
-  <text x="481" y="137" text-anchor="middle" class="badge">堆叠 6 个处理单元</text>
-  <text x="481" y="162" text-anchor="middle" class="box-t-green">Seeded GNN (1~6)</text>
-  <text x="481" y="182" text-anchor="middle" class="box-s-green">· Attentional Pooling</text>
-  <text x="481" y="199" text-anchor="middle" class="box-s-green">· Seed Filtering (+γ)</text>
-  <text x="481" y="216" text-anchor="middle" class="box-s-green">· Weighted Unpooling</text>
-  <text x="481" y="242" text-anchor="middle" class="tag-green">输出 ⁶Fᴬ [n, d], ⁶Fᴮ [m, d]</text>
+  <rect x="266" y="270" width="194" height="56" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="363" y="292" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">加权反池化（k → N）</text>
+  <text x="363" y="313" text-anchor="middle" class="s" fill="#9A3412">按 γ 静音假种子 · 广播全图</text>
 
-  <!-- Intermediate Sinkhorn Mr -->
-  <rect x="408" y="282" width="146" height="92" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-  <text x="481" y="303" text-anchor="middle" class="box-t-purple">初始分配矩阵 Mᵣ</text>
-  <text x="481" y="322" text-anchor="middle" class="box-s-purple">C = ⁶Fᴬ(⁶Fᴮ)ᵀ 补 dustbin z</text>
-  <text x="481" y="340" text-anchor="middle" class="box-s-purple">Sinkhorn(Ĉ) 迭代</text>
-  <text x="481" y="361" text-anchor="middle" class="tag-purple">Mᵣ: [n+1, m+1]</text>
+  <!-- Arrow 2->3 -->
+  <line x1="478" y1="215" x2="506" y2="215" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
 
-  <path d="M 481 260 L 481 280" fill="none" stroke="#8B5CF6" stroke-width="1.7" marker-end="url(#arr-purple)"/>
+  <!-- Stage 3: Reseeding + 3-Layer Refine -->
+  <rect x="510" y="86" width="220" height="258" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <text x="620" y="112" text-anchor="middle" class="h" fill="#065F46">③ 重选种 + 3 层精修</text>
 
-  <!-- Container 2: Reseeding & Stage 2 Refinement -->
-  <rect x="582" y="72" width="320" height="316" rx="10" fill="#FFFBF5" stroke="#EAB68B" stroke-width="1.5"/>
-  <text x="742" y="94" text-anchor="middle" class="sec-orange">③ 级联重选种与精修阶段（Refinement：3 层 Seeded GNN）</text>
+  <rect x="528" y="126" width="184" height="54" rx="8" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.6"/>
+  <text x="620" y="148" text-anchor="middle" class="b" fill="#065F46" font-weight="700">初始分配矩阵 M_r</text>
+  <text x="620" y="168" text-anchor="middle" class="s" fill="#6B7280">Sinkhorn 输出初步概率</text>
 
-  <!-- Reseeding Module -->
-  <rect x="594" y="256" width="132" height="118" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
-  <text x="660" y="278" text-anchor="middle" class="box-t-orange">重选种模块</text>
-  <text x="660" y="295" text-anchor="middle" class="box-s-orange">Reseeding Module</text>
-  <rect x="604" y="304" width="112" height="44" rx="5" fill="#FFFFFF" stroke="#EAB68B" stroke-width="1"/>
-  <text x="660" y="321" text-anchor="middle" class="box-s-orange">Mᵣ 行列互为最大</text>
-  <text x="660" y="338" text-anchor="middle" class="box-s-orange">取 Top-k 更纯种子</text>
-  <text x="660" y="364" text-anchor="middle" class="tag-orange">新索引 S' = (S'ᴬ, S'ᴮ)</text>
+  <line x1="620" y1="180" x2="620" y2="195" stroke="#16A34A" stroke-width="2" marker-end="url(#arr-green)"/>
 
-  <!-- Arrow Mr -> Reseeding -->
-  <path d="M 554 328 L 591 328" fill="none" stroke="#D5803B" stroke-width="1.7" marker-end="url(#arr-orange)"/>
+  <rect x="528" y="198" width="184" height="54" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="620" y="220" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">级联重选种 Reseeding</text>
+  <text x="620" y="240" text-anchor="middle" class="s" fill="#9A3412">互为最大挑 Top-k 新种子 S'</text>
 
-  <!-- Early gradient detach badge on feature path -->
-  <path d="M 554 184 L 740 184" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
-  <rect x="592" y="132" width="136" height="42" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2" stroke-dasharray="4,2"/>
-  <text x="660" y="149" text-anchor="middle" class="tag-orange">训练前 140k 步</text>
-  <text x="660" y="166" text-anchor="middle" class="note">截断两阶段梯度流</text>
+  <line x1="620" y1="252" x2="620" y2="267" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
 
-  <!-- Arrow Reseeding -> Stage 2 GNN -->
-  <path d="M 660 256 L 660 218 L 740 218" fill="none" stroke="#D5803B" stroke-width="1.7" marker-end="url(#arr-orange)"/>
+  <rect x="528" y="270" width="184" height="56" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.6"/>
+  <text x="620" y="292" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">精修 3 层 Seeded GNN</text>
+  <text x="620" y="313" text-anchor="middle" class="s" fill="#6B7280">用新种子 S' 精细打磨特征</text>
 
-  <!-- 3-Layer Refinement Seeded GNN -->
-  <rect x="744" y="112" width="146" height="148" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
-  <rect x="760" y="122" width="114" height="22" rx="11" fill="#46A171"/>
-  <text x="817" y="137" text-anchor="middle" class="badge">堆叠 3 个处理单元</text>
-  <text x="817" y="162" text-anchor="middle" class="box-t-green">Seeded GNN (7~9)</text>
-  <text x="817" y="182" text-anchor="middle" class="box-s-green">· 以 ⁶Fᴬ, ⁶Fᴮ 为输入</text>
-  <text x="817" y="199" text-anchor="middle" class="box-s-green">· 依托更干净种子 S'</text>
-  <text x="817" y="216" text-anchor="middle" class="box-s-green">· 精细打磨节点表示</text>
-  <text x="817" y="242" text-anchor="middle" class="tag-green">输出 ⁹Fᴬ [n, d], ⁹Fᴮ [m, d]</text>
+  <!-- Arrow 3->4 -->
+  <line x1="730" y1="215" x2="758" y2="215" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
 
-  <!-- Final Sinkhorn Mf -->
-  <rect x="744" y="282" width="146" height="92" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
-  <text x="817" y="303" text-anchor="middle" class="box-t-purple">最终分配矩阵 M_f</text>
-  <text x="817" y="322" text-anchor="middle" class="box-s-purple">C = ⁹Fᴬ(⁹Fᴮ)ᵀ 补 dustbin z</text>
-  <text x="817" y="340" text-anchor="middle" class="box-s-purple">Sinkhorn（默认 100 / 速版 10）</text>
-  <text x="817" y="361" text-anchor="middle" class="tag-purple">M_f: [n+1, m+1]</text>
+  <!-- Stage 4: Output -->
+  <rect x="762" y="86" width="196" height="258" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="860" y="112" text-anchor="middle" class="h" fill="#5B21B6">④ 输出精准匹配</text>
 
-  <path d="M 817 260 L 817 280" fill="none" stroke="#8B5CF6" stroke-width="1.7" marker-end="url(#arr-purple)"/>
+  <rect x="782" y="130" width="156" height="62" rx="7" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <rect x="782" y="224" width="156" height="62" rx="7" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
 
-  <!-- Container 3: Output & Supervision -->
-  <rect x="918" y="72" width="164" height="316" rx="10" fill="#FAF8FF" stroke="#D8CCF8" stroke-width="1.5" stroke-dasharray="6,4"/>
-  <text x="1000" y="94" text-anchor="middle" class="sec-purple">④ 推理输出与训练监督</text>
+  <line x1="808" y1="162" x2="816" y2="254" stroke="#2563EB" stroke-width="2.2"/>
+  <line x1="852" y1="154" x2="860" y2="249" stroke="#16A34A" stroke-width="2.2"/>
+  <line x1="896" y1="170" x2="902" y2="264" stroke="#7C3AED" stroke-width="2.2"/>
 
-  <!-- Inference Output -->
-  <rect x="930" y="114" width="140" height="114" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
-  <text x="1000" y="137" text-anchor="middle" class="box-t-purple">推理：最终匹配对</text>
-  <text x="1000" y="158" text-anchor="middle" class="box-s-purple">裁去末行/末列 dustbin</text>
-  <text x="1000" y="177" text-anchor="middle" class="box-s-purple">置信度阈值 &gt; 0.2</text>
-  <text x="1000" y="196" text-anchor="middle" class="box-s-purple">互为最大过滤外点</text>
-  <text x="1000" y="216" text-anchor="middle" class="tag-purple">→ RANSAC / SfM / 定位</text>
+  <circle cx="808" cy="162" r="5.5" fill="#2563EB"/><circle cx="816" cy="254" r="5.5" fill="#2563EB"/>
+  <circle cx="852" cy="154" r="5.5" fill="#16A34A"/><circle cx="860" cy="249" r="5.5" fill="#16A34A"/>
+  <circle cx="896" cy="170" r="5.5" fill="#7C3AED"/><circle cx="902" cy="264" r="5.5" fill="#7C3AED"/>
 
-  <!-- Training Loss -->
-  <rect x="930" y="246" width="140" height="128" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6"/>
-  <text x="1000" y="268" text-anchor="middle" class="box-t-orange">训练：联合损失函数</text>
-  <text x="1000" y="289" text-anchor="middle" class="tag-orange">L = L_assign + δ Σ L^t_w</text>
-  <text x="1000" y="310" text-anchor="middle" class="box-s-orange">· L_assign 同时监督</text>
-  <text x="1000" y="326" text-anchor="middle" class="box-s-orange">  Mᵣ 与 M_f 的 NLL</text>
-  <text x="1000" y="346" text-anchor="middle" class="box-s-orange">· L^t_w 监督 9 层 ᵗγ</text>
-  <text x="1000" y="364" text-anchor="middle" class="note">（δ = 250，BCE 分类）</text>
+  <!-- Dustbin / rejected unmatched points -->
+  <circle cx="920" cy="146" r="5" fill="#CBD5E1"/>
+  <line x1="915" y1="141" x2="925" y2="151" stroke="#EF4444" stroke-width="2"/>
+  <line x1="925" y1="141" x2="915" y2="151" stroke="#EF4444" stroke-width="2"/>
+  <circle cx="798" cy="272" r="5" fill="#CBD5E1"/>
+  <line x1="793" y1="267" x2="803" y2="277" stroke="#EF4444" stroke-width="2"/>
+  <line x1="803" y1="267" x2="793" y2="277" stroke="#EF4444" stroke-width="2"/>
 
-  <!-- Arrows from Mf to Output & Loss -->
-  <path d="M 890 315 L 908 315 L 908 171 L 927 171" fill="none" stroke="#8B5CF6" stroke-width="1.7" marker-end="url(#arr-purple)"/>
-  <path d="M 890 335 L 927 335" fill="none" stroke="#D5803B" stroke-width="1.7" marker-end="url(#arr-orange)"/>
+  <text x="860" y="311" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">Sinkhorn → M_f（&gt; 0.2）</text>
+  <text x="860" y="331" text-anchor="middle" class="s" fill="#6D28D9">一对一连线 · 剔除垃圾桶点</text>
 
-  <!-- ==================== BOTTOM HALF: ANATOMY OF ONE SEEDED GNN BLOCK ==================== -->
-  <rect x="18" y="408" width="1064" height="264" rx="12" fill="#F7FBFF" stroke="#B5CFE9" stroke-width="1.5"/>
-  <text x="38" y="433" class="sec-blue">放大剖面：单个 Seeded GNN 处理单元（第 t 层，t ∈ {1, ..., 9}）内部张量流（Pooling → Filtering → Weighted Unpooling）</text>
-
-  <!-- Dashed zoom connector from Stage 1 GNN down to bottom panel -->
-  <path d="M 481 388 L 481 408" fill="none" stroke="#2783DE" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-  <!-- Step A: Input tF -->
-  <rect x="34" y="454" width="118" height="196" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4"/>
-  <text x="93" y="478" text-anchor="middle" class="box-t-gray">第 t 层输入</text>
-  <rect x="44" y="494" width="98" height="44" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
-  <text x="93" y="512" text-anchor="middle" class="box-t-gray">ᵗFᴬ</text>
-  <text x="93" y="529" text-anchor="middle" class="tag">[n, d]</text>
-  <rect x="44" y="550" width="98" height="44" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
-  <text x="93" y="568" text-anchor="middle" class="box-t-gray">ᵗFᴮ</text>
-  <text x="93" y="585" text-anchor="middle" class="tag">[m, d]</text>
-  <text x="93" y="618" text-anchor="middle" class="note">+ 种子索引</text>
-  <text x="93" y="634" text-anchor="middle" class="tag-blue">S = (Sᴬ, Sᴮ)</text>
-
-  <!-- Step B: Attentional Pooling -->
-  <rect x="180" y="454" width="234" height="196" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <rect x="192" y="464" width="54" height="20" rx="10" fill="#46A171"/>
-  <text x="219" y="478" text-anchor="middle" class="badge">步骤 1</text>
-  <text x="256" y="479" class="box-t-green">Attentional Pooling</text>
-
-  <rect x="192" y="494" width="110" height="58" rx="5" fill="#FFFFFF" stroke="#86C5A4" stroke-width="1.1"/>
-  <text x="247" y="512" text-anchor="middle" class="box-s-green" style="font-weight:700;">图 A 种子池化</text>
-  <text x="247" y="528" text-anchor="middle" class="note">Att(ᵗSᴬ¹, ᵗFᴬ, 1)</text>
-  <text x="247" y="544" text-anchor="middle" class="tag-green">→ ᵗSᴬ² [k, d]</text>
-
-  <rect x="192" y="562" width="110" height="58" rx="5" fill="#FFFFFF" stroke="#86C5A4" stroke-width="1.1"/>
-  <text x="247" y="580" text-anchor="middle" class="box-s-green" style="font-weight:700;">图 B 种子池化</text>
-  <text x="247" y="596" text-anchor="middle" class="note">Att(ᵗSᴮ¹, ᵗFᴮ, 1)</text>
-  <text x="247" y="612" text-anchor="middle" class="tag-green">→ ᵗSᴮ² [k, d]</text>
-
-  <rect x="316" y="514" width="88" height="86" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3"/>
-  <text x="360" y="535" text-anchor="middle" class="box-t-blue" style="font-size:11.5px;">拼接 + MLP</text>
-  <text x="360" y="553" text-anchor="middle" class="note">[k, 2d] → [k, 2d]</text>
-  <text x="360" y="572" text-anchor="middle" class="tag-blue">ᵗSᴬ³, ᵗSᴮ³</text>
-  <text x="360" y="589" text-anchor="middle" class="note">各 [k, d]</text>
-
-  <path d="M 302 523 L 314 544" fill="none" stroke="#46A171" stroke-width="1.3" marker-end="url(#arr-green)"/>
-  <path d="M 302 591 L 314 570" fill="none" stroke="#46A171" stroke-width="1.3" marker-end="url(#arr-green)"/>
-  <text x="297" y="639" text-anchor="middle" class="note">复杂度 O((n+m)kd) · 4 头注意力</text>
-
-  <!-- Step C: Seed Filtering -->
-  <rect x="444" y="454" width="248" height="196" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <rect x="456" y="464" width="54" height="20" rx="10" fill="#46A171"/>
-  <text x="483" y="478" text-anchor="middle" class="badge">步骤 2</text>
-  <text x="520" y="479" class="box-t-green">Seed Filtering（种子交互+打分）</text>
-
-  <rect x="456" y="494" width="224" height="44" rx="5" fill="#FFFFFF" stroke="#86C5A4" stroke-width="1.1"/>
-  <text x="568" y="512" text-anchor="middle" class="box-s-green" style="font-weight:700;">图内自注意力：ᵗSᴵ⁴ = Att(ᵗSᴵ³, ᵗSᴵ³, 1)</text>
-  <text x="568" y="529" text-anchor="middle" class="note">仅在 k 个种子间交互 · O(k²d)</text>
-
-  <rect x="456" y="546" width="224" height="44" rx="5" fill="#FFFFFF" stroke="#86C5A4" stroke-width="1.1"/>
-  <text x="568" y="564" text-anchor="middle" class="box-s-green" style="font-weight:700;">跨图交叉注意力：ᵗSᴵ⁵ = Att(ᵗSᴵ⁴, ᵗSᴶ⁴, 1)</text>
-  <text x="568" y="581" text-anchor="middle" class="note">输出增强种子 ᵗSᴬ⁵, ᵗSᴮ⁵ 各 [k, d]</text>
-
-  <rect x="456" y="598" width="224" height="44" rx="5" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="568" y="616" text-anchor="middle" class="box-t-orange" style="font-size:11.5px;">CN 分支：ᵗγ = CN(ᵗSᴬ⁵ ‖ ᵗSᴮ⁵)</text>
-  <text x="568" y="633" text-anchor="middle" class="tag-orange">预测种子内点置信度 ᵗγ ∈ [0, 1]ᵏ</text>
-
-  <!-- Step D: Weighted Attentional Unpooling -->
-  <rect x="722" y="454" width="206" height="196" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <rect x="734" y="464" width="54" height="20" rx="10" fill="#D5803B"/>
-  <text x="761" y="478" text-anchor="middle" class="badge">步骤 3</text>
-  <text x="796" y="479" class="box-t-green">Weighted Unpooling</text>
-
-  <rect x="734" y="494" width="182" height="58" rx="5" fill="#FFFFFF" stroke="#86C5A4" stroke-width="1.1"/>
-  <text x="825" y="513" text-anchor="middle" class="box-s-green" style="font-weight:700;">图 A 加权广播回全图</text>
-  <text x="825" y="530" text-anchor="middle" class="note">Att(ᵗFᴬ, ᵗSᴬ⁵, ᵗγ)</text>
-  <text x="825" y="545" text-anchor="middle" class="tag-orange">W = Diag(ᵗγ) 抑制外点</text>
-
-  <rect x="734" y="562" width="182" height="58" rx="5" fill="#FFFFFF" stroke="#86C5A4" stroke-width="1.1"/>
-  <text x="825" y="581" text-anchor="middle" class="box-s-green" style="font-weight:700;">图 B 加权广播回全图</text>
-  <text x="825" y="598" text-anchor="middle" class="note">Att(ᵗFᴮ, ᵗSᴮ⁵, ᵗγ)</text>
-  <text x="825" y="613" text-anchor="middle" class="tag-orange">W = Diag(ᵗγ) 抑制外点</text>
-
-  <text x="825" y="639" text-anchor="middle" class="note">复杂度 O((n+m)kd) · 4 头注意力</text>
-
-  <!-- Step E: Output t+1 F -->
-  <rect x="954" y="454" width="112" height="196" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-  <text x="1010" y="478" text-anchor="middle" class="box-t-purple">第 t 层输出</text>
-  <rect x="964" y="498" width="92" height="50" rx="5" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1"/>
-  <text x="1010" y="518" text-anchor="middle" class="box-t-purple">ᵗ⁺¹Fᴬ</text>
-  <text x="1010" y="537" text-anchor="middle" class="tag-purple">[n, d]</text>
-  <rect x="964" y="562" width="92" height="50" rx="5" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1"/>
-  <text x="1010" y="582" text-anchor="middle" class="box-t-purple">ᵗ⁺¹Fᴮ</text>
-  <text x="1010" y="601" text-anchor="middle" class="tag-purple">[m, d]</text>
-  <text x="1010" y="635" text-anchor="middle" class="note">送入第 t+1 层</text>
-
-  <!-- Connecting arrows in bottom panel -->
-  <path d="M 152 552 L 177 552" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
-  <path d="M 414 552 L 441 552" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
-  <path d="M 692 552 L 719 552" fill="none" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
-  <path d="M 680 620 L 719 620" fill="none" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arr-orange)"/>
-  <path d="M 928 552 L 951 552" fill="none" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arr-purple)"/>
-
-  <!-- Skip connection from Input tF to Unpooling Q -->
-  <path d="M 93 454 L 93 443 L 825 443 L 825 452" fill="none" stroke="#6B7280" stroke-width="1.3" stroke-dasharray="5,3" marker-end="url(#arr-gray)"/>
-  <text x="458" y="440" text-anchor="middle" class="note">残差 / Query 路径：原始特征 ᵗFᴬ, ᵗFᴮ 直接作为 Unpooling 的 Query</text>
+  <text x="490" y="376" text-anchor="middle" class="s" fill="#6B7280">对比 SuperGlue：用 k 个高置信种子充当跨图通信中转站，单层 GNN 复杂度从 O(N²C) 暴降至 O(NKC)</text>
 </svg>

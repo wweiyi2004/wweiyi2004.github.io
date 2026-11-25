@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="420" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 3：反池化对比——朴素反池化（UnA）为何翻车，顺序感知（UnB）如何破局</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">Level-2 聚类特征 X₂' 已经彻底“忘记”原始点顺序，还原回 N 个点时必须找回正确的行序对齐关系</text>
+
+  <!-- LEFT CARD: Plain DiffUnpool (BAD) -->
+  <rect x="28" y="86" width="440" height="310" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="248" y="114" text-anchor="middle" class="h" fill="#991B1B">✗ 朴素反池化 Plain DiffUnpool（UnA）</text>
+
+  <rect x="48" y="134" width="112" height="72" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <text x="104" y="160" text-anchor="middle" class="b" font-weight="700" fill="#7F1D1D">失忆的 X₂'</text>
+  <text x="104" y="180" text-anchor="middle" class="s" fill="#6B7280">(M × D)</text>
+  <text x="104" y="197" text-anchor="middle" class="s" fill="#991B1B">不知原顺序</text>
+
+  <line x1="160" y1="170" x2="196" y2="170" stroke="#DC2626" stroke-width="2.2" marker-end="url(#arr-red)"/>
+
+  <rect x="202" y="134" width="108" height="72" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <text x="256" y="160" text-anchor="middle" class="b" font-weight="700" fill="#991B1B">强猜矩阵 S</text>
+  <text x="256" y="180" text-anchor="middle" class="s" fill="#6B7280">(M → 固定 N)</text>
+  <text x="256" y="197" text-anchor="middle" class="s" fill="#991B1B">点数被锁死</text>
+
+  <line x1="310" y1="170" x2="344" y2="170" stroke="#DC2626" stroke-width="2.2" marker-end="url(#arr-red)"/>
+
+  <rect x="350" y="134" width="98" height="72" rx="8" fill="#FFFFFF" stroke="#EF4444" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text x="399" y="156" text-anchor="middle" class="b" font-weight="700" fill="#DC2626">乱序 X₁' ✗</text>
+  <rect x="362" y="166" width="16" height="26" rx="4" fill="#94A3B8"/><text x="370" y="184" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">?</text>
+  <rect x="382" y="166" width="16" height="26" rx="4" fill="#94A3B8"/><text x="390" y="184" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">?</text>
+  <rect x="402" y="166" width="16" height="26" rx="4" fill="#94A3B8"/><text x="410" y="184" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">?</text>
+  <rect x="422" y="166" width="16" height="26" rx="4" fill="#94A3B8"/><text x="430" y="184" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">?</text>
+
+  <rect x="48" y="224" width="400" height="96" rx="9" fill="#FFFFFF" stroke="#FECACA" stroke-width="1.5"/>
+  <text x="64" y="252" class="b" font-weight="700" fill="#B91C1C">✗ 致命坑 1：张冠李戴</text>
+  <text x="210" y="252" class="b" fill="#374151">还原行序与浅层 X₁ 对不上号</text>
+  <text x="64" y="282" class="b" font-weight="700" fill="#B91C1C">✗ 致命坑 2：锁死点数</text>
+  <text x="210" y="282" class="b" fill="#374151">权重绑定固定 N，变长测试报错</text>
+  <text x="64" y="308" class="s" fill="#991B1B">直接拿“失忆”的 X₂' 猜反池化矩阵，根本无从恢复原排布</text>
+
+  <rect x="48" y="336" width="400" height="42" rx="21" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
+  <text x="248" y="362" text-anchor="middle" class="b" font-weight="700" fill="#991B1B">实测 mAP5°（无 RANSAC）：仅 24.10%（几乎零提升）</text>
+
+  <!-- RIGHT CARD: Order-Aware DiffUnpool (GOOD) -->
+  <rect x="492" y="86" width="440" height="310" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2.2"/>
+  <text x="712" y="114" text-anchor="middle" class="h" fill="#166534">✓ 顺序感知反池化 Order-Aware（UnB）</text>
+
+  <rect x="512" y="132" width="116" height="48" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <text x="570" y="153" text-anchor="middle" class="b" font-weight="700" fill="#166534">规范聚类 X₂'</text>
+  <text x="570" y="171" text-anchor="middle" class="s" fill="#475569">固定 M=500 槽</text>
+
+  <rect x="512" y="192" width="116" height="62" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="570" y="213" text-anchor="middle" class="b" font-weight="700" fill="#1D4ED8">浅层特征 X₁</text>
+  <rect x="524" y="223" width="20" height="20" rx="4" fill="#EF4444"/><text x="534" y="237" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">3</text>
+  <rect x="548" y="223" width="20" height="20" rx="4" fill="#2563EB"/><text x="558" y="237" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">1</text>
+  <rect x="572" y="223" width="20" height="20" rx="4" fill="#3B82F6"/><text x="582" y="237" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">4</text>
+  <rect x="596" y="223" width="20" height="20" rx="4" fill="#16A34A"/><text x="606" y="237" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">2</text>
+
+  <path d="M 628 156 L 664 176" fill="none" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <path d="M 628 223 L 664 202" fill="none" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+
+  <rect x="670" y="148" width="106" height="84" rx="9" fill="#FFFFFF" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="723" y="174" text-anchor="middle" class="b" font-weight="700" fill="#15803D">借 X₁ 查表</text>
+  <text x="723" y="197" text-anchor="middle" class="mono" font-size="13" fill="#166534">S_un · X₂'</text>
+  <text x="723" y="218" text-anchor="middle" class="s" fill="#475569">(N×M)·(M×D)</text>
+
+  <line x1="776" y1="190" x2="806" y2="190" stroke="#16A34A" stroke-width="2.4" marker-end="url(#arr-green)"/>
+
+  <rect x="812" y="150" width="104" height="80" rx="8" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+  <text x="864" y="174" text-anchor="middle" class="b" font-weight="700" fill="#15803D">精准 X₁' ✓</text>
+  <rect x="820" y="186" width="20" height="22" rx="4" fill="#EF4444"/><text x="830" y="201" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">3</text>
+  <rect x="843" y="186" width="20" height="22" rx="4" fill="#2563EB"/><text x="853" y="201" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">1</text>
+  <rect x="866" y="186" width="20" height="22" rx="4" fill="#3B82F6"/><text x="876" y="201" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">4</text>
+  <rect x="889" y="186" width="20" height="22" rx="4" fill="#16A34A"/><text x="899" y="201" text-anchor="middle" class="mono" font-size="11.5" fill="#FFFFFF">2</text>
+  <text x="864" y="223" text-anchor="middle" class="s" fill="#15803D">与 X₁ 严丝合缝</text>
+
+  <rect x="512" y="268" width="400" height="54" rx="9" fill="#FFFFFF" stroke="#BBF7D0" stroke-width="1.5"/>
+  <text x="528" y="291" class="b" font-weight="700" fill="#15803D">✓ 恢复置换等变：</text>
+  <text x="644" y="291" class="b" fill="#374151">P·S_un·X₂' = P·X₁'，绝不错位</text>
+  <text x="528" y="313" class="b" font-weight="700" fill="#15803D">✓ 任意变长输入：</text>
+  <text x="644" y="313" class="b" fill="#374151">权重只绑固定 M=500，兼容任意 N</text>
+
+  <rect x="512" y="336" width="400" height="42" rx="21" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.6"/>
+  <text x="712" y="362" text-anchor="middle" class="b" font-weight="700" fill="#166534">实测 mAP5°（无 RANSAC）：跃升 28.78%（+5.23%！）</text>
+</svg>

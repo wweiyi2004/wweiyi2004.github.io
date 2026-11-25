@@ -1,376 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 730" width="1080" height="730">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 424" width="980" height="424">
+
   <defs>
-    <marker id="arr-dark" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#4B5563"/>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+      .bar { text-decoration: overline; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#2783DE"/>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#46A171"/>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#D5803B"/>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
     </marker>
-    <marker id="arr-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#8B5CF6"/>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
     </marker>
   </defs>
 
-  <style>
-    text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
-    .main-title { font-size: 20px; font-weight: 700; fill: #111827; }
-    .main-sub { font-size: 12px; fill: #4B5563; }
-    .panel-title-blue { font-size: 14.5px; font-weight: 700; fill: #153B60; }
-    .panel-title-green { font-size: 14.5px; font-weight: 700; fill: #1F5138; }
-    .step-badge { font-size: 11.5px; font-weight: 700; fill: #FFFFFF; }
-    .card-title-blue { font-size: 13px; font-weight: 700; fill: #153B60; }
-    .card-title-green { font-size: 13px; font-weight: 700; fill: #1F5138; }
-    .card-title-orange { font-size: 13px; font-weight: 700; fill: #70401C; }
-    .card-title-purple { font-size: 13px; font-weight: 700; fill: #422578; }
-    .body-text { font-size: 11.5px; fill: #374151; }
-    .small-text { font-size: 10.5px; fill: #4B5563; }
-    .cell-val { font-size: 11.5px; font-weight: 700; fill: #111827; }
-    .cell-orange { font-size: 11.5px; font-weight: 700; fill: #70401C; }
-    .cell-green { font-size: 11.5px; font-weight: 700; fill: #1F5138; }
-    .cell-purple { font-size: 11.5px; font-weight: 700; fill: #422578; }
-    .axis-lbl { font-size: 11px; font-weight: 700; fill: #374151; }
-  </style>
+  <rect width="980" height="424" fill="#FFFFFF" rx="12"/>
 
-  <!-- Pure White Background -->
-  <rect x="0" y="0" width="1080" height="730" fill="#FFFFFF"/>
-
-  <!-- Main Header -->
-  <text x="540" y="32" text-anchor="middle" class="main-title">SuperGlue 两大核心创新机制连环画图解</text>
-  <text x="540" y="53" text-anchor="middle" class="main-sub">上半部：多重图交替注意力如何靠“先认邻居、再两图来回核对”破解重复纹理；下半部：Dustbin + Sinkhorn 如何优雅拒判遮挡点</text>
-
-  <!-- ==================== PART 1: ALTERNATING SELF & CROSS ATTENTION ==================== -->
-  <rect x="20" y="70" width="1040" height="296" rx="12" fill="#F7FBFF" stroke="#B5CFE9" stroke-width="1.5"/>
-  <text x="40" y="96" class="panel-title-blue">机制一：交替自注意力（Self）与跨图注意力（Cross）——把“孤立局部点”升级成“懂全局上下文的推理节点”</text>
-
-  <!-- STEP 1 CARD -->
-  <rect x="36" y="112" width="290" height="236" rx="9" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.4"/>
-  <rect x="48" y="122" width="62" height="22" rx="11" fill="#2783DE"/>
-  <text x="79" y="137" text-anchor="middle" class="step-badge">第 1 步</text>
-  <text x="120" y="138" class="card-title-blue">外观 + 位置融合编码</text>
-
-  <!-- Mini diagram inside Step 1 -->
-  <rect x="52" y="156" width="114" height="50" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="109" y="177" text-anchor="middle" class="body-text" style="font-weight:700;">外观描述子 dᵢ</text>
-  <text x="109" y="195" text-anchor="middle" class="small-text">局部纹理（窗角相似）</text>
-
-  <rect x="52" y="218" width="114" height="50" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
-  <text x="109" y="239" text-anchor="middle" class="body-text" style="font-weight:700;fill:#153B60;">MLPₑₙc(x, y, c)</text>
-  <text x="109" y="257" text-anchor="middle" class="small-text">坐标 + 置信度编码</text>
-
-  <circle cx="196" cy="212" r="13" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="196" y="217" text-anchor="middle" class="card-title-blue" style="font-size:16px;">+</text>
-  <path d="M 166 181 L 181 181 L 181 206 L 183 206" fill="none" stroke="#6B7280" stroke-width="1.3"/>
-  <path d="M 166 243 L 181 243 L 181 218 L 183 218" fill="none" stroke="#2783DE" stroke-width="1.3"/>
-  <path d="M 209 212 L 228 212" fill="none" stroke="#2783DE" stroke-width="1.5" marker-end="url(#arr-blue)"/>
-
-  <rect x="230" y="176" width="84" height="72" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="272" y="203" text-anchor="middle" class="card-title-blue">⁽⁰⁾xᵢ</text>
-  <text x="272" y="222" text-anchor="middle" class="small-text">初始节点状态</text>
-  <text x="272" y="238" text-anchor="middle" class="small-text">[256 维]</text>
-
-  <rect x="50" y="282" width="262" height="52" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1"/>
-  <text x="181" y="302" text-anchor="middle" class="body-text" style="fill:#70401C;font-weight:700;">痛点：只看局部外观，两扇一模一样的窗</text>
-  <text x="181" y="321" text-anchor="middle" class="small-text" style="fill:#8C5123;">描述子几乎相同，传统最近邻直接配错！</text>
-
-  <!-- Arrow Step 1 -> Step 2 -->
-  <path d="M 326 230 L 356 230" fill="none" stroke="#2783DE" stroke-width="2" marker-end="url(#arr-blue)"/>
-
-  <!-- STEP 2 CARD -->
-  <rect x="358" y="112" width="318" height="236" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
-  <rect x="370" y="122" width="62" height="22" rx="11" fill="#46A171"/>
-  <text x="401" y="137" text-anchor="middle" class="step-badge">第 2 步</text>
-  <text x="442" y="138" class="card-title-green">Self-Attention（图内认清邻居）</text>
-
-  <!-- Mini Image A drawing -->
-  <rect x="376" y="156" width="146" height="114" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3"/>
-  <text x="449" y="172" text-anchor="middle" class="small-text" style="font-weight:700;">图像 A（同一张图内）</text>
-  <!-- Clock landmark -->
-  <circle cx="492" cy="194" r="12" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="492" y="198" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:#70401C;">钟</text>
-  <!-- Window 1 (target) -->
-  <rect x="394" y="216" width="32" height="36" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3"/>
-  <text x="410" y="238" text-anchor="middle" style="font-size:10px;fill:#153B60;">窗1</text>
-  <!-- Window 2 (similar) -->
-  <rect x="446" y="216" width="32" height="36" rx="3" fill="#E5F2FC" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="462" y="238" text-anchor="middle" style="font-size:10px;fill:#4B5563;">窗2</text>
-  <!-- Attention rays from Window 1 corner (394,216) -->
-  <line x1="394" y1="216" x2="482" y2="196" stroke="#D5803B" stroke-width="2.2"/>
-  <line x1="394" y1="216" x2="446" y2="216" stroke="#46A171" stroke-width="1.6" stroke-dasharray="3,2"/>
-  <circle cx="394" cy="216" r="4.5" fill="#D5803B"/>
-
-  <!-- Explanation on right of mini Image A -->
-  <rect x="532" y="156" width="132" height="114" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.1"/>
-  <text x="598" y="176" text-anchor="middle" class="card-title-green" style="font-size:11.5px;">图内消息聚合</text>
-  <text x="598" y="196" text-anchor="middle" class="small-text">m = Σ αᵢⱼ vⱼ</text>
-  <text x="598" y="216" text-anchor="middle" class="small-text">· 浅层：看全图地标</text>
-  <text x="598" y="234" text-anchor="middle" class="small-text">  (如钟楼、屋顶轮廓)</text>
-  <text x="598" y="254" text-anchor="middle" class="small-text">· 深层：聚焦局部邻域</text>
-
-  <rect x="374" y="282" width="286" height="52" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1"/>
-  <text x="517" y="302" text-anchor="middle" class="body-text" style="fill:#1F5138;font-weight:700;">结果：窗1不再只知道自己“长得像窗户”</text>
-  <text x="517" y="321" text-anchor="middle" class="small-text" style="fill:#256345;">而是记住了“我在钟楼左下方、且右侧还有一扇窗”</text>
-
-  <!-- Arrow Step 2 -> Step 3 -->
-  <path d="M 676 230 L 706 230" fill="none" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
-
-  <!-- STEP 3 CARD -->
-  <rect x="708" y="112" width="336" height="236" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
-  <rect x="720" y="122" width="62" height="22" rx="11" fill="#46A171"/>
-  <text x="751" y="137" text-anchor="middle" class="step-badge">第 3 步</text>
-  <text x="792" y="138" class="card-title-green">Cross-Attention（两图来回核对）</text>
-
-  <!-- Mini Image A & B side by side -->
-  <rect x="724" y="156" width="108" height="114" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="778" y="172" text-anchor="middle" class="small-text" style="font-weight:700;">图像 A</text>
-  <rect x="740" y="210" width="26" height="32" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3"/>
-  <text x="753" y="230" text-anchor="middle" style="font-size:9.5px;fill:#153B60;">窗1</text>
-  <circle cx="740" cy="210" r="4.5" fill="#D5803B"/>
-  <circle cx="808" cy="190" r="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="808" y="193" text-anchor="middle" style="font-size:8.5px;fill:#70401C;">钟</text>
-
-  <rect x="920" y="156" width="108" height="114" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="974" y="172" text-anchor="middle" class="small-text" style="font-weight:700;">图像 B（换视角）</text>
-  <rect x="936" y="214" width="26" height="32" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <text x="949" y="234" text-anchor="middle" style="font-size:9.5px;font-weight:700;fill:#1F5138;">窗1'</text>
-  <rect x="980" y="214" width="26" height="32" rx="3" fill="#E5F2FC" stroke="#9CA3AF" stroke-width="1.1"/>
-  <text x="993" y="234" text-anchor="middle" style="font-size:9.5px;fill:#4B5563;">窗2'</text>
-  <circle cx="998" cy="188" r="9" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="998" y="191" text-anchor="middle" style="font-size:8.5px;fill:#70401C;">钟</text>
-  <circle cx="936" cy="214" r="4.5" fill="#46A171"/>
-
-  <!-- Cross rays -->
-  <path d="M 745 210 Q 840 170 932 213" fill="none" stroke="#46A171" stroke-width="2.4" marker-end="url(#arr-green)"/>
-  <path d="M 745 212 Q 860 250 976 218" fill="none" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,3"/>
-  <text x="876" y="180" text-anchor="middle" style="font-size:10px;font-weight:700;fill:#1F5138;">深层精准锁定</text>
-  <text x="876" y="256" text-anchor="middle" style="font-size:9.5px;fill:#6B7280;">浅层候选(后被淘汰)</text>
-
-  <rect x="724" y="282" width="304" height="52" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1"/>
-  <text x="876" y="302" text-anchor="middle" class="body-text" style="fill:#422578;font-weight:700;">交替 9 轮（由粗到细，跨度缩小超 10 倍）</text>
-  <text x="876" y="321" text-anchor="middle" class="small-text" style="fill:#5B32A3;">简单点约第 9 层锁定，困难点在第 17 层完成消歧</text>
-
-  <!-- ==================== PART 2: DUSTBIN & SINKHORN OPTIMAL TRANSPORT ==================== -->
-  <rect x="20" y="384" width="1040" height="328" rx="12" fill="#F6FBF8" stroke="#B3CFC0" stroke-width="1.5"/>
-  <text x="40" y="410" class="panel-title-green">机制二：Dustbin 垃圾桶增广 + 可微 Sinkhorn 最优传输（以 M=3, N=3 含遮挡点为例）</text>
-
-  <!-- STEP A: Score Matrix S (3x3) -->
-  <rect x="36" y="426" width="214" height="270" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
-  <text x="143" y="448" text-anchor="middle" class="card-title-green">A. 内积得分矩阵 S [3×3]</text>
-  <text x="143" y="466" text-anchor="middle" class="small-text">假设 A₃ 被遮挡，B₃ 是新出现点</text>
-
-  <!-- 3x3 Matrix Grid -->
-  <!-- Column headers -->
-  <text x="116" y="492" text-anchor="middle" class="axis-lbl">B₁</text>
-  <text x="158" y="492" text-anchor="middle" class="axis-lbl">B₂</text>
-  <text x="200" y="492" text-anchor="middle" class="axis-lbl" style="fill:#9CA3AF;">B₃</text>
-  <!-- Row headers -->
-  <text x="76" y="522" text-anchor="end" class="axis-lbl">A₁</text>
-  <text x="76" y="558" text-anchor="end" class="axis-lbl">A₂</text>
-  <text x="76" y="594" text-anchor="end" class="axis-lbl" style="fill:#9CA3AF;">A₃</text>
-
-  <!-- Row 1 -->
-  <rect x="95" y="500" width="42" height="34" fill="#CBEAD7" stroke="#46A171" stroke-width="1"/>
-  <text x="116" y="521" text-anchor="middle" class="cell-green">5.2</text>
-  <rect x="137" y="500" width="42" height="34" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="158" y="521" text-anchor="middle" class="cell-val">0.4</text>
-  <rect x="179" y="500" width="42" height="34" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="200" y="521" text-anchor="middle" class="cell-val">-0.3</text>
-
-  <!-- Row 2 -->
-  <rect x="95" y="534" width="42" height="34" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="116" y="555" text-anchor="middle" class="cell-val">0.6</text>
-  <rect x="137" y="534" width="42" height="34" fill="#CBEAD7" stroke="#46A171" stroke-width="1"/>
-  <text x="158" y="555" text-anchor="middle" class="cell-green">4.8</text>
-  <rect x="179" y="534" width="42" height="34" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="200" y="555" text-anchor="middle" class="cell-val">0.2</text>
-
-  <!-- Row 3 (occluded A3) -->
-  <rect x="95" y="568" width="42" height="34" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="116" y="589" text-anchor="middle" class="cell-val">0.1</text>
-  <rect x="137" y="568" width="42" height="34" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="158" y="589" text-anchor="middle" class="cell-val">-0.2</text>
-  <rect x="179" y="568" width="42" height="34" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="200" y="589" text-anchor="middle" class="cell-val">0.3</text>
-
-  <text x="143" y="628" text-anchor="middle" class="body-text">如果直接做普通匹配：</text>
-  <text x="143" y="646" text-anchor="middle" class="small-text">A₃ 会被硬塞给 B₃（强行拉郎配）</text>
-  <text x="143" y="664" text-anchor="middle" class="small-text">因为缺少“拒绝匹配”的出口！</text>
-
-  <!-- Arrow A -> B -->
-  <path d="M 250 560 L 274 560" fill="none" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
-
-  <!-- STEP B: Dustbin Augmented Matrix S_bar (4x4) -->
-  <rect x="276" y="426" width="262" height="270" rx="9" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="407" y="448" text-anchor="middle" class="card-title-orange">B. 拼入 Dustbin 增广矩阵 S̄ [4×4]</text>
-  <text x="407" y="466" text-anchor="middle" class="small-text">新增 1 行 1 列，填可学习标量 z（如 2.0）</text>
-
-  <!-- Col headers -->
-  <text x="342" y="492" text-anchor="middle" class="axis-lbl">B₁</text>
-  <text x="380" y="492" text-anchor="middle" class="axis-lbl">B₂</text>
-  <text x="418" y="492" text-anchor="middle" class="axis-lbl">B₃</text>
-  <text x="456" y="492" text-anchor="middle" class="axis-lbl" style="fill:#D5803B;">Bin</text>
-  <text x="506" y="492" text-anchor="middle" class="axis-lbl" style="fill:#153B60;">行和 a</text>
-
-  <!-- Row headers -->
-  <text x="314" y="520" text-anchor="end" class="axis-lbl">A₁</text>
-  <text x="314" y="550" text-anchor="end" class="axis-lbl">A₂</text>
-  <text x="314" y="580" text-anchor="end" class="axis-lbl">A₃</text>
-  <text x="314" y="610" text-anchor="end" class="axis-lbl" style="fill:#D5803B;">Bin</text>
-
-  <!-- 4x4 Grid -->
-  <!-- Row 1 -->
-  <rect x="323" y="500" width="38" height="30" fill="#CBEAD7" stroke="#46A171" stroke-width="1"/>
-  <text x="342" y="519" text-anchor="middle" class="cell-green">5.2</text>
-  <rect x="361" y="500" width="38" height="30" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="380" y="519" text-anchor="middle" class="cell-val">0.4</text>
-  <rect x="399" y="500" width="38" height="30" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="418" y="519" text-anchor="middle" class="cell-val">-0.3</text>
-  <rect x="437" y="500" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="456" y="519" text-anchor="middle" class="cell-orange">z</text>
-  <text x="506" y="519" text-anchor="middle" class="axis-lbl" style="fill:#2783DE;">= 1</text>
-
-  <!-- Row 2 -->
-  <rect x="323" y="530" width="38" height="30" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="342" y="549" text-anchor="middle" class="cell-val">0.6</text>
-  <rect x="361" y="530" width="38" height="30" fill="#CBEAD7" stroke="#46A171" stroke-width="1"/>
-  <text x="380" y="549" text-anchor="middle" class="cell-green">4.8</text>
-  <rect x="399" y="530" width="38" height="30" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="418" y="549" text-anchor="middle" class="cell-val">0.2</text>
-  <rect x="437" y="530" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="456" y="549" text-anchor="middle" class="cell-orange">z</text>
-  <text x="506" y="549" text-anchor="middle" class="axis-lbl" style="fill:#2783DE;">= 1</text>
-
-  <!-- Row 3 -->
-  <rect x="323" y="560" width="38" height="30" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="342" y="579" text-anchor="middle" class="cell-val">0.1</text>
-  <rect x="361" y="560" width="38" height="30" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="380" y="579" text-anchor="middle" class="cell-val">-0.2</text>
-  <rect x="399" y="560" width="38" height="30" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
-  <text x="418" y="579" text-anchor="middle" class="cell-val">0.3</text>
-  <rect x="437" y="560" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="456" y="579" text-anchor="middle" class="cell-orange">z</text>
-  <text x="506" y="579" text-anchor="middle" class="axis-lbl" style="fill:#2783DE;">= 1</text>
-
-  <!-- Row 4 (Dustbin) -->
-  <rect x="323" y="590" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="342" y="609" text-anchor="middle" class="cell-orange">z</text>
-  <rect x="361" y="590" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="380" y="609" text-anchor="middle" class="cell-orange">z</text>
-  <rect x="399" y="590" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="418" y="609" text-anchor="middle" class="cell-orange">z</text>
-  <rect x="437" y="590" width="38" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="456" y="609" text-anchor="middle" class="cell-orange">z</text>
-  <text x="506" y="609" text-anchor="middle" class="axis-lbl" style="fill:#D5803B;">= N(3)</text>
-
-  <!-- Col sums b -->
-  <text x="314" y="642" text-anchor="end" class="axis-lbl" style="fill:#153B60;">列和 b</text>
-  <text x="342" y="642" text-anchor="middle" class="axis-lbl" style="fill:#2783DE;">1</text>
-  <text x="380" y="642" text-anchor="middle" class="axis-lbl" style="fill:#2783DE;">1</text>
-  <text x="418" y="642" text-anchor="middle" class="axis-lbl" style="fill:#2783DE;">1</text>
-  <text x="456" y="642" text-anchor="middle" class="axis-lbl" style="fill:#D5803B;">M(3)</text>
-
-  <text x="407" y="668" text-anchor="middle" class="small-text">总质量守恒：Σa = Σb = M + N = 6</text>
-  <text x="407" y="684" text-anchor="middle" class="small-text">垃圾桶容量够大，可装下所有未匹配点</text>
-
-  <!-- Arrow B -> C -->
-  <path d="M 538 560 L 562 560" fill="none" stroke="#46A171" stroke-width="2" marker-end="url(#arr-green)"/>
-
-  <!-- STEP C: Sinkhorn Iterative Loop -->
-  <rect x="564" y="426" width="194" height="270" rx="9" fill="#FFFFFF" stroke="#46A171" stroke-width="1.4"/>
-  <text x="661" y="448" text-anchor="middle" class="card-title-green">C. Sinkhorn 迭代</text>
-  <text x="661" y="466" text-anchor="middle" class="small-text">可微版“匈牙利算法”</text>
-
-  <rect x="582" y="482" width="158" height="36" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="661" y="504" text-anchor="middle" class="body-text" style="font-weight:700;">初始化：K = exp(S̄)</text>
-
-  <path d="M 661 518 L 661 536" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
-
-  <rect x="582" y="538" width="158" height="40" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
-  <text x="661" y="555" text-anchor="middle" class="card-title-green" style="font-size:12px;">① 按行归一化</text>
-  <text x="661" y="571" text-anchor="middle" class="small-text">让每行和对齐目标 a</text>
-
-  <path d="M 661 578 L 661 598" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
-
-  <rect x="582" y="600" width="158" height="40" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3"/>
-  <text x="661" y="617" text-anchor="middle" class="card-title-blue" style="font-size:12px;">② 按列归一化</text>
-  <text x="661" y="633" text-anchor="middle" class="small-text">让每列和对齐目标 b</text>
-
-  <!-- Loop back arrow -->
-  <path d="M 740 620 L 750 620 L 750 558 L 742 558" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arr-orange)"/>
-  <text x="661" y="662" text-anchor="middle" class="body-text" style="fill:#70401C;font-weight:700;">交替循环 T = 100 次</text>
-  <text x="661" y="680" text-anchor="middle" class="small-text">自动实现“软互检 + 排他竞争”</text>
-
-  <!-- Arrow C -> D -->
-  <path d="M 758 560 L 782 560" fill="none" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-purple)"/>
-
-  <!-- STEP D: Output Assignment P_bar and P -->
-  <rect x="784" y="426" width="260" height="270" rx="9" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
-  <text x="914" y="448" text-anchor="middle" class="card-title-purple">D. 收敛结果 P̄ 与最终匹配 P</text>
-  <text x="914" y="466" text-anchor="middle" class="small-text">裁去橙色行列 → 保留左上 3×3 矩阵 P</text>
-
-  <!-- Col headers -->
-  <text x="854" y="492" text-anchor="middle" class="axis-lbl">B₁</text>
-  <text x="896" y="492" text-anchor="middle" class="axis-lbl">B₂</text>
-  <text x="938" y="492" text-anchor="middle" class="axis-lbl">B₃</text>
-  <text x="980" y="492" text-anchor="middle" class="axis-lbl" style="fill:#D5803B;">Bin</text>
-
-  <!-- Row headers -->
-  <text x="824" y="520" text-anchor="end" class="axis-lbl">A₁</text>
-  <text x="824" y="550" text-anchor="end" class="axis-lbl">A₂</text>
-  <text x="824" y="580" text-anchor="end" class="axis-lbl">A₃</text>
-  <text x="824" y="610" text-anchor="end" class="axis-lbl" style="fill:#D5803B;">Bin</text>
-
-  <!-- 4x4 converged probabilities -->
-  <!-- Row 1 -->
-  <rect x="833" y="500" width="42" height="30" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-  <text x="854" y="519" text-anchor="middle" class="cell-purple">0.94</text>
-  <rect x="875" y="500" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="896" y="519" text-anchor="middle" class="small-text">0.01</text>
-  <rect x="917" y="500" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="938" y="519" text-anchor="middle" class="small-text">0.01</text>
-  <rect x="959" y="500" width="42" height="30" fill="#FFF7F0" stroke="#F3CFAF" stroke-width="1"/>
-  <text x="980" y="519" text-anchor="middle" class="small-text">0.04</text>
-
-  <!-- Row 2 -->
-  <rect x="833" y="530" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="854" y="549" text-anchor="middle" class="small-text">0.02</text>
-  <rect x="875" y="530" width="42" height="30" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
-  <text x="896" y="549" text-anchor="middle" class="cell-purple">0.91</text>
-  <rect x="917" y="530" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="938" y="549" text-anchor="middle" class="small-text">0.02</text>
-  <rect x="959" y="530" width="42" height="30" fill="#FFF7F0" stroke="#F3CFAF" stroke-width="1"/>
-  <text x="980" y="549" text-anchor="middle" class="small-text">0.05</text>
-
-  <!-- Row 3 -->
-  <rect x="833" y="560" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="854" y="579" text-anchor="middle" class="small-text">0.01</text>
-  <rect x="875" y="560" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="896" y="579" text-anchor="middle" class="small-text">0.02</text>
-  <rect x="917" y="560" width="42" height="30" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
-  <text x="938" y="579" text-anchor="middle" class="small-text">0.08</text>
-  <rect x="959" y="560" width="42" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="980" y="579" text-anchor="middle" class="cell-orange">0.89</text>
-
-  <!-- Row 4 -->
-  <rect x="833" y="590" width="42" height="30" fill="#FFF7F0" stroke="#F3CFAF" stroke-width="1"/>
-  <text x="854" y="609" text-anchor="middle" class="small-text">0.03</text>
-  <rect x="875" y="590" width="42" height="30" fill="#FFF7F0" stroke="#F3CFAF" stroke-width="1"/>
-  <text x="896" y="609" text-anchor="middle" class="small-text">0.06</text>
-  <rect x="917" y="590" width="42" height="30" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="938" y="609" text-anchor="middle" class="cell-orange">0.89</text>
-  <rect x="959" y="590" width="42" height="30" fill="#FFF7F0" stroke="#F3CFAF" stroke-width="1"/>
-  <text x="980" y="609" text-anchor="middle" class="small-text">2.02</text>
-
-  <!-- Crop boundary around top-left 3x3 -->
-  <rect x="832" y="499" width="128" height="92" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="5,3"/>
-
-  <!-- Summary text inside D -->
-  <text x="914" y="644" text-anchor="middle" class="body-text" style="fill:#422578;font-weight:700;">阈值 &gt; 0.2 输出：(A₁,B₁), (A₂,B₂)</text>
-  <text x="914" y="663" text-anchor="middle" class="small-text" style="fill:#70401C;">A₃、B₃ 概率流向 Dustbin (0.89) 被拒判</text>
-  <text x="914" y="681" text-anchor="middle" class="small-text">（注：以上数值为机制演示示意值）</text>
+  <text x="490" y="38" text-anchor="middle" class="title">图 4：核心机制——Dustbin 垃圾桶 + 可微 Sinkhorn 最优传输</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">用具体 3×3 → 4×4 数值推演看懂：真匹配自动一对一锁定，遮挡点（A3*, B3*）稳稳滑进垃圾桶</text>
+  <text x="195" y="96" text-anchor="middle" class="h" fill="#1D4ED8">① 内积得分 + 垃圾桶（z = 2.0）</text>
+  <text x="466" y="96" text-anchor="middle" class="h" fill="#065F46">② 可微最优传输求解</text>
+  <text x="806" y="96" text-anchor="middle" class="h" fill="#6D28D9">③ 增广分配矩阵 <tspan class="bar">P</tspan>（含垃圾桶）</text>
+  <text x="107.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+  <text x="166.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+  <text x="225.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B3*</text>
+  <text x="284.0" y="122" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">垃圾桶</text>
+  <text x="70" y="158" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+  <rect x="80" y="134" width="54" height="38" rx="6" fill="#2563EB" stroke="#1D4ED8" stroke-width="1.2"/>
+  <text x="107.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">5.2</text>
+  <rect x="139" y="134" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="166.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.4</text>
+  <rect x="198" y="134" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="225.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.1</text>
+  <rect x="257" y="134" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="284.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <text x="70" y="201" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+  <rect x="80" y="177" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="107.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.2</text>
+  <rect x="139" y="177" width="54" height="38" rx="6" fill="#2563EB" stroke="#1D4ED8" stroke-width="1.2"/>
+  <text x="166.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">4.8</text>
+  <rect x="198" y="177" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="225.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.2</text>
+  <rect x="257" y="177" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="284.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <text x="70" y="244" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A3*</text>
+  <rect x="80" y="220" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="107.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.2</text>
+  <rect x="139" y="220" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="166.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.1</text>
+  <rect x="198" y="220" width="54" height="38" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="225.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.3</text>
+  <rect x="257" y="220" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="284.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <text x="70" y="287" text-anchor="end" class="b" fill="#C2410C" font-weight="700">垃圾桶</text>
+  <rect x="80" y="263" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="107.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <rect x="139" y="263" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="166.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <rect x="198" y="263" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="225.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <rect x="257" y="263" width="54" height="38" rx="6" fill="#FFEDD5" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="284.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#9A3412">2.0</text>
+  <text x="195" y="324" text-anchor="middle" class="s">描述子不做 L2 归一化：置信度低 → 得分低</text>
+  <line x1="318" y1="216" x2="346" y2="216" stroke="#64748B" stroke-width="2.4" marker-end="url(#arr-gray)"/>
+  <rect x="352" y="126" width="228" height="178" rx="12" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+  <rect x="368" y="144" width="196" height="36" rx="8" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.5"/>
+  <text x="466" y="167" text-anchor="middle" class="b" fill="#065F46" font-weight="700">1. 取指数转正：K = exp(<tspan class="bar">S</tspan>)</text>
+  <line x1="466" y1="180" x2="466" y2="198" stroke="#16A34A" stroke-width="2" marker-end="url(#arr-green)"/>
+  <rect x="368" y="202" width="196" height="58" rx="8" fill="#FFFFFF" stroke="#6EE7B7" stroke-width="1.5"/>
+  <text x="466" y="225" text-anchor="middle" class="b" fill="#065F46" font-weight="700">2. 交替行列归一化 (T=100)</text>
+  <text x="466" y="247" text-anchor="middle" class="s" fill="#047857">普通点行/列和 = 1 · 桶容量 = 3</text>
+  <text x="466" y="288" text-anchor="middle" class="s" fill="#065F46" font-weight="700">软化版双向互检 · 全程可求导</text>
+  <line x1="580" y1="216" x2="618" y2="216" stroke="#16A34A" stroke-width="2.4" marker-end="url(#arr-green)"/>
+  <rect x="688" y="130" width="180" height="132" rx="8" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-dasharray="5,3"/>
+  <text x="719.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B1</text>
+  <text x="778.0" y="122" text-anchor="middle" class="b" fill="#334155" font-weight="700">B2</text>
+  <text x="837.0" y="122" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">B3*</text>
+  <text x="896.0" y="122" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">垃圾桶</text>
+  <text x="678" y="158" text-anchor="end" class="b" fill="#334155" font-weight="700">A1</text>
+  <rect x="692" y="134" width="54" height="38" rx="6" fill="#7C3AED" stroke="#6D28D9" stroke-width="1.2"/>
+  <text x="719.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.94</text>
+  <rect x="751" y="134" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="778.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+  <rect x="810" y="134" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="837.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.01</text>
+  <rect x="869" y="134" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="896.0" y="158" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.03</text>
+  <text x="678" y="201" text-anchor="end" class="b" fill="#334155" font-weight="700">A2</text>
+  <rect x="692" y="177" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="719.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.01</text>
+  <rect x="751" y="177" width="54" height="38" rx="6" fill="#7C3AED" stroke="#6D28D9" stroke-width="1.2"/>
+  <text x="778.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.91</text>
+  <rect x="810" y="177" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="837.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+  <rect x="869" y="177" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="896.0" y="201" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.06</text>
+  <text x="678" y="244" text-anchor="end" class="b" fill="#DC2626" font-weight="700">A3*</text>
+  <rect x="692" y="220" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="719.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.03</text>
+  <rect x="751" y="220" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="778.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.04</text>
+  <rect x="810" y="220" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="837.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.04</text>
+  <rect x="869" y="220" width="54" height="38" rx="6" fill="#EA580C" stroke="#C2410C" stroke-width="1.2"/>
+  <text x="896.0" y="244" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.89</text>
+  <text x="678" y="287" text-anchor="end" class="b" fill="#C2410C" font-weight="700">垃圾桶</text>
+  <rect x="692" y="263" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="719.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.02</text>
+  <rect x="751" y="263" width="54" height="38" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="778.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0.03</text>
+  <rect x="810" y="263" width="54" height="38" rx="6" fill="#EA580C" stroke="#C2410C" stroke-width="1.2"/>
+  <text x="837.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.93</text>
+  <rect x="869" y="263" width="54" height="38" rx="6" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="896.0" y="287" text-anchor="middle" class="mono" font-size="13" fill="#475569">2.02</text>
+  <text x="806" y="324" text-anchor="middle" class="s" fill="#5B21B6">推理时裁去末行末列（紫虚框 P），取互为最大 &gt; 0.2</text>
+  <rect x="34" y="344" width="912" height="60" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="490" y="369" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">看被遮挡的 A3* 与新出现的 B3*：它们和所有真实点的内积最高才 0.3，远不如垃圾桶分数 z = 2.0 划算；</text>
+  <text x="490" y="391" text-anchor="middle" class="b" fill="#9A3412">经 100 步 Sinkhorn 竞争后，概率稳稳流入垃圾桶（0.89 与 0.93），彻底告别强行“硬拉郎配”！</text>
 </svg>

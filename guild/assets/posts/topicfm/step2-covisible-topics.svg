@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 3：共视主题筛选——自动过滤掉“只有单边看得到”的区域</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">两张图先各自统计包含哪些主题，只挑两边共同出现的 Top-K 主题做精细交互</text>
+
+  <rect x="32" y="92" width="230" height="206" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="147" y="122" text-anchor="middle" class="h" fill="#1E3A8A">图 A 活跃主题分布</text>
+  <rect x="54" y="140" width="186" height="32" rx="6" fill="#FFFFFF" stroke="#94A3B8"/><text x="147" y="161" text-anchor="middle" class="b" fill="#64748B">主题 1（仅图 A 有）</text>
+  <rect x="54" y="182" width="186" height="32" rx="6" fill="#DCFCE7" stroke="#22C55E"/><text x="147" y="203" text-anchor="middle" class="b" fill="#15803D" font-weight="700">主题 2（共视高分 ✓）</text>
+  <rect x="54" y="224" width="186" height="32" rx="6" fill="#DCFCE7" stroke="#22C55E"/><text x="147" y="245" text-anchor="middle" class="b" fill="#15803D" font-weight="700">主题 3（共视高分 ✓）</text>
+
+  <line x1="262" y1="195" x2="318" y2="195" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+  <rect x="324" y="112" width="292" height="166" rx="12" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+  <text x="470" y="144" text-anchor="middle" class="h" fill="#14532D">共视筛选：两图主题分布相乘</text>
+  <rect x="350" y="164" width="240" height="44" rx="8" fill="#FFFFFF" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="470" y="191" text-anchor="middle" class="b" fill="#166534" font-weight="700">仅保留共视 Top-K 主题 {2, 3}</text>
+  <text x="470" y="236" text-anchor="middle" class="s" fill="#15803D">单边独有的主题 1、主题 5 直接跳过！</text>
+  <text x="470" y="258" text-anchor="middle" class="s" fill="#475569">算力全部集中到真正重叠的共视区域</text>
+
+  <line x1="678" y1="195" x2="622" y2="195" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+  <rect x="678" y="92" width="230" height="206" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="793" y="122" text-anchor="middle" class="h" fill="#5B21B6">图 B 活跃主题分布</text>
+  <rect x="700" y="140" width="186" height="32" rx="6" fill="#DCFCE7" stroke="#22C55E"/><text x="793" y="161" text-anchor="middle" class="b" fill="#15803D" font-weight="700">主题 2（共视高分 ✓）</text>
+  <rect x="700" y="182" width="186" height="32" rx="6" fill="#DCFCE7" stroke="#22C55E"/><text x="793" y="203" text-anchor="middle" class="b" fill="#15803D" font-weight="700">主题 3（共视高分 ✓）</text>
+  <rect x="700" y="224" width="186" height="32" rx="6" fill="#FFFFFF" stroke="#94A3B8"/><text x="793" y="245" text-anchor="middle" class="b" fill="#64748B">主题 5（仅图 B 有）</text>
+
+  <text x="470" y="324" text-anchor="middle" class="s">效果类似 LightGlue 的点剪枝，但直接按“语义块”批量跳过非共视区域</text>
+
+</svg>

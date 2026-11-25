@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 410" width="960" height="410">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="410" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 3：两阶段相关性精修——如何根治 LoFTR 的“期望拉偏”误差？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">拿一个 5×5 窗口直观对比：左上角出现 0.4 概率的干扰杂点时，两种精修的结果天差地别</text>
+
+  <!-- Left: LoFTR biased -->
+  <rect x="28" y="88" width="430" height="296" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="243" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 原版 LoFTR：整个 5×5 窗口直接求期望（被拉偏！）</text>
+
+  <!-- 5x5 grid left (x0=62, y0=138, cell=34) -->
+  <rect x="62" y="138" width="170" height="170" rx="6" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <!-- Highlight (-2,-2) noise cell and (0,0) true center cell -->
+  <rect x="66" y="142" width="30" height="30" rx="4" fill="#FB923C"/><text x="81" y="162" text-anchor="middle" class="mono" font-size="11.5" fill="#FFF">0.4</text>
+  <rect x="132" y="208" width="30" height="30" rx="4" fill="#2563EB"/><text x="147" y="228" text-anchor="middle" class="mono" font-size="11.5" fill="#FFF">0.6</text>
+  <!-- Biased expectation red dot -->
+  <circle cx="118" cy="196" r="7" fill="#DC2626" stroke="#FFF" stroke-width="2"/>
+  <line x1="147" y1="223" x2="122" y2="200" stroke="#DC2626" stroke-width="2" stroke-dasharray="3,2"/>
+
+  <!-- Explanation right of left grid -->
+  <text x="252" y="164" class="b" fill="#C2410C" font-weight="700">■ 橙格 (-2,-2)：干扰杂点 0.4</text>
+  <text x="252" y="192" class="b" fill="#1D4ED8" font-weight="700">■ 蓝格 (0, 0)：真匹配中心 0.6</text>
+  <text x="252" y="222" class="b" fill="#DC2626" font-weight="700">● 红点：全局期望算出的结果</text>
+  <rect x="248" y="240" width="194" height="62" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="345" y="264" text-anchor="middle" class="mono" font-size="12" fill="#991B1B">0.6*(0,0) + 0.4*(-2,-2)</text>
+  <text x="345" y="288" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">= (-0.8, -0.8) 偏了 0.8 像素！</text>
+  <text x="243" y="346" text-anchor="middle" class="b" fill="#7F1D1D">远处的相似纹理杂点会死死把最终坐标往外拽偏</text>
+
+  <!-- Right: ELoFTR 2-stage -->
+  <rect x="482" y="88" width="450" height="296" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="707" y="118" text-anchor="middle" class="h" fill="#166534">✓ ELoFTR 两阶段：先 argmax 锁整像素，再 3×3 精调！</text>
+
+  <!-- Stage 1 grid -->
+  <rect x="506" y="142" width="170" height="170" rx="6" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <!-- Crossed out noise cell -->
+  <rect x="510" y="146" width="30" height="30" rx="4" fill="#E2E8F0"/><text x="525" y="166" text-anchor="middle" class="mono" font-size="11.5" fill="#94A3B8">0.4</text>
+  <line x1="512" y1="148" x2="538" y2="174" stroke="#EF4444" stroke-width="2"/>
+  <!-- 3x3 dashed focus box around center -->
+  <rect x="542" y="178" width="98" height="98" rx="6" fill="#DCFCE7" fill-opacity="0.5" stroke="#16A34A" stroke-width="2" stroke-dasharray="5,3"/>
+  <rect x="576" y="212" width="30" height="30" rx="4" fill="#16A34A"/><text x="591" y="232" text-anchor="middle" class="mono" font-size="11.5" fill="#FFF">0.6</text>
+
+  <rect x="694" y="144" width="220" height="74" rx="8" fill="#FFFFFF" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="804" y="168" text-anchor="middle" class="b" fill="#15803D" font-weight="700">Stage 1：整像素 MNN 锁定</text>
+  <text x="804" y="190" text-anchor="middle" class="s">直接 argmax 锁死蓝/绿中心格</text>
+  <text x="804" y="208" text-anchor="middle" class="s" fill="#DC2626">左上角 0.4 杂点直接一刀切掉！</text>
+
+  <line x1="804" y1="218" x2="804" y2="236" stroke="#16A34A" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <rect x="694" y="240" width="220" height="72" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.6"/>
+  <text x="804" y="264" text-anchor="middle" class="b" fill="#14532D" font-weight="700">Stage 2：仅在贴身 3×3 窗微调</text>
+  <text x="804" y="286" text-anchor="middle" class="s">只对中心周围 9 格求 Softmax 期望</text>
+  <text x="804" y="304" text-anchor="middle" font-size="11.5" fill="#15803D" font-weight="700">无偏亚像素精度 + 零细 Transformer！</text>
+
+  <text x="707" y="350" text-anchor="middle" class="b" fill="#14532D">既彻底根治了期望拉偏，又砍掉了最耗时的细级 Transformer</text>
+
+</svg>

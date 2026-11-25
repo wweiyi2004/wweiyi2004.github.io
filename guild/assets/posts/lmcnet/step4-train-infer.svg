@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 412" width="960" height="412">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; }
+      .sub { font-size: 13.5px; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="412" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="36" text-anchor="middle" class="title" fill="#111827">图 5：LMCNet 训练监督 vs 推理部署流程对比</text>
+  <text x="480" y="60" text-anchor="middle" class="sub" fill="#4B5563">4D 构图与 32 维谱分解完全一致；训练靠双损失自动学习 η 与权重，推理冻结参数一键阈值筛内点</text>
+
+  <!-- ROW 1: Training -->
+  <rect x="26" y="84" width="908" height="132" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="46" y="110" class="h" fill="#1E3A8A">阶段 A · 训练阶段（Training）：端到端联合更新网络权重与平滑系数 η</text>
+
+  <rect x="46" y="124" width="170" height="74" rx="10" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.8"/>
+  <text x="131" y="152" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">4D 构图 + 32 维分解</text>
+  <text x="131" y="176" text-anchor="middle" class="s" fill="#4B5563">预处理一次 · 无梯度反传</text>
+
+  <line x1="216" y1="161" x2="244" y2="161" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+
+  <rect x="250" y="124" width="170" height="74" rx="10" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="335" y="152" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">4 × LMCBlock 前向</text>
+  <text x="335" y="176" text-anchor="middle" class="s" fill="#2563EB" font-weight="700">η（初值 10.0）参与学习</text>
+
+  <line x1="420" y1="161" x2="448" y2="161" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+
+  <rect x="454" y="124" width="268" height="74" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.8"/>
+  <rect x="466" y="133" width="244" height="24" rx="6" fill="#F0FDF4"/>
+  <text x="588" y="150" text-anchor="middle" class="s" fill="#15803D" font-weight="700">动态场景：仅 BCE 分类损失</text>
+  <rect x="466" y="164" width="244" height="24" rx="6" fill="#F5F3FF"/>
+  <text x="588" y="181" text-anchor="middle" class="s" fill="#6D28D9" font-weight="700">相对位姿：BCE + 加权八点法极线损失</text>
+
+  <line x1="722" y1="161" x2="750" y2="161" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+
+  <rect x="756" y="124" width="158" height="74" rx="10" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+  <text x="835" y="152" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">Adam 反向传播</text>
+  <text x="835" y="176" text-anchor="middle" class="s" fill="#1D4ED8">不切阈值 · 无 RANSAC</text>
+
+  <!-- ROW 2: Inference -->
+  <rect x="26" y="232" width="908" height="118" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="46" y="258" class="h" fill="#166534">阶段 B · 推理阶段（Inference）：冻结参数一次前向，按需对接下游几何估计</text>
+
+  <rect x="46" y="272" width="170" height="64" rx="10" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.8"/>
+  <text x="131" y="298" text-anchor="middle" class="b" fill="#166534" font-weight="700">4D 构图 + 32 维分解</text>
+  <text x="131" y="320" text-anchor="middle" class="s" fill="#4B5563">每对图算一次 · 8 层复用</text>
+
+  <line x1="216" y1="304" x2="244" y2="304" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <rect x="250" y="272" width="170" height="64" rx="10" fill="#FFFFFF" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="335" y="298" text-anchor="middle" class="b" fill="#166534" font-weight="700">4 × LMCBlock 前向</text>
+  <text x="335" y="320" text-anchor="middle" class="s" fill="#15803D" font-weight="700">冻结学好的 η · 无几何损失</text>
+
+  <line x1="420" y1="304" x2="448" y2="304" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <rect x="454" y="272" width="206" height="64" rx="10" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/>
+  <text x="557" y="298" text-anchor="middle" class="b" fill="#14532D" font-weight="700">高置信度阈值筛选</text>
+  <text x="557" y="320" text-anchor="middle" class="b" fill="#166534" font-weight="700">保留 pᵢ &gt; 0.95 内点</text>
+
+  <line x1="660" y1="304" x2="692" y2="304" stroke="#EA580C" stroke-width="2.2" marker-end="url(#arr-orange)"/>
+
+  <rect x="698" y="272" width="216" height="64" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
+  <text x="806" y="298" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">按需接 RANSAC 估位姿</text>
+  <text x="806" y="320" text-anchor="middle" class="s" fill="#C2410C">解算本质矩阵 E → (R, t)</text>
+
+  <!-- Bottom Tip -->
+  <rect x="26" y="364" width="908" height="36" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="480" y="387" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">隐藏技巧：前端接 SuperPoint + SuperGlue 时请关闭 SuperGlue 默认过滤，全量输入 LMCNet 反而救回更多真匹配！</text>
+</svg>

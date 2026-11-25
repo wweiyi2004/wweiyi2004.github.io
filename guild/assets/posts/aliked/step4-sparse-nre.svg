@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" width="980" height="420">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="980" height="420" fill="#FFFFFF" rx="12"/>
+
+  <text x="490" y="38" text-anchor="middle" class="title">图 5：Sparse NRE 损失松弛——用稀疏向量取代稠密热图，显存直降 71%</text>
+  <text x="490" y="62" text-anchor="middle" class="sub">不用稠密描述图也能训：用一个 4 点数值例子看懂如何把 H×W 概率图松弛成 N_B 维向量</text>
+
+  <!-- Left Panel: Old Dense NRE -->
+  <rect x="26" y="88" width="204" height="232" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="128" y="116" text-anchor="middle" class="h" fill="#991B1B">✗ 旧法 Dense NRE</text>
+  <rect x="58" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="78" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="98" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="118" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="138" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="158" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="178" y="134" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="58" y="151" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="78" y="151" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="98" y="151" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="118" y="151" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="138" y="151" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="158" y="151" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="178" y="151" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="58" y="168" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="78" y="168" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="98" y="168" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="118" y="168" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="138" y="168" width="20" height="17" fill="#DC2626" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="158" y="168" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="178" y="168" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="58" y="185" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="78" y="185" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="98" y="185" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="118" y="185" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="138" y="185" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="158" y="185" width="20" height="17" fill="#FCA5A5" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="178" y="185" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="58" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="78" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="98" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="118" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="138" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="158" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <rect x="178" y="202" width="20" height="17" fill="#FEE2E2" stroke="#FFFFFF" stroke-width="1"/>
+  <text x="128" y="238" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">H×W 全图稠密匹配概率图</text>
+  <text x="128" y="258" text-anchor="middle" class="s" fill="#7F1D1D">逐像素算 23 万次点积</text>
+  <rect x="44" y="272" width="168" height="32" rx="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.4"/>
+  <text x="128" y="293" text-anchor="middle" class="b" fill="#B91C1C" font-weight="700">显存高达 11.1 GB</text>
+
+  <!-- Transition Arrow -->
+  <line x1="230" y1="204" x2="274" y2="204" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="252" y="194" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">松弛</text>
+
+  <!-- Right Panel: Sparse NRE -->
+  <rect x="278" y="88" width="676" height="232" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="616" y="116" text-anchor="middle" class="h" fill="#1E3A8A">✓ ALIKED 新法 Sparse NRE（图 A 关键点 d_A 匹配图 B 的 4 个稀疏点，B3★ 为真值）</text>
+
+  <!-- Column headers -->
+  <text x="374" y="146" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">① 点积 D_B·d_A</text>
+  <text x="544" y="146" text-anchor="middle" class="b" fill="#15803D" font-weight="700">② 概率 q_m</text>
+  <text x="646" y="146" text-anchor="middle" class="b" fill="#6D28D9" font-weight="700">③ 真值 q_r</text>
+
+  <text x="330" y="178" text-anchor="end" class="b" fill="#334155" font-weight="700">B1</text>
+  <rect x="338" y="158" width="72" height="30" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="374" y="178" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.20</text>
+  <rect x="506" y="158" width="76" height="30" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="544" y="178" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.001</text>
+  <rect x="618" y="158" width="56" height="30" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="646" y="178" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0</text>
+  <text x="330" y="214" text-anchor="end" class="b" fill="#334155" font-weight="700">B2</text>
+  <rect x="338" y="194" width="72" height="30" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="374" y="214" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.30</text>
+  <rect x="506" y="194" width="76" height="30" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="544" y="214" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.003</text>
+  <rect x="618" y="194" width="56" height="30" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="646" y="214" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0</text>
+  <text x="330" y="250" text-anchor="end" class="b" fill="#15803D" font-weight="700">B3★</text>
+  <rect x="338" y="230" width="72" height="30" rx="6" fill="#2563EB" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="374" y="250" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.90</text>
+  <rect x="506" y="230" width="76" height="30" rx="6" fill="#16A34A" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="544" y="250" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">0.996</text>
+  <rect x="618" y="230" width="56" height="30" rx="6" fill="#7C3AED" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="646" y="250" text-anchor="middle" class="mono" font-size="13" fill="#FFFFFF">1</text>
+  <text x="330" y="286" text-anchor="end" class="b" fill="#334155" font-weight="700">B4</text>
+  <rect x="338" y="266" width="72" height="30" rx="6" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="374" y="286" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.10</text>
+  <rect x="506" y="266" width="76" height="30" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="544" y="286" text-anchor="middle" class="mono" font-size="13" fill="#64748B">0.000</text>
+  <rect x="618" y="266" width="56" height="30" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="646" y="286" text-anchor="middle" class="mono" font-size="13" fill="#94A3B8">0</text>
+
+  <!-- Arrow between Col 1 and Col 2 -->
+  <line x1="420" y1="224" x2="496" y2="224" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <text x="458" y="200" text-anchor="middle" class="s" fill="#15803D" font-weight="700">(sim−1)/0.1</text>
+  <text x="458" y="216" text-anchor="middle" class="s" fill="#15803D" font-weight="700">Softmax</text>
+
+  <!-- VS label between Col 2 and Col 3 -->
+  <text x="600" y="230" text-anchor="middle" class="b" fill="#475569" font-weight="700">vs</text>
+
+  <!-- Arrow Col 3 to Loss Result -->
+  <line x1="680" y1="224" x2="714" y2="224" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+
+  <!-- Loss Card -->
+  <rect x="720" y="154" width="216" height="142" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.8"/>
+  <text x="828" y="180" text-anchor="middle" class="h" fill="#5B21B6">交叉熵一步化简</text>
+  <rect x="738" y="192" width="180" height="32" rx="6" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.2"/>
+  <text x="828" y="213" text-anchor="middle" class="mono" font-size="13" fill="#5B21B6">L_ds = −ln(0.996)</text>
+  <text x="828" y="246" text-anchor="middle" class="b" fill="#15803D" font-weight="700">≈ 0.004（匹配很稳！）</text>
+  <text x="828" y="268" text-anchor="middle" class="s" fill="#DC2626">若假点高分 → 损失骤升</text>
+  <text x="828" y="286" text-anchor="middle" class="s">拉近真匹配 · 推远假匹配</text>
+
+  <!-- Bottom Memory Bonus Callout -->
+  <rect x="26" y="338" width="928" height="62" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="490" y="363" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">显存与分辨率双重红利（batch=1）：480×480 训练显存从 11.1 GB 骤降至 3.2 GB（暴省 71%！）</text>
+  <text x="490" y="385" text-anchor="middle" class="b" fill="#9A3412">省出的显存直接把训练分辨率拉升至 800×800（仅占 7.2 GB），不仅免去稠密图，还把精度全面赚了回来</text>
+</svg>

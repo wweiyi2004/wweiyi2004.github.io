@@ -1,254 +1,79 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 960" width="1080" height="960">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 390" width="960" height="390">
+
   <defs>
     <style>
-      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
-      .title { font-size: 21px; font-weight: bold; fill: #111827; }
-      .subtitle { font-size: 13px; fill: #4B5563; }
-      .stage-tag { font-size: 13px; font-weight: bold; }
-      .box-title { font-size: 14px; font-weight: bold; }
-      .box-text { font-size: 12px; }
-      .dim-text { font-size: 11.5px; font-weight: bold; fill: #374151; }
-      .note-text { font-size: 11.5px; fill: #4B5563; }
-      .legend-text { font-size: 12px; fill: #374151; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#4B5563" />
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2783DE" />
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#46A171" />
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arrow-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#D5803B" />
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
     </marker>
-    <marker id="arrow-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8B5CF6" />
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
     </marker>
   </defs>
 
-  <!-- Pure White Background -->
-  <rect x="0" y="0" width="1080" height="960" fill="#FFFFFF" />
+  <rect width="960" height="390" fill="#FFFFFF" rx="12"/>
 
-  <!-- Header -->
-  <text x="540" y="34" text-anchor="middle" class="title">DGC-GNN 端到端架构总览（无视觉描述子 2D-3D 关键点匹配）</text>
-  <text x="540" y="56" text-anchor="middle" class="subtitle">全局到局部层次化几何与颜色线索融合 · 论文默认规模：N, M ≤ 1024，编码维度 d = 128，拼接维度 2d = 256，全局簇数 X = 10</text>
+  <text x="480" y="38" text-anchor="middle" class="title">图 1：DGC-GNN 无描述子 2D-3D 匹配整体工作流程</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">彻底不存高维视觉描述子：只靠 2D 视线 / 3D 坐标 + 3 字节 RGB，经全局到局部图网络输出位姿</text>
 
-  <!-- ==================== STAGE 1: INPUT ==================== -->
-  <rect x="30" y="74" width="1020" height="114" rx="10" fill="#FAFAFA" stroke="#D1D5DB" stroke-width="1.2" stroke-dasharray="6,4" />
-  <text x="46" y="95" class="stage-tag" fill="#374151">阶段 1：跨模态输入与统一射线向量化（Bearing Vector + RGB）</text>
+  <rect x="24" y="94" width="194" height="236" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="121" y="122" text-anchor="middle" class="h" fill="#1E293B">① 几何 + 颜色独立编码</text>
+  <rect x="42" y="144" width="158" height="72" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="121" y="170" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">2D 视线向量 + RGB</text>
+  <text x="121" y="192" text-anchor="middle" class="s">内参反投影消除焦距差异</text>
+  <rect x="42" y="230" width="158" height="72" rx="8" fill="#F0FDF4" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="121" y="256" text-anchor="middle" class="b" fill="#15803D" font-weight="700">3D 地图点 + RGB</text>
+  <text x="121" y="278" text-anchor="middle" class="s">位置与颜色分开编码再融</text>
 
-  <!-- 2D Input Box -->
-  <rect x="52" y="106" width="445" height="68" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" />
-  <text x="274" y="128" text-anchor="middle" class="box-title" fill="#111827">2D 查询图像分支（Query Image I）</text>
-  <text x="274" y="147" text-anchor="middle" class="box-text" fill="#111827">SIFT / SuperPoint 提取 2D 关键点 p_n ∈ R^2 与像素颜色 c_p ∈ [0, 1]^3</text>
-  <text x="274" y="164" text-anchor="middle" class="box-text" fill="#374151">内参反投影 [b_p,n, 1]^T = K^(-1)[p_n, 1]^T  →  b_p [N, 2]，c_p [N, 3]</text>
+  <line x1="218" y1="212" x2="250" y2="212" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
 
-  <!-- 3D Input Box -->
-  <rect x="583" y="106" width="445" height="68" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" />
-  <text x="805" y="128" text-anchor="middle" class="box-title" fill="#111827">3D 稀疏点云分支（Top-k 检索视角可见点云 Q）</text>
-  <text x="805" y="147" text-anchor="middle" class="box-text" fill="#111827">由 NetVLAD / DenseVLAD 检索 Top-k 图像筛选 3D 点 q_m ∈ R^3 与颜色 c_q</text>
-  <text x="805" y="164" text-anchor="middle" class="box-text" fill="#374151">用检索相机位姿 (R, t) 归一化投影  →  b_q [M, 2]，c_q [M, 3]</text>
+  <rect x="256" y="94" width="214" height="236" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="363" y="122" text-anchor="middle" class="h" fill="#1E3A8A">② 全局几何引导图</text>
+  <rect x="274" y="144" width="178" height="72" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.5"/>
+  <text x="363" y="170" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">K-Means 聚出粗簇</text>
+  <text x="363" y="192" text-anchor="middle" class="s">保留稀疏点云宏观轮廓</text>
+  <rect x="274" y="230" width="178" height="72" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="363" y="256" text-anchor="middle" class="b" fill="#1E40AF" font-weight="700">距离 + 三元组夹角编码</text>
+  <text x="363" y="278" text-anchor="middle" class="s">严格刚体旋转不变！</text>
 
-  <!-- Arrows Stage 1 -> Stage 2 -->
-  <line x1="274" y1="174" x2="274" y2="220" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arrow)" />
-  <line x1="805" y1="174" x2="805" y2="220" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arrow)" />
-  <rect x="194" y="186" width="160" height="20" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
-  <text x="274" y="200" text-anchor="middle" class="dim-text">b_p [N, 2] + c_p [N, 3]</text>
-  <rect x="725" y="186" width="160" height="20" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
-  <text x="805" y="200" text-anchor="middle" class="dim-text">b_q [M, 2] + c_q [M, 3]</text>
+  <line x1="470" y1="212" x2="502" y2="212" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arr-blue)"/>
 
-  <!-- ==================== STAGE 2: JOINT ENCODER ==================== -->
-  <rect x="30" y="224" width="1020" height="114" rx="10" fill="#F7FBFF" stroke="#93C5FD" stroke-width="1.2" />
-  <text x="46" y="245" class="stage-tag" fill="#153B60">阶段 2：位置与颜色双路联合编码器（Joint Local Encoder，双模态共享权重）</text>
+  <rect x="508" y="94" width="214" height="236" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="615" y="122" text-anchor="middle" class="h" fill="#166534">③ 局部聚类匹配</text>
+  <rect x="526" y="144" width="178" height="72" rx="8" fill="#FFFFFF" stroke="#4ADE80" stroke-width="1.5"/>
+  <text x="615" y="170" text-anchor="middle" class="b" fill="#15803D" font-weight="700">两级层次化聚类注意力</text>
+  <text x="615" y="192" text-anchor="middle" class="s">把全局引导广播回细点</text>
+  <rect x="526" y="230" width="178" height="72" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="615" y="256" text-anchor="middle" class="b" fill="#14532D" font-weight="700">可微最优传输匹配</text>
+  <text x="615" y="278" text-anchor="middle" class="s">输出初始 2D-3D 候选对</text>
 
-  <!-- 2D Joint Encoder -->
-  <rect x="52" y="258" width="165" height="62" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
-  <text x="134" y="280" text-anchor="middle" class="box-title" fill="#153B60">位置编码器 F_b</text>
-  <text x="134" y="298" text-anchor="middle" class="box-text" fill="#153B60">ResNet 风格点网络</text>
-  <text x="134" y="313" text-anchor="middle" class="box-text" fill="#153B60">输出 [N, 128]</text>
+  <line x1="722" y1="212" x2="754" y2="212" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arr-green)"/>
 
-  <circle cx="238" cy="289" r="13" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.6" />
-  <text x="238" y="294" text-anchor="middle" class="box-title" fill="#153B60">+</text>
+  <rect x="760" y="94" width="176" height="236" rx="12" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="848" y="122" text-anchor="middle" class="h" fill="#5B21B6">④ 外点剔除与定位</text>
+  <rect x="778" y="144" width="140" height="72" rx="8" fill="#FFFFFF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="848" y="170" text-anchor="middle" class="b" fill="#6D28D9" font-weight="700">外点剔除网络</text>
+  <text x="848" y="192" text-anchor="middle" class="s">过滤高噪声假对应</text>
+  <rect x="778" y="230" width="140" height="72" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.5"/>
+  <text x="848" y="256" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">PnP + RANSAC</text>
+  <text x="848" y="278" text-anchor="middle" class="s">解出 6-DoF 相机位姿</text>
 
-  <rect x="259" y="258" width="165" height="62" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
-  <text x="341" y="280" text-anchor="middle" class="box-title" fill="#153B60">颜色编码器 F_c</text>
-  <text x="341" y="298" text-anchor="middle" class="box-text" fill="#153B60">ResNet 风格点网络</text>
-  <text x="341" y="313" text-anchor="middle" class="box-text" fill="#153B60">输出 [N, 128]</text>
+  <text x="480" y="366" text-anchor="middle" class="s">相比此前 SOTA 纯几何无描述子方法（GoMatch），DGC-GNN 直接将定位精度翻了一倍</text>
 
-  <line x1="217" y1="289" x2="225" y2="289" stroke="#2783DE" stroke-width="1.5" />
-  <line x1="251" y1="289" x2="259" y2="289" stroke="#2783DE" stroke-width="1.5" />
-
-  <!-- Shared weights badge -->
-  <rect x="444" y="272" width="192" height="34" rx="17" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.2" stroke-dasharray="4,3" />
-  <text x="540" y="293" text-anchor="middle" class="box-text" fill="#153B60">F_b、F_c 在 2D/3D 间共享参数</text>
-  <line x1="424" y1="289" x2="444" y2="289" stroke="#2783DE" stroke-width="1.2" stroke-dasharray="3,2" />
-  <line x1="636" y1="289" x2="656" y2="289" stroke="#2783DE" stroke-width="1.2" stroke-dasharray="3,2" />
-
-  <!-- 3D Joint Encoder -->
-  <rect x="656" y="258" width="165" height="62" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
-  <text x="738" y="280" text-anchor="middle" class="box-title" fill="#153B60">位置编码器 F_b</text>
-  <text x="738" y="298" text-anchor="middle" class="box-text" fill="#153B60">ResNet 风格点网络</text>
-  <text x="738" y="313" text-anchor="middle" class="box-text" fill="#153B60">输出 [M, 128]</text>
-
-  <circle cx="842" cy="289" r="13" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.6" />
-  <text x="842" y="294" text-anchor="middle" class="box-title" fill="#153B60">+</text>
-
-  <rect x="863" y="258" width="165" height="62" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5" />
-  <text x="945" y="280" text-anchor="middle" class="box-title" fill="#153B60">颜色编码器 F_c</text>
-  <text x="945" y="298" text-anchor="middle" class="box-text" fill="#153B60">ResNet 风格点网络</text>
-  <text x="945" y="313" text-anchor="middle" class="box-text" fill="#153B60">输出 [M, 128]</text>
-
-  <line x1="821" y1="289" x2="829" y2="289" stroke="#2783DE" stroke-width="1.5" />
-  <line x1="855" y1="289" x2="863" y2="289" stroke="#2783DE" stroke-width="1.5" />
-
-  <!-- Arrows Stage 2 -> Stage 3 & Skip Connections -->
-  <!-- Main downward arrows to Stage 3 -->
-  <line x1="238" y1="302" x2="238" y2="374" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)" />
-  <line x1="842" y1="302" x2="842" y2="374" stroke="#2783DE" stroke-width="1.8" marker-end="url(#arrow-blue)" />
-  <rect x="174" y="344" width="128" height="20" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1" />
-  <text x="238" y="358" text-anchor="middle" class="dim-text">f_p [N, 128]</text>
-  <rect x="778" y="344" width="128" height="20" rx="4" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1" />
-  <text x="842" y="358" text-anchor="middle" class="dim-text">f_q [M, 128]</text>
-
-  <!-- Skip connection lines for f_p and f_q down to Concat in Stage 4 -->
-  <path d="M 134 320 L 134 334 L 44 334 L 44 530 L 176 530" fill="none" stroke="#2783DE" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-blue)" />
-  <path d="M 945 320 L 945 334 L 1036 334 L 1036 530 L 904 530" fill="none" stroke="#2783DE" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-blue)" />
-  <text x="64" y="452" class="note-text" fill="#153B60" transform="rotate(-90 64 452)">局部特征 f_p 跳连</text>
-  <text x="1024" y="452" class="note-text" fill="#153B60" transform="rotate(90 1024 452)">局部特征 f_q 跳连</text>
-
-  <!-- ==================== STAGE 3: GLOBAL GEOMETRIC GRAPH ==================== -->
-  <rect x="82" y="378" width="916" height="126" rx="10" fill="#F4FBF7" stroke="#86EFAC" stroke-width="1.2" />
-  <text x="98" y="399" class="stage-tag" fill="#1F5138">阶段 3：全局几何引导图（Global Geometric Guidance，2D 与 3D 分支对称独立构建）</text>
-
-  <!-- Step 3.1 -->
-  <rect x="102" y="412" width="248" height="78" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-  <text x="226" y="432" text-anchor="middle" class="box-title" fill="#1F5138">① 射线聚类得粗级簇节点</text>
-  <text x="226" y="450" text-anchor="middle" class="box-text" fill="#1F5138">K-Means 将射线聚成 X = 10 簇</text>
-  <text x="226" y="466" text-anchor="middle" class="box-text" fill="#1F5138">簇中心 b̂ [X, 2]；簇内特征求均值</text>
-  <text x="226" y="481" text-anchor="middle" class="box-text" fill="#1F5138">得初始全局特征 f̂ [X, 128]</text>
-
-  <line x1="350" y1="451" x2="386" y2="451" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
-
-  <!-- Step 3.2 -->
-  <rect x="390" y="412" width="275" height="78" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-  <text x="527" y="432" text-anchor="middle" class="box-title" fill="#1F5138">② 全局 k-NN 距离图更新</text>
-  <text x="527" y="450" text-anchor="middle" class="box-text" fill="#1F5138">每簇连 k = 4 近邻簇（坐标空间）</text>
-  <text x="527" y="466" text-anchor="middle" class="box-text" fill="#1F5138">两轮 EdgeConv 差值聚合 + MaxPool</text>
-  <text x="527" y="481" text-anchor="middle" class="box-text" fill="#1F5138">拼接 (0/1/2) 轮特征 → f̂^g [X, 128]</text>
-
-  <line x1="665" y1="451" x2="701" y2="451" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
-
-  <!-- Step 3.3 -->
-  <rect x="705" y="412" width="275" height="78" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-  <text x="842" y="432" text-anchor="middle" class="box-title" fill="#1F5138">③ 三元组夹角编码 + 角度注意力</text>
-  <text x="842" y="450" text-anchor="middle" class="box-text" fill="#1F5138">计算簇三元组夹角嵌入 A = sin(∠/σ_a)</text>
-  <text x="842" y="466" text-anchor="middle" class="box-text" fill="#1F5138">角度感知自注意力 + LayerNorm</text>
-  <text x="842" y="481" text-anchor="middle" class="box-text" fill="#1F5138">输出全局几何嵌入 f̂^gg [X, 128]</text>
-
-  <!-- Broadcast & Concat Nodes -->
-  <line x1="274" y1="504" x2="274" y2="518" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
-  <line x1="805" y1="504" x2="805" y2="518" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
-
-  <rect x="180" y="516" width="286" height="28" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4" />
-  <text x="323" y="534" text-anchor="middle" class="dim-text" fill="#153B60">2D 广播拼接：f̃_p = f_p ⊕ f̂_p^gg  [N, 256]</text>
-
-  <rect x="614" y="516" width="286" height="28" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4" />
-  <text x="757" y="534" text-anchor="middle" class="dim-text" fill="#153B60">3D 广播拼接：f̃_q = f_q ⊕ f̂_q^gg  [M, 256]</text>
-
-  <!-- Arrows into Stage 4 -->
-  <line x1="323" y1="544" x2="323" y2="572" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arrow)" />
-  <line x1="757" y1="544" x2="757" y2="572" stroke="#4B5563" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- ==================== STAGE 4: CLUSTER-BASED LOCAL MATCHING ==================== -->
-  <rect x="30" y="576" width="1020" height="162" rx="10" fill="#F4FBF7" stroke="#46A171" stroke-width="1.4" />
-  <text x="46" y="598" class="stage-tag" fill="#1F5138">阶段 4：基于聚类的局部特征交互与可微最优传输匹配（Cluster-based Local Matching）</text>
-
-  <!-- 4A Initialization -->
-  <rect x="52" y="612" width="280" height="112" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-  <text x="192" y="633" text-anchor="middle" class="box-title" fill="#1F5138">4A. 局部图与跨模态初始化</text>
-  <text x="192" y="653" text-anchor="middle" class="box-text" fill="#1F5138">· 各自建欧氏 k'-NN 局部图 (k' = 10)</text>
-  <text x="192" y="670" text-anchor="middle" class="box-text" fill="#1F5138">  （省略角度编码以避开 O(N·k'^2) 显存）</text>
-  <text x="192" y="688" text-anchor="middle" class="box-text" fill="#1F5138">· 线性跨模态注意力 Linear Cross-Attn</text>
-  <text x="192" y="706" text-anchor="middle" class="box-text" fill="#1F5138">  复杂度由 O(N^2) 降至 O(N)</text>
-
-  <line x1="332" y1="668" x2="368" y2="668" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
-
-  <!-- 4B Cluster Attention -->
-  <rect x="372" y="612" width="320" height="112" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-  <text x="532" y="633" text-anchor="middle" class="box-title" fill="#1F5138">4B. 两级层次化聚类注意力（重复 2 次）</text>
-  <text x="532" y="653" text-anchor="middle" class="box-text" fill="#1F5138">· 拼接 2D/3D 点特征为联合集合 [N+M, 256]</text>
-  <text x="532" y="670" text-anchor="middle" class="box-text" fill="#1F5138">· 第 1 级：粗聚类为 I 个大组，组内交互</text>
-  <text x="532" y="688" text-anchor="middle" class="box-text" fill="#1F5138">· 第 2 级：大组细分为小组，抑制误分组</text>
-  <text x="532" y="706" text-anchor="middle" class="box-text" fill="#1F5138">· 还原并拆分 → f̃'_p [N, 256]，f̃'_q [M, 256]</text>
-
-  <line x1="692" y1="668" x2="728" y2="668" stroke="#46A171" stroke-width="1.8" marker-end="url(#arrow-green)" />
-
-  <!-- 4C Optimal Transport -->
-  <rect x="732" y="612" width="296" height="112" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.5" />
-  <text x="880" y="633" text-anchor="middle" class="box-title" fill="#1F5138">4C. 可微最优传输（Sinkhorn + MNN）</text>
-  <text x="880" y="653" text-anchor="middle" class="box-text" fill="#1F5138">· 计算 L2 距离代价矩阵 M [N, M]</text>
-  <text x="880" y="670" text-anchor="middle" class="box-text" fill="#1F5138">· 扩充 Dustbin 行列 → M̄ [N+1, M+1]</text>
-  <text x="880" y="688" text-anchor="middle" class="box-text" fill="#1F5138">· Sinkhorn 迭代 (≤20 次) 得分数矩阵 S̄</text>
-  <text x="880" y="706" text-anchor="middle" class="box-text" fill="#1F5138">· 去 Dustbin 得 S [N, M] → 互近邻 M_init</text>
-
-  <!-- Arrows Stage 4 -> Stage 5 -->
-  <line x1="880" y1="724" x2="880" y2="754" stroke="#4B5563" stroke-width="1.8" />
-  <line x1="880" y1="754" x2="540" y2="754" stroke="#4B5563" stroke-width="1.8" />
-  <line x1="540" y1="754" x2="540" y2="780" stroke="#D5803B" stroke-width="1.8" marker-end="url(#arrow-orange)" />
-  <rect x="615" y="743" width="215" height="21" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1" />
-  <text x="722" y="758" text-anchor="middle" class="dim-text">初匹配对特征 [|M_init|, 512]</text>
-
-  <!-- Training Loss Branch from 4C -->
-  <path d="M 790 724 L 790 742 L 192 742 L 192 780" fill="none" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-orange)" />
-
-  <!-- ==================== STAGE 5: OUTLIER REJECTION, LOSS & OUTPUT ==================== -->
-  <!-- Training Loss Box (Left) -->
-  <rect x="30" y="784" width="320" height="106" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="6,3" />
-  <text x="190" y="806" text-anchor="middle" class="box-title" fill="#70401C">训练监督损失（仅训练阶段）</text>
-  <text x="190" y="827" text-anchor="middle" class="box-text" fill="#70401C">L = L_ot + L_or</text>
-  <text x="190" y="846" text-anchor="middle" class="box-text" fill="#70401C">· L_ot：分数矩阵 S̄ 负对数似然（含 Dustbin）</text>
-  <text x="190" y="864" text-anchor="middle" class="box-text" fill="#70401C">· L_or：M_init 候选对正负加权交叉熵</text>
-  <text x="190" y="881" text-anchor="middle" class="note-text" fill="#70401C">（Adam, lr = 1e-3, 50 epochs）</text>
-
-  <!-- Outlier Rejection Box (Center) -->
-  <rect x="380" y="784" width="320" height="106" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.6" />
-  <text x="540" y="806" text-anchor="middle" class="box-title" fill="#70401C">阶段 5：外点剔除网络（Outlier Classifier）</text>
-  <text x="540" y="828" text-anchor="middle" class="box-text" fill="#70401C">复用 GoMatch 外点分类器结构</text>
-  <text x="540" y="847" text-anchor="middle" class="box-text" fill="#70401C">输入：候选对拼接特征 f̃'_p,ñ ⊕ f̃'_q,m̃ [|M_init|, 512]</text>
-  <text x="540" y="866" text-anchor="middle" class="box-text" fill="#70401C">输出：置信度 p_i ∈ [0, 1]，保留 cls(·) ≥ θ</text>
-  <text x="540" y="882" text-anchor="middle" class="note-text" fill="#70401C">（默认 θ = 0.5；消融显示 θ = 0.7 精度更高）</text>
-
-  <!-- Dashed arrow from Outlier Classifier back to Training Loss (L_or) -->
-  <line x1="380" y1="848" x2="354" y2="848" stroke="#D5803B" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrow-orange)" />
-
-  <!-- Arrow Center -> Right Output -->
-  <line x1="700" y1="837" x2="736" y2="837" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arrow-purple)" />
-
-  <!-- Final Output Box (Right) -->
-  <rect x="740" y="784" width="310" height="106" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8" />
-  <text x="895" y="806" text-anchor="middle" class="box-title" fill="#422578">最终匹配结果与视觉定位输出</text>
-  <text x="895" y="828" text-anchor="middle" class="box-text" fill="#422578">· 最终 2D-3D 对应集合 M_final</text>
-  <text x="895" y="848" text-anchor="middle" class="box-text" fill="#422578">· OpenCV P3P + RANSAC 估计粗位姿</text>
-  <text x="895" y="867" text-anchor="middle" class="box-text" fill="#422578">· Levenberg-Marquardt (LM) 内点精修</text>
-  <text x="895" y="883" text-anchor="middle" class="dim-text" fill="#422578">→ 6-DoF 相机位姿 (R, t)</text>
-
-  <!-- ==================== LEGEND ==================== -->
-  <rect x="130" y="910" width="820" height="34" rx="6" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1" />
-  <rect x="150" y="920" width="16" height="14" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.3" />
-  <text x="174" y="931" class="legend-text">输入/数据节点</text>
-
-  <rect x="292" y="920" width="16" height="14" rx="3" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.3" />
-  <text x="316" y="931" class="legend-text">特征编码与拼接</text>
-
-  <rect x="444" y="920" width="16" height="14" rx="3" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3" />
-  <text x="468" y="931" class="legend-text">图网络/聚类注意力/最优传输</text>
-
-  <rect x="666" y="920" width="16" height="14" rx="3" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3" />
-  <text x="690" y="931" class="legend-text">外点剔除/训练损失</text>
-
-  <rect x="824" y="920" width="16" height="14" rx="3" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3" />
-  <text x="848" y="931" class="legend-text">最终输出</text>
 </svg>

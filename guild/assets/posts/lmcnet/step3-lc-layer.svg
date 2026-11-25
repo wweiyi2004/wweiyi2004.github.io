@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 408" width="960" height="408">
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; }
+      .sub { font-size: 13.5px; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="408" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="36" text-anchor="middle" class="title" fill="#111827">图 4：局部一致性层（LC-Layer）——邻域作证与 16 倍瓶颈压缩</text>
+  <text x="480" y="60" text-anchor="middle" class="sub" fill="#4B5563">用 k=8 贴身邻居的特征差帮内点作证；先降维到 8 维再做 KNN 差分，显存直降 16 倍</text>
+
+  <!-- LEFT PANEL: Local neighborhood intuition -->
+  <rect x="26" y="84" width="350" height="258" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="201" y="112" text-anchor="middle" class="h" fill="#1E293B">① 局部邻域支持（k=8 邻居作证）</text>
+
+  <!-- Good Inlier Sub-card -->
+  <rect x="44" y="128" width="314" height="96" rx="10" fill="#F0FDF4" stroke="#4ADE80" stroke-width="1.6"/>
+  <!-- Mini arrows: all coherent right-up -->
+  <circle cx="106" cy="176" r="8" fill="#16A34A"/>
+  <line x1="106" y1="176" x2="132" y2="168" stroke="#16A34A" stroke-width="2.4" marker-end="url(#arr-green)"/>
+  <circle cx="72" cy="154" r="5" fill="#4ADE80"/><line x1="72" y1="154" x2="96" y2="147" stroke="#16A34A" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <circle cx="136" cy="150" r="5" fill="#4ADE80"/><line x1="136" y1="150" x2="160" y2="143" stroke="#16A34A" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <circle cx="74" cy="200" r="5" fill="#4ADE80"/><line x1="74" y1="200" x2="98" y2="193" stroke="#16A34A" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <circle cx="134" cy="204" r="5" fill="#4ADE80"/><line x1="134" y1="204" x2="158" y2="197" stroke="#16A34A" stroke-width="1.8" marker-end="url(#arr-green)"/>
+
+  <text x="188" y="156" class="h" fill="#15803D">✓ 真实内点</text>
+  <text x="188" y="180" class="b" fill="#374151">周围队友步调一致</text>
+  <text x="188" y="204" class="s" fill="#15803D" font-weight="700">邻域差 fᵢ - fⱼ 极小</text>
+
+  <!-- Bad Outlier Sub-card -->
+  <rect x="44" y="234" width="314" height="96" rx="10" fill="#FEF2F2" stroke="#F87171" stroke-width="1.6"/>
+  <!-- Mini arrows: chaotic directions -->
+  <circle cx="106" cy="282" r="8" fill="#DC2626"/>
+  <line x1="106" y1="282" x2="80" y2="262" stroke="#DC2626" stroke-width="2.4" marker-end="url(#arr-red)"/>
+  <circle cx="72" cy="258" r="5" fill="#FCA5A5"/><line x1="72" y1="258" x2="96" y2="250" stroke="#EF4444" stroke-width="1.8" marker-end="url(#arr-red)"/>
+  <circle cx="144" cy="256" r="5" fill="#FCA5A5"/><line x1="144" y1="256" x2="156" y2="278" stroke="#EF4444" stroke-width="1.8" marker-end="url(#arr-red)"/>
+  <circle cx="74" cy="306" r="5" fill="#FCA5A5"/><line x1="74" y1="306" x2="96" y2="314" stroke="#EF4444" stroke-width="1.8" marker-end="url(#arr-red)"/>
+  <circle cx="138" cy="308" r="5" fill="#FCA5A5"/><line x1="138" y1="308" x2="114" y2="312" stroke="#EF4444" stroke-width="1.8" marker-end="url(#arr-red)"/>
+
+  <text x="188" y="262" class="h" fill="#B91C1C">✗ 误匹配外点</text>
+  <text x="188" y="286" class="b" fill="#374151">邻居各自乱飞无共识</text>
+  <text x="188" y="310" class="s" fill="#DC2626" font-weight="700">邻域差 fᵢ - fⱼ 剧烈震荡</text>
+
+  <!-- RIGHT PANEL: 128 -> 8 -> 128 Bottleneck -->
+  <rect x="392" y="84" width="542" height="258" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="663" y="112" text-anchor="middle" class="h" fill="#1E3A8A">② 128 → 8 → 128 轻量瓶颈结构</text>
+
+  <!-- Skip connection arch over top -->
+  <path d="M 443 172 L 443 144 Q 443 134 455 134 L 873 134 Q 885 134 885 144 L 885 166" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arr-purple)"/>
+  <rect x="596" y="122" width="136" height="24" rx="12" fill="#EDE9FE" stroke="#A78BFA" stroke-width="1.2"/>
+  <text x="664" y="138" text-anchor="middle" class="s" fill="#5B21B6" font-weight="700">+ Skip 跳跃连接</text>
+
+  <!-- Block 1: Input [N, 128] (tall) -->
+  <rect x="408" y="172" width="70" height="114" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="443" y="218" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">输入 fₗ</text>
+  <text x="443" y="242" text-anchor="middle" class="mono" font-size="12" fill="#1D4ED8">[N, 128]</text>
+
+  <!-- Arrow 1->2 (34px gap) -->
+  <line x1="478" y1="229" x2="508" y2="229" stroke="#2563EB" stroke-width="2.2" marker-end="url(#arr-blue)"/>
+  <text x="494" y="217" text-anchor="middle" class="s" fill="#1D4ED8" font-weight="700">降维</text>
+
+  <!-- Block 2: Bottleneck [N, 8] (slim) -->
+  <rect x="514" y="199" width="56" height="60" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="542" y="224" text-anchor="middle" class="s" fill="#166534" font-weight="700">瓶颈</text>
+  <text x="542" y="244" text-anchor="middle" class="mono" font-size="12" fill="#15803D">[N, 8]</text>
+
+  <!-- Arrow 2->3 -->
+  <line x1="570" y1="229" x2="594" y2="229" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <!-- Block 3: KNNDiff + MLP + MaxPool -->
+  <rect x="600" y="177" width="128" height="104" rx="10" fill="#FFF7ED" stroke="#F97316" stroke-width="2.2"/>
+  <text x="664" y="201" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">KNNDiff (k=8)</text>
+  <text x="664" y="221" text-anchor="middle" class="s" fill="#C2410C">MLP + MaxPool</text>
+  <text x="664" y="243" text-anchor="middle" class="mono" font-size="13" fill="#EA580C">[N, 8, 8]</text>
+  <rect x="614" y="252" width="100" height="22" rx="11" fill="#FFEDD5"/>
+  <text x="664" y="267" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">显存直降 16×</text>
+
+  <!-- Arrow 3->4 -->
+  <line x1="728" y1="229" x2="752" y2="229" stroke="#EA580C" stroke-width="2.2" marker-end="url(#arr-orange)"/>
+
+  <!-- Block 4: Pooled [N, 8] (slim) -->
+  <rect x="758" y="199" width="54" height="60" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="785" y="233" text-anchor="middle" class="mono" font-size="12" fill="#15803D">[N, 8]</text>
+
+  <!-- Arrow 4->5 (36px gap so 升维 has generous breathing room) -->
+  <line x1="812" y1="229" x2="844" y2="229" stroke="#7C3AED" stroke-width="2.2" marker-end="url(#arr-purple)"/>
+  <text x="829" y="217" text-anchor="middle" class="s" fill="#6D28D9" font-weight="700">升维</text>
+
+  <!-- Block 5: Output [N, 128] (tall) -->
+  <rect x="850" y="172" width="70" height="114" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8"/>
+  <text x="885" y="218" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">输出</text>
+  <text x="885" y="242" text-anchor="middle" class="mono" font-size="12" fill="#6D28D9">[N, 128]</text>
+
+  <text x="663" y="320" text-anchor="middle" class="s" fill="#1E40AF">相比直接构造 [N, 8, 128]，瓶颈压缩让邻域差张量缩小 16 倍且不损精度</text>
+
+  <!-- Bottom Complementary Strip -->
+  <rect x="26" y="356" width="908" height="36" rx="10" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.5"/>
+  <text x="480" y="379" text-anchor="middle" class="b" fill="#5B21B6" font-weight="700">LMCBlock 协同分工：CR-Layer 抓宏观全局低频平滑 · LC-Layer 盯紧 k=8 贴身邻居 · ClusterLayer 补足远距极线上下文</text>
+</svg>

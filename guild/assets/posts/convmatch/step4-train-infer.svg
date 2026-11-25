@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 384" width="960" height="384">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-blue-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-red-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="384" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="38" text-anchor="middle" class="title">图 5：训练全层深度监督 vs 推理只留末层提速</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">训练时 6 层全挂双损失并分段热身，逼浅层就学会去噪；推理时前 5 个预测头全部跳过，末层一步出结果</text>
+
+  <!-- Left Panel: Training (24..456, w=432) -->
+  <rect x="24" y="88" width="432" height="270" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="240" y="116" text-anchor="middle" class="h" fill="#1E3A8A">训练阶段：6 层全挂监督 + 分段热身</text>
+
+  <rect x="40" y="136" width="80" height="46" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="80" y="164" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">Layer 0</text>
+  <line x1="120" y1="159" x2="142" y2="159" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="148" y="136" width="80" height="46" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="188" y="164" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">Layer 1</text>
+  <line x1="228" y1="159" x2="252" y2="159" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+  <text x="270" y="164" text-anchor="middle" class="h" fill="#64748B">···</text>
+  <line x1="288" y1="159" x2="312" y2="159" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="318" y="136" width="122" height="46" rx="8" fill="#FFFFFF" stroke="#60A5FA" stroke-width="1.8"/>
+  <text x="379" y="164" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">Layer 5 (末层)</text>
+
+  <!-- Arrows down to loss -->
+  <line x1="80" y1="182" x2="80" y2="212" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
+  <line x1="188" y1="182" x2="188" y2="212" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
+  <line x1="379" y1="182" x2="379" y2="212" stroke="#EA580C" stroke-width="2" marker-end="url(#arr-orange)"/>
+
+  <!-- Loss box -->
+  <rect x="40" y="218" width="400" height="58" rx="8" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.8"/>
+  <text x="240" y="241" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">每层计算：L_cls (BCE 分类) + λ · L_reg (加权八点 Sampson)</text>
+  <text x="240" y="263" text-anchor="middle" class="s" fill="#C2410C">弱监督真值：真实本质矩阵 E 的 Sampson 距离 &lt; 10⁻⁴ 标为内点</text>
+
+  <!-- Warmup schedule pills -->
+  <rect x="40" y="290" width="176" height="48" rx="8" fill="#FFFFFF" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="128" y="311" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">0 ~ 20k 步：λ = 0</text>
+  <text x="128" y="329" text-anchor="middle" class="s" fill="#4B5563">先纯分类热身，防梯度带偏</text>
+
+  <line x1="218" y1="314" x2="240" y2="314" stroke="#2563EB" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <rect x="246" y="290" width="194" height="48" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+  <text x="343" y="311" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">20k ~ 500k 步：λ = 0.5</text>
+  <text x="343" y="329" text-anchor="middle" class="s" fill="#1D4ED8">开启几何回归，精修本质矩阵</text>
+
+  <!-- Center divider arrow (456..504 = 48px gap) -->
+  <line x1="462" y1="224" x2="496" y2="224" stroke="#64748B" stroke-width="2.5" marker-end="url(#arr-gray)"/>
+
+  <!-- Right Panel: Inference (504..936, w=432) -->
+  <rect x="504" y="88" width="432" height="270" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="720" y="116" text-anchor="middle" class="h" fill="#166534">推理阶段：省掉前 5 个预测头，末层一步出结果</text>
+
+  <rect x="520" y="136" width="212" height="46" rx="8" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1.8"/>
+  <text x="626" y="156" text-anchor="middle" class="b" fill="#334155" font-weight="700">Layer 0 → Layer 4</text>
+  <text x="626" y="174" text-anchor="middle" class="s" fill="#64748B">跳过预测头 · 仅传递更新特征</text>
+
+  <line x1="734" y1="159" x2="766" y2="159" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <rect x="772" y="136" width="148" height="46" rx="8" fill="#16A34A"/>
+  <text x="846" y="156" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Layer 5 (末层)</text>
+  <text x="846" y="174" text-anchor="middle" class="s" fill="#DCFCE7">仅此层算 Δf 打分</text>
+
+  <!-- Single arrow down from Layer 5 -->
+  <line x1="846" y1="182" x2="846" y2="212" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+
+  <!-- Final threshold box -->
+  <rect x="520" y="218" width="400" height="48" rx="8" fill="#FFFFFF" stroke="#22C55E" stroke-width="1.8"/>
+  <text x="720" y="239" text-anchor="middle" class="b" fill="#166534" font-weight="700">末层输出最终得分 ẑ_i → 阈值 ẑ_i &gt; 0 筛出干净内点</text>
+  <text x="720" y="258" text-anchor="middle" class="s" fill="#475569">实战小技巧：验证集微调阈值至 0.5 ~ 1.5 往往还能再涨点</text>
+
+  <!-- Two downstream paths -->
+  <rect x="520" y="282" width="192" height="56" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.6"/>
+  <text x="616" y="304" text-anchor="middle" class="b" fill="#14532D" font-weight="700">路径 A：加权八点法</text>
+  <text x="616" y="324" text-anchor="middle" class="s" fill="#166534">无 RANSAC 也反超同类</text>
+
+  <rect x="728" y="282" width="192" height="56" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <text x="824" y="304" text-anchor="middle" class="b" fill="#14532D" font-weight="700">路径 B：接 RANSAC</text>
+  <text x="824" y="324" text-anchor="middle" class="s" fill="#475569">求极限精度 E 或单应 H</text>
+
+</svg>

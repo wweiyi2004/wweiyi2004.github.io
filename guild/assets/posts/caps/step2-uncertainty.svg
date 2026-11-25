@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 406" width="960" height="406">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#DC2626"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="406" fill="#FFFFFF" rx="12"/>
+
+  <text x="480" y="36" text-anchor="middle" class="title">图 3：免参数不确定度——看 2D 概率分布“胖瘦”自动屏蔽遮挡点</text>
+  <text x="480" y="60" text-anchor="middle" class="sub">无需多加任何预测分支！直接算概率分布总方差 σ² = Var(u) + Var(v)，用 1/σ 给每个点自动赋权</text>
+
+  <!-- Left Panel: Sharp Single Peak (Good) -->
+  <rect x="28" y="86" width="438" height="236" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="247" y="114" text-anchor="middle" class="h" fill="#166534">✓ 可见清晰角点（单峰尖锐 · 高置信）</text>
+
+  <rect x="48" y="134" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="69.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="94" y="134" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="115.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="140" y="134" width="42" height="34" rx="5" fill="#BBF7D0" stroke="#86EFAC" stroke-width="1.2"/>
+  <text x="161.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#166534">0.02</text>
+  <rect x="186" y="134" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="207.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="48" y="172" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="69.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="94" y="172" width="42" height="34" rx="5" fill="#BBF7D0" stroke="#86EFAC" stroke-width="1.2"/>
+  <text x="115.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#166534">0.03</text>
+  <rect x="140" y="172" width="42" height="34" rx="5" fill="#16A34A" stroke="#15803D" stroke-width="1.2"/>
+  <text x="161.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">0.91</text>
+  <rect x="186" y="172" width="42" height="34" rx="5" fill="#BBF7D0" stroke="#86EFAC" stroke-width="1.2"/>
+  <text x="207.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#166534">0.02</text>
+  <rect x="48" y="210" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="69.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="94" y="210" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="115.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="140" y="210" width="42" height="34" rx="5" fill="#BBF7D0" stroke="#86EFAC" stroke-width="1.2"/>
+  <text x="161.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#166534">0.02</text>
+  <rect x="186" y="210" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="207.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="48" y="248" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="69.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="94" y="248" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="115.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="140" y="248" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="161.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="186" y="248" width="42" height="34" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="207.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#94A3B8">0.00</text>
+  <rect x="137" y="169" width="48" height="40" rx="7" fill="none" stroke="#14532D" stroke-width="2.2"/>
+  <text x="138" y="305" text-anchor="middle" class="s" fill="#166534" font-weight="700">概率高度聚于一格（单峰）</text>
+
+  <rect x="244" y="134" width="204" height="84" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <text x="346" y="159" text-anchor="middle" class="b" fill="#166534" font-weight="700">空间方差 σ² 极小</text>
+  <text x="346" y="182" text-anchor="middle" class="mono" font-size="13" fill="#15803D">σ² ≈ 0.09  →  1/σ 很高</text>
+  <text x="346" y="204" text-anchor="middle" class="s" fill="#15803D">损失权重可达遮挡点 40 倍+</text>
+
+  <text x="248" y="244" class="b" fill="#14532D">• 期望坐标紧贴真实对应点</text>
+  <text x="248" y="268" class="b" fill="#14532D">• 分配绝大部分损失权重</text>
+  <text x="248" y="292" class="b" fill="#14532D">• 干净梯度主导网络快速收敛</text>
+
+  <!-- Right Panel: Scattered / Multi-modal (Bad) -->
+  <rect x="494" y="86" width="438" height="236" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="713" y="114" text-anchor="middle" class="h" fill="#991B1B">✗ 遮挡 / 出画 / 白墙点（多峰弥散 · 低置信）</text>
+
+  <rect x="514" y="134" width="42" height="34" rx="5" fill="#EA580C" stroke="#C2410C" stroke-width="1.2"/>
+  <text x="535.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">0.24</text>
+  <rect x="560" y="134" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="581.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.04</text>
+  <rect x="606" y="134" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="627.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.02</text>
+  <rect x="652" y="134" width="42" height="34" rx="5" fill="#FED7AA" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="673.0" y="155.5" text-anchor="middle" class="mono" font-size="12" fill="#9A3412">0.06</text>
+  <rect x="514" y="172" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="535.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.03</text>
+  <rect x="560" y="172" width="42" height="34" rx="5" fill="#FED7AA" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="581.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#9A3412">0.05</text>
+  <rect x="606" y="172" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="627.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.03</text>
+  <rect x="652" y="172" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="673.0" y="193.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.02</text>
+  <rect x="514" y="210" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="535.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.02</text>
+  <rect x="560" y="210" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="581.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.03</text>
+  <rect x="606" y="210" width="42" height="34" rx="5" fill="#FED7AA" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="627.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#9A3412">0.06</text>
+  <rect x="652" y="210" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="673.0" y="231.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.03</text>
+  <rect x="514" y="248" width="42" height="34" rx="5" fill="#FED7AA" stroke="#FB923C" stroke-width="1.2"/>
+  <text x="535.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#9A3412">0.07</text>
+  <rect x="560" y="248" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="581.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.02</text>
+  <rect x="606" y="248" width="42" height="34" rx="5" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+  <text x="627.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#9CA3AF">0.02</text>
+  <rect x="652" y="248" width="42" height="34" rx="5" fill="#EA580C" stroke="#C2410C" stroke-width="1.2"/>
+  <text x="673.0" y="269.5" text-anchor="middle" class="mono" font-size="12" fill="#FFFFFF">0.26</text>
+  <circle cx="604" cy="208" r="11" fill="#FFFFFF" stroke="#DC2626" stroke-width="2" stroke-dasharray="3,2"/>
+  <line x1="598" y1="202" x2="610" y2="214" stroke="#DC2626" stroke-width="2.2"/>
+  <line x1="610" y1="202" x2="598" y2="214" stroke="#DC2626" stroke-width="2.2"/>
+  <text x="604" y="305" text-anchor="middle" class="s" fill="#B91C1C" font-weight="700">概率摊平 / 多峰（期望落空）</text>
+
+  <rect x="710" y="134" width="204" height="84" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <text x="812" y="159" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">空间方差 σ² 极大</text>
+  <text x="812" y="182" text-anchor="middle" class="mono" font-size="13" fill="#DC2626">σ² 暴涨  →  1/σ 趋近 0</text>
+  <text x="812" y="204" text-anchor="middle" class="s" fill="#B91C1C">自动降权，无需人工遮挡标签</text>
+
+  <text x="714" y="244" class="b" fill="#7F1D1D">• 图 2 中压根不可见或处处雷同</text>
+  <text x="714" y="268" class="b" fill="#7F1D1D">• 若按 100% 惩罚会灌入脏梯度</text>
+  <text x="714" y="292" class="b" fill="#7F1D1D">• 自动降权保护已学好的特征</text>
+
+  <!-- Bottom Callout -->
+  <rect x="28" y="338" width="904" height="52" rx="10" fill="#FFF7ED" stroke="#FB923C" stroke-width="1.6"/>
+  <text x="480" y="360" text-anchor="middle" class="b" fill="#9A3412" font-weight="700">防塌缩关键细节：每张图 n = 500 个点的权重 w_i = (1/σ_i) / Σ(1/σ_j) 必须归一化到总和严格为 1！</text>
+  <text x="480" y="380" text-anchor="middle" class="b" fill="#9A3412">否则网络会故意把所有特征变糊来拉大 σ 逃避 Loss；归一化后彻底堵死偷懒路，逼出高置信清晰匹配</text>
+
+</svg>

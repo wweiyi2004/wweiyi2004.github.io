@@ -1,288 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 820" width="1060" height="820">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 390" width="960" height="390">
+
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#4B5563"/>
-    </marker>
-    <marker id="arr-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#46A171"/>
-    </marker>
-    <marker id="arr-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#D5803B"/>
-    </marker>
-    <marker id="arr-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#8B5CF6"/>
-    </marker>
     <style>
-      text { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
       .title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .subtitle { font-size: 12px; fill: #6B7280; }
-      .sec-title { font-size: 14px; font-weight: 700; }
-      .card-title { font-size: 13px; font-weight: 700; }
-      .body { font-size: 11.5px; }
-      .mono { font-size: 11px; font-weight: 600; }
-      .tiny { font-size: 10px; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
   </defs>
 
-  <!-- Background -->
-  <rect x="0" y="0" width="1060" height="820" fill="#FFFFFF"/>
+  <rect width="960" height="390" fill="#FFFFFF" rx="12"/>
 
-  <!-- Main Header -->
-  <text x="530" y="30" text-anchor="middle" class="title">TopicFM 核心机制图解：共视主题分桶匹配与无语义标注自监督</text>
-  <text x="530" y="49" text-anchor="middle" class="subtitle">像人类一样“先按语义结构找到两图共同可见区域，再在各自主题内部精细找对应点”</text>
+  <text x="480" y="38" text-anchor="middle" class="title">图 2：主题辅助注意力——为什么按“语义主题”分组比全图乱聊更稳？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">把大尺度/大视角下的无关背景挡在门外，让特征只和同类语义区域深度交流</text>
 
-  <!-- ==================== PART 1: 4-STEP COMIC STRIP ==================== -->
-  <rect x="18" y="64" width="1024" height="378" rx="10" fill="#F5FBF8" stroke="#46A171" stroke-width="1.5"/>
-  <text x="34" y="86" class="sec-title" fill="#1F5138">核心机制一：从“全图盲搜”到“共视主题分桶匹配”的四步连环图解</text>
+  <!-- Left: Global Attention -->
+  <rect x="28" y="88" width="424" height="270" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="240" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 传统全图注意力（LoFTR）：所有人混在一间屋</text>
 
-  <!-- STEP 1 -->
-  <rect x="32" y="100" width="224" height="328" rx="8" fill="#FFFFFF" stroke="#2783DE" stroke-width="1.5"/>
-  <rect x="32" y="100" width="224" height="30" rx="8" fill="#E5F2FC"/>
-  <text x="144" y="120" text-anchor="middle" class="card-title" fill="#153B60">步骤 1：Transformer 主题推断</text>
+  <rect x="58" y="140" width="152" height="130" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="134" y="160" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">图 A（各区域混在一起）</text>
+  <rect x="72" y="170" width="56" height="40" rx="5" fill="#DBEAFE" stroke="#3B82F6"/><text x="100" y="195" text-anchor="middle" class="s" fill="#1D4ED8">屋顶</text>
+  <rect x="138" y="170" width="56" height="40" rx="5" fill="#DCFCE7" stroke="#22C55E"/><text x="166" y="195" text-anchor="middle" class="s" fill="#15803D">窗墙</text>
+  <rect x="72" y="218" width="56" height="40" rx="5" fill="#FFEDD5" stroke="#F97316"/><text x="100" y="243" text-anchor="middle" class="s" fill="#C2410C">路面</text>
+  <rect x="138" y="218" width="56" height="40" rx="5" fill="#E2E8F0" stroke="#94A3B8"/><text x="166" y="243" text-anchor="middle" class="s" fill="#475569">天空</text>
 
-  <!-- Mini visual grids for Image A and Image B -->
-  <text x="86" y="147" text-anchor="middle" class="mono" fill="#153B60">图 A 特征网格</text>
-  <g transform="translate(46, 154)">
-    <!-- 4x3 grid: blue=building(T1), green=tree(T2), gray=sky/car(T3 non-covis) -->
-    <rect x="0" y="0" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="21" y="0" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="42" y="0" width="19" height="19" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1"/>
-    <rect x="63" y="0" width="19" height="19" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1"/>
+  <rect x="270" y="140" width="152" height="130" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="346" y="160" text-anchor="middle" class="s" fill="#991B1B" font-weight="700">图 B（两两全连）</text>
+  <rect x="284" y="170" width="56" height="40" rx="5" fill="#DBEAFE" stroke="#3B82F6"/><text x="312" y="195" text-anchor="middle" class="s" fill="#1D4ED8">屋顶</text>
+  <rect x="350" y="170" width="56" height="40" rx="5" fill="#DCFCE7" stroke="#22C55E"/><text x="378" y="195" text-anchor="middle" class="s" fill="#15803D">窗墙</text>
+  <rect x="284" y="218" width="56" height="40" rx="5" fill="#FFEDD5" stroke="#F97316"/><text x="312" y="243" text-anchor="middle" class="s" fill="#C2410C">路面</text>
+  <rect x="350" y="218" width="56" height="40" rx="5" fill="#E2E8F0" stroke="#94A3B8"/><text x="378" y="243" text-anchor="middle" class="s" fill="#475569">路人</text>
 
-    <rect x="0" y="21" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="21" y="21" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="42" y="21" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
-    <rect x="63" y="21" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
+  <!-- Messy crossing lines -->
+  <line x1="210" y1="185" x2="270" y2="238" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="210" y1="238" x2="270" y2="185" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="210" y1="205" x2="270" y2="205" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4,3"/>
 
-    <rect x="0" y="42" width="19" height="19" fill="#FDE68A" stroke="#D5803B" stroke-width="1"/>
-    <rect x="21" y="42" width="19" height="19" fill="#FDE68A" stroke="#D5803B" stroke-width="1"/>
-    <rect x="42" y="42" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
-    <rect x="63" y="42" width="19" height="19" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1"/>
-  </g>
+  <text x="240" y="302" text-anchor="middle" class="b" fill="#7F1D1D">• 窗户要和天空/路面/路人一起算注意力，噪声极多</text>
+  <text x="240" y="328" text-anchor="middle" class="b" fill="#7F1D1D">• 尺度差异大时，全局线性注意力焦点极易被冲淡</text>
 
-  <text x="196" y="147" text-anchor="middle" class="mono" fill="#153B60">图 B 特征网格</text>
-  <g transform="translate(156, 154)">
-    <!-- Shifted viewpoint: building shifted right, tree present, no yellow ground, new purple bus(T4) -->
-    <rect x="0" y="0" width="19" height="19" fill="#C4B5FD" stroke="#8B5CF6" stroke-width="1"/>
-    <rect x="21" y="0" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="42" y="0" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="63" y="0" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
+  <!-- Right: TopicFM -->
+  <rect x="488" y="88" width="444" height="270" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="710" y="118" text-anchor="middle" class="h" fill="#166534">✓ TopicFM：按主题分房间，只和同类深度互查</text>
 
-    <rect x="0" y="21" width="19" height="19" fill="#C4B5FD" stroke="#8B5CF6" stroke-width="1"/>
-    <rect x="21" y="21" width="19" height="19" fill="#93C5FD" stroke="#2783DE" stroke-width="1"/>
-    <rect x="42" y="21" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
-    <rect x="63" y="21" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
+  <!-- 3 clean topic rooms -->
+  <rect x="502" y="138" width="416" height="42" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="562" y="164" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">主题 1 · 屋顶</text>
+  <text x="760" y="164" text-anchor="middle" font-size="12" fill="#1E40AF">图 A 屋顶网格 ◄──精准注意力──► 图 B 屋顶网格</text>
 
-    <rect x="0" y="42" width="19" height="19" fill="#C4B5FD" stroke="#8B5CF6" stroke-width="1"/>
-    <rect x="21" y="42" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
-    <rect x="42" y="42" width="19" height="19" fill="#86EFAC" stroke="#46A171" stroke-width="1"/>
-    <rect x="63" y="42" width="19" height="19" fill="#C4B5FD" stroke="#8B5CF6" stroke-width="1"/>
-  </g>
+  <rect x="502" y="190" width="416" height="42" rx="8" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.6"/>
+  <text x="562" y="216" text-anchor="middle" class="b" fill="#15803D" font-weight="700">主题 2 · 窗墙</text>
+  <text x="760" y="216" text-anchor="middle" font-size="12" fill="#14532D">图 A 窗墙网格 ◄──精准注意力──► 图 B 窗墙网格</text>
 
-  <!-- Topic Query Box -->
-  <rect x="46" y="232" width="196" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
-  <text x="144" y="250" text-anchor="middle" class="mono" fill="#1F5138">5 层 CA(Q=T, K=V=F_c)</text>
-  <text x="144" y="267" text-anchor="middle" class="tiny" fill="#1F5138">K 个可学习主题向图像“发问”收集上下文</text>
+  <rect x="502" y="242" width="416" height="42" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="1.6"/>
+  <text x="562" y="268" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">主题 3 · 路面</text>
+  <text x="760" y="268" text-anchor="middle" font-size="12" fill="#9A3412">图 A 路面网格 ◄──精准注意力──► 图 B 路面网格</text>
 
-  <!-- Output token distribution -->
-  <rect x="46" y="290" width="196" height="72" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
-  <text x="144" y="308" text-anchor="middle" class="mono" fill="#111827">每个特征点获得 K 维概率向量</text>
-  <text x="144" y="325" text-anchor="middle" class="tiny" fill="#374151">θ_{i,k} = &lt;T̂_k, F_i&gt; / Σ_h &lt;T̂_h, F_i&gt;</text>
-  <!-- Mini bar chart -->
-  <rect x="60" y="336" width="22" height="18" fill="#2783DE"/>
-  <rect x="92" y="344" width="22" height="10" fill="#46A171"/>
-  <rect x="124" y="349" width="22" height="5" fill="#D5803B"/>
-  <rect x="156" y="351" width="22" height="3" fill="#8B5CF6"/>
-  <rect x="188" y="350" width="22" height="4" fill="#9CA3AF"/>
+  <text x="710" y="310" text-anchor="middle" class="b" fill="#14532D">• 无关背景（天空/路人）自动隔离，不污染有效特征</text>
+  <text x="710" y="334" text-anchor="middle" class="b" fill="#14532D">• 每个房间点数很少，注意力聚焦度高且推理更快</text>
 
-  <text x="144" y="384" text-anchor="middle" class="tiny" fill="#153B60">蓝=建筑(T1) 绿=树木(T2) 黄=地面(T3)</text>
-  <text x="144" y="400" text-anchor="middle" class="tiny" fill="#6B7280">灰=天空(T4) 紫=遮挡物(T5，仅图B有)</text>
-  <text x="144" y="418" text-anchor="middle" class="mono" fill="#153B60">每个像素都贴上了“软语义标签”</text>
-
-  <!-- Arrow 1 -> 2 -->
-  <line x1="256" y1="264" x2="276" y2="264" stroke="#4B5563" stroke-width="2" marker-end="url(#arr)"/>
-
-  <!-- STEP 2 -->
-  <rect x="280" y="100" width="232" height="328" rx="8" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.5"/>
-  <rect x="280" y="100" width="232" height="30" rx="8" fill="#FBEBDE"/>
-  <text x="396" y="120" text-anchor="middle" class="card-title" fill="#70401C">步骤 2：估计共视主题（去冗余）</text>
-
-  <!-- Image-level distributions -->
-  <text x="396" y="148" text-anchor="middle" class="mono" fill="#70401C">聚合全图所有点的分布 (式 14)</text>
-
-  <!-- Bar A -->
-  <text x="294" y="170" class="mono" fill="#111827">θ^A:</text>
-  <rect x="328" y="159" width="54" height="14" rx="2" fill="#93C5FD" stroke="#2783DE"/>
-  <text x="355" y="170" text-anchor="middle" class="tiny" fill="#153B60">T1 高</text>
-  <rect x="386" y="159" width="42" height="14" rx="2" fill="#86EFAC" stroke="#46A171"/>
-  <text x="407" y="170" text-anchor="middle" class="tiny" fill="#1F5138">T2 高</text>
-  <rect x="432" y="159" width="32" height="14" rx="2" fill="#FDE68A" stroke="#D5803B"/>
-  <text x="448" y="170" text-anchor="middle" class="tiny" fill="#70401C">T3</text>
-  <rect x="468" y="159" width="30" height="14" rx="2" fill="#E5E7EB" stroke="#9CA3AF"/>
-  <text x="483" y="170" text-anchor="middle" class="tiny" fill="#4B5563">T4</text>
-
-  <!-- Bar B -->
-  <text x="294" y="196" class="mono" fill="#111827">θ^B:</text>
-  <rect x="328" y="185" width="54" height="14" rx="2" fill="#93C5FD" stroke="#2783DE"/>
-  <text x="355" y="196" text-anchor="middle" class="tiny" fill="#153B60">T1 高</text>
-  <rect x="386" y="185" width="46" height="14" rx="2" fill="#86EFAC" stroke="#46A171"/>
-  <text x="409" y="196" text-anchor="middle" class="tiny" fill="#1F5138">T2 高</text>
-  <rect x="436" y="185" width="62" height="14" rx="2" fill="#DDD6FE" stroke="#8B5CF6"/>
-  <text x="467" y="196" text-anchor="middle" class="tiny" fill="#422578">T5 遮挡高</text>
-
-  <!-- Multiply box -->
-  <rect x="296" y="214" width="200" height="36" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.2"/>
-  <text x="396" y="230" text-anchor="middle" class="mono" fill="#70401C">逐元素相乘: θ_k^Vis = θ_k^A · θ_k^B</text>
-  <text x="396" y="244" text-anchor="middle" class="tiny" fill="#92400E">只有两图都显著出现的主题得分才高</text>
-
-  <!-- Result bars -->
-  <g transform="translate(296, 262)">
-    <text x="0" y="14" class="mono" fill="#153B60">T1 建筑:</text>
-    <rect x="64" y="3" width="108" height="14" rx="3" fill="#2783DE"/>
-    <text x="178" y="14" class="tiny" fill="#153B60">✓ 选中</text>
-
-    <text x="0" y="38" class="mono" fill="#1F5138">T2 树木:</text>
-    <rect x="64" y="27" width="88" height="14" rx="3" fill="#46A171"/>
-    <text x="158" y="38" class="tiny" fill="#1F5138">✓ 选中</text>
-
-    <text x="0" y="62" class="mono" fill="#9CA3AF">T3 地面:</text>
-    <rect x="64" y="51" width="12" height="14" rx="3" fill="#D1D5DB"/>
-    <text x="84" y="62" class="tiny" fill="#6B7280">✗ 仅图A有，舍弃</text>
-
-    <text x="0" y="86" class="mono" fill="#9CA3AF">T5 遮挡:</text>
-    <rect x="64" y="75" width="10" height="14" rx="3" fill="#D1D5DB"/>
-    <text x="82" y="86" class="tiny" fill="#6B7280">✗ 仅图B有，舍弃</text>
-  </g>
-
-  <rect x="296" y="366" width="200" height="48" rx="6" fill="#FFF7ED" stroke="#D5803B" stroke-width="1"/>
-  <text x="396" y="386" text-anchor="middle" class="mono" fill="#70401C">挑出 Top-K_co 共视主题</text>
-  <text x="396" y="404" text-anchor="middle" class="tiny" fill="#92400E">100 个主题中只算最重要的 6~10 个</text>
-
-  <!-- Arrow 2 -> 3 -->
-  <line x1="512" y1="264" x2="532" y2="264" stroke="#4B5563" stroke-width="2" marker-end="url(#arr)"/>
-
-  <!-- STEP 3 -->
-  <rect x="536" y="100" width="236" height="328" rx="8" fill="#FFFFFF" stroke="#46A171" stroke-width="1.5"/>
-  <rect x="536" y="100" width="236" height="30" rx="8" fill="#E8F1EC"/>
-  <text x="654" y="120" text-anchor="middle" class="card-title" fill="#1F5138">步骤 3：采样归桶 + 主题内增强</text>
-
-  <text x="654" y="148" text-anchor="middle" class="mono" fill="#1F5138">独立采样 z_i ~ θ_i^A，z_j ~ θ_j^B (式 12)</text>
-
-  <!-- Bucket T1 -->
-  <rect x="550" y="158" width="208" height="84" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
-  <text x="654" y="176" text-anchor="middle" class="mono" fill="#153B60">共视主题桶 T1（建筑立面）</text>
-  <rect x="562" y="185" width="84" height="24" rx="4" fill="#FFFFFF" stroke="#2783DE"/>
-  <text x="604" y="201" text-anchor="middle" class="tiny" fill="#153B60">图A 蓝色子集</text>
-  <text x="654" y="201" text-anchor="middle" class="mono" fill="#2783DE">↔</text>
-  <rect x="662" y="185" width="84" height="24" rx="4" fill="#FFFFFF" stroke="#2783DE"/>
-  <text x="704" y="201" text-anchor="middle" class="tiny" fill="#153B60">图B 蓝色子集</text>
-  <text x="654" y="230" text-anchor="middle" class="tiny" fill="#153B60">仅在桶内做共享 SA + 双向 CA</text>
-
-  <!-- Bucket T2 -->
-  <rect x="550" y="252" width="208" height="84" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
-  <text x="654" y="270" text-anchor="middle" class="mono" fill="#1F5138">共视主题桶 T2（树木区域）</text>
-  <rect x="562" y="279" width="84" height="24" rx="4" fill="#FFFFFF" stroke="#46A171"/>
-  <text x="604" y="295" text-anchor="middle" class="tiny" fill="#1F5138">图A 绿色子集</text>
-  <text x="654" y="295" text-anchor="middle" class="mono" fill="#46A171">↔</text>
-  <rect x="662" y="279" width="84" height="24" rx="4" fill="#FFFFFF" stroke="#46A171"/>
-  <text x="704" y="295" text-anchor="middle" class="tiny" fill="#1F5138">图B 绿色子集</text>
-  <text x="654" y="324" text-anchor="middle" class="tiny" fill="#1F5138">复用同一组 SA+CA 参数权重</text>
-
-  <!-- Discarded NaN bucket -->
-  <rect x="550" y="346" width="208" height="68" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,3"/>
-  <text x="654" y="366" text-anchor="middle" class="mono" fill="#4B5563">z_i ≠ z_j → z_ij = NaN（跨主题）</text>
-  <text x="654" y="384" text-anchor="middle" class="tiny" fill="#6B7280">建筑像素绝不会去和树木/遮挡物做交叉注意</text>
-  <text x="654" y="402" text-anchor="middle" class="tiny" fill="#6B7280">极大隔绝非重叠区背景噪声干扰</text>
-
-  <!-- Arrow 3 -> 4 -->
-  <line x1="772" y1="264" x2="792" y2="264" stroke="#4B5563" stroke-width="2" marker-end="url(#arr)"/>
-
-  <!-- STEP 4 -->
-  <rect x="796" y="100" width="232" height="328" rx="8" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.5"/>
-  <rect x="796" y="100" width="232" height="30" rx="8" fill="#EDE9FE"/>
-  <text x="912" y="120" text-anchor="middle" class="card-title" fill="#422578">步骤 4：桶内条件匹配（式 13）</text>
-
-  <text x="912" y="148" text-anchor="middle" class="mono" fill="#422578">仅对同主题特征算小矩阵 Dual-Softmax</text>
-
-  <!-- Block-diagonal similarity matrix illustration -->
-  <g transform="translate(838, 160)">
-    <rect x="0" y="0" width="148" height="148" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.2"/>
-    <!-- T1 diagonal block -->
-    <rect x="4" y="4" width="54" height="54" fill="#DBEAFE" stroke="#2783DE" stroke-width="1.5"/>
-    <rect x="10" y="10" width="12" height="12" fill="#2783DE"/>
-    <rect x="26" y="26" width="12" height="12" fill="#2783DE"/>
-    <rect x="40" y="40" width="12" height="12" fill="#2783DE"/>
-    <text x="31" y="54" text-anchor="middle" class="tiny" fill="#153B60">T1 匹配块</text>
-
-    <!-- T2 diagonal block -->
-    <rect x="62" y="62" width="50" height="50" fill="#D1FAE5" stroke="#46A171" stroke-width="1.5"/>
-    <rect x="68" y="68" width="12" height="12" fill="#46A171"/>
-    <rect x="88" y="84" width="12" height="12" fill="#46A171"/>
-    <text x="87" y="108" text-anchor="middle" class="tiny" fill="#1F5138">T2 块</text>
-
-    <!-- NaN non-covis block -->
-    <rect x="116" y="116" width="28" height="28" fill="#E5E7EB" stroke="#9CA3AF" stroke-dasharray="3,2"/>
-    <text x="130" y="134" text-anchor="middle" class="tiny" fill="#6B7280">跳过</text>
-
-    <!-- Off-diagonal gray text -->
-    <text x="104" y="34" text-anchor="middle" class="tiny" fill="#9CA3AF">跨主题=0 (免算)</text>
-    <text x="34" y="114" text-anchor="middle" class="tiny" fill="#9CA3AF">跨主题=0</text>
-  </g>
-
-  <rect x="812" y="320" width="200" height="44" rx="6" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1"/>
-  <text x="912" y="338" text-anchor="middle" class="mono" fill="#422578">块对角稀疏化匹配矩阵</text>
-  <text x="912" y="355" text-anchor="middle" class="tiny" fill="#5B21B6">P(m_ij | z_ij=k̃) = DS(&lt;F̂_i, F̂_j&gt;)</text>
-
-  <text x="912" y="385" text-anchor="middle" class="body" fill="#422578">1. 阈值 P &gt; τ 选出高置信粗匹配</text>
-  <text x="912" y="405" text-anchor="middle" class="body" fill="#422578">2. 同时附带直观的语义主题分区</text>
-  <text x="912" y="421" text-anchor="middle" class="tiny" fill="#6D28D9">（人类可直接看懂模型凭什么匹配）</text>
-
-  <!-- ==================== PART 2: EFFICIENCY & SELF-SUPERVISED LOSS ==================== -->
-  <!-- Left Panel: LoFTR vs TopicFM -->
-  <rect x="18" y="460" width="504" height="342" rx="10" fill="#F8FBFE" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="34" y="484" class="sec-title" fill="#153B60">核心机制二（左）：复杂度对比——为什么 TopicFM 更快更省显存？</text>
-
-  <!-- LoFTR comparison box -->
-  <rect x="34" y="500" width="472" height="122" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-  <text x="50" y="522" class="card-title" fill="#374151">传统全图 Transformer（以 LoFTR 为代表）</text>
-  <text x="50" y="544" class="body" fill="#4B5563">• 作用范围：全图全部 N 个粗网格 token 一起做 4 层 SA + CA</text>
-  <text x="50" y="564" class="body" fill="#4B5563">• 隐性隐患：非共视背景区域参与全局注意力，既浪费算力又引入噪声</text>
-  <text x="50" y="586" class="mono" fill="#6B7280">线性注意力复杂度: O(N)   |   标准点积复杂度: O(N²)</text>
-  <text x="50" y="608" class="mono" fill="#B91C1C">640×480 粗匹配计算量 ≈ 52 GFLOPs，训练需 ~19 GB 显存</text>
-
-  <!-- TopicFM comparison box -->
-  <rect x="34" y="638" width="472" height="148" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
-  <text x="50" y="660" class="card-title" fill="#1F5138">TopicFM 主题分桶注意力（本文方法）</text>
-  <text x="50" y="682" class="body" fill="#1F5138">• 作用范围：仅在 K_co 个共视主题内执行 1 层共享 SA + CA</text>
-  <text x="50" y="702" class="body" fill="#1F5138">• 局部提纯：每个桶平均只有约 N/K 个点，彻底屏蔽非重叠区干扰</text>
-  <text x="50" y="724" class="mono" fill="#153B60">线性注意力复杂度: O(K_co · N / K)   |   点积复杂度: O(K_co · N² / K²)</text>
-  <text x="50" y="746" class="mono" fill="#1F5138">640×480 粗匹配计算量 ≈ 15 GFLOPs（直降 71%）</text>
-  <text x="50" y="768" class="mono" fill="#1F5138">4 张 11 GB 消费级 GPU 即可训练；1200×896 推理提速约 35%</text>
-
-  <!-- Right Panel: Self-Supervised Topic Loss -->
-  <rect x="538" y="460" width="504" height="342" rx="10" fill="#FFFBF7" stroke="#D5803B" stroke-width="1.5"/>
-  <text x="554" y="484" class="sec-title" fill="#70401C">核心机制二（右）：无语义标签如何自监督训出“可解释主题”？</text>
-
-  <!-- Loss Force 1 -->
-  <rect x="554" y="500" width="472" height="68" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.3"/>
-  <text x="570" y="520" class="card-title" fill="#1F5138">① ELBO 条件匹配损失（式 6 &amp; 式 15 第一项）</text>
-  <text x="570" y="540" class="mono" fill="#1F5138">- E_{p(z_ij)} [ log P(m_ij | z_ij, F_c^A, F_c^B) ]</text>
-  <text x="570" y="558" class="body" fill="#374151">驱动主题内增强后的特征在 Dual-Softmax 中给真值对 (i, j) 打出高分</text>
-
-  <!-- Loss Force 2 -->
-  <rect x="554" y="578" width="472" height="72" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3"/>
-  <text x="570" y="598" class="card-title" fill="#70401C">② 正样本主题对齐损失（式 15 第二项，“拉近同类”）</text>
-  <text x="570" y="618" class="mono" fill="#70401C">- log ( Σ_{k=1}^K θ_{i,k}^A · θ_{j,k}^B )，对所有真值匹配对 (i, j) ∈ M_c</text>
-  <text x="570" y="638" class="body" fill="#70401C">强迫两张图里对应的物理点拥有一致的主题分布（落入同一个主题 k）</text>
-
-  <!-- Loss Force 3 -->
-  <rect x="554" y="660" width="472" height="72" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.3"/>
-  <text x="570" y="680" class="card-title" fill="#422578">③ 负样本防坍缩损失（式 16，“推开异类”）</text>
-  <text x="570" y="700" class="mono" fill="#422578">- (1/N) Σ_{n=1}^N log ( 1 - Σ_{k=1}^K θ_{i,k}^A · θ_{n,k}^B )</text>
-  <text x="570" y="720" class="body" fill="#422578">对每个真值点采 N 个不匹配点，防止全图坍缩成 1 个“万能主题”</text>
-
-  <!-- Bottom takeaway banner -->
-  <rect x="554" y="744" width="472" height="44" rx="6" fill="#FFFFFF" stroke="#D5803B" stroke-width="1.2" stroke-dasharray="4,3"/>
-  <text x="790" y="763" text-anchor="middle" class="mono" fill="#70401C">关键直觉：无需任何人工语义分割标注！</text>
-  <text x="790" y="780" text-anchor="middle" class="tiny" fill="#92400E">正拉 + 负推 + 匹配监督共同作用，让网络在几何对应监督下自发涌现建筑/树木/地面等潜在主题</text>
 </svg>

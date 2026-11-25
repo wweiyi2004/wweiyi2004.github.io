@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 320" width="940" height="320">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="320" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：RepVGG 重参数化——为什么训练多分支，推理却只有一条直线？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">训练时靠多分支好收敛，部署前通过数学线性叠加融合成单个 3×3 卷积，白嫖加速</text>
+
+  <!-- Left: Training -->
+  <rect x="30" y="90" width="400" height="196" rx="12" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
+  <text x="230" y="118" text-anchor="middle" class="h" fill="#1E3A8A">训练阶段：三路并行（梯度流畅、好优化）</text>
+  <rect x="52" y="138" width="104" height="58" rx="8" fill="#FFFFFF" stroke="#60A5FA"/><text x="104" y="172" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">3×3 Conv+BN</text>
+  <rect x="178" y="138" width="104" height="58" rx="8" fill="#FFFFFF" stroke="#60A5FA"/><text x="230" y="172" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">1×1 Conv+BN</text>
+  <rect x="304" y="138" width="104" height="58" rx="8" fill="#FFFFFF" stroke="#60A5FA"/><text x="356" y="172" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">Identity+BN</text>
+  <rect x="126" y="218" width="208" height="44" rx="8" fill="#DBEAFE" stroke="#2563EB"/><text x="230" y="245" text-anchor="middle" class="b" fill="#1E40AF" font-weight="700">三路输出逐元素相加 → ReLU</text>
+
+  <!-- Arrow -->
+  <line x1="430" y1="188" x2="504" y2="188" stroke="#EA580C" stroke-width="3" marker-end="url(#arr-orange)"/>
+  <text x="467" y="170" text-anchor="middle" class="b" fill="#C2410C" font-weight="700">等价融合</text>
+  <text x="467" y="212" text-anchor="middle" class="s" fill="#C2410C">零精度损失</text>
+
+  <!-- Right: Inference -->
+  <rect x="510" y="90" width="400" height="196" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="710" y="118" text-anchor="middle" class="h" fill="#166534">推理阶段：单路直通（显存带宽大降）</text>
+  <rect x="580" y="148" width="260" height="64" rx="10" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+  <text x="710" y="176" text-anchor="middle" class="h" fill="#15803D">融合后的单一 3×3 Conv + ReLU</text>
+  <text x="710" y="198" text-anchor="middle" class="s">权重 W = W_3×3 + pad(W_1×1) + W_id</text>
+  <text x="710" y="252" text-anchor="middle" class="b" fill="#14532D">无分支读写缓存，GPU 并行利用率拉满！</text>
+
+</svg>

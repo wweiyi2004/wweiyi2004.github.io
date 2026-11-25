@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 3：细化阶段为什么用广义 Charbonnier 损失（α = 0.5），不用 L2？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">粗阶段难免有少数像素指偏几十像素：L2 会被大误差离群点主导梯度，Charbonnier 温柔截断大误差</text>
+
+  <rect x="28" y="90" width="424" height="218" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="240" y="120" text-anchor="middle" class="h" fill="#991B1B">✗ 普通 L2 损失：‖e‖²（梯度 ∝ 误差 e）</text>
+  <rect x="54" y="140" width="372" height="72" rx="8" fill="#FFFFFF" stroke="#FCA5A5"/>
+  <text x="240" y="168" text-anchor="middle" class="b" fill="#374151">正常好点（误差 0.5 px）：梯度 = 1.0</text>
+  <text x="240" y="194" text-anchor="middle" class="b" fill="#DC2626" font-weight="700">粗失误点（误差 50 px）：梯度 = 100.0（大 100 倍！）</text>
+  <text x="240" y="248" text-anchor="middle" class="b" fill="#7F1D1D">少数指飞的离群点直接绑架整个卷积核更新方向</text>
+  <text x="240" y="274" text-anchor="middle" class="s" fill="#991B1B">反倒把大多数好区域的亚像素精度全毁了</text>
+
+  <rect x="488" y="90" width="424" height="218" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="700" y="120" text-anchor="middle" class="h" fill="#166534">✓ 广义 Charbonnier 鲁棒损失（α = 0.5）</text>
+  <rect x="514" y="140" width="372" height="72" rx="8" fill="#FFFFFF" stroke="#86EFAC"/>
+  <text x="700" y="168" text-anchor="middle" class="b" fill="#15803D" font-weight="700">误差很小时（e ≪ c）：近似二次项，精细打磨亚像素</text>
+  <text x="700" y="194" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">误差很大时（e ≫ c）：梯度按 e^(−0.5) 迅速衰减！</text>
+  <text x="700" y="248" text-anchor="middle" class="b" fill="#14532D">自动忽略少数粗阶段救不回来的离群像素</text>
+  <text x="700" y="274" text-anchor="middle" class="s" fill="#15803D">精修器专心把 95% 的好像素修到亚像素级极致！</text>
+
+</svg>

@@ -1,319 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 880" width="1060" height="880">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 390" width="960" height="390">
+
   <defs>
     <style>
-      .font-base { font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif; }
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
       .title { font-size: 20px; font-weight: 700; fill: #111827; }
-      .subtitle { font-size: 12.5px; fill: #4B5563; }
-      .sec-title { font-size: 14.5px; font-weight: 700; }
-      .card-title { font-size: 13px; font-weight: 700; }
-      .card-text { font-size: 11.4px; }
-      .mono { font-size: 10.8px; font-family: Consolas, "Courier New", "Microsoft YaHei", monospace; }
-      .tiny { font-size: 10px; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
     </style>
-    <marker id="arr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#4B5563"/>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
     </marker>
-    <marker id="arr-blue" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#2783DE"/>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
     </marker>
-    <marker id="arr-green" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#46A171"/>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
     </marker>
-    <marker id="arr-orange" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#D5803B"/>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
     </marker>
-    <marker id="arr-purple" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#8B5CF6"/>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
     </marker>
   </defs>
 
-  <!-- White Background -->
-  <rect x="0" y="0" width="1060" height="880" fill="#FFFFFF"/>
+  <rect width="960" height="390" fill="#FFFFFF" rx="12"/>
 
-  <!-- Main Title -->
-  <text x="530" y="34" text-anchor="middle" class="font-base title">EDM 两大核心创新机制连环图解</text>
-  <text x="530" y="56" text-anchor="middle" class="font-base subtitle">上半部分：相关性注入模块（CIM）如何以 1/16 的 Token 长度注入全局语义 · 下半部分：双向轴回归头（ABRHead）如何免热图实现亚像素定位</text>
+  <text x="480" y="38" text-anchor="middle" class="title">图 2：相关性注入模块（CIM）——为什么把交互搬到 1/32 再往下“喂”？</text>
+  <text x="480" y="62" text-anchor="middle" class="sub">避开在 1/8 大图上反复跑 Transformer：在 1/32 极速算完全局，再逐级门控注入局部细节</text>
 
-  <!-- ====================================================================== -->
-  <!-- PART 1: CORRELATION INJECTION MODULE (CIM)                             -->
-  <!-- ====================================================================== -->
-  <rect x="24" y="74" width="1012" height="332" rx="12" fill="#F6FBF8" stroke="#B3CFC0" stroke-width="1.5"/>
-  <text x="44" y="100" class="font-base sec-title" fill="#1F5138">机制一：相关性注入模块（CIM）——先在 1/32 低分辨率算全局相关性，再用“门控注入”融合局部细节</text>
+  <!-- Left: Traditional -->
+  <rect x="28" y="88" width="380" height="270" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="218" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 传统做法：在 1/8 大图硬扛多层注意力</text>
+  <rect x="66" y="144" width="304" height="114" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="218" y="176" text-anchor="middle" class="h" fill="#DC2626">1/8 特征图（60×80 = 4800 格）</text>
+  <text x="218" y="204" text-anchor="middle" class="b" fill="#991B1B">每一层都要处理 4800 个词元</text>
+  <text x="218" y="232" text-anchor="middle" class="s" fill="#7F1D1D">显存带宽和注意力延迟成为整网最大瓶颈</text>
+  <text x="218" y="302" text-anchor="middle" class="b" fill="#991B1B">算力大头全消耗在了高分辨率全局交互上</text>
 
-  <!-- Left Panel: Why 1/32 instead of 1/8 -->
-  <rect x="42" y="116" width="332" height="272" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.3"/>
-  <text x="208" y="139" text-anchor="middle" class="font-base card-title" fill="#111827">① 为什么把 Transformer 下沉到 1/32 尺度？</text>
+  <!-- Right: EDM CIM -->
+  <rect x="430" y="88" width="502" height="270" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="681" y="118" text-anchor="middle" class="h" fill="#166534">✓ EDM CIM：深层 1/32 算全局 → 门控注入层（IL）逐级回传</text>
 
-  <!-- Old paradigm grid (1/8) -->
-  <rect x="58" y="154" width="300" height="88" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.2"/>
-  <text x="72" y="175" class="font-base card-title" fill="#374151">传统做法（LoFTR 等：1/8 尺度直接做注意力）</text>
-  <!-- 8x6 tiny grid graphic -->
-  <g transform="translate(72, 184)">
-    <rect x="0" y="0" width="64" height="44" fill="#E5E7EB" stroke="#6B7280" stroke-width="1"/>
-    <line x1="8" y1="0" x2="8" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="16" y1="0" x2="16" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="24" y1="0" x2="24" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="32" y1="0" x2="32" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="40" y1="0" x2="40" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="48" y1="0" x2="48" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="56" y1="0" x2="56" y2="44" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="0" y1="11" x2="64" y2="11" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="0" y1="22" x2="64" y2="22" stroke="#9CA3AF" stroke-width="0.6"/>
-    <line x1="0" y1="33" x2="64" y2="33" stroke="#9CA3AF" stroke-width="0.6"/>
-  </g>
-  <text x="148" y="198" class="font-base card-text" fill="#374151">640×480 → 80×60 = 4,800 Token</text>
-  <text x="148" y="216" class="font-base card-text" fill="#374151">1152×1152 → 20,736 Token</text>
-  <text x="148" y="233" class="font-base tiny" fill="#B91C1C">浅层感受野小 + 注意力 O(N²) 极重</text>
+  <!-- Pyramid steps top to bottom -->
+  <rect x="462" y="138" width="438" height="54" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8"/>
+  <text x="681" y="162" text-anchor="middle" class="b" fill="#1D4ED8" font-weight="700">1/32 最深层（仅 15×20 = 300 格！缩小 16 倍）</text>
+  <text x="681" y="182" text-anchor="middle" class="s" fill="#1E40AF">在此极速跑 QKNA 全局自/交叉注意力，拿满跨图语义！</text>
 
-  <!-- Arrow down -->
-  <line x1="208" y1="242" x2="208" y2="262" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <line x1="681" y1="192" x2="681" y2="214" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <text x="772" y="208" class="s" fill="#15803D" font-weight="700">门控注入（IL）</text>
 
-  <!-- EDM paradigm grid (1/32) -->
-  <rect x="58" y="264" width="300" height="110" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <text x="72" y="285" class="font-base card-title" fill="#1F5138">EDM 做法（1/32 尺度 · QKNA + 2D RoPE）</text>
-  <!-- 4x3 coarse grid graphic -->
-  <g transform="translate(72, 296)">
-    <rect x="0" y="0" width="64" height="48" fill="#D1FAE5" stroke="#46A171" stroke-width="1.2"/>
-    <line x1="16" y1="0" x2="16" y2="48" stroke="#46A171" stroke-width="1"/>
-    <line x1="32" y1="0" x2="32" y2="48" stroke="#46A171" stroke-width="1"/>
-    <line x1="48" y1="0" x2="48" y2="48" stroke="#46A171" stroke-width="1"/>
-    <line x1="0" y1="16" x2="64" y2="16" stroke="#46A171" stroke-width="1"/>
-    <line x1="0" y1="32" x2="64" y2="32" stroke="#46A171" stroke-width="1"/>
-    <circle cx="24" cy="24" r="4" fill="#1F5138"/>
-  </g>
-  <text x="148" y="310" class="font-base card-text" fill="#1F5138">640×480 → 20×15 = 300 Token (↓16×)</text>
-  <text x="148" y="328" class="font-base card-text" fill="#1F5138">1152×1152 → 1,296 Token (↓16×)</text>
-  <text x="148" y="346" class="font-base mono" fill="#1F5138">QKNormAtt = softmax(s·Q̂K̂^T)V</text>
-  <text x="148" y="363" class="font-base tiny" fill="#1F5138">L2 归一化 Q, K + 缩放 s=20，大感受野抗重复纹理</text>
+  <rect x="462" y="218" width="438" height="48" rx="8" fill="#DCFCE7" stroke="#22C55E" stroke-width="1.6"/>
+  <text x="681" y="247" text-anchor="middle" class="b" fill="#14532D" font-weight="700">1/16 中层：Sigmoid 门控融合深层全局上下文 + 中层局部细节</text>
 
-  <!-- Right Panel: Inside One Injection Layer (IL) -->
-  <rect x="394" y="116" width="624" height="272" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.3"/>
-  <text x="706" y="139" text-anchor="middle" class="font-base card-title" fill="#111827">② 注入层（Injection Layer, IL）内部解剖：由深到浅两级级联（1/32 → 1/16 → 1/8）</text>
+  <line x1="681" y1="266" x2="681" y2="288" stroke="#16A34A" stroke-width="2.2" marker-end="url(#arr-green)"/>
+  <text x="772" y="282" class="s" fill="#15803D" font-weight="700">再门控注入（IL）</text>
 
-  <!-- Top input: Local Feature -->
-  <rect x="412" y="164" width="136" height="54" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-  <text x="480" y="186" text-anchor="middle" class="font-base card-title" fill="#153B60">主干局部特征</text>
-  <text x="480" y="204" text-anchor="middle" class="font-base tiny" fill="#153B60">1/16 或 1/8 · 细节丰富</text>
+  <rect x="462" y="292" width="438" height="48" rx="8" fill="#FFFFFF" stroke="#16A34A" stroke-width="1.8"/>
+  <text x="681" y="321" text-anchor="middle" class="b" fill="#166534" font-weight="700">1/8 粗匹配层：零重型 Transformer，直接获得全局相关性！</text>
 
-  <!-- CB on Local Feature -->
-  <line x1="548" y1="191" x2="578" y2="191" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arr-blue)"/>
-  <rect x="580" y="169" width="96" height="44" rx="6" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.4"/>
-  <text x="628" y="188" text-anchor="middle" class="font-base card-title" fill="#153B60">CB</text>
-  <text x="628" y="204" text-anchor="middle" class="font-base tiny" fill="#153B60">Conv1×1 + BN</text>
-
-  <!-- Multiply Circle -->
-  <line x1="676" y1="191" x2="710" y2="191" stroke="#2783DE" stroke-width="1.6" marker-end="url(#arr-blue)"/>
-  <circle cx="728" cy="191" r="16" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.8"/>
-  <text x="728" y="196" text-anchor="middle" class="font-base card-title" fill="#70401C">×</text>
-
-  <!-- Add Circle -->
-  <line x1="744" y1="191" x2="798" y2="191" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arr-orange)"/>
-  <circle cx="816" cy="191" r="16" fill="#E8F1EC" stroke="#46A171" stroke-width="1.8"/>
-  <text x="816" y="196" text-anchor="middle" class="font-base card-title" fill="#1F5138">+</text>
-
-  <!-- DWConv 3x3 -->
-  <line x1="832" y1="191" x2="862" y2="191" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)"/>
-  <rect x="864" y="164" width="136" height="54" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8"/>
-  <text x="932" y="185" text-anchor="middle" class="font-base card-title" fill="#422578">DWConv 3×3</text>
-  <text x="932" y="203" text-anchor="middle" class="font-base tiny" fill="#422578">缓解上采样混叠 → 输出</text>
-
-  <!-- Bottom input: Global Correlation -->
-  <rect x="412" y="274" width="136" height="58" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.6"/>
-  <text x="480" y="297" text-anchor="middle" class="font-base card-title" fill="#1F5138">深层全局相关性</text>
-  <text x="480" y="315" text-anchor="middle" class="font-base tiny" fill="#1F5138">1/32 或 1/16 · 大感受野</text>
-
-  <!-- Branch 1: CBA -> Upsample -> Multiply -->
-  <path d="M 548 292 L 570 292 L 570 264 L 586 264" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
-  <rect x="588" y="242" width="112" height="44" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="644" y="260" text-anchor="middle" class="font-base card-title" fill="#70401C">CBA 门控权重</text>
-  <text x="644" y="276" text-anchor="middle" class="font-base tiny" fill="#70401C">1×1 Conv+BN+Sig</text>
-  <path d="M 700 264 L 728 264 L 728 209" fill="none" stroke="#D5803B" stroke-width="1.6" marker-end="url(#arr-orange)"/>
-  <text x="752" y="242" class="font-base tiny" fill="#70401C">↑ 上采样</text>
-
-  <!-- Branch 2: CB -> Upsample -> Add -->
-  <path d="M 548 314 L 570 314 L 570 330 L 664 330" fill="none" stroke="#46A171" stroke-width="1.5" marker-end="url(#arr-green)"/>
-  <rect x="666" y="308" width="116" height="44" rx="6" fill="#E8F1EC" stroke="#46A171" stroke-width="1.4"/>
-  <text x="724" y="326" text-anchor="middle" class="font-base card-title" fill="#1F5138">CB 特征映射</text>
-  <text x="724" y="342" text-anchor="middle" class="font-base tiny" fill="#1F5138">Conv1×1 + BN</text>
-  <path d="M 782 330 L 816 330 L 816 209" fill="none" stroke="#46A171" stroke-width="1.6" marker-end="url(#arr-green)"/>
-  <text x="844" y="278" class="font-base tiny" fill="#1F5138">↑ 双线性上采样</text>
-
-  <!-- Intuition Callout inside Right Panel -->
-  <rect x="850" y="294" width="152" height="76" rx="7" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.1"/>
-  <text x="926" y="313" text-anchor="middle" class="font-base card-title" fill="#111827">直觉理解</text>
-  <text x="926" y="331" text-anchor="middle" class="font-base tiny" fill="#374151">乘 CBA：按语义筛细节</text>
-  <text x="926" y="346" text-anchor="middle" class="font-base tiny" fill="#374151">加 CB：注入跨图全局关系</text>
-  <text x="926" y="361" text-anchor="middle" class="font-base tiny" fill="#1F5138">消融：替为直接相加掉 1.6pt</text>
-
-  <!-- ====================================================================== -->
-  <!-- PART 2: BIDIRECTIONAL ABRHEAD + SCC + SIGMA FILTERING                  -->
-  <!-- ====================================================================== -->
-  <rect x="24" y="424" width="1012" height="434" rx="12" fill="#FFFBF7" stroke="#EBC9A6" stroke-width="1.5"/>
-  <text x="44" y="450" class="font-base sec-title" fill="#70401C">机制二：轻量双向轴回归头（ABRHead）——用软坐标分类（SCC）与不确定度 σ 隐式回归亚像素匹配</text>
-
-  <!-- STEP 1: Bidirectional Duality -->
-  <rect x="42" y="468" width="298" height="370" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.3"/>
-  <text x="191" y="492" text-anchor="middle" class="font-base card-title" fill="#153B60">步骤 1：一对粗匹配 → 双向对偶偏移</text>
-  <text x="191" y="510" text-anchor="middle" class="font-base tiny" fill="#4B5563">每个 1/8 像素对应原图 8×8 网格，中心存在量化误差</text>
-
-  <!-- Two 8x8 local windows side by side -->
-  <!-- Window A -->
-  <g transform="translate(64, 526)">
-    <text x="52" y="-4" text-anchor="middle" class="font-base tiny" fill="#153B60">图 A 的 8×8 窗口</text>
-    <rect x="0" y="2" width="104" height="104" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.5"/>
-    <!-- 4x4 guide grid -->
-    <line x1="26" y1="2" x2="26" y2="106" stroke="#93C5FD" stroke-width="0.8"/>
-    <line x1="52" y1="2" x2="52" y2="106" stroke="#93C5FD" stroke-width="1.2" stroke-dasharray="3 2"/>
-    <line x1="78" y1="2" x2="78" y2="106" stroke="#93C5FD" stroke-width="0.8"/>
-    <line x1="0" y1="28" x2="104" y2="28" stroke="#93C5FD" stroke-width="0.8"/>
-    <line x1="0" y1="54" x2="104" y2="54" stroke="#93C5FD" stroke-width="1.2" stroke-dasharray="3 2"/>
-    <line x1="0" y1="80" x2="104" y2="80" stroke="#93C5FD" stroke-width="0.8"/>
-    <!-- Center P_q^A -->
-    <circle cx="52" cy="54" r="5" fill="#2783DE"/>
-    <text x="59" y="68" class="font-base tiny" fill="#153B60">P_q^A</text>
-    <!-- Refined point from B->A -->
-    <circle cx="31" cy="29" r="5" fill="#46A171"/>
-    <text x="8" y="22" class="font-base tiny" fill="#1F5138">P_r^B</text>
-    <!-- Offset arrow -->
-    <line x1="52" y1="54" x2="34" y2="33" stroke="#46A171" stroke-width="1.8" marker-end="url(#arr-green)"/>
-  </g>
-
-  <!-- Window B -->
-  <g transform="translate(212, 526)">
-    <text x="52" y="-4" text-anchor="middle" class="font-base tiny" fill="#70401C">图 B 的 8×8 窗口</text>
-    <rect x="0" y="2" width="104" height="104" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.5"/>
-    <line x1="26" y1="2" x2="26" y2="106" stroke="#F3C499" stroke-width="0.8"/>
-    <line x1="52" y1="2" x2="52" y2="106" stroke="#F3C499" stroke-width="1.2" stroke-dasharray="3 2"/>
-    <line x1="78" y1="2" x2="78" y2="106" stroke="#F3C499" stroke-width="0.8"/>
-    <line x1="0" y1="28" x2="104" y2="28" stroke="#F3C499" stroke-width="0.8"/>
-    <line x1="0" y1="54" x2="104" y2="54" stroke="#F3C499" stroke-width="1.2" stroke-dasharray="3 2"/>
-    <line x1="0" y1="80" x2="104" y2="80" stroke="#F3C499" stroke-width="0.8"/>
-    <!-- Center P_q^B -->
-    <circle cx="52" cy="54" r="5" fill="#D5803B"/>
-    <text x="20" y="50" class="font-base tiny" fill="#70401C">P_q^B</text>
-    <!-- Refined point from A->B -->
-    <circle cx="80" cy="83" r="5" fill="#8B5CF6"/>
-    <text x="66" y="99" class="font-base tiny" fill="#422578">P_r^A</text>
-    <!-- Offset arrow -->
-    <line x1="52" y1="54" x2="77" y2="80" stroke="#8B5CF6" stroke-width="1.8" marker-end="url(#arr-purple)"/>
-  </g>
-
-  <!-- Cross correspondence curves between A and B -->
-  <path d="M 116 580 Q 190 618 290 609" fill="none" stroke="#8B5CF6" stroke-width="1.3" stroke-dasharray="4 3"/>
-  <path d="M 264 580 Q 190 546 97 555" fill="none" stroke="#46A171" stroke-width="1.3" stroke-dasharray="4 3"/>
-
-  <!-- Duality explanation boxes -->
-  <rect x="58" y="654" width="266" height="58" rx="7" fill="#E5F2FC" stroke="#2783DE" stroke-width="1.2"/>
-  <text x="191" y="673" text-anchor="middle" class="font-base card-title" fill="#153B60">方向 A → B（Query = F^A, Ref = F^B）</text>
-  <text x="191" y="691" text-anchor="middle" class="font-base card-text" fill="#153B60">钉住图 A 中心 P_q^A，回归图 B 内偏移</text>
-  <text x="191" y="705" text-anchor="middle" class="font-base mono" fill="#153B60">预测：(Δ_x^A, Δ_y^A, σ^A)</text>
-
-  <rect x="58" y="722" width="266" height="58" rx="7" fill="#E8F1EC" stroke="#46A171" stroke-width="1.2"/>
-  <text x="191" y="741" text-anchor="middle" class="font-base card-title" fill="#1F5138">方向 B → A（Query = F^B, Ref = F^A）</text>
-  <text x="191" y="759" text-anchor="middle" class="font-base card-text" fill="#1F5138">钉住图 B 中心 P_q^B，回归图 A 内偏移</text>
-  <text x="191" y="773" text-anchor="middle" class="font-base mono" fill="#1F5138">预测：(Δ_x^B, Δ_y^B, σ^B)</text>
-
-  <rect x="58" y="790" width="266" height="36" rx="6" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1"/>
-  <text x="191" y="812" text-anchor="middle" class="font-base card-text" fill="#111827">反序拼接一次批处理 → 仅 +2ms 得 2× 细匹配</text>
-
-  <!-- Arrow Step 1 -> Step 2 -->
-  <line x1="340" y1="650" x2="366" y2="650" stroke="#D5803B" stroke-width="2" marker-end="url(#arr-orange)"/>
-
-  <!-- STEP 2: ABRHead + Soft Coordinate Classification (SCC) -->
-  <rect x="368" y="468" width="330" height="370" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.3"/>
-  <text x="533" y="492" text-anchor="middle" class="font-base card-title" fill="#70401C">步骤 2：轴回归头（ABRHead）与软坐标分类</text>
-  <text x="533" y="510" text-anchor="middle" class="font-base tiny" fill="#4B5563">将 X 轴与 Y 轴拆开，各用 N=16 个分箱把 8 像素细分为 0.5px 粒度</text>
-
-  <!-- Linear projection -->
-  <rect x="386" y="522" width="294" height="38" rx="6" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="533" y="545" text-anchor="middle" class="font-base card-title" fill="#70401C">合并特征 → 线性层 → 输出 N + 1 = 17 维向量</text>
-
-  <!-- Split lines -->
-  <line x1="480" y1="560" x2="480" y2="582" stroke="#D5803B" stroke-width="1.5" marker-end="url(#arr-orange)"/>
-  <line x1="634" y1="560" x2="634" y2="582" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
-
-  <!-- Left sub-card: N=16 bins histogram + soft-argmax -->
-  <rect x="386" y="584" width="194" height="148" rx="8" fill="#FFFDF9" stroke="#D5803B" stroke-width="1.4"/>
-  <text x="483" y="603" text-anchor="middle" class="font-base card-title" fill="#70401C">前 N=16 维：SCC 概率分布</text>
-
-  <!-- 16-bin bar chart (from -4px to +4px) -->
-  <g transform="translate(399, 616)">
-    <!-- baseline -->
-    <line x1="0" y1="58" x2="168" y2="58" stroke="#6B7280" stroke-width="1"/>
-    <!-- 16 bars -->
-    <rect x="2" y="54" width="8" height="4" fill="#F3C499"/>
-    <rect x="12" y="52" width="8" height="6" fill="#F3C499"/>
-    <rect x="22" y="48" width="8" height="10" fill="#F3C499"/>
-    <rect x="32" y="38" width="8" height="20" fill="#E59A5C"/>
-    <rect x="42" y="14" width="8" height="44" fill="#D5803B"/>
-    <rect x="52" y="22" width="8" height="36" fill="#D5803B"/>
-    <rect x="62" y="42" width="8" height="16" fill="#E59A5C"/>
-    <rect x="72" y="51" width="8" height="7" fill="#F3C499"/>
-    <rect x="82" y="53" width="8" height="5" fill="#F3C499"/>
-    <rect x="92" y="54" width="8" height="4" fill="#F3C499"/>
-    <rect x="102" y="52" width="8" height="6" fill="#F3C499"/>
-    <rect x="112" y="50" width="8" height="8" fill="#F3C499"/>
-    <rect x="122" y="53" width="8" height="5" fill="#F3C499"/>
-    <rect x="132" y="54" width="8" height="4" fill="#F3C499"/>
-    <rect x="142" y="55" width="8" height="3" fill="#F3C499"/>
-    <rect x="152" y="55" width="8" height="3" fill="#F3C499"/>
-    <!-- soft-argmax indicator -->
-    <line x1="49" y1="6" x2="49" y2="62" stroke="#1F5138" stroke-width="1.6" stroke-dasharray="3 2"/>
-    <text x="53" y="13" class="font-base tiny" fill="#1F5138">soft-argmax → μ (Δ)</text>
-    <!-- axis ticks -->
-    <text x="2" y="71" class="font-base tiny" fill="#6B7280">-4px</text>
-    <text x="76" y="71" class="font-base tiny" fill="#6B7280">0</text>
-    <text x="146" y="71" class="font-base tiny" fill="#6B7280">+4px</text>
-  </g>
-  <text x="483" y="706" text-anchor="middle" class="font-base tiny" fill="#70401C">连续加权期望：可导 + 亚像素精度</text>
-  <text x="483" y="722" text-anchor="middle" class="font-base tiny" fill="#1F5138">天然锁死在 [-4, +4] 窗口边界内</text>
-
-  <!-- Right sub-card: +1 dim sigmoid -> sigma -->
-  <rect x="588" y="584" width="92" height="148" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.4"/>
-  <text x="634" y="605" text-anchor="middle" class="font-base card-title" fill="#422578">第 17 维</text>
-  <text x="634" y="628" text-anchor="middle" class="font-base mono" fill="#422578">sigmoid</text>
-  <line x1="634" y1="636" x2="634" y2="656" stroke="#8B5CF6" stroke-width="1.5" marker-end="url(#arr-purple)"/>
-  <text x="634" y="676" text-anchor="middle" class="font-base card-title" fill="#422578">标准差 σ</text>
-  <text x="634" y="696" text-anchor="middle" class="font-base tiny" fill="#422578">σ 越大</text>
-  <text x="634" y="711" text-anchor="middle" class="font-base tiny" fill="#422578">= 越不确定</text>
-  <text x="634" y="726" text-anchor="middle" class="font-base tiny" fill="#422578">（模糊/弱纹理）</text>
-
-  <!-- RLE Loss explanation box -->
-  <rect x="386" y="744" width="294" height="82" rx="8" fill="#FBEBDE" stroke="#D5803B" stroke-width="1.3" stroke-dasharray="5 3"/>
-  <text x="533" y="764" text-anchor="middle" class="font-base card-title" fill="#70401C">训练监督：RLE 损失（比 L1 涨 3.6 个点！）</text>
-  <text x="533" y="783" text-anchor="middle" class="font-base mono" fill="#70401C">L_f = -log G_ϕ(x̂) - log Q_ϕ(x̂) + log σ</text>
-  <text x="533" y="801" text-anchor="middle" class="font-base tiny" fill="#70401C">拉普拉斯先验 Q_ϕ + 归一化流 G_ϕ 联合学习误差分布</text>
-  <text x="533" y="817" text-anchor="middle" class="font-base tiny" fill="#1F5138">误差大时自动拉大 σ 减损 → 免费学会置信度估计</text>
-
-  <!-- Arrow Step 2 -> Step 3 -->
-  <line x1="698" y1="650" x2="724" y2="650" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr-purple)"/>
-
-  <!-- STEP 3: Sigma-based Bidirectional Filtering (Real Fig 10 Example!) -->
-  <rect x="726" y="468" width="292" height="370" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.3"/>
-  <text x="872" y="492" text-anchor="middle" class="font-base card-title" fill="#422578">步骤 3：σ 置信度择优（论文图 10 实例）</text>
-  <text x="872" y="510" text-anchor="middle" class="font-base tiny" fill="#4B5563">每对双向预测中只保留置信度更高（σ 更小）的一侧</text>
-
-  <!-- Confidence formula -->
-  <rect x="744" y="524" width="256" height="44" rx="7" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.6"/>
-  <text x="872" y="544" text-anchor="middle" class="font-base mono" fill="#422578">P_f = 1 - (σ_x + σ_y) / 2</text>
-  <text x="872" y="560" text-anchor="middle" class="font-base tiny" fill="#422578">要求 P_f &gt; θ_f（默认 1e-6）且取双向较大者</text>
-
-  <!-- Candidate 1: Winner -->
-  <rect x="744" y="584" width="256" height="84" rx="8" fill="#E8F1EC" stroke="#46A171" stroke-width="2"/>
-  <text x="872" y="605" text-anchor="middle" class="font-base card-title" fill="#1F5138">候选 ①（方向 B → A）· 保留 ✓</text>
-  <text x="872" y="625" text-anchor="middle" class="font-base mono" fill="#1F5138">(Δ_x^B, Δ_y^B) = (-1.64, -1.93)</text>
-  <text x="872" y="643" text-anchor="middle" class="font-base mono" fill="#1F5138">平均 σ^B = 0.43  →  P_f = 0.57</text>
-  <text x="872" y="660" text-anchor="middle" class="font-base tiny" fill="#1F5138">预测分布更尖锐，与真值位置偏差更小</text>
-
-  <!-- Candidate 2: Discarded -->
-  <rect x="744" y="680" width="256" height="80" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="4 3"/>
-  <text x="872" y="701" text-anchor="middle" class="font-base card-title" fill="#6B7280">候选 ②（方向 A → B）· 舍弃 ✕</text>
-  <text x="872" y="721" text-anchor="middle" class="font-base mono" fill="#6B7280">(Δ_x^A, Δ_y^A) = (+2.20, +2.27)</text>
-  <text x="872" y="739" text-anchor="middle" class="font-base mono" fill="#6B7280">平均 σ^A = 0.55  →  P_f = 0.45</text>
-  <text x="872" y="754" text-anchor="middle" class="font-base tiny" fill="#6B7280">不确定度更高，自动过滤以提升最终精度</text>
-
-  <!-- Final Coordinate Output -->
-  <rect x="744" y="774" width="256" height="52" rx="8" fill="#EDE9FE" stroke="#8B5CF6" stroke-width="1.8"/>
-  <text x="872" y="795" text-anchor="middle" class="font-base card-title" fill="#422578">最终亚像素匹配坐标</text>
-  <text x="872" y="815" text-anchor="middle" class="font-base mono" fill="#422578">(P_q^A + Δ^B, P_q^B) · 零热图 2.26ms</text>
 </svg>

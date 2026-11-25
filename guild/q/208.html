@@ -28,7 +28,7 @@
         <dl class="writ__meta">
           <div><dt>发布</dt><dd><time datetime="2026-11-25T04:19:00.000Z">2026.11.25</time></dd></div>
           
-          <div><dt>报酬</dt><dd class="reward">14,984 艾莉丝</dd></div>
+          <div><dt>报酬</dt><dd class="reward">14,929 艾莉丝</dd></div>
           <div><dt>讨伐耗时</dt><dd>约 43 分钟</dd></div>
           <div><dt>难度</dt><dd class="writ__stamps"></dd></div>
         </dl>
@@ -164,9 +164,7 @@
 <p>（注：表格里省略了批大小维度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi></mrow><annotation encoding="application/x-tex">B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>，且单个样本中 2D 点数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> 与 3D 点数 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 一般不相等。）</p>
 <hr>
 <h2 id="2-核心模块逐层深挖">2. 核心模块逐层深挖</h2>
-<p>看懂了全局骨架后，我们现在把放大镜架上去，一个模块一个模块地拆解原论文 Section 2 的全部核心设计。在正式进入公式前，先看下面这张<strong>核心创新机制连环画图解</strong>，它把本文最容易看晕的两个模块——<strong>全局几何引导图（机制一）<strong>和</strong>两级层次化聚类注意力（机制二）</strong>——画成了直观的分步图示：</p>
-<p><a href="../assets/posts/dgc-gnn/core-mechanism.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/dgc-gnn/core-mechanism.svg" alt="DGC-GNN 核心机制图解" style="max-height: none; height: auto;"></a></p>
-<p>接下来，我们沿着数据流从头到尾，按“<strong>痛点 → 原理直觉 → 精确公式与逐符号拆解 → 具体维度小例子</strong>”的节奏逐一讲透。</p>
+<p>看懂了全局骨架后，我们现在把放大镜架上去，把原论文 Section 2 最核心的设计（<strong>几何 + RGB 双路编码、Global-to-Local 聚类几何引导、存储与隐私权衡</strong>）拆成一步一图的极简图解，沿着数据流从头到尾，按“<strong>痛点 → 原理直觉 → 精确公式与逐符号拆解 → 具体维度小例子</strong>”的节奏逐一讲透。</p>
 <hr>
 <h3 id="21-问题定义与统一表示bearing-vector射线向量">2.1 问题定义与统一表示：Bearing Vector（射线向量）</h3>
 <h4 id="痛点2d-像素和-3d-点云压根不在一个次元里">痛点：2D 像素和 3D 点云压根不在一个次元里</h4>
@@ -205,6 +203,7 @@
 </blockquote>
 <hr>
 <h3 id="22-局部特征提取位置--颜色的双路联合编码器sec-221">2.2 局部特征提取：位置 + 颜色的双路联合编码器（Sec. 2.2.1）</h3>
+<p><a href="../assets/posts/dgc-gnn/core-mechanism.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/dgc-gnn/core-mechanism.svg" alt="DGC-GNN 几何加 3 字节 RGB 打破对称歧义图解" style="max-height: none; height: auto;"></a></p>
 <h4 id="痛点纯几何在长得像但颜色不同的地方完全抓瞎">痛点：纯几何在“长得像但颜色不同”的地方完全抓瞎</h4>
 <p>经过上一步，我们手里拿到了带有颜色信息的两个统一输入集合：</p>
 <ul>
@@ -228,6 +227,7 @@
 </ul>
 <hr>
 <h3 id="23-全局几何引导图global-geometric-guidancesec-222">2.3 全局几何引导图（Global Geometric Guidance，Sec. 2.2.2）</h3>
+<p><a href="../assets/posts/dgc-gnn/step2-global-to-local.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/dgc-gnn/step2-global-to-local.svg" alt="DGC-GNN Global-to-Local 层次化聚类几何引导图解" style="max-height: none; height: auto;"></a></p>
 <p>这是整篇论文的<strong>第一大核心创新</strong>。我们结合前面那张 <code>core-mechanism.svg</code> 的上半部分，一步一步把它讲透。</p>
 <h4 id="痛点为什么不能照搬-loftr--geotransformer-的多尺度下采样">痛点：为什么不能照搬 LoFTR / GeoTransformer 的多尺度下采样？</h4>
 <p>在图像匹配（如 LoFTR）或稠密点云配准（如 GeoTransformer）里，提取“全局特征”和“局部特征”最常见的套路是用 U-Net 或 KPConv 逐层下采样——浅层特征图大，当局部特征；深层特征图小，当全局特征。</p>
@@ -397,6 +397,7 @@ c-10,0,-16.667,5,-20,15z M188 15 H145 v585 v600 v585 h43z"/></svg></span></span>
 <p>原论文默认使用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">\theta = 0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.5</span></span></span></span>（不过我们在第 5 节的消融实验里会看到一个非常有意思的发现：把 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi></mrow><annotation encoding="application/x-tex">\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span></span></span></span> 提高到 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.7</mn></mrow><annotation encoding="application/x-tex">0.7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.7</span></span></span></span>，MegaDepth 上的重投影 AUC 还能再涨一大截！）。</p>
 <hr>
 <h3 id="26-灵魂拷问加了-rgb-颜色还能算保护隐私吗">2.6 灵魂拷问：加了 RGB 颜色，还能算“保护隐私”吗？</h3>
+<p><a href="../assets/posts/dgc-gnn/step3-privacy-storage.svg" target="_blank" rel="noopener" title="查看原图"><img loading="lazy" src="../assets/posts/dgc-gnn/step3-privacy-storage.svg" alt="DGC-GNN 无描述子路线的存储隐私与跨检测器优势图解" style="max-height: none; height: auto;"></a></p>
 <p>读到这里，你心里多半会冒出一个很敏锐的质疑：“不是说无描述子匹配的一大卖点是<strong>隐私保护</strong>吗？你们给每个 3D 点存了 RGB 颜色，坏人拿去投影回图像，不就把隐私场景画出来了吗？”</p>
 <p>作者专门在补充材料 Section B 里做了定量实验（在 MegaDepth 多个场景的 500 张图上算结构相似度 <strong>SSIM</strong>，越低越难还原原图、隐私越安全），对比了两种攻击手段：<strong>直接重投影（Reprojection）<strong>和</strong>用专门的深度学习反演攻击网络 InvSFM [35] 还原图像</strong>。结果见下表（原论文 Table 5）：</p>
 <div class="table-wrap"><table>

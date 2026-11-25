@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 340" width="940" height="340">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; fill: #374151; }
+      .s { font-size: 12px; fill: #6B7280; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="340" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：KDE 均衡采样——为什么不能直接挑置信度最高的前 5000 点？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">稠密匹配有 30 万个像素：直接取 Top-K 会全扎堆在一小块招牌上，导致 RANSAC 几何退化</text>
+
+  <!-- Left: Top-K clustering -->
+  <rect x="28" y="90" width="424" height="218" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="240" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 朴素 Top-K 采样：全挤在局部高纹理区</text>
+  <rect x="86" y="134" width="308" height="116" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.5"/>
+  <!-- Tight cluster in one spot -->
+  <circle cx="222" cy="186" r="5" fill="#EF4444"/><circle cx="234" cy="180" r="5" fill="#EF4444"/>
+  <circle cx="246" cy="188" r="5" fill="#EF4444"/><circle cx="230" cy="196" r="5" fill="#EF4444"/>
+  <circle cx="242" cy="198" r="5" fill="#EF4444"/><circle cx="254" cy="182" r="5" fill="#EF4444"/>
+  <circle cx="238" cy="172" r="5" fill="#EF4444"/><circle cx="226" cy="174" r="5" fill="#EF4444"/>
+  <text x="240" y="232" text-anchor="middle" class="s" fill="#DC2626">四角空荡荡，点全挤在中间 10% 区域！</text>
+  <text x="240" y="282" text-anchor="middle" class="b" fill="#7F1D1D">几何基线太窄 → 算出来的旋转和平移误差巨大</text>
+
+  <!-- Right: KDE Balanced Sampling -->
+  <rect x="488" y="90" width="424" height="218" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="700" y="118" text-anchor="middle" class="h" fill="#166534">✓ RoMa KDE 逆密度加权均衡采样</text>
+  <rect x="546" y="134" width="308" height="116" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.5"/>
+  <!-- Evenly spread points across whole frame -->
+  <circle cx="582" cy="158" r="5.5" fill="#16A34A"/><circle cx="655" cy="152" r="5.5" fill="#16A34A"/>
+  <circle cx="740" cy="160" r="5.5" fill="#16A34A"/><circle cx="816" cy="154" r="5.5" fill="#16A34A"/>
+  <circle cx="602" cy="202" r="5.5" fill="#16A34A"/><circle cx="696" cy="192" r="5.5" fill="#16A34A"/>
+  <circle cx="786" cy="198" r="5.5" fill="#16A34A"/><circle cx="584" cy="232" r="5.5" fill="#16A34A"/>
+  <circle cx="672" cy="230" r="5.5" fill="#16A34A"/><circle cx="758" cy="232" r="5.5" fill="#16A34A"/>
+  <circle cx="826" cy="228" r="5.5" fill="#16A34A"/>
+  <text x="700" y="282" text-anchor="middle" class="b" fill="#14532D">按“置信度 ÷ 局部拥挤度”重采样 → 均匀铺满全图！</text>
+
+</svg>

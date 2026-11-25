@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 388" width="940" height="388">
+
+  <defs>
+    <style>
+      text { font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif; }
+      .title { font-size: 20px; font-weight: 700; fill: #111827; }
+      .sub { font-size: 13.5px; fill: #4B5563; }
+      .h { font-size: 15px; font-weight: 700; }
+      .b { font-size: 13px; }
+      .s { font-size: 12px; }
+      .mono { font-family: Consolas, "Courier New", monospace; font-weight: 700; }
+    </style>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EA580C"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arr-blue-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#2563EB"/>
+    </marker>
+    <marker id="arr-green-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arr-red-sm" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+      <path d="M 0 1.2 L 10 5 L 0 8.8 z" fill="#EF4444"/>
+    </marker>
+  </defs>
+
+  <rect width="940" height="388" fill="#FFFFFF" rx="12"/>
+
+  <text x="470" y="38" text-anchor="middle" class="title">图 4：残差判别原理——怎么靠“纠正前后的改变量”揪出外点？</text>
+  <text x="470" y="62" text-anchor="middle" class="sub">比较每个点去噪前后的特征差 Δf = f̃ − f：原本就合群的内点几乎不动，被硬掰回来的外点偏移巨大</text>
+
+  <!-- Left Panel: True Inlier -->
+  <rect x="28" y="88" width="428" height="218" rx="12" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
+  <text x="242" y="118" text-anchor="middle" class="h" fill="#166534">✓ 真实内点：几乎纹丝不动</text>
+
+  <!-- Vector compare box -->
+  <rect x="48" y="136" width="176" height="122" rx="8" fill="#FFFFFF" stroke="#86EFAC" stroke-width="1.6"/>
+  <circle cx="84" cy="212" r="5" fill="#16A34A"/>
+  <line x1="84" y1="212" x2="174" y2="162" stroke="#64748B" stroke-width="2.4" stroke-dasharray="5,3" marker-end="url(#arr-gray)"/>
+  <line x1="84" y1="212" x2="178" y2="173" stroke="#16A34A" stroke-width="2.8" marker-end="url(#arr-green)"/>
+  <text x="128" y="156" text-anchor="middle" class="s" fill="#475569">纠正前 f_i</text>
+  <text x="166" y="206" text-anchor="middle" class="s" fill="#15803D" font-weight="700">纠正后 f̃_i</text>
+  <text x="136" y="246" text-anchor="middle" class="s" fill="#166534">两条箭头几乎重合</text>
+
+  <!-- Diff bar + decision -->
+  <text x="338" y="156" text-anchor="middle" class="b" fill="#166534" font-weight="700">特征改变量 |Δf_i|</text>
+  <rect x="242" y="168" width="192" height="24" rx="12" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
+  <rect x="244" y="170" width="28" height="20" rx="10" fill="#16A34A"/>
+  <text x="348" y="185" text-anchor="middle" class="s" fill="#166534" font-weight="700">偏移极小</text>
+
+  <rect x="242" y="208" width="192" height="48" rx="8" fill="#16A34A"/>
+  <text x="338" y="229" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Logit ẑ_i &gt; 0</text>
+  <text x="338" y="247" text-anchor="middle" class="s" fill="#DCFCE7">判定为内点 → 保留</text>
+
+  <text x="242" y="288" text-anchor="middle" class="b" fill="#14532D">原本就与周围邻居步调一致，CNN 平滑后无需大幅修改</text>
+
+  <!-- Right Panel: False Outlier -->
+  <rect x="484" y="88" width="428" height="218" rx="12" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <text x="698" y="118" text-anchor="middle" class="h" fill="#991B1B">✗ 错误外点：被邻域强行掰正</text>
+
+  <!-- Vector compare box -->
+  <rect x="504" y="136" width="176" height="122" rx="8" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.6"/>
+  <circle cx="584" cy="202" r="5" fill="#EF4444"/>
+  <line x1="584" y1="202" x2="522" y2="230" stroke="#EF4444" stroke-width="2.6" marker-end="url(#arr-red)"/>
+  <line x1="584" y1="202" x2="656" y2="162" stroke="#16A34A" stroke-width="2.6" marker-end="url(#arr-green)"/>
+  <path d="M 544 216 Q 558 158 626 172" fill="none" stroke="#F97316" stroke-width="2.2" stroke-dasharray="5,3" marker-end="url(#arr-orange)"/>
+  <text x="562" y="158" text-anchor="middle" class="s" fill="#C2410C" font-weight="700">剧烈偏转!</text>
+  <text x="546" y="248" text-anchor="middle" class="s" fill="#DC2626">纠正前 f_i</text>
+  <text x="640" y="198" text-anchor="middle" class="s" fill="#15803D" font-weight="700">纠正后 f̃_i</text>
+
+  <!-- Diff bar + decision -->
+  <text x="794" y="156" text-anchor="middle" class="b" fill="#991B1B" font-weight="700">特征改变量 |Δf_i|</text>
+  <rect x="698" y="168" width="192" height="24" rx="12" fill="#FEE2E2" stroke="#FCA5A5" stroke-width="1.4"/>
+  <rect x="700" y="170" width="170" height="20" rx="10" fill="#EF4444"/>
+  <text x="785" y="185" text-anchor="middle" class="s" fill="#FFFFFF" font-weight="700">偏移巨大！</text>
+
+  <rect x="698" y="208" width="192" height="48" rx="8" fill="#EF4444"/>
+  <text x="794" y="229" text-anchor="middle" class="b" fill="#FFFFFF" font-weight="700">Logit ẑ_i &lt; 0</text>
+  <text x="794" y="247" text-anchor="middle" class="s" fill="#FEE2E2">判定为外点 → 剔除</text>
+
+  <text x="698" y="288" text-anchor="middle" class="b" fill="#7F1D1D">原本方向格格不入，被 CNN 强拉回共识时差值飙升</text>
+
+  <!-- Bottom engineering callout -->
+  <rect x="28" y="322" width="884" height="50" rx="10" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.6"/>
+  <text x="470" y="344" text-anchor="middle" class="b" fill="#1E3A8A" font-weight="700">关键工程巧思：直接算欧氏距离卡阈值极易训练不稳定！</text>
+  <text x="470" y="364" text-anchor="middle" class="b" fill="#1E3A8A">ConvMatch 把 Δf 喂给含 Context Norm 的轻量 Inlier Predictor（128→64→16→4→1）汇总全局分布后稳健打分</text>
+
+</svg>
